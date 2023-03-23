@@ -1,0 +1,67 @@
+/* 
+  Localizable.strings
+  MVVMSkeleton
+
+  Created by Roman Savchenko on 12.12.2021.
+  
+*/
+
+// General
+"error" = "Error";
+"ok" = "OK";
+"done" = "Done";
+"cancel" = "Cancel";
+"choose-option" = "Choose option";
+"sign-up" = "Sign Up";
+"sign-in" = "Sign In";
+"skip" = "Skip";
+"name" = "Name";
+"email" = "Email";
+"password" = "Password";
+"confirm-password" = "Confirm password";
+
+"home" = "Home";
+"settings" = "Settings";
+"logout" = "Logout";
+"search" = "Search";
+"enter-your-email" = "Enter your email";
+"enter-your-password" = "Enter your password";
+"login" = "Login";
+"restore-password" = "Restore password";
+"create-account" = "Create account";
+"country" = "Country";
+"diabets-type" = "Diabetes type";
+"fast-acting-insulin" = "Fast acting insulin";
+"basal-insulin" = "Basal insulin";
+"enter-your-name" = "Enter your name";
+"enter-your-country" = "Enter your country";
+"back-to-login" = "Back to login";
+"edit" = "Edit";
+"user-profile" = "User profile";
+"change-photo" = "Change photo";
+"delete-photo" = "Delete photo";
+"cancel" = "Cancel";
+"report" = "Report";
+"general" = "General";
+"customization" = "Customization";
+"about" = "About";
+"user" = "User";
+"notifications" = "Notifications";
+"data" = "Data";
+"units" = "Units";
+"app-icon" = "App Icon";
+"credits" = "Credits";
+"rate-the-app" = "Rate the app";
+"send-feedback" = "Send feedback";
+"show-onboarding" = "Show onboarding";
+"diary" = "Diary";
+"add-new-record" = "Add new record";
+"close" = "Close";
+"save" = "Save";
+"glucose" = "Glucose";
+"meal" = "Meal";
+"insulin" = "Insulin";
+"notes" = "Notes";
+
+
+
