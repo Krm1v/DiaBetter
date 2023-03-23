@@ -10,5 +10,5 @@ import UIKit
 enum ImageResource: Hashable {
 	case url(URL)
 	case data(Data)
-	case asset(UIImage)
+	case asset(ImageAsset)
 }

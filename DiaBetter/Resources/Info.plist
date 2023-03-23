@@ -85,5 +85,7 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>DiaBetter needs access to your photo library to select the image for your profile</string>
 </dict>
 </plist>

@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import Kingfisher
 
 final class UserSceneViewController: BaseViewController<UserSceneViewModel> {
 	//MARK: - Properties
@@ -61,17 +62,23 @@ private extension UserSceneViewController {
 			.store(in: &cancellables)
 	}
 	
+	func setupPermissions() {
+		
+	}
+	
 	func presentActionSheet() {
 		let alertController = UIAlertController(title: nil,
 												message: nil,
 												preferredStyle: .actionSheet)
 		let changePhotoAction = UIAlertAction(title: Localization.changePhoto, style: .default) { [weak self] _ in
 			guard let self = self else { return }
-			self.presentImagePickerController()
+			self.viewModel.askForPermissions()
 		}
 		let deleteAction = UIAlertAction(title: Localization.deletePhoto, style: .destructive) { [weak self] _ in
 			guard let self = self else { return }
 			self.viewModel.deleteUserProfilePhoto()
+			//			self.clearImageCache()
+			self.viewModel.updateDatasource()
 		}
 		let cancelAction = UIAlertAction(title: Localization.cancel, style: .cancel)
 		[changePhotoAction, deleteAction, cancelAction].forEach { action in
@@ -85,6 +92,25 @@ private extension UserSceneViewController {
 		picker.allowsEditing = true
 		picker.delegate = self
 		present(picker, animated: true)
+	}
+	
+	func clearImageCache() {
+		DispatchQueue.main.async {
+			let cache = ImageCache.default
+			cache.clearCache()
+		}
+	}
+	
+	func showAccessDeniedAlert() {
+		let alertController = UIAlertController(title: "Access denied",
+												message: "You need to give an acces to Photo Library for application to pick an image for user profile.",
+												preferredStyle: .alert)
+		let goToSettingsAction = UIAlertAction(title: "Go to settings", style: .default) { [unowned self] _ in
+			self.viewModel.moveToSettings()
+		}
+		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+		alertController.addAction(goToSettingsAction); alertController.addAction(cancelAction)
+		present(alertController, animated: true)
 	}
 }
 
@@ -101,6 +127,8 @@ extension UserSceneViewController: UIImagePickerControllerDelegate & UINavigatio
 		viewModel.saveUserImageData(from: dataImage)
 		dismiss(animated: true)
 		viewModel.uploadUserProfileImage()
+		//		clearImageCache()
+		viewModel.updateDatasource()
 	}
 }
 

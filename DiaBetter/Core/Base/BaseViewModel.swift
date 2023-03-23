@@ -11,6 +11,7 @@ protocol ViewModel {
     var isLoadingPublisher: AnyPublisher<Bool, Never> { get }
     var errorPublisher: AnyPublisher<Error, Never> { get }
 	var infoPublisher: AnyPublisher<(String, String), Never> { get }
+	
 
     func onViewDidLoad()
     func onViewWillAppear()

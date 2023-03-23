@@ -23,7 +23,7 @@ struct UserResponseModel: Decodable {
 	let fastActingInsulin: String
 	let objectId: String?
 	let email: String?
-	let userProfilePicture: String?
+	let userProfileImage: String?
 	
 	enum CodingKeys: String, CodingKey {
 		case lastLogin, userStatus, created, accountType
@@ -38,6 +38,6 @@ struct UserResponseModel: Decodable {
 		case updated
 		case objectId
 		case email
-		case userProfilePicture
+		case userProfileImage
 	}
 }

@@ -13,12 +13,14 @@ final class UserSceneViewModel: BaseViewModel {
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<UserSceneTransition, Never>()
 	private var userService: UserService
+	private var permissionService: PermissionService
 	@Published private(set) var userImage: Data?
 	@Published var sections: [SectionModel<UserProfileSections, UserSettings>] = []
 	@Published var userImageResource: ImageResource?
 	
 	//MARK: - Init
 	init(userService: UserService) {
+		self.permissionService = PermissionServiceImpl()
 		self.userService = userService
 		super.init()
 	}
@@ -28,14 +30,11 @@ final class UserSceneViewModel: BaseViewModel {
 		fetchUser()
 	}
 	
-	override func onViewWillAppear() {
-		updateDatasource()
-	}
-	
 	func saveUserImageData(from data: Data) {
 		userImage = data
 	}
 	
+	//MARK: - Public methods
 	func updateDatasource() {
 		guard let user = userService.user else { return }
 		getImageResource()
@@ -46,21 +45,33 @@ final class UserSceneViewModel: BaseViewModel {
 			UserDataSettingsModel(title: Localization.name, textFieldValue: user.name ?? ""),
 			UserDataSettingsModel(title: Localization.diabetsType, textFieldValue: user.diabetesType ?? ""),
 			UserDataSettingsModel(title: Localization.fastActingInsulin, textFieldValue: user.fastActingInsulin ?? ""),
-			UserDataSettingsModel(title: Localization.basalInsulin, textFieldValue: user.basalInsulin ?? "")]
+			UserDataSettingsModel(title: Localization.basalInsulin, textFieldValue: user.basalInsulin ?? "")
+		]
 		var userDataSection = SectionModel<UserProfileSections, UserSettings>(section: .list, items: [])
 		userDataSection.items = userSettings.map { .plain($0) }
 		sections = [userHeaderSection, userDataSection]
 	}
 	
 	func getImageResource() {
-		if let userImage = userImage {
-			userImageResource = .data(userImage)
-		} else if let stringUrl = userService.user?.userProfileImage {
-			guard let url = URL(string: stringUrl) else { return }
-			userImageResource = .url(url)
-		} else {
-			userImageResource = .asset(Assets.userImagePlaceholder.image)
-		}
+		guard let user = userService.user else { return }
+		guard let stringUrl = user.userProfileImage else { return }
+		guard let url = URL(string: stringUrl) else { return }
+		userImageResource = user.userProfileImage != "" ? .url(url) : .asset(Assets.userImagePlaceholder)
+	}
+	
+	func askForPermissions() {
+		permissionService.askForPermissions()
+	}
+	
+	func moveToSettings() {
+		permissionService.moveToSettings()
+	}
+	
+	func setupPermissions() {
+		permissionService.permissionPublisher
+			.sink { type in
+				
+			}
 	}
 	
 	//MARK: - Network requests
@@ -71,7 +82,6 @@ final class UserSceneViewModel: BaseViewModel {
 		userService.fetchUser(token: token, objectId: id)
 			.receive(on: DispatchQueue.main)
 			.sink { completion in
-				self.isLoadingSubject.send(false)
 				switch completion {
 				case .finished:
 					debugPrint("User fetched")
@@ -81,6 +91,8 @@ final class UserSceneViewModel: BaseViewModel {
 			} receiveValue: { [weak self] user in
 				guard let self = self else { return }
 				self.userService.save(user: User(user))
+				self.isLoadingSubject.send(false)
+				self.updateDatasource()
 			}
 			.store(in: &cancellables)
 	}
@@ -156,15 +168,19 @@ final class UserSceneViewModel: BaseViewModel {
 	}
 	
 	func updateUser(_ user: User) {
+		isLoadingSubject.send(true)
 		guard let token = userService.token else { return }
 		let updatedUser = UserUpdateRequestModel(basalInsulin: user.basalInsulin, diabetesType: user.diabetesType, fastActingInsulin: user.fastActingInsulin, name: user.name, userProfileImage: user.userProfileImage)
 		debugPrint(updatedUser)
 		userService.updateUser(user: updatedUser, objectId: user.remoteId ?? "", token: token)
 			.receive(on: DispatchQueue.main)
-			.sink { completion in
+			.sink { [weak self] completion in
+				guard let self = self else { return }
+				self.isLoadingSubject.send(false)
 				switch completion {
 				case .finished:
 					debugPrint("User updated")
+					self.updateDatasource()
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
 				}

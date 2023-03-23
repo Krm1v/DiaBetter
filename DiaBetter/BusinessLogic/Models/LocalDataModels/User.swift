@@ -44,5 +44,6 @@ struct User: Codable {
 		self.diabetesType = response.diabetesType
 		self.fastActingInsulin = response.fastActingInsulin
 		self.basalInsulin = response.basalInsulin
+		self.userProfileImage = response.userProfileImage
 	}
 }

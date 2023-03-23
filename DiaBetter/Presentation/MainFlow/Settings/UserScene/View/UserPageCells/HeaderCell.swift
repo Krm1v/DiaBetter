@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import Kingfisher
 
 final class HeaderCell: UICollectionViewCell {
 	//MARK: - UIElements
@@ -28,10 +29,6 @@ final class HeaderCell: UICollectionViewCell {
 	}()
 	
 	private lazy var emailLabel = buildUserInfoLabel()
-	private lazy var stackView = buildStackView(axis: .vertical,
-												alignment: .center,
-												distribution: .fill,
-												spacing: .zero)
 	
 	//MARK: - Init
 	override init(frame: CGRect) {
@@ -44,6 +41,7 @@ final class HeaderCell: UICollectionViewCell {
 		setupUI()
 	}
 	
+	//MARK: - Overriden methods
 	override func setNeedsLayout() {
 		super.setNeedsLayout()
 		userImage.rounded(userImage.frame.width / 2)
@@ -57,11 +55,11 @@ final class HeaderCell: UICollectionViewCell {
 		guard let resource = model.image else { return }
 		switch resource {
 		case .url(let url):
-			userImage.image = UIImage(url: url)
+			self.setImage(url)
 		case .data(let data):
-			userImage.image = UIImage(data: data)
+			self.setImage(data)
 		case .asset(let asset):
-			userImage.image = asset
+			self.setImage(asset)
 		}
 	}
 }
@@ -99,14 +97,45 @@ private extension HeaderCell {
 		emailLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
 			.isActive = true
 	}
+	
+	func setImage(_ url: URL) {
+		let processor = DownsamplingImageProcessor(size: self.userImage.bounds.size)
+		self.userImage.kf.indicatorType = .activity
+		self.userImage.kf.setImage(
+			with: url,
+			placeholder: Assets.userImagePlaceholder.image,
+			options: [
+				.processor(processor),
+				.scaleFactor(UIScreen.main.scale),
+				.transition(.fade(1)),
+				.cacheOriginalImage
+			])
+		{
+			result in
+			switch result {
+			case .success(let value):
+				print("Task done for: \(value.source.url?.absoluteString ?? "")")
+			case .failure(let error):
+				print("Job failed: \(error.localizedDescription)")
+			}
+		}
+	}
+	
+	func setImage(_ data: Data) {
+		self.userImage.image = UIImage(data: data)
+	}
+	
+	func setImage(_ asset: ImageAsset) {
+		self.userImage.image = asset.image
+	}
 }
 
-extension HeaderCell: UIElementsBuilder {}
 extension HeaderCell: SelfConfiguringCollectionViewCell {
 	static var reuseID: String {
 		return "headerCell"
 	}
 }
+extension HeaderCell: UIElementsBuilder {}
 
 //MARK: - Constants
 fileprivate enum Constants {
