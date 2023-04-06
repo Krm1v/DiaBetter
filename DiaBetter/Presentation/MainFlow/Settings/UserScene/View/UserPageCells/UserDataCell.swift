@@ -6,18 +6,18 @@
 //
 
 import UIKit
+import Combine
+
+enum UserDataCellEvents {
+	case textFieldDidChanged(String)
+}
 
 final class UserDataCell: UICollectionViewCell {
+	//MARK: - Properties
+	private(set) lazy var userDataCellEventsPublisher = userDataCellEventsSubject.eraseToAnyPublisher()
+	private let userDataCellEventsSubject = PassthroughSubject<UserDataCellEvents, Never>()
+	private var cancellables = Set<AnyCancellable>()
 	//MARK: - UI Elements
-	private lazy var iconImage: UIImageView = {
-		let icon = UIImageView()
-		icon.translatesAutoresizingMaskIntoConstraints = false
-		icon.backgroundColor = .red
-		icon.contentMode = .scaleAspectFill
-		icon.rounded(Constants.basicCornerRadius)
-		return icon
-	}()
-	
 	private lazy var titleLabel = buildFieldTitleLabel()
 	private(set) lazy var userTextField: UITextField = {
 		let textField = UITextField()
@@ -31,17 +31,35 @@ final class UserDataCell: UICollectionViewCell {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
+		setupEvents()
 	}
 	
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
+		setupEvents()
+	}
+	
+	//MARK: - Overriden methods
+	override func prepareForReuse() {
+		super.prepareForReuse()
+		cancellables.removeAll()
 	}
 	
 	//MARK: - Public methods
 	func configure(with model: UserDataSettingsModel) {
 		titleLabel.text = model.title
 		userTextField.text = model.textFieldValue
+	}
+	
+	func setupEvents() {
+		userTextField.textPublisher
+			.sink { [weak self] text in
+				guard let self = self else { return }
+				guard let text = text else { return }
+				self.userDataCellEventsSubject.send(.textFieldDidChanged(text))
+			}
+			.store(in: &cancellables)
 	}
 }
 
@@ -54,17 +72,11 @@ private extension UserDataCell {
 	}
 	
 	func addSubs() {
-//		addSubview(iconImage)
 		addSubview(titleLabel)
 		addSubview(userTextField)
 	}
 	
 	func setupConstraints() {
-//		iconImage.leadingAnchor.constraint(equalTo: leadingAnchor,
-//										   constant: Constants.basicLargeEdgeInset)
-//		.isActive = true
-//		iconImage.centerYAnchor.constraint(equalTo: centerYAnchor)
-//			.isActive = true
 		titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
 			.isActive = true
 		titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
@@ -77,7 +89,7 @@ private extension UserDataCell {
 	}
 }
 
-//MARK: - Extension SelfConfiguringTableViewCell
+//MARK: - Extension SelfConfiguringCollectionViewCell
 extension UserDataCell: UIElementsBuilder {}
 extension UserDataCell: SelfConfiguringCollectionViewCell {
 	static var reuseID: String {

@@ -16,7 +16,7 @@ final class HeaderCell: UICollectionViewCell {
 		image.translatesAutoresizingMaskIntoConstraints = false
 		image.layer.masksToBounds = false
 		image.clipsToBounds = true
-		image.image = UIImage(asset: Assets.userImagePlaceholder)
+		image.image = Assets.userImagePlaceholder.image
 		image.contentMode = .scaleToFill
 		return image
 	}()
@@ -72,7 +72,7 @@ private extension HeaderCell {
 		addSubview(emailLabel)
 		setupConstraints()
 		rounded(Constants.basicCornerRadius)
-		backgroundColor = .systemGray5
+		self.backgroundColor = .systemGray5
 		self.layer.masksToBounds = true
 		self.clipsToBounds = true
 	}
@@ -99,26 +99,8 @@ private extension HeaderCell {
 	}
 	
 	func setImage(_ url: URL) {
-		let processor = DownsamplingImageProcessor(size: self.userImage.bounds.size)
 		self.userImage.kf.indicatorType = .activity
-		self.userImage.kf.setImage(
-			with: url,
-			placeholder: Assets.userImagePlaceholder.image,
-			options: [
-				.processor(processor),
-				.scaleFactor(UIScreen.main.scale),
-				.transition(.fade(1)),
-				.cacheOriginalImage
-			])
-		{
-			result in
-			switch result {
-			case .success(let value):
-				print("Task done for: \(value.source.url?.absoluteString ?? "")")
-			case .failure(let error):
-				print("Job failed: \(error.localizedDescription)")
-			}
-		}
+		self.userImage.kf.setImage(with: url, placeholder: Assets.userImagePlaceholder.image, options: [.forceRefresh])
 	}
 	
 	func setImage(_ data: Data) {

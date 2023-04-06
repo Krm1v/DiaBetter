@@ -57,6 +57,7 @@ final class UserServiceImpl {
 	func save(user: User) {
 		let dataUser = seriallize(user: user)
 		saveToDefaults(value: dataUser, for: .dataUser)
+		userSubject.value = user
 		userSubject.send(user)
 	}
 	

@@ -65,6 +65,10 @@
 		863C7EBD29C10000008F93F0 /* MultipartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863C7EBC29C10000008F93F0 /* MultipartData.swift */; };
 		863C7EBF29C10183008F93F0 /* NSMutableData+AppendString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863C7EBE29C10183008F93F0 /* NSMutableData+AppendString.swift */; };
 		863C7EC129C20912008F93F0 /* UserProfilePictureResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863C7EC029C20912008F93F0 /* UserProfilePictureResponse.swift */; };
+		8640820029DB723500B848B7 /* FastInsulines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864081FF29DB723500B848B7 /* FastInsulines.swift */; };
+		8640820229DB739700B848B7 /* LongInsulines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8640820129DB739700B848B7 /* LongInsulines.swift */; };
+		8640820429DB761400B848B7 /* UserDataMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8640820329DB761400B848B7 /* UserDataMenuCell.swift */; };
+		8640821929DE1D4200B848B7 /* DiabetesTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8640821829DE1D4200B848B7 /* DiabetesTypes.swift */; };
 		868FC8DABB7F9E307A73FD0D /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A3F26E42FA42232CBD936F /* AuthCoordinator.swift */; };
 		869007F8299D4552001B672E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869007F7299D4552001B672E /* NetworkManager.swift */; };
 		869007FD299D45A3001B672E /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869007FC299D45A3001B672E /* Endpoint.swift */; };
@@ -207,6 +211,10 @@
 		863C7EBC29C10000008F93F0 /* MultipartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartData.swift; sourceTree = "<group>"; };
 		863C7EBE29C10183008F93F0 /* NSMutableData+AppendString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableData+AppendString.swift"; sourceTree = "<group>"; };
 		863C7EC029C20912008F93F0 /* UserProfilePictureResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilePictureResponse.swift; sourceTree = "<group>"; };
+		864081FF29DB723500B848B7 /* FastInsulines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastInsulines.swift; sourceTree = "<group>"; };
+		8640820129DB739700B848B7 /* LongInsulines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongInsulines.swift; sourceTree = "<group>"; };
+		8640820329DB761400B848B7 /* UserDataMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataMenuCell.swift; sourceTree = "<group>"; };
+		8640821829DE1D4200B848B7 /* DiabetesTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiabetesTypes.swift; sourceTree = "<group>"; };
 		869007F7299D4552001B672E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		869007FC299D45A3001B672E /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		86900800299D45D7001B672E /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
@@ -580,7 +588,7 @@
 			children = (
 				8637ADF329BB7A0600F14489 /* UserPageCells */,
 				86D0A73F299FA28E00980996 /* UserSceneView.swift */,
-				8637F2B429BBE45C00941919 /* UserSceneDatasource.swift */,
+				8640821229DCA35E00B848B7 /* Datasource */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -590,8 +598,17 @@
 			children = (
 				8637ADF129BB7A0300F14489 /* HeaderCell.swift */,
 				8637F2B229BBB10F00941919 /* UserDataCell.swift */,
+				8640820329DB761400B848B7 /* UserDataMenuCell.swift */,
 			);
 			path = UserPageCells;
+			sourceTree = "<group>";
+		};
+		8640821229DCA35E00B848B7 /* Datasource */ = {
+			isa = PBXGroup;
+			children = (
+				8637F2B429BBE45C00941919 /* UserSceneDatasource.swift */,
+			);
+			path = Datasource;
 			sourceTree = "<group>";
 		};
 		869007F9299D4567001B672E /* NetworkManager */ = {
@@ -798,6 +815,9 @@
 			isa = PBXGroup;
 			children = (
 				86B3729729CB43590095C229 /* ImageResource.swift */,
+				864081FF29DB723500B848B7 /* FastInsulines.swift */,
+				8640820129DB739700B848B7 /* LongInsulines.swift */,
+				8640821829DE1D4200B848B7 /* DiabetesTypes.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1077,6 +1097,7 @@
 				86900801299D45D7001B672E /* NetworkError.swift in Sources */,
 				868FC8DABB7F9E307A73FD0D /* AuthCoordinator.swift in Sources */,
 				8637ADC429B7629000F14489 /* AddRecordSceneViewController.swift in Sources */,
+				8640820229DB739700B848B7 /* LongInsulines.swift in Sources */,
 				8690080C299D48E7001B672E /* UserRequestModel.swift in Sources */,
 				8699F32F29B2CD2100705347 /* SettingsDatasource.swift in Sources */,
 				86D0A75229A656CE00980996 /* User.swift in Sources */,
@@ -1105,6 +1126,7 @@
 				8634B76C29A8F98600870B66 /* LoginSceneViewModel.swift in Sources */,
 				CA31AE1F2B6517869FD7E948 /* MainTabBarViewController.swift in Sources */,
 				863C7EBF29C10183008F93F0 /* NSMutableData+AppendString.swift in Sources */,
+				8640821929DE1D4200B848B7 /* DiabetesTypes.swift in Sources */,
 				8699F31129B0B9A600705347 /* DataConverter.swift in Sources */,
 				8699F32829B2853700705347 /* SettingsSceneViewModel.swift in Sources */,
 				86900815299D4D76001B672E /* UserSceneViewModel.swift in Sources */,
@@ -1143,6 +1165,7 @@
 				8634B77929ABE24000870B66 /* CreateUserProfileViewController.swift in Sources */,
 				8637ADCE29B7981600F14489 /* RecordsNetworkService.swift in Sources */,
 				863C7EC129C20912008F93F0 /* UserProfilePictureResponse.swift in Sources */,
+				8640820429DB761400B848B7 /* UserDataMenuCell.swift in Sources */,
 				8637ADDD29BA17B100F14489 /* ReportViewModel.swift in Sources */,
 				8699F33E29B3D78100705347 /* HomeSceneViewModel.swift in Sources */,
 				8637ADDF29BA180000F14489 /* ReportViewController.swift in Sources */,
@@ -1152,6 +1175,7 @@
 				86B3729429C9F1600095C229 /* SectionModel.swift in Sources */,
 				839AC6682F2EC36367C5E321 /* UIView+Ext.swift in Sources */,
 				8637ADE329BA194400F14489 /* ReportCoordinator.swift in Sources */,
+				8640820029DB723500B848B7 /* FastInsulines.swift in Sources */,
 				8637ADCA29B794AF00F14489 /* RecordRequestModel.swift in Sources */,
 				8634B77029A8F9A300870B66 /* LoginSceneView.swift in Sources */,
 				8637ADF229BB7A0300F14489 /* HeaderCell.swift in Sources */,

@@ -73,8 +73,8 @@ private extension MainTabBarCoordinator {
 	func setupReportCoordinator() {
 		let navigationController = UINavigationController()
 		navigationController.tabBarItem = .init(title: "Report",
-												image: UIImage(systemName: "list.bullet.clipboard"),
-												selectedImage: UIImage(systemName: "list.bullet.clipboard.fill"))
+												image: UIImage(systemName: "drop"),
+												selectedImage: UIImage(systemName: "drop.fill"))
 		let coordinator = ReportCoordinator(navigationController: navigationController, container: container)
 		childCoordinators.append(coordinator)
 		coordinator.didFinishPublisher

@@ -55,16 +55,12 @@ private extension PermissionServiceImpl {
 			permissionSubject.send(.authorized)
 		case .limited:
 			permissionSubject.send(.limited)
-			print("Limited")
 		case .restricted:
 			permissionSubject.send(.restricted)
-			print("Restricted")
 		case .notDetermined:
 			permissionSubject.send(.notDetermined)
-			print("not determined")
 		case .denied:
 			permissionSubject.send(.denied)
-			print("Denied")
 		@unknown default:
 			break
 		}

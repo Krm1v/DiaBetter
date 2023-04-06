@@ -7,7 +7,6 @@
 
 import UIKit
 import Combine
-import Kingfisher
 
 final class UserSceneViewController: BaseViewController<UserSceneViewModel> {
 	//MARK: - Properties
@@ -21,31 +20,34 @@ final class UserSceneViewController: BaseViewController<UserSceneViewModel> {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupActions()
+		setupPermissions()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		setupUI()
+		updateDiffableDatasourceSnapshot()
 		setupNavBar()
 	}
 }
 
 //MARK: - Private extension
 private extension UserSceneViewController {
-	func setupUI() {
+	//MARK: - SetupUI
+	func setupNavBar() {
+		navigationController?.navigationBar.prefersLargeTitles = true
+		navigationItem.largeTitleDisplayMode = .never
+		navigationItem.backBarButtonItem?.tintColor = .black
+		title = Localization.userProfile
+	}
+	
+	//MARK: - Datasource and bindings
+	func updateDiffableDatasourceSnapshot() {
 		viewModel.$sections
 			.receive(on: DispatchQueue.main)
 			.sink { [unowned self] sections in
 				self.contentView.setupSnapshot(sections: sections)
 			}
 			.store(in: &cancellables)
-	}
-	
-	func setupNavBar() {
-		navigationController?.navigationBar.prefersLargeTitles = true
-		navigationItem.largeTitleDisplayMode = .never
-		navigationItem.backBarButtonItem?.tintColor = .black
-		title = Localization.userProfile
 	}
 	
 	func setupActions() {
@@ -57,15 +59,37 @@ private extension UserSceneViewController {
 					self.viewModel.logoutUser()
 				case .editButtonTapped:
 					self.presentActionSheet()
+				case .userDataTextfieldDidChanged(let text):
+					self.viewModel.userNameTextfield = text
+				case .popoverListDidTapped(let setting):
+					switch setting.source {
+					case .diabetesType:
+						self.viewModel.userDiabetesType = setting.labelValue
+					case .fastInsulines:
+						self.viewModel.userFastInsulin = setting.labelValue
+					case .longInsulines:
+						self.viewModel.userBasalInsulin = setting.labelValue
+					}
 				}
 			}
 			.store(in: &cancellables)
 	}
 	
+	//MARK: - Photo library permissions
 	func setupPermissions() {
-		
+		viewModel.permissionService.permissionPublisher
+			.sink { [unowned self] status in
+				switch status {
+				case .authorized:
+					presentImagePickerController()
+				case .denied, .limited, .notDetermined, .restricted:
+					showAccessDeniedAlert()
+				}
+			}
+			.store(in: &cancellables)
 	}
 	
+	//MARK: - Presentable elements
 	func presentActionSheet() {
 		let alertController = UIAlertController(title: nil,
 												message: nil,
@@ -77,8 +101,6 @@ private extension UserSceneViewController {
 		let deleteAction = UIAlertAction(title: Localization.deletePhoto, style: .destructive) { [weak self] _ in
 			guard let self = self else { return }
 			self.viewModel.deleteUserProfilePhoto()
-			//			self.clearImageCache()
-			self.viewModel.updateDatasource()
 		}
 		let cancelAction = UIAlertAction(title: Localization.cancel, style: .cancel)
 		[changePhotoAction, deleteAction, cancelAction].forEach { action in
@@ -90,25 +112,19 @@ private extension UserSceneViewController {
 	func presentImagePickerController() {
 		let picker = UIImagePickerController()
 		picker.allowsEditing = true
+		picker.sourceType = .photoLibrary
 		picker.delegate = self
 		present(picker, animated: true)
 	}
 	
-	func clearImageCache() {
-		DispatchQueue.main.async {
-			let cache = ImageCache.default
-			cache.clearCache()
-		}
-	}
-	
 	func showAccessDeniedAlert() {
-		let alertController = UIAlertController(title: "Access denied",
-												message: "You need to give an acces to Photo Library for application to pick an image for user profile.",
+		let alertController = UIAlertController(title: Localization.accessDenied,
+												message: Localization.photoLibraryPermissionsMessage,
 												preferredStyle: .alert)
-		let goToSettingsAction = UIAlertAction(title: "Go to settings", style: .default) { [unowned self] _ in
+		let goToSettingsAction = UIAlertAction(title: Localization.goToSettings, style: .default) { [unowned self] _ in
 			self.viewModel.moveToSettings()
 		}
-		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+		let cancelAction = UIAlertAction(title: Localization.cancel, style: .cancel)
 		alertController.addAction(goToSettingsAction); alertController.addAction(cancelAction)
 		present(alertController, animated: true)
 	}
@@ -124,11 +140,9 @@ extension UserSceneViewController: UIImagePickerControllerDelegate & UINavigatio
 		guard let dataImage = image.pngData() else {
 			return
 		}
-		viewModel.saveUserImageData(from: dataImage)
+		viewModel.fetchImageData(from: dataImage)
 		dismiss(animated: true)
 		viewModel.uploadUserProfileImage()
-		//		clearImageCache()
-		viewModel.updateDatasource()
 	}
 }
 

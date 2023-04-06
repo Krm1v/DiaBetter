@@ -11,10 +11,8 @@ import Combine
 enum UserSceneViewActions {
 	case logoutButtonTapped
 	case editButtonTapped
-}
-
-enum UserSceneViewEvents {
-	case userEmailLabelChanged(String)
+	case userDataTextfieldDidChanged(String)
+	case popoverListDidTapped(UserDataMenuSettingsModel)
 }
 
 final class UserSceneView: BaseView {
@@ -159,12 +157,48 @@ private extension UserSceneView {
 					}
 					.store(in: &self.cancellables)
 				return cell
-			case .plain(let model):
+			case .plainWithTextfield(let model):
 				let cell = self.configureCell(cellType: UserDataCell.self, indexPath: indexPath)
 				cell.configure(with: model)
+				cell.userDataCellEventsPublisher
+					.sink { [weak self] event in
+						guard let self = self else { return }
+						switch event {
+						case .textFieldDidChanged(let text):
+							self.actionSubject.send(.userDataTextfieldDidChanged(text))
+						}
+					}
+					.store(in: &self.cancellables)
+				return cell
+			case .plainWithLabel(let model):
+				let cell = self.configureCell(cellType: UserDataMenuCell.self, indexPath: indexPath)
+				cell.configure(with: model)
+				cell.userDataMenuPublisher
+					.sink { [weak self] event in
+						guard let self = self else { return }
+						switch event {
+						case .menuDidTapped:
+							guard let object = self.getObject(with: indexPath) else {
+								return
+							}
+							self.actionSubject.send(.popoverListDidTapped(object))
+						}
+					}
+					.store(in: &self.cancellables)
 				return cell
 			}
 		})
+	}
+	
+	func getObject(with indexPath: IndexPath) -> UserDataMenuSettingsModel? {
+		guard let object = diffableDatasource?.itemIdentifier(for: indexPath) else { return nil }
+		var model: UserDataMenuSettingsModel?
+		switch object {
+		case .plainWithLabel(let userDataMenuSettingsModel):
+			model = userDataMenuSettingsModel
+		default: break
+		}
+		return model
 	}
 	
 	//MARK: - Setup Collection
@@ -172,6 +206,7 @@ private extension UserSceneView {
 		collectionView.backgroundColor = .white
 		collectionView.register(UserDataCell.self, forCellWithReuseIdentifier: UserDataCell.reuseID)
 		collectionView.register(HeaderCell.self, forCellWithReuseIdentifier: HeaderCell.reuseID)
+		collectionView.register(UserDataMenuCell.self, forCellWithReuseIdentifier: UserDataMenuCell.reuseID)
 		setupDiffableDatasource()
 	}
 	

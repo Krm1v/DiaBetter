@@ -11,12 +11,18 @@ import Foundation
 final class UserSceneViewModel: BaseViewModel {
 	//MARK: - Properties
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
+	private(set) var permissionService: PermissionService
 	private let transitionSubject = PassthroughSubject<UserSceneTransition, Never>()
-	private var userService: UserService
-	private var permissionService: PermissionService
+	private let userService: UserService
+	//MARK: - Published properties
 	@Published private(set) var userImage: Data?
+	@Published private var userImageResource: ImageResource?
+	@Published private var user: User?
 	@Published var sections: [SectionModel<UserProfileSections, UserSettings>] = []
-	@Published var userImageResource: ImageResource?
+	@Published var userNameTextfield = ""
+	@Published var userDiabetesType = ""
+	@Published var userFastInsulin = ""
+	@Published var userBasalInsulin = ""
 	
 	//MARK: - Init
 	init(userService: UserService) {
@@ -25,53 +31,77 @@ final class UserSceneViewModel: BaseViewModel {
 		super.init()
 	}
 	
-	//MARK: - Overriden methods
 	override func onViewDidLoad() {
+		showPlaceholderDatasource()
+		userSink()
 		fetchUser()
 	}
 	
-	func saveUserImageData(from data: Data) {
-		userImage = data
+	override func onViewWillDisappear() {
+		guard let user = user else { return }
+		updateUser(user)
+		isLoadingSubject.send(false)
 	}
 	
 	//MARK: - Public methods
+	//MARK: - Datasource methods
 	func updateDatasource() {
-		guard let user = userService.user else { return }
+		guard let user = self.user else { return }
 		getImageResource()
 		let userHeaderModel = UserHeaderModel(email: user.email ?? "", image: userImageResource)
 		let userHeaderSection = SectionModel<UserProfileSections, UserSettings>(section: .header,
 																				items: [.header(userHeaderModel)])
+		let userName = UserDataSettingsModel(title: Localization.name, textFieldValue: user.name ?? "")
 		let userSettings = [
-			UserDataSettingsModel(title: Localization.name, textFieldValue: user.name ?? ""),
-			UserDataSettingsModel(title: Localization.diabetsType, textFieldValue: user.diabetesType ?? ""),
-			UserDataSettingsModel(title: Localization.fastActingInsulin, textFieldValue: user.fastActingInsulin ?? ""),
-			UserDataSettingsModel(title: Localization.basalInsulin, textFieldValue: user.basalInsulin ?? "")
+			UserDataMenuSettingsModel(title: Localization.diabetsType, labelValue: user.diabetesType ?? "", source: .diabetesType),
+			UserDataMenuSettingsModel(title: Localization.fastActingInsulin, labelValue: user.fastActingInsulin ?? "", source: .fastInsulines),
+			UserDataMenuSettingsModel(title: Localization.basalInsulin, labelValue: user.basalInsulin ?? "", source: .longInsulines)
 		]
 		var userDataSection = SectionModel<UserProfileSections, UserSettings>(section: .list, items: [])
-		userDataSection.items = userSettings.map { .plain($0) }
+		userDataSection.items.append(.plainWithTextfield(userName))
+		let _ = userSettings.map { item in
+			userDataSection.items.append(.plainWithLabel(item))
+		}
 		sections = [userHeaderSection, userDataSection]
 	}
 	
-	func getImageResource() {
-		guard let user = userService.user else { return }
-		guard let stringUrl = user.userProfileImage else { return }
-		guard let url = URL(string: stringUrl) else { return }
-		userImageResource = user.userProfileImage != "" ? .url(url) : .asset(Assets.userImagePlaceholder)
+	func showPlaceholderDatasource() {
+		let userHeaderModel = UserHeaderModel(email: Constants.loadingTitle, image: .asset(Assets.userImagePlaceholder))
+		let userHeaderSection = SectionModel<UserProfileSections, UserSettings>(section: .header,
+																				items: [.header(userHeaderModel)])
+		let userSettings = [
+			UserDataSettingsModel(title: Localization.name, textFieldValue: Constants.loadingTitle),
+			UserDataSettingsModel(title: Localization.diabetsType, textFieldValue: Constants.loadingTitle),
+			UserDataSettingsModel(title: Localization.fastActingInsulin, textFieldValue: Constants.loadingTitle),
+			UserDataSettingsModel(title: Localization.basalInsulin, textFieldValue: Constants.loadingTitle)
+		]
+		var userDataSection = SectionModel<UserProfileSections, UserSettings>(section: .list, items: [])
+		userDataSection.items = userSettings.map { .plainWithTextfield($0) }
+		sections = [userHeaderSection, userDataSection]
 	}
 	
+	//MARK: - User's profile picture helpers
+	func fetchImageData(from data: Data) {
+		userImage = data
+	}
+	
+	func getImageResource() {
+		guard let user = user else { return }
+		guard let stringUrl = user.userProfileImage else { return }
+		if let url = URL(string: stringUrl) {
+			userImageResource = .url(url)
+		} else {
+			userImageResource = .asset(Assets.userImagePlaceholder)
+		}
+	}
+	
+	//MARK: - Photo library permissions
 	func askForPermissions() {
 		permissionService.askForPermissions()
 	}
 	
 	func moveToSettings() {
 		permissionService.moveToSettings()
-	}
-	
-	func setupPermissions() {
-		permissionService.permissionPublisher
-			.sink { type in
-				
-			}
 	}
 	
 	//MARK: - Network requests
@@ -141,7 +171,8 @@ final class UserSceneViewModel: BaseViewModel {
 				}
 			} receiveValue: { [weak self] response in
 				guard let self = self else { return }
-				guard var user = self.userService.user else { return }
+				//				guard var user = self.userService.user else { return }
+				guard var user = self.user else { return }
 				user.userProfileImage = response.fileURL
 				self.updateUser(user)
 			}
@@ -152,25 +183,26 @@ final class UserSceneViewModel: BaseViewModel {
 		guard let token = userService.token else { return }
 		userService.deletePhoto(userToken: token,
 								filename: Constants.basicUserProfileImageName + Constants.basicImageFormat)
-			.sink { [weak self] completion in
-				guard let self = self else { return }
-				switch completion {
-				case .finished:
-					debugPrint("Photo was deleted from backend")
-					guard var user = self.userService.user else { return }
-					user.userProfileImage = ""
-					self.updateUser(user)
-				case .failure(let error):
-					Logger.error(error.localizedDescription)
-				}
-			} receiveValue: { _ in }
+		.receive(on: DispatchQueue.main)
+		.sink { [weak self] completion in
+			guard let self = self else { return }
+			switch completion {
+			case .finished:
+				debugPrint("Photo was deleted from backend")
+				guard var user = self.user else { return }
+				user.userProfileImage = ""
+				self.updateUser(user)
+			case .failure(let error):
+				Logger.error(error.localizedDescription)
+			}
+		} receiveValue: { _ in }
 			.store(in: &cancellables)
 	}
 	
 	func updateUser(_ user: User) {
 		isLoadingSubject.send(true)
 		guard let token = userService.token else { return }
-		let updatedUser = UserUpdateRequestModel(basalInsulin: user.basalInsulin, diabetesType: user.diabetesType, fastActingInsulin: user.fastActingInsulin, name: user.name, userProfileImage: user.userProfileImage)
+		let updatedUser = UserUpdateRequestModel(basalInsulin: userBasalInsulin, diabetesType: userDiabetesType, fastActingInsulin: userFastInsulin, name: userNameTextfield, userProfileImage: user.userProfileImage)
 		debugPrint(updatedUser)
 		userService.updateUser(user: updatedUser, objectId: user.remoteId ?? "", token: token)
 			.receive(on: DispatchQueue.main)
@@ -180,13 +212,23 @@ final class UserSceneViewModel: BaseViewModel {
 				switch completion {
 				case .finished:
 					debugPrint("User updated")
-					self.updateDatasource()
+					//					self.updateDatasource()
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
 				}
 			} receiveValue: { [weak self] user in
 				guard let self = self else { return }
 				self.userService.save(user: User(user))
+				self.updateDatasource()
+			}
+			.store(in: &cancellables)
+	}
+	
+	func userSink() {
+		userService.userPublisher
+			.sink { [weak self] user in
+				guard let self = self else { return }
+				self.user = user
 			}
 			.store(in: &cancellables)
 	}
@@ -196,4 +238,5 @@ final class UserSceneViewModel: BaseViewModel {
 fileprivate enum Constants {
 	static let basicUserProfileImageName = "userProfileImage"
 	static let basicImageFormat = ".jpeg"
+	static let loadingTitle = "Loading..."
 }

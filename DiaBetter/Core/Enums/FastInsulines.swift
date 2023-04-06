@@ -7,9 +7,13 @@
 
 import Foundation
 
-enum FastInsulines: String {
-	case actrapid = "Actrapid"
-	case afrezza = "Afrezza"
+protocol SettingsMenuDatasourceProtocol {
+	var title: String { get }
+}
+
+enum FastInsulines: String, CaseIterable, SettingsMenuDatasourceProtocol {
+	case actrapid
+	case afrezza
 	case apidra
 	case gensulinR
 	case humalog
@@ -22,4 +26,37 @@ enum FastInsulines: String {
 	case u500
 	case fiasp
 	case other
+	
+	var title: String {
+		switch self {
+		case .actrapid:
+			return "Actrapid"
+		case .afrezza:
+			return "Afrezza"
+		case .apidra:
+			return "Apidra"
+		case .gensulinR:
+			return "Gensulin R"
+		case .humalog:
+			return "Humalog"
+		case .humalogR:
+			return "Humalog R"
+		case .liprolog:
+			return "Liprolog"
+		case .novolinR:
+			return "Novolin R"
+		case .novolog:
+			return "Novolog"
+		case .novoRapid:
+			return "NovoRapid"
+		case .regular:
+			return "Regular"
+		case .u500:
+			return "U-500"
+		case .fiasp:
+			return "Fiasp"
+		case .other:
+			return "Other"
+		}
+	}
 }
