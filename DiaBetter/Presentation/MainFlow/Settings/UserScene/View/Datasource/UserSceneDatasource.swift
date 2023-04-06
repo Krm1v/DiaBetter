@@ -7,14 +7,21 @@
 
 import UIKit
 
+protocol UserDataModel {}
+
 struct UserHeaderModel: Hashable {
 	let email: String
 	let image: ImageResource?
 }
 
-struct UserDataSettingsModel: Hashable {
+struct UserDataSettingsModel: Hashable, UserDataModel {
 	let title: String
 	let textFieldValue: String
+}
+
+struct UserDataMenuSettingsModel: Hashable, UserDataModel {
+	let title: String
+	let labelValue: String
 }
 
 enum UserProfileSections: Int, Hashable {
@@ -22,7 +29,9 @@ enum UserProfileSections: Int, Hashable {
 	case list
 }
 
-enum UserSettings: Hashable {
+enum UserSettings: Hashable, UserDataModel {
 	case header(UserHeaderModel)
-	case plain(UserDataSettingsModel)
+	case plainWithTextfield(UserDataSettingsModel)
+	case plainWithLabel(UserDataMenuSettingsModel)
 }
+
