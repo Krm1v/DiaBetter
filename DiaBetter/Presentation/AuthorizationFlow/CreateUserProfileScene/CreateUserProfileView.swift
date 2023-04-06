@@ -61,7 +61,7 @@ final class CreateUserProfileView: BaseView {
 	private lazy var mainStackView = buildStackView(spacing: Constants.basicStackViewSpacing)
 	private lazy var buttonsStackView = buildStackView(distribution: .fillEqually,
 													   spacing: Constants.basicStackViewSpacing)
-	private lazy var buttonsUnderlyingView = buildView(with: .white)
+	private lazy var buttonsUnderlyingView = buildView(with: .black)
 	
 	//MARK: - Init
 	override init(frame: CGRect) {
@@ -81,7 +81,7 @@ final class CreateUserProfileView: BaseView {
 private extension CreateUserProfileView {
 	//MARK: - UI setting up
 	func setupUI() {
-		backgroundColor = .white
+		backgroundColor = .black
 		addSubs()
 		scrollView.delaysContentTouches = false
 		addGestureRecognizers()
@@ -156,7 +156,7 @@ private extension CreateUserProfileView {
 			.isActive = true
 		scrollView.trailingAnchor.constraint(equalTo: trailingAnchor)
 			.isActive = true
-		scrollView.bottomAnchor.constraint(equalTo: keyboardLayoutGuide.topAnchor)
+		scrollView.bottomAnchor.constraint(equalTo: buttonsUnderlyingView.topAnchor)
 			.isActive = true
 	}
 	
@@ -239,7 +239,7 @@ private extension CreateUserProfileView {
 fileprivate enum Constants {
 	static let basicButtonTitleFontSize: CGFloat = 13
 	static let basicStackViewSpacing: CGFloat = 8
-	static let underlyingViewMultiplier: CGFloat = 0.16
+	static let underlyingViewMultiplier: CGFloat = 0.2
 	static let basicEdgeInsets: CGFloat = 16
 	static let basicHeight: CGFloat = 50
 	static let basicInset: CGFloat = 20

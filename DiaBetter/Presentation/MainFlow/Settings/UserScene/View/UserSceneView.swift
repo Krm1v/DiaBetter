@@ -59,7 +59,7 @@ final class UserSceneView: BaseView {
 private extension UserSceneView {
 	//MARK: - SetupUI
 	func setupUI() {
-		backgroundColor = .white
+		backgroundColor = .black
 		addSubs()
 	}
 	
@@ -134,7 +134,7 @@ private extension UserSceneView {
 	
 	func makeListSection(with layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
 		var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-		configuration.backgroundColor = .white
+		configuration.backgroundColor = .black
 		let section = NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
 		section.contentInsets = NSDirectionalEdgeInsets(top: .zero,
 														leading: Constants.defaultEdgeInsets,
@@ -176,11 +176,14 @@ private extension UserSceneView {
 				cell.userDataMenuPublisher
 					.sink { [weak self] event in
 						guard let self = self else { return }
+						guard var object = self.getObject(with: indexPath) else {
+							return
+						}
 						switch event {
 						case .menuDidTapped:
-							guard let object = self.getObject(with: indexPath) else {
-								return
-							}
+							self.actionSubject.send(.popoverListDidTapped(object))
+						case .userParameterDidChanged(let parameter):
+							object.labelValue = parameter
 							self.actionSubject.send(.popoverListDidTapped(object))
 						}
 					}
@@ -203,7 +206,7 @@ private extension UserSceneView {
 	
 	//MARK: - Setup Collection
 	func setupCollection() {
-		collectionView.backgroundColor = .white
+		collectionView.backgroundColor = .black
 		collectionView.register(UserDataCell.self, forCellWithReuseIdentifier: UserDataCell.reuseID)
 		collectionView.register(HeaderCell.self, forCellWithReuseIdentifier: HeaderCell.reuseID)
 		collectionView.register(UserDataMenuCell.self, forCellWithReuseIdentifier: UserDataMenuCell.reuseID)

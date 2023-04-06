@@ -66,7 +66,8 @@ final class UserDataCell: UICollectionViewCell {
 //MARK: - Private extension
 private extension UserDataCell {
 	func setupUI() {
-		backgroundColor = .systemGray5
+		backgroundColor = Colors.darkNavyBlue.color
+		titleLabel.textColor = .white
 		addSubs()
 		setupConstraints()
 	}

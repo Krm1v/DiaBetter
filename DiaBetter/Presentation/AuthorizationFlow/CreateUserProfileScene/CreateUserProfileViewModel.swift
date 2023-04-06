@@ -41,7 +41,8 @@ final class CreateUserProfileViewModel: BaseViewModel {
 									password: password,
 									email: email,
 									fastActingInsulin: fastInsulin,
-									name: name, userProfileImage: nil)
+									name: name,
+									userProfileImage: nil)
 		userAuthorizationService.userRegister(user: user)
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in

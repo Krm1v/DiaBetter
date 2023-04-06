@@ -10,6 +10,7 @@ import Combine
 
 enum UserDataMenuCellEvents {
 	case menuDidTapped
+	case userParameterDidChanged(String)
 }
 
 final class UserDataMenuCell: UICollectionViewCell {
@@ -25,7 +26,7 @@ final class UserDataMenuCell: UICollectionViewCell {
 		let button = UIButton(type: .system)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.titleLabel?.font = FontFamily.Montserrat.regular.font(size: 17)
-		button.tintColor = .black
+		button.tintColor = .white
 		button.showsMenuAsPrimaryAction = true
 		return button
 	}()
@@ -73,9 +74,10 @@ final class UserDataMenuCell: UICollectionViewCell {
 //MARK: - Private extension
 private extension UserDataMenuCell {
 	func setupUI() {
-		backgroundColor = .systemGray5
+		backgroundColor = Colors.darkNavyBlue.color
 		addSubs()
 		setupLayout()
+		titleLabel.textColor = .white
 	}
 	
 	func addSubs() {
@@ -100,6 +102,7 @@ private extension UserDataMenuCell {
 			let action = UIAction(title: item.title) { [weak self] _ in
 				guard let self = self else { return }
 				self.userParameterButton.setTitle(item.title, for: .normal)
+				self.userDataMenuSubject.send(.userParameterDidChanged(item.title))
 			}
 			menuItems.append(action)
 		}

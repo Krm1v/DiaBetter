@@ -19,7 +19,7 @@ final class UserSceneViewModel: BaseViewModel {
 	@Published private var userImageResource: ImageResource?
 	@Published private var user: User?
 	@Published var sections: [SectionModel<UserProfileSections, UserSettings>] = []
-	@Published var userNameTextfield = ""
+	@Published var userName = ""
 	@Published var userDiabetesType = ""
 	@Published var userFastInsulin = ""
 	@Published var userBasalInsulin = ""
@@ -35,6 +35,7 @@ final class UserSceneViewModel: BaseViewModel {
 		showPlaceholderDatasource()
 		userSink()
 		fetchUser()
+		userName = user?.name ?? "No value"
 	}
 	
 	override func onViewWillDisappear() {
@@ -62,21 +63,6 @@ final class UserSceneViewModel: BaseViewModel {
 		let _ = userSettings.map { item in
 			userDataSection.items.append(.plainWithLabel(item))
 		}
-		sections = [userHeaderSection, userDataSection]
-	}
-	
-	func showPlaceholderDatasource() {
-		let userHeaderModel = UserHeaderModel(email: Constants.loadingTitle, image: .asset(Assets.userImagePlaceholder))
-		let userHeaderSection = SectionModel<UserProfileSections, UserSettings>(section: .header,
-																				items: [.header(userHeaderModel)])
-		let userSettings = [
-			UserDataSettingsModel(title: Localization.name, textFieldValue: Constants.loadingTitle),
-			UserDataSettingsModel(title: Localization.diabetsType, textFieldValue: Constants.loadingTitle),
-			UserDataSettingsModel(title: Localization.fastActingInsulin, textFieldValue: Constants.loadingTitle),
-			UserDataSettingsModel(title: Localization.basalInsulin, textFieldValue: Constants.loadingTitle)
-		]
-		var userDataSection = SectionModel<UserProfileSections, UserSettings>(section: .list, items: [])
-		userDataSection.items = userSettings.map { .plainWithTextfield($0) }
 		sections = [userHeaderSection, userDataSection]
 	}
 	
@@ -171,7 +157,6 @@ final class UserSceneViewModel: BaseViewModel {
 				}
 			} receiveValue: { [weak self] response in
 				guard let self = self else { return }
-				//				guard var user = self.userService.user else { return }
 				guard var user = self.user else { return }
 				user.userProfileImage = response.fileURL
 				self.updateUser(user)
@@ -202,7 +187,11 @@ final class UserSceneViewModel: BaseViewModel {
 	func updateUser(_ user: User) {
 		isLoadingSubject.send(true)
 		guard let token = userService.token else { return }
-		let updatedUser = UserUpdateRequestModel(basalInsulin: userBasalInsulin, diabetesType: userDiabetesType, fastActingInsulin: userFastInsulin, name: userNameTextfield, userProfileImage: user.userProfileImage)
+		let updatedUser = UserUpdateRequestModel(basalInsulin: userBasalInsulin,
+												 diabetesType: userDiabetesType,
+												 fastActingInsulin: userFastInsulin,
+												 name: userName,
+												 userProfileImage: user.userProfileImage)
 		debugPrint(updatedUser)
 		userService.updateUser(user: updatedUser, objectId: user.remoteId ?? "", token: token)
 			.receive(on: DispatchQueue.main)
@@ -231,6 +220,21 @@ final class UserSceneViewModel: BaseViewModel {
 				self.user = user
 			}
 			.store(in: &cancellables)
+	}
+	
+	func showPlaceholderDatasource() {
+		let userHeaderModel = UserHeaderModel(email: Constants.loadingTitle, image: .asset(Assets.userImagePlaceholder))
+		let userHeaderSection = SectionModel<UserProfileSections, UserSettings>(section: .header,
+																				items: [.header(userHeaderModel)])
+		let userSettings = [
+			UserDataSettingsModel(title: Localization.name, textFieldValue: Constants.loadingTitle),
+			UserDataSettingsModel(title: Localization.diabetsType, textFieldValue: Constants.loadingTitle),
+			UserDataSettingsModel(title: Localization.fastActingInsulin, textFieldValue: Constants.loadingTitle),
+			UserDataSettingsModel(title: Localization.basalInsulin, textFieldValue: Constants.loadingTitle)
+		]
+		var userDataSection = SectionModel<UserProfileSections, UserSettings>(section: .list, items: [])
+		userDataSection.items = userSettings.map { .plainWithTextfield($0) }
+		sections = [userHeaderSection, userDataSection]
 	}
 }
 

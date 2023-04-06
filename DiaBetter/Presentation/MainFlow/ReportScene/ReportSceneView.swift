@@ -25,6 +25,6 @@ final class ReportSceneView: BaseView {
 //MARK: - Private extension
 private extension ReportSceneView {
 	func setupUI() {
-		backgroundColor = .white
+		backgroundColor = .black
 	}
 }

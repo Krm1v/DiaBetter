@@ -21,7 +21,7 @@ struct UserDataSettingsModel: Hashable, UserDataModel {
 
 struct UserDataMenuSettingsModel: Hashable, UserDataModel {
 	let title: String
-	let labelValue: String
+	var labelValue: String
 	let source: SettingsMenuDatasource
 }
 

@@ -70,13 +70,12 @@ final class AddRecordSceneView: BaseView {
 //MARK: - Private extension
 private extension AddRecordSceneView {
 	func setupUI() {
-		backgroundColor = .white
+		backgroundColor = .black
 		addSubs()
 		scrollView.delaysContentTouches = false
 		glucoseTitleLabel.textColor = .red
 		mealTitleLabel.textColor = .green
 		insulinTitleLabel.textColor = .systemBlue
-		notesTextField.backgroundColor = .white
 	}
 	
 	func addSubs() {

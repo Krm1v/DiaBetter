@@ -12,5 +12,4 @@ import Foundation
 final class DiarySceneViewModel: BaseViewModel {
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<DiarySceneTransition, Never>()
-	
 }

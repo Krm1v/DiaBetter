@@ -61,7 +61,7 @@ final class LoginSceneView: BaseView {
 private extension LoginSceneView {
 	//MARK: - UI setting up
 	func setupUI() {
-		backgroundColor = .white
+		backgroundColor = .black
 		scrollView.delaysContentTouches = false
 		setupLayout()
 	}

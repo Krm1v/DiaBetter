@@ -32,7 +32,7 @@ final class DiarySceneView: BaseView {
 //MARK: - Private extension
 private extension DiarySceneView {
 	func setupUI() {
-		backgroundColor = .white
+		backgroundColor = .black
 	}
 }
 

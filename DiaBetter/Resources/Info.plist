@@ -2,12 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>APP_ENVIRONMENT</key>
-	<string>$(APP_ENVIRONMENT)</string>
 	<key>API_KEY</key>
 	<string>$(API_KEY)</string>
-	<key>RESTAPI_KEY</key>
-	<string>$(RESTAPI_KEY)</string>
+	<key>APP_ENVIRONMENT</key>
+	<string>$(APP_ENVIRONMENT)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -26,6 +24,10 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>DiaBetter needs access to your photo library to select the image for your profile</string>
+	<key>RESTAPI_KEY</key>
+	<string>$(RESTAPI_KEY)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-BlackItalic.ttf</string>
@@ -72,6 +74,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleDarkContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -84,8 +88,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>DiaBetter needs access to your photo library to select the image for your profile</string>
+	<string>Dark</string>
 </dict>
 </plist>

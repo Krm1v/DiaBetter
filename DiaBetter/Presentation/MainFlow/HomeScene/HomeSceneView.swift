@@ -36,11 +36,8 @@ final class HomeSceneView: BaseView {
 	//MARK: - Public methods
 	func setupSettingsButton(for controller: UIViewController) {
 		addNewRecordButton.style = .plain
-		addNewRecordButton.image = UIImage(systemName: "plus.square.fill.on.square.fill")?.withRenderingMode(.alwaysOriginal)
-		addNewRecordButton.tintColor = UIColor(red: 214/255,
-											   green: 0/255,
-											   blue: 255/255,
-											   alpha: 1)
+		addNewRecordButton.image = .add
+		addNewRecordButton.tintColor = Colors.customPink.color
 		controller.navigationItem.rightBarButtonItem = addNewRecordButton
 	}
 }
@@ -48,7 +45,7 @@ final class HomeSceneView: BaseView {
 //MARK: - Private extension
 private extension HomeSceneView {
 	func setupUI() {
-		backgroundColor = .white
+		backgroundColor = .black
 	}
 	
 	//MARK: - Actions binding

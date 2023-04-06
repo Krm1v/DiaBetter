@@ -24,7 +24,7 @@ extension UIElementsBuilder {
 		let button = GradientedButton(type: .system)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.setTitle(text, for: .normal)
-		button.setTitleColor(.red, for: .normal)
+		button.setTitleColor(Colors.customPink.color, for: .normal)
 		button.titleLabel?.font = FontFamily.Montserrat.semiBold.font(size: fontSize)
 		return button
 	}
@@ -33,10 +33,10 @@ extension UIElementsBuilder {
 		let button = UIButton(type: .system)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.setTitle(title, for: .normal)
-		button.setTitleColor(.black, for: .normal)
+		button.setTitleColor(Colors.customDarkenPink.color, for: .normal)
 		button.layer.cornerRadius = Constants.basicCornerRadius
 		button.layer.borderWidth = Constants.basicBorderWidth
-		button.layer.borderColor = UIColor.systemGray.cgColor
+		button.layer.borderColor = Colors.customDarkenPink.color.cgColor
 		button.titleLabel?.font = FontFamily.Montserrat.semiBold.font(size: Constants.basicButtonTitleFontSize)
 		return button
 	}
@@ -45,7 +45,7 @@ extension UIElementsBuilder {
 		let button = UIButton(type: .system)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.setTitle(title, for: .normal)
-		button.setTitleColor(.black, for: .normal)
+		button.setTitleColor(.white, for: .normal)
 		button.backgroundColor = .clear
 		button.titleLabel?.font = FontFamily.Montserrat.semiBold.font(size: fontSize)
 		return button
@@ -64,6 +64,7 @@ extension UIElementsBuilder {
 		textField.placeholder = placeholder
 		textField.keyboardType = keyBoardType
 		textField.borderStyle = .roundedRect
+		textField.backgroundColor = Colors.darkNavyBlue.color
 		textField.autocapitalizationType = capitalization
 		return textField
 	}
@@ -74,7 +75,7 @@ extension UIElementsBuilder {
 							  textAllignment: NSTextAlignment = .natural) -> UILabel {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.textColor = .black
+		label.textColor = .white
 		label.font = FontFamily.Montserrat.semiBold.font(size: fontSize)
 		label.text = text + ":"
 		label.textAlignment = textAllignment
@@ -98,7 +99,7 @@ extension UIElementsBuilder {
 	func buildTitleLabel(with text: String = "") -> UILabel {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.textColor = .black
+		label.textColor = Colors.customPink.color
 		label.font = FontFamily.Montserrat.bold.font(size: Constants.basicTitleFontSize)
 		label.text = text
 		label.textAlignment = .center

@@ -45,7 +45,7 @@ final class ResetPasswordSceneView: BaseView {
 //MARK: - Private extension
 private extension ResetPasswordSceneView {
 	func setupUI() {
-		backgroundColor = .white
+		backgroundColor = .black
 		addSubs()
 		setupLayout()
 	}

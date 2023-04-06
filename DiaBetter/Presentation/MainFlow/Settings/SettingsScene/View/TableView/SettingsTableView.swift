@@ -80,7 +80,7 @@ private extension SettingsTableView {
 	//MARK: - SetupUI
 	func setupTable() {
 		register(TableViewCustomCell.self, forCellReuseIdentifier: Constants.reuseId)
-		backgroundColor = .white
+		backgroundColor = .black
 		setupDiffableDatasource()
 		reloadDiffableDatasourceData()
 	}

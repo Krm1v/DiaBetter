@@ -60,11 +60,12 @@ private extension UserSceneViewController {
 				case .editButtonTapped:
 					self.presentActionSheet()
 				case .userDataTextfieldDidChanged(let text):
-					self.viewModel.userNameTextfield = text
+					self.viewModel.userName = text
 				case .popoverListDidTapped(let setting):
 					switch setting.source {
 					case .diabetesType:
 						self.viewModel.userDiabetesType = setting.labelValue
+						debugPrint(setting.labelValue)
 					case .fastInsulines:
 						self.viewModel.userFastInsulin = setting.labelValue
 					case .longInsulines:

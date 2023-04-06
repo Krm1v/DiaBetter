@@ -46,7 +46,7 @@ final class HeaderCell: UICollectionViewCell {
 		super.setNeedsLayout()
 		userImage.rounded(userImage.frame.width / 2)
 		userImage.layer.borderWidth = Constants.basicBorderWidth
-		userImage.layer.borderColor = UIColor.white.cgColor
+		userImage.layer.borderColor = Colors.customPink.color.cgColor
 	}
 	
 	//MARK: - Public methods
@@ -72,9 +72,10 @@ private extension HeaderCell {
 		addSubview(emailLabel)
 		setupConstraints()
 		rounded(Constants.basicCornerRadius)
-		self.backgroundColor = .systemGray5
+		self.backgroundColor = Colors.darkNavyBlue.color
 		self.layer.masksToBounds = true
 		self.clipsToBounds = true
+		emailLabel.textColor = .white
 	}
 	
 	func setupConstraints() {
