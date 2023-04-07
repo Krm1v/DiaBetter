@@ -19,7 +19,10 @@ final class AppCoordinator: Coordinator {
 	private var cancellables = Set<AnyCancellable>()
 	
 	//MARK: - Init
-	init(window: UIWindow, container: AppContainer, navigationController: UINavigationController = UINavigationController()) {
+	init(window: UIWindow,
+		 container: AppContainer,
+		 navigationController: UINavigationController = UINavigationController()
+	) {
 		self.window = window
 		self.container = container
 		self.navigationController = navigationController

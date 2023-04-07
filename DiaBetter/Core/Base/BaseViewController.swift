@@ -105,5 +105,10 @@ private extension BaseViewController {
 			NSAttributedString.Key.foregroundColor: Colors.customPink.color,
 			NSAttributedString.Key.font: FontFamily.Montserrat.bold.font(size: 30)
 		]
+		let appearance = UINavigationBarAppearance()
+		let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
+		buttonAppearance.normal.titleTextAttributes = [.foregroundColor: Colors.customPink.color]
+		appearance.buttonAppearance = buttonAppearance
+		UINavigationBar.appearance().tintColor = Colors.customPink.color
 	}
 }

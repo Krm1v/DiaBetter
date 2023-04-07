@@ -24,11 +24,13 @@ final class HeaderCell: UICollectionViewCell {
 	private(set) lazy var editButton: UIButton = {
 		let button = UIButton(type: .system)
 		button.translatesAutoresizingMaskIntoConstraints = false
+		button.setTitleColor(Colors.customPink.color, for: .normal)
 		button.setTitle(Localization.edit, for: .normal)
 		return button
 	}()
 	
 	private lazy var emailLabel = buildUserInfoLabel()
+	private var model: UserHeaderModel?
 	
 	//MARK: - Init
 	override init(frame: CGRect) {
@@ -51,16 +53,9 @@ final class HeaderCell: UICollectionViewCell {
 	
 	//MARK: - Public methods
 	func configure(with model: UserHeaderModel) {
+		self.model = model
 		emailLabel.text = model.email
-		guard let resource = model.image else { return }
-		switch resource {
-		case .url(let url):
-			self.setImage(url)
-		case .data(let data):
-			self.setImage(data)
-		case .asset(let asset):
-			self.setImage(asset)
-		}
+		updateImage(model: model)
 	}
 }
 
@@ -110,6 +105,20 @@ private extension HeaderCell {
 	
 	func setImage(_ asset: ImageAsset) {
 		self.userImage.image = asset.image
+	}
+	
+	func updateImage(model: UserHeaderModel) {
+		switch model.image {
+		case .url(let url):
+			self.setImage(url)
+		case .data(let data):
+			self.setImage(data)
+		case .asset(let asset):
+			self.setImage(asset)
+		case .none:
+			debugPrint("NONE")
+			break
+		}
 	}
 }
 

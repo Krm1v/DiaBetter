@@ -40,7 +40,7 @@ extension TableViewCustomCell: SelfConfiguringTableViewCell {
 //MARK: - Private extension
 private extension TableViewCustomCell {
 	func setupCell() {
-		backgroundColor = .systemGray5
+		backgroundColor = Colors.darkNavyBlue.color
 		selectionStyle = .none
 		separatorInset = UIEdgeInsets(top: .zero, left: 8, bottom: .zero, right: 8)
 		textLabel?.font = FontFamily.Montserrat.semiBold.font(size: 17)

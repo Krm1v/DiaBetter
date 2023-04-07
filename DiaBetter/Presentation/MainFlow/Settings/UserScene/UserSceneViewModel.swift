@@ -33,9 +33,12 @@ final class UserSceneViewModel: BaseViewModel {
 	
 	override func onViewDidLoad() {
 		showPlaceholderDatasource()
-		userSink()
+		user = userService.user
 		fetchUser()
 		userName = user?.name ?? "No value"
+		userDiabetesType = user?.diabetesType ?? "Choose your diabetes type"
+		userFastInsulin = user?.fastActingInsulin ?? "Choose your fast insulin"
+		userBasalInsulin = user?.basalInsulin ?? "Choose your basal insulin"
 	}
 	
 	override func onViewWillDisappear() {
@@ -47,16 +50,15 @@ final class UserSceneViewModel: BaseViewModel {
 	//MARK: - Public methods
 	//MARK: - Datasource methods
 	func updateDatasource() {
-		guard let user = self.user else { return }
 		getImageResource()
-		let userHeaderModel = UserHeaderModel(email: user.email ?? "", image: userImageResource)
+		let userHeaderModel = UserHeaderModel(email: user?.email ?? "", image: userImageResource)
 		let userHeaderSection = SectionModel<UserProfileSections, UserSettings>(section: .header,
 																				items: [.header(userHeaderModel)])
-		let userName = UserDataSettingsModel(title: Localization.name, textFieldValue: user.name ?? "")
+		let userName = UserDataSettingsModel(title: Localization.name, textFieldValue: user?.name ?? "")
 		let userSettings = [
-			UserDataMenuSettingsModel(title: Localization.diabetsType, labelValue: user.diabetesType ?? "", source: .diabetesType),
-			UserDataMenuSettingsModel(title: Localization.fastActingInsulin, labelValue: user.fastActingInsulin ?? "", source: .fastInsulines),
-			UserDataMenuSettingsModel(title: Localization.basalInsulin, labelValue: user.basalInsulin ?? "", source: .longInsulines)
+			UserDataMenuSettingsModel(title: Localization.diabetsType, labelValue: user?.diabetesType ?? "", source: .diabetesType),
+			UserDataMenuSettingsModel(title: Localization.fastActingInsulin, labelValue: user?.fastActingInsulin ?? "", source: .fastInsulines),
+			UserDataMenuSettingsModel(title: Localization.basalInsulin, labelValue: user?.basalInsulin ?? "", source: .longInsulines)
 		]
 		var userDataSection = SectionModel<UserProfileSections, UserSettings>(section: .list, items: [])
 		userDataSection.items.append(.plainWithTextfield(userName))
@@ -72,13 +74,10 @@ final class UserSceneViewModel: BaseViewModel {
 	}
 	
 	func getImageResource() {
-		guard let user = user else { return }
-		guard let stringUrl = user.userProfileImage else { return }
+		guard let stringUrl = user?.userProfileImage else { return }
 		if let url = URL(string: stringUrl) {
-			userImageResource = .url(url)
-		} else {
-			userImageResource = .asset(Assets.userImagePlaceholder)
-		}
+			userImageResource = stringUrl != "" ? .url(url) : .asset(Assets.userImagePlaceholder)
+		} 
 	}
 	
 	//MARK: - Photo library permissions
@@ -107,6 +106,7 @@ final class UserSceneViewModel: BaseViewModel {
 			} receiveValue: { [weak self] user in
 				guard let self = self else { return }
 				self.userService.save(user: User(user))
+				self.user = User(user)
 				self.isLoadingSubject.send(false)
 				self.updateDatasource()
 			}
@@ -200,24 +200,14 @@ final class UserSceneViewModel: BaseViewModel {
 				self.isLoadingSubject.send(false)
 				switch completion {
 				case .finished:
+					self.updateDatasource()
 					debugPrint("User updated")
-					//					self.updateDatasource()
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
 				}
 			} receiveValue: { [weak self] user in
 				guard let self = self else { return }
 				self.userService.save(user: User(user))
-				self.updateDatasource()
-			}
-			.store(in: &cancellables)
-	}
-	
-	func userSink() {
-		userService.userPublisher
-			.sink { [weak self] user in
-				guard let self = self else { return }
-				self.user = user
 			}
 			.store(in: &cancellables)
 	}

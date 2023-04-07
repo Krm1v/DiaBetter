@@ -69,6 +69,10 @@
 		8640820229DB739700B848B7 /* LongInsulines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8640820129DB739700B848B7 /* LongInsulines.swift */; };
 		8640820429DB761400B848B7 /* UserDataMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8640820329DB761400B848B7 /* UserDataMenuCell.swift */; };
 		8640821929DE1D4200B848B7 /* DiabetesTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8640821829DE1D4200B848B7 /* DiabetesTypes.swift */; };
+		86665A9E29E076D700745331 /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86665A9D29E076D700745331 /* TokenStorage.swift */; };
+		86665AA029E0778D00745331 /* TokenPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86665A9F29E0778D00745331 /* TokenPlugin.swift */; };
+		86665AA229E0793300745331 /* ContentTypePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86665AA129E0793300745331 /* ContentTypePlugin.swift */; };
+		86665AB029E0922200745331 /* loginBackground.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86665AAF29E0920300745331 /* loginBackground.mp4 */; };
 		868FC8DABB7F9E307A73FD0D /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A3F26E42FA42232CBD936F /* AuthCoordinator.swift */; };
 		869007F8299D4552001B672E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869007F7299D4552001B672E /* NetworkManager.swift */; };
 		869007FD299D45A3001B672E /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869007FC299D45A3001B672E /* Endpoint.swift */; };
@@ -118,7 +122,7 @@
 		86D0A74729A385CF00980996 /* DiarySceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A74629A385CF00980996 /* DiarySceneViewModel.swift */; };
 		86D0A74929A3868C00980996 /* DiarySceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A74829A3868C00980996 /* DiarySceneViewController.swift */; };
 		86D0A74B29A3871B00980996 /* DiarySceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A74A29A3871B00980996 /* DiarySceneView.swift */; };
-		86D0A74D29A38F3500980996 /* MeasurementsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A74C29A38F3500980996 /* MeasurementsCoordinator.swift */; };
+		86D0A74D29A38F3500980996 /* DiaryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A74C29A38F3500980996 /* DiaryCoordinator.swift */; };
 		86D0A74F29A520E200980996 /* NetworkServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A74E29A520E200980996 /* NetworkServiceProvider.swift */; };
 		86D0A75229A656CE00980996 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A75129A656CE00980996 /* User.swift */; };
 		86D0A75529A65FD400980996 /* UserNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A75429A65FD400980996 /* UserNetworkService.swift */; };
@@ -215,6 +219,10 @@
 		8640820129DB739700B848B7 /* LongInsulines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongInsulines.swift; sourceTree = "<group>"; };
 		8640820329DB761400B848B7 /* UserDataMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataMenuCell.swift; sourceTree = "<group>"; };
 		8640821829DE1D4200B848B7 /* DiabetesTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiabetesTypes.swift; sourceTree = "<group>"; };
+		86665A9D29E076D700745331 /* TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStorage.swift; sourceTree = "<group>"; };
+		86665A9F29E0778D00745331 /* TokenPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenPlugin.swift; sourceTree = "<group>"; };
+		86665AA129E0793300745331 /* ContentTypePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTypePlugin.swift; sourceTree = "<group>"; };
+		86665AAF29E0920300745331 /* loginBackground.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = loginBackground.mp4; sourceTree = "<group>"; };
 		869007F7299D4552001B672E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		869007FC299D45A3001B672E /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		86900800299D45D7001B672E /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
@@ -262,7 +270,7 @@
 		86D0A74629A385CF00980996 /* DiarySceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySceneViewModel.swift; sourceTree = "<group>"; };
 		86D0A74829A3868C00980996 /* DiarySceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySceneViewController.swift; sourceTree = "<group>"; };
 		86D0A74A29A3871B00980996 /* DiarySceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySceneView.swift; sourceTree = "<group>"; };
-		86D0A74C29A38F3500980996 /* MeasurementsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementsCoordinator.swift; sourceTree = "<group>"; };
+		86D0A74C29A38F3500980996 /* DiaryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCoordinator.swift; sourceTree = "<group>"; };
 		86D0A74E29A520E200980996 /* NetworkServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProvider.swift; sourceTree = "<group>"; };
 		86D0A75129A656CE00980996 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		86D0A75429A65FD400980996 /* UserNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNetworkService.swift; sourceTree = "<group>"; };
@@ -344,6 +352,7 @@
 		2B0DBBDCF0111D3E510BCBB6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				866FCCE129E0AE2A00D7FCC5 /* Videos */,
 				3522B1CCEAB64AD93D412F06 /* Fonts */,
 				24CFFF6C8BE3B765084F4BC2 /* Generated */,
 				DD40F6347D1DA51DCB11DF08 /* Assets.xcassets */,
@@ -428,6 +437,7 @@
 				8699F31F29B1379700705347 /* UserService */,
 				8637ADD429B7AF5C00F14489 /* RecordsService */,
 				86B3729E29CCF7EB0095C229 /* PermissionService.swift */,
+				86665A9D29E076D700745331 /* TokenStorage.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -611,6 +621,15 @@
 			path = Datasource;
 			sourceTree = "<group>";
 		};
+		866FCCE129E0AE2A00D7FCC5 /* Videos */ = {
+			isa = PBXGroup;
+			children = (
+				86665AAF29E0920300745331 /* loginBackground.mp4 */,
+			);
+			name = Videos;
+			path = ../Videos;
+			sourceTree = "<group>";
+		};
 		869007F9299D4567001B672E /* NetworkManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -690,7 +709,7 @@
 			children = (
 				C58EF881E0100BB6929E83E3 /* MainTabBarCoordinator.swift */,
 				86D0A741299FA41500980996 /* HomeCoordinator.swift */,
-				86D0A74C29A38F3500980996 /* MeasurementsCoordinator.swift */,
+				86D0A74C29A38F3500980996 /* DiaryCoordinator.swift */,
 				8699F34729B66F5100705347 /* SettingsCoordinator.swift */,
 				8637ADE229BA194400F14489 /* ReportCoordinator.swift */,
 			);
@@ -882,6 +901,8 @@
 		A8F411711C2D3F0A84B5AB17 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				86665A9F29E0778D00745331 /* TokenPlugin.swift */,
+				86665AA129E0793300745331 /* ContentTypePlugin.swift */,
 			);
 			path = Plugins;
 			sourceTree = "<group>";
@@ -1044,6 +1065,7 @@
 				A8005C6912B4E589150FDCAF /* Montserrat-Regular.ttf in Resources */,
 				6D7BC40539EE887694D7C227 /* Montserrat-SemiBold.ttf in Resources */,
 				9F3E462C5D968986A1E3E4B1 /* Montserrat-SemiBoldItalic.ttf in Resources */,
+				86665AB029E0922200745331 /* loginBackground.mp4 in Resources */,
 				4CFCDA31261934515489738F /* Montserrat-Thin.ttf in Resources */,
 				876F342B3AB00CAA5E18648F /* Montserrat-ThinItalic.ttf in Resources */,
 			);
@@ -1102,11 +1124,13 @@
 				8699F32F29B2CD2100705347 /* SettingsDatasource.swift in Sources */,
 				86D0A75229A656CE00980996 /* User.swift in Sources */,
 				8699F32429B284C300705347 /* SettingsSceneView.swift in Sources */,
+				86665AA229E0793300745331 /* ContentTypePlugin.swift in Sources */,
 				86D0A74F29A520E200980996 /* NetworkServiceProvider.swift in Sources */,
 				86900812299D4CBA001B672E /* UserSceneBuilder.swift in Sources */,
 				8634B77729ABE23500870B66 /* CreateUserProfileView.swift in Sources */,
 				8637ADBE29B7609700F14489 /* AddRecordSceneBuilder.swift in Sources */,
 				C37DE041F430700A105F9CC9 /* AxisScrollView.swift in Sources */,
+				86665AA029E0778D00745331 /* TokenPlugin.swift in Sources */,
 				5E8EE54653B0991739A3447E /* BaseView.swift in Sources */,
 				FD95A82E45DDBD6179945692 /* BaseViewController.swift in Sources */,
 				83940A46BF53DCCBC541ACAD /* BaseViewModel.swift in Sources */,
@@ -1156,6 +1180,7 @@
 				8637ADD129B7983E00F14489 /* RecordsEndpoint.swift in Sources */,
 				E096CCD98388CCC06CA338E3 /* UIEdgeInsets+Ext.swift in Sources */,
 				43AC8306B78E720734FD42DD /* UIStackView+Ext.swift in Sources */,
+				86665A9E29E076D700745331 /* TokenStorage.swift in Sources */,
 				8637ADC629B762B700F14489 /* AddRecordSceneViewModel.swift in Sources */,
 				86900810299D4978001B672E /* UserResponseModel.swift in Sources */,
 				8690080E299D495C001B672E /* UserLoginRequestModel.swift in Sources */,
@@ -1182,7 +1207,7 @@
 				8699F30A29AD218900705347 /* UserDefaultsManager.swift in Sources */,
 				8637ADE129BA188A00F14489 /* ReportSceneView.swift in Sources */,
 				8637ADDA29BA173500F14489 /* ReportSceneBuilder.swift in Sources */,
-				86D0A74D29A38F3500980996 /* MeasurementsCoordinator.swift in Sources */,
+				86D0A74D29A38F3500980996 /* DiaryCoordinator.swift in Sources */,
 				86900804299D45FE001B672E /* HTTPMethods.swift in Sources */,
 				8699F30C29B0AB8700705347 /* UserAuthorizationEndpoint.swift in Sources */,
 				8637ADEC29BB73A900F14489 /* DateFormatManager.swift in Sources */,

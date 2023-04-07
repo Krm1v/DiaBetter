@@ -23,7 +23,6 @@ final class LoginSceneView: BaseView {
 	private let actionSubject = PassthroughSubject<LoginSceneViewActions, Never>()
 	
 	//MARK: - UI Elements
-	private let scrollView = AxisScrollView()
 	private lazy var emailTextField = buildSystemTextField(with: Localization.enterYourEmail,
 														   keyBoardType: .emailAddress,
 														   capitalization: .none)
@@ -33,7 +32,7 @@ final class LoginSceneView: BaseView {
 	private lazy var loginButton = buildGradientButton(with: Localization.login,
 													   fontSize: Constants.basicButtonTitleFontSize)
 	private lazy var titleLabel = buildTitleLabel(with: Constants.titleText)
-	private lazy var loginLabel = buildFieldTitleLabel(with: Localization.email)
+	private lazy var emailLabel = buildFieldTitleLabel(with: Localization.email)
 	private lazy var passwordLabel = buildFieldTitleLabel(with: Localization.password)
 	private lazy var restorePasswordButton = buildSystemButton(with: Localization.restorePassword,
 															   fontSize: Constants.basicButtonTitleFontSize)
@@ -42,6 +41,8 @@ final class LoginSceneView: BaseView {
 												 alignment: .fill,
 												 distribution: .fillProportionally,
 												 spacing: Constants.basicStackViewSpacing)
+	private lazy var substrateView = buildView(with: Colors.darkNavyBlue.color)
+	lazy var videoContainer = buildView(with: .black)
 	
 	//MARK: - Init
 	override init(frame: CGRect) {
@@ -62,30 +63,40 @@ private extension LoginSceneView {
 	//MARK: - UI setting up
 	func setupUI() {
 		backgroundColor = .black
-		scrollView.delaysContentTouches = false
 		setupLayout()
+		substrateView.layer.cornerRadius = 20
+		substrateView.alpha = 0.65
 	}
 	
 	func setupLayout() {
-		addSubview(scrollView, withEdgeInsets: .all(.zero), safeArea: true)
-		scrollView.addSubview(titleLabel)
-		scrollView.addSubview(vStackView)
-		scrollView.addSubview(restorePasswordButton)
-		scrollView.addSubview(loginButton)
-		scrollView.addSubview(createAccountButton)
-		[loginLabel, emailTextField, passwordLabel, passwordTextField].forEach { element in
+		addSubview(videoContainer)
+		addSubview(substrateView)
+		addSubview(titleLabel)
+		addSubview(restorePasswordButton)
+		addSubview(loginButton)
+		addSubview(createAccountButton)
+		substrateView.addSubview(vStackView)
+		[
+			emailLabel,
+			emailTextField,
+			passwordLabel,
+			passwordTextField
+		].forEach { element in
 			vStackView.addArrangedSubview(element)
 		}
 		setupConstraints()
 		setupConstraintsForStackView()
+		setupConstraintsForVideoContainer()
+		setupConstraintsForSubstrateView()
 	}
 	
+	//MARK: - Constraints methods
 	func setupConstraints() {
 		titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.basicTopSpacing)
 			.isActive = true
-		titleLabel.leadingAnchor.constraint(equalTo: scrollView.contentView.leadingAnchor, constant: Constants.basicEdgeInsets)
+		titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.basicEdgeInsets)
 			.isActive = true
-		titleLabel.trailingAnchor.constraint(equalTo: scrollView.contentView.trailingAnchor, constant: -Constants.basicEdgeInsets)
+		titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.basicEdgeInsets)
 			.isActive = true
 		createAccountButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.basicSpacing)
 			.isActive = true
@@ -95,11 +106,11 @@ private extension LoginSceneView {
 	
 	func setupConstraintsForStackView() {
 		setupStackInternalContentConstraints()
-		vStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constants.basicSpacing)
+		vStackView.topAnchor.constraint(equalTo: substrateView.topAnchor, constant: 8)
 			.isActive = true
-		vStackView.leadingAnchor.constraint(equalTo: scrollView.contentView.leadingAnchor, constant: Constants.basicEdgeInsets)
+		vStackView.leadingAnchor.constraint(equalTo: substrateView.leadingAnchor, constant: Constants.basicEdgeInsets)
 			.isActive = true
-		vStackView.trailingAnchor.constraint(equalTo: scrollView.contentView.trailingAnchor, constant: -Constants.basicEdgeInsets)
+		vStackView.trailingAnchor.constraint(equalTo: substrateView.trailingAnchor, constant: -Constants.basicEdgeInsets)
 			.isActive = true
 	}
 	
@@ -112,13 +123,39 @@ private extension LoginSceneView {
 			.isActive = true
 		restorePasswordButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: Constants.restoreButtonSpacing)
 			.isActive = true
-		loginButton.topAnchor.constraint(equalTo: restorePasswordButton.bottomAnchor, constant: 50)
+		loginButton.topAnchor.constraint(equalTo: restorePasswordButton.bottomAnchor, constant: 30)
 			.isActive = true
 		loginButton.leadingAnchor.constraint(equalTo: vStackView.leadingAnchor)
 			.isActive = true
 		loginButton.trailingAnchor.constraint(equalTo: vStackView.trailingAnchor)
 			.isActive = true
 		loginButton.heightAnchor.constraint(equalToConstant: Constants.basicHeight)
+			.isActive = true
+		loginButton.bottomAnchor.constraint(equalTo: substrateView.bottomAnchor, constant: -20)
+			.isActive = true
+	}
+	
+	func setupConstraintsForSubstrateView() {
+		substrateView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constants.basicSpacing)
+			.isActive = true
+		substrateView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.basicEdgeInsets)
+			.isActive = true
+		substrateView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.basicEdgeInsets)
+			.isActive = true
+		substrateView.centerXAnchor.constraint(equalTo: centerXAnchor)
+			.isActive = true
+	}
+	
+	func setupConstraintsForVideoContainer() {
+		videoContainer.topAnchor.constraint(equalTo: topAnchor)
+			.isActive = true
+		videoContainer.leadingAnchor.constraint(equalTo: leadingAnchor)
+			.isActive = true
+		videoContainer.trailingAnchor.constraint(equalTo: trailingAnchor)
+			.isActive = true
+		videoContainer.bottomAnchor.constraint(equalTo: bottomAnchor)
+			.isActive = true
+		videoContainer.centerXAnchor.constraint(equalTo: centerXAnchor)
 			.isActive = true
 	}
 	

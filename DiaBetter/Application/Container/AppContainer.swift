@@ -8,9 +8,9 @@
 import Foundation
 
 protocol AppContainer: AnyObject {
-    var appConfiguration: AppConfiguration { get }
-    var userService: UserService { get }
-    var appSettingsService: AppSettingsService { get }
+	var appConfiguration: AppConfiguration { get }
+	var userService: UserService { get }
+	var appSettingsService: AppSettingsService { get }
 	var userNetworkService: UserNetworkService { get }
 	var userAuthorizationService: UserAuthorizationService { get }
 	var recordsService: RecordsService { get }
@@ -19,21 +19,21 @@ protocol AppContainer: AnyObject {
 
 final class AppContainerImpl: AppContainer {
 	//MARK: - Properties
-    let appConfiguration: AppConfiguration
-    let userService: UserService
-    let appSettingsService: AppSettingsService
+	let appConfiguration: AppConfiguration
+	let userService: UserService
+	let appSettingsService: AppSettingsService
 	let userNetworkService: UserNetworkService
 	let userAuthorizationService: UserAuthorizationService
 	let recordsService: RecordsService
 	let recordsNetworkService: RecordsNetworkService
-
+	
 	//MARK: - Init
-    init() {
-        let appConfiguration = AppConfigurationImpl()
-        self.appConfiguration = appConfiguration
-
-        let appSettingsService = AppSettingsServiceImpl()
-        self.appSettingsService = appSettingsService
+	init() {
+		let appConfiguration = AppConfigurationImpl()
+		self.appConfiguration = appConfiguration
+		
+		let appSettingsService = AppSettingsServiceImpl()
+		self.appSettingsService = appSettingsService
 		
 		let recordsService = RecordsServiceImpl(configuration: appConfiguration)
 		self.recordsService = recordsService
@@ -43,15 +43,19 @@ final class AppContainerImpl: AppContainer {
 			baseURLStorage: appConfiguration,
 			networkManager: networkManager,
 			encoder: JSONEncoder(),
-			decoder: JSONDecoder())
-		let authorizationNetworkService = NetworkServiceProviderImpl<UserAuthorizationEndpoint>(baseURLStorage: appConfiguration,
-																								networkManager: networkManager,
-																								encoder: JSONEncoder(),
-																								decoder: JSONDecoder())
+			decoder: JSONDecoder()
+		)
+		let authorizationNetworkService = NetworkServiceProviderImpl<UserAuthorizationEndpoint>(
+			baseURLStorage: appConfiguration,
+			networkManager: networkManager,
+			encoder: JSONEncoder(),
+			decoder: JSONDecoder()
+		)
 		self.userNetworkService = UserNetworkServiceImpl(networkService)
 		self.userAuthorizationService = UserAuthorizationServiceImpl(authorizationNetworkService)
 		
-		let userService = UserServiceImpl(configuration: appConfiguration, userNetworkService: userNetworkService)
+		let userService = UserServiceImpl(configuration: appConfiguration,
+										  userNetworkService: userNetworkService)
 		self.userService = userService
 		
 		let userNetworkService = NetworkServiceProviderImpl<RecordsEndpoint>(
@@ -60,5 +64,5 @@ final class AppContainerImpl: AppContainer {
 			encoder: JSONEncoder(),
 			decoder: JSONDecoder())
 		self.recordsNetworkService = RecordsNetworkServiceImpl(userNetworkService)
-    }
+	}
 }

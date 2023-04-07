@@ -142,8 +142,8 @@ extension UserSceneViewController: UIImagePickerControllerDelegate & UINavigatio
 			return
 		}
 		viewModel.fetchImageData(from: dataImage)
-		dismiss(animated: true)
 		viewModel.uploadUserProfileImage()
+		dismiss(animated: true)
 	}
 }
 

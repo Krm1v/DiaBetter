@@ -54,9 +54,9 @@ final class UserDataMenuCell: UICollectionViewCell {
 		case .diabetesType:
 			menuDatasource = DiabetesType.allCases
 		case .longInsulines:
-			menuDatasource = LongInsulines.allCases.reversed()
+			menuDatasource = LongInsulines.allCases
 		case .fastInsulines:
-			menuDatasource = FastInsulines.allCases.reversed()
+			menuDatasource = FastInsulines.allCases
 		}
 	}
 	
