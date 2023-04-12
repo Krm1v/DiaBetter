@@ -73,6 +73,8 @@
 		86665AA029E0778D00745331 /* TokenPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86665A9F29E0778D00745331 /* TokenPlugin.swift */; };
 		86665AA229E0793300745331 /* ContentTypePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86665AA129E0793300745331 /* ContentTypePlugin.swift */; };
 		86665AB029E0922200745331 /* loginBackground.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86665AAF29E0920300745331 /* loginBackground.mp4 */; };
+		866FCCE329E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FCCE229E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift */; };
+		866FCCE529E6C57900D7FCC5 /* VideoResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FCCE429E6C57900D7FCC5 /* VideoResources.swift */; };
 		868FC8DABB7F9E307A73FD0D /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A3F26E42FA42232CBD936F /* AuthCoordinator.swift */; };
 		869007F8299D4552001B672E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869007F7299D4552001B672E /* NetworkManager.swift */; };
 		869007FD299D45A3001B672E /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869007FC299D45A3001B672E /* Endpoint.swift */; };
@@ -223,6 +225,8 @@
 		86665A9F29E0778D00745331 /* TokenPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenPlugin.swift; sourceTree = "<group>"; };
 		86665AA129E0793300745331 /* ContentTypePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTypePlugin.swift; sourceTree = "<group>"; };
 		86665AAF29E0920300745331 /* loginBackground.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = loginBackground.mp4; sourceTree = "<group>"; };
+		866FCCE229E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+isPlaying.swift"; sourceTree = "<group>"; };
+		866FCCE429E6C57900D7FCC5 /* VideoResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoResources.swift; sourceTree = "<group>"; };
 		869007F7299D4552001B672E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		869007FC299D45A3001B672E /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		86900800299D45D7001B672E /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
@@ -334,6 +338,7 @@
 				F64A5F483B6A4E0109516AA0 /* UIKit */,
 				8637ADE629BA818000F14489 /* Foundation */,
 				86B3729929CC6E500095C229 /* ImageAsset+Hashable.swift */,
+				866FCCE229E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -837,6 +842,7 @@
 				864081FF29DB723500B848B7 /* FastInsulines.swift */,
 				8640820129DB739700B848B7 /* LongInsulines.swift */,
 				8640821829DE1D4200B848B7 /* DiabetesTypes.swift */,
+				866FCCE429E6C57900D7FCC5 /* VideoResources.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1197,6 +1203,7 @@
 				86B3729229C9DE320095C229 /* UserUpdateRequestModel.swift in Sources */,
 				86D0A74B29A3871B00980996 /* DiarySceneView.swift in Sources */,
 				9C1BC8295DFBA3BD9DAF0D80 /* UIView+Constraints.swift in Sources */,
+				866FCCE329E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift in Sources */,
 				86B3729429C9F1600095C229 /* SectionModel.swift in Sources */,
 				839AC6682F2EC36367C5E321 /* UIView+Ext.swift in Sources */,
 				8637ADE329BA194400F14489 /* ReportCoordinator.swift in Sources */,
@@ -1208,6 +1215,7 @@
 				8637ADE129BA188A00F14489 /* ReportSceneView.swift in Sources */,
 				8637ADDA29BA173500F14489 /* ReportSceneBuilder.swift in Sources */,
 				86D0A74D29A38F3500980996 /* DiaryCoordinator.swift in Sources */,
+				866FCCE529E6C57900D7FCC5 /* VideoResources.swift in Sources */,
 				86900804299D45FE001B672E /* HTTPMethods.swift in Sources */,
 				8699F30C29B0AB8700705347 /* UserAuthorizationEndpoint.swift in Sources */,
 				8637ADEC29BB73A900F14489 /* DateFormatManager.swift in Sources */,

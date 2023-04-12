@@ -5,4 +5,10 @@
 //  Created by Владислав Баранкевич on 12.04.2023.
 //
 
-import Foundation
+import AVFoundation
+
+extension AVPlayer {
+	var isPlaying: Bool {
+		return rate != 0 && error == nil
+	}
+}

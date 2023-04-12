@@ -32,13 +32,9 @@ final class UserSceneViewModel: BaseViewModel {
 	}
 	
 	override func onViewDidLoad() {
-		showPlaceholderDatasource()
-		user = userService.user
+		setupUser()
 		fetchUser()
-		userName = user?.name ?? "No value"
-		userDiabetesType = user?.diabetesType ?? "Choose your diabetes type"
-		userFastInsulin = user?.fastActingInsulin ?? "Choose your fast insulin"
-		userBasalInsulin = user?.basalInsulin ?? "Choose your basal insulin"
+		showPlaceholderDatasource()
 	}
 	
 	override func onViewWillDisappear() {
@@ -106,7 +102,10 @@ final class UserSceneViewModel: BaseViewModel {
 			} receiveValue: { [weak self] user in
 				guard let self = self else { return }
 				self.userService.save(user: User(user))
-				self.user = User(user)
+				userName = user.name ?? ""
+				userDiabetesType = user.diabetesType ?? ""
+				userFastInsulin = user.fastActingInsulin
+				userBasalInsulin = user.basalInsulin ?? ""
 				self.isLoadingSubject.send(false)
 				self.updateDatasource()
 			}
@@ -200,7 +199,6 @@ final class UserSceneViewModel: BaseViewModel {
 				self.isLoadingSubject.send(false)
 				switch completion {
 				case .finished:
-					self.updateDatasource()
 					debugPrint("User updated")
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
@@ -208,6 +206,8 @@ final class UserSceneViewModel: BaseViewModel {
 			} receiveValue: { [weak self] user in
 				guard let self = self else { return }
 				self.userService.save(user: User(user))
+				debugPrint("UPDATED: \(user)")
+				self.updateDatasource()
 			}
 			.store(in: &cancellables)
 	}
@@ -225,6 +225,16 @@ final class UserSceneViewModel: BaseViewModel {
 		var userDataSection = SectionModel<UserProfileSections, UserSettings>(section: .list, items: [])
 		userDataSection.items = userSettings.map { .plainWithTextfield($0) }
 		sections = [userHeaderSection, userDataSection]
+	}
+	
+	func setupUser() {
+		userService.userPublisher
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] user in
+				guard let self = self else { return }
+				self.user = user
+			}
+			.store(in: &cancellables)
 	}
 }
 

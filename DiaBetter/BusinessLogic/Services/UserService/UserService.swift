@@ -12,7 +12,7 @@ import Combine
 protocol UserService {
 	var isAuthorized: Bool { get }
 	var token: String? { get }
-	var user: User? { get }
+	var user: User? { get set }
 	var userPublisher: AnyPublisher<User?, Never> { get }
 	
 	func clear()
@@ -44,7 +44,7 @@ final class UserServiceImpl {
 		self.userDefaults = UserDefaultsManagerImpl<User>()
 		self.dataConverter = DataConverterImpl()
 		guard let dataUser: Data = fetchFromDefaults(for: .dataUser) else { return }
-		userSubject.value = deseriallize(from: dataUser)
+		user = deseriallize(from: dataUser)
 		userSubject.send(user)
 	}
 	
@@ -116,7 +116,12 @@ final class UserServiceImpl {
 //MARK: - Extension UserService
 extension UserServiceImpl: UserService {
 	var user: User? {
-		userSubject.value
+		get {
+			userSubject.value
+		}
+		set {
+			userSubject.value = newValue
+		}
 	}
 	
 	var isAuthorized: Bool {

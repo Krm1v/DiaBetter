@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+enum VideoResources: String {
+	case loginBackground
+}
+
+enum VideoFormats: String {
+	case mp4
+}
