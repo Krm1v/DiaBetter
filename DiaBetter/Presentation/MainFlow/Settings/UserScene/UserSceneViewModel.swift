@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import Kingfisher
 
 final class UserSceneViewModel: BaseViewModel {
 	//MARK: - Properties
@@ -17,7 +18,6 @@ final class UserSceneViewModel: BaseViewModel {
 	//MARK: - Published properties
 	@Published private(set) var userImage: Data?
 	@Published private var userImageResource: ImageResource?
-	@Published private var user: User?
 	@Published var sections: [SectionModel<UserProfileSections, UserSettings>] = []
 	@Published var userName = ""
 	@Published var userDiabetesType = ""
@@ -32,13 +32,12 @@ final class UserSceneViewModel: BaseViewModel {
 	}
 	
 	override func onViewDidLoad() {
-		setupUser()
 		fetchUser()
 		showPlaceholderDatasource()
 	}
 	
 	override func onViewWillDisappear() {
-		guard let user = user else { return }
+		guard let user = updatedUser() else { return }
 		updateUser(user)
 		isLoadingSubject.send(false)
 	}
@@ -47,14 +46,15 @@ final class UserSceneViewModel: BaseViewModel {
 	//MARK: - Datasource methods
 	func updateDatasource() {
 		getImageResource()
-		let userHeaderModel = UserHeaderModel(email: user?.email ?? "", image: userImageResource)
+		guard let user = userService.user else { return }
+		let userHeaderModel = UserHeaderModel(email: user.email ?? "", image: userImageResource)
 		let userHeaderSection = SectionModel<UserProfileSections, UserSettings>(section: .header,
 																				items: [.header(userHeaderModel)])
-		let userName = UserDataSettingsModel(title: Localization.name, textFieldValue: user?.name ?? "")
+		let userName = UserDataSettingsModel(title: Localization.name, textFieldValue: user.name ?? "")
 		let userSettings = [
-			UserDataMenuSettingsModel(title: Localization.diabetsType, labelValue: user?.diabetesType ?? "", source: .diabetesType),
-			UserDataMenuSettingsModel(title: Localization.fastActingInsulin, labelValue: user?.fastActingInsulin ?? "", source: .fastInsulines),
-			UserDataMenuSettingsModel(title: Localization.basalInsulin, labelValue: user?.basalInsulin ?? "", source: .longInsulines)
+			UserDataMenuSettingsModel(title: Localization.diabetsType, labelValue: user.diabetesType ?? "", source: .diabetesType),
+			UserDataMenuSettingsModel(title: Localization.fastActingInsulin, labelValue: user.fastActingInsulin ?? "", source: .fastInsulines),
+			UserDataMenuSettingsModel(title: Localization.basalInsulin, labelValue: user.basalInsulin ?? "", source: .longInsulines)
 		]
 		var userDataSection = SectionModel<UserProfileSections, UserSettings>(section: .list, items: [])
 		userDataSection.items.append(.plainWithTextfield(userName))
@@ -70,7 +70,8 @@ final class UserSceneViewModel: BaseViewModel {
 	}
 	
 	func getImageResource() {
-		guard let stringUrl = user?.userProfileImage else { return }
+		guard let user = userService.user else { return }
+		guard let stringUrl = user.userProfileImage else { return }
 		if let url = URL(string: stringUrl) {
 			userImageResource = stringUrl != "" ? .url(url) : .asset(Assets.userImagePlaceholder)
 		} 
@@ -88,9 +89,8 @@ final class UserSceneViewModel: BaseViewModel {
 	//MARK: - Network requests
 	func fetchUser() {
 		isLoadingSubject.send(true)
-		guard let token = userService.token else { return }
 		guard let id = userService.user?.remoteId else { return }
-		userService.fetchUser(token: token, objectId: id)
+		userService.fetchUser(id: id)
 			.receive(on: DispatchQueue.main)
 			.sink { completion in
 				switch completion {
@@ -101,10 +101,10 @@ final class UserSceneViewModel: BaseViewModel {
 				}
 			} receiveValue: { [weak self] user in
 				guard let self = self else { return }
-				self.userService.save(user: User(user))
+				userService.save(user: user)
 				userName = user.name ?? ""
 				userDiabetesType = user.diabetesType ?? ""
-				userFastInsulin = user.fastActingInsulin
+				userFastInsulin = user.fastActingInsulin ?? ""
 				userBasalInsulin = user.basalInsulin ?? ""
 				self.isLoadingSubject.send(false)
 				self.updateDatasource()
@@ -114,8 +114,7 @@ final class UserSceneViewModel: BaseViewModel {
 	
 	func logoutUser() {
 		isLoadingSubject.send(true)
-		guard let token = userService.token else { return }
-		userService.logoutUser(userToken: token)
+		userService.logoutUser()
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self ] completion in
 				guard let self = self else { return }
@@ -136,16 +135,13 @@ final class UserSceneViewModel: BaseViewModel {
 	}
 	
 	func uploadUserProfileImage() {
-		guard let token = userService.token else {
-			return
-		}
 		guard let userImage = userImage else {
 			return
 		}
 		let uploadData = MultipartDataItem(data: userImage,
 										   attachmentKey: "",
 										   fileName: Constants.basicUserProfileImageName)
-		userService.uploadUserProfilePhoto(with: token, data: uploadData)
+		userService.uploadUserProfilePhoto(data: uploadData)
 			.receive(on: DispatchQueue.main)
 			.sink { completion in
 				switch completion {
@@ -156,7 +152,7 @@ final class UserSceneViewModel: BaseViewModel {
 				}
 			} receiveValue: { [weak self] response in
 				guard let self = self else { return }
-				guard var user = self.user else { return }
+				guard var user = userService.user else { return }
 				user.userProfileImage = response.fileURL
 				self.updateUser(user)
 			}
@@ -164,16 +160,14 @@ final class UserSceneViewModel: BaseViewModel {
 	}
 	
 	func deleteUserProfilePhoto() {
-		guard let token = userService.token else { return }
-		userService.deletePhoto(userToken: token,
-								filename: Constants.basicUserProfileImageName + Constants.basicImageFormat)
+		userService.deletePhoto(filename: Constants.basicUserProfileImageName + Constants.basicImageFormat)
 		.receive(on: DispatchQueue.main)
 		.sink { [weak self] completion in
 			guard let self = self else { return }
 			switch completion {
 			case .finished:
 				debugPrint("Photo was deleted from backend")
-				guard var user = self.user else { return }
+				guard var user = userService.user else { return }
 				user.userProfileImage = ""
 				self.updateUser(user)
 			case .failure(let error):
@@ -185,14 +179,7 @@ final class UserSceneViewModel: BaseViewModel {
 	
 	func updateUser(_ user: User) {
 		isLoadingSubject.send(true)
-		guard let token = userService.token else { return }
-		let updatedUser = UserUpdateRequestModel(basalInsulin: userBasalInsulin,
-												 diabetesType: userDiabetesType,
-												 fastActingInsulin: userFastInsulin,
-												 name: userName,
-												 userProfileImage: user.userProfileImage)
-		debugPrint(updatedUser)
-		userService.updateUser(user: updatedUser, objectId: user.remoteId ?? "", token: token)
+		userService.updateUser(user: user)
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
 				guard let self = self else { return }
@@ -204,10 +191,7 @@ final class UserSceneViewModel: BaseViewModel {
 					Logger.error(error.localizedDescription)
 				}
 			} receiveValue: { [weak self] user in
-				guard let self = self else { return }
-				self.userService.save(user: User(user))
-				debugPrint("UPDATED: \(user)")
-				self.updateDatasource()
+				self?.updateDatasource()
 			}
 			.store(in: &cancellables)
 	}
@@ -227,14 +211,15 @@ final class UserSceneViewModel: BaseViewModel {
 		sections = [userHeaderSection, userDataSection]
 	}
 	
-	func setupUser() {
-		userService.userPublisher
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] user in
-				guard let self = self else { return }
-				self.user = user
-			}
-			.store(in: &cancellables)
+	func updatedUser() -> User? {
+		guard var user = userService.user else {
+			return nil
+		}
+		user.basalInsulin = userBasalInsulin
+		user.name = userName
+		user.diabetesType = userDiabetesType
+		user.fastActingInsulin = userFastInsulin
+		return user
 	}
 }
 

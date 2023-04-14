@@ -9,13 +9,13 @@ import Foundation
 import Combine
 
 protocol UserNetworkService {
-	func updateUser(user: UserUpdateRequestModel, objectId: String, token: String) -> AnyPublisher<UserResponseModel, NetworkError>
+	func updateUser(user: UserUpdateRequestModel, objectId: String, token: Token) -> AnyPublisher<UserResponseModel, NetworkError>
 	func deleteUser(with objectId: String) -> AnyPublisher<Void, NetworkError>
 	func restorePassword(for email: String) -> AnyPublisher<Void, NetworkError>
-	func logoutUser(userToken: String) -> AnyPublisher<Void, NetworkError>
-	func deletePhoto(userToken: String, filename: String) -> AnyPublisher<Void, NetworkError>
-	func uploadUserProfilePhoto(with userToken: String, data: MultipartDataItem) -> AnyPublisher<UserProfilePictureResponse, NetworkError>
-	func fetchUser(userToken: String, withId id: String) -> AnyPublisher<UserResponseModel, NetworkError>
+	func logoutUser(userToken: Token) -> AnyPublisher<Void, NetworkError>
+	func deletePhoto(userToken: Token, filename: String) -> AnyPublisher<Void, NetworkError>
+	func uploadUserProfilePhoto(with userToken: Token, data: MultipartDataItem) -> AnyPublisher<UserProfilePictureResponse, NetworkError>
+	func fetchUser(userToken: Token, withId id: String) -> AnyPublisher<UserResponseModel, NetworkError>
 }
 
 final class UserNetworkServiceImpl<NetworkProvider: NetworkServiceProvider> where NetworkProvider.EndpointType == UserEndpoint {
@@ -30,8 +30,8 @@ final class UserNetworkServiceImpl<NetworkProvider: NetworkServiceProvider> wher
 
 //MARK: - Private extension
 extension UserNetworkServiceImpl: UserNetworkService {
-	func updateUser(user: UserUpdateRequestModel, objectId: String, token: String) -> AnyPublisher<UserResponseModel, NetworkError> {
-		networkProvider.execute(endpoint: .update(user: user, objectID: objectId, token: token), decodeType: UserResponseModel.self)
+	func updateUser(user: UserUpdateRequestModel, objectId: String, token: Token) -> AnyPublisher<UserResponseModel, NetworkError> {
+		networkProvider.execute(endpoint: .update(user: user, objectID: objectId, token: token.value), decodeType: UserResponseModel.self)
 	}
 	
 	func deleteUser(with objectId: String) -> AnyPublisher<Void, NetworkError> {
@@ -42,19 +42,19 @@ extension UserNetworkServiceImpl: UserNetworkService {
 		networkProvider.execute(endpoint: .restorePassword(userEmail: email))
 	}
 	
-	func logoutUser(userToken: String) -> AnyPublisher<Void, NetworkError> {
-		networkProvider.execute(endpoint: .logout(token: userToken))
+	func logoutUser(userToken: Token) -> AnyPublisher<Void, NetworkError> {
+		networkProvider.execute(endpoint: .logout(token: userToken.value))
 	}
 	
-	func deletePhoto(userToken: String, filename: String) -> AnyPublisher<Void, NetworkError> {
-		networkProvider.execute(endpoint: .deletePhoto(token: userToken, filename: filename))
+	func deletePhoto(userToken: Token, filename: String) -> AnyPublisher<Void, NetworkError> {
+		networkProvider.execute(endpoint: .deletePhoto(token: userToken.value, filename: filename))
 	}
 	
-	func uploadUserProfilePhoto(with userToken: String, data: MultipartDataItem) -> AnyPublisher<UserProfilePictureResponse, NetworkError> {
-		networkProvider.execute(endpoint: .uploadPhoto(token: userToken, data: data), decodeType: UserProfilePictureResponse.self)
+	func uploadUserProfilePhoto(with userToken: Token, data: MultipartDataItem) -> AnyPublisher<UserProfilePictureResponse, NetworkError> {
+		networkProvider.execute(endpoint: .uploadPhoto(token: userToken.value, data: data), decodeType: UserProfilePictureResponse.self)
 	}
 	
-	func fetchUser(userToken: String, withId id: String) -> AnyPublisher<UserResponseModel, NetworkError> {
-		networkProvider.execute(endpoint: .fetchUser(token: userToken, objectId: id), decodeType: UserResponseModel.self)
+	func fetchUser(userToken: Token, withId id: String) -> AnyPublisher<UserResponseModel, NetworkError> {
+		networkProvider.execute(endpoint: .fetchUser(token: userToken.value, objectId: id), decodeType: UserResponseModel.self)
 	}
 }

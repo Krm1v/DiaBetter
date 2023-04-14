@@ -25,7 +25,13 @@ fonts:
   outputs:
     templateName: swift5
     output: Fonts.swift
-
+files:
+  inputs: Videos
+  filter: .+\.mp4$
+  outputs:
+    templateName: structured-swift5
+    output: Videos.swift
+    params:enumName: Videos
 ## Note: all of the config entries below are just examples with placeholders. Be sure to edit and adjust to your needs when uncommenting.
 
 ## In case your config entries all use a common input/output parent directory, you can specify those here.

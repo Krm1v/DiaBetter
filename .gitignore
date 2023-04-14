@@ -88,6 +88,3 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
-DiaBetter/DiaBetter/Application/Configuration/Configs/Config-DEV.xcconfig
-DiaBetter/DiaBetter/Application/Configuration/Configs/Config-PROD.xcconfig
-DiaBetter/DiaBetter/Application/Configuration/Configs/Config-STG.xcconfig

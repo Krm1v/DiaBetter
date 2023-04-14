@@ -26,13 +26,13 @@
 		5B3E85CDCB829E0B644D4284 /* ViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C25FA3E12FDAB7557BCBA1C /* ViewRepresentable.swift */; };
 		5CB380DAD0BD540F029561F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD40F6347D1DA51DCB11DF08 /* Assets.xcassets */; };
 		5E8EE54653B0991739A3447E /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFBD68A4DC9A763194AC113 /* BaseView.swift */; };
-		62E61C01E002A30AEE5782EE /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D20DB60CAB416F559335E5 /* AppSettings.swift */; };
 		6975F8BB4F7B80CCCEDB49B8 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = BCB654C70AA9AA5849B80E8C /* KeychainAccess */; };
 		6C9561E1A9C8AFF3E3224B33 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47372721DE44C2F0333914A8 /* LoadingView.swift */; };
 		6D7BC40539EE887694D7C227 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 197F61FF05A6CDB875F797F0 /* Montserrat-SemiBold.ttf */; };
 		778BB85C19F55116EDAE3062 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9059466F6CD8E2FF99928847 /* Colors.xcassets */; };
 		83940A46BF53DCCBC541ACAD /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BC8882D4A3148879B4DB4 /* BaseViewModel.swift */; };
 		839AC6682F2EC36367C5E321 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70F9FDBCE897E3B0BF3C056 /* UIView+Ext.swift */; };
+		860AE90E29E8B496006CF2E1 /* Videos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860AE90D29E8B496006CF2E1 /* Videos.swift */; };
 		8634B76929A8F96F00870B66 /* LoginSceneModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634B76829A8F96F00870B66 /* LoginSceneModuleBuilder.swift */; };
 		8634B76C29A8F98600870B66 /* LoginSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634B76B29A8F98600870B66 /* LoginSceneViewModel.swift */; };
 		8634B76E29A8F99300870B66 /* LoginSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634B76D29A8F99300870B66 /* LoginSceneViewController.swift */; };
@@ -75,6 +75,8 @@
 		86665AB029E0922200745331 /* loginBackground.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86665AAF29E0920300745331 /* loginBackground.mp4 */; };
 		866FCCE329E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FCCE229E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift */; };
 		866FCCE529E6C57900D7FCC5 /* VideoResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FCCE429E6C57900D7FCC5 /* VideoResources.swift */; };
+		866FCCE729E8170A00D7FCC5 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FCCE629E8170A00D7FCC5 /* Token.swift */; };
+		866FCCEA29E835C800D7FCC5 /* UserProfilePictureDomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FCCE929E835C800D7FCC5 /* UserProfilePictureDomainModel.swift */; };
 		868FC8DABB7F9E307A73FD0D /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A3F26E42FA42232CBD936F /* AuthCoordinator.swift */; };
 		869007F8299D4552001B672E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869007F7299D4552001B672E /* NetworkManager.swift */; };
 		869007FD299D45A3001B672E /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869007FC299D45A3001B672E /* Endpoint.swift */; };
@@ -185,6 +187,7 @@
 		7B974F3849E129DC31157D9F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		7EAD39D2B3CD094529718CB8 /* Montserrat-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-BlackItalic.ttf"; sourceTree = "<group>"; };
 		8426DEB881571E3462BCD3F9 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		860AE90D29E8B496006CF2E1 /* Videos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Videos.swift; sourceTree = "<group>"; };
 		8634B76829A8F96F00870B66 /* LoginSceneModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSceneModuleBuilder.swift; sourceTree = "<group>"; };
 		8634B76B29A8F98600870B66 /* LoginSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSceneViewModel.swift; sourceTree = "<group>"; };
 		8634B76D29A8F99300870B66 /* LoginSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSceneViewController.swift; sourceTree = "<group>"; };
@@ -227,6 +230,8 @@
 		86665AAF29E0920300745331 /* loginBackground.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = loginBackground.mp4; sourceTree = "<group>"; };
 		866FCCE229E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+isPlaying.swift"; sourceTree = "<group>"; };
 		866FCCE429E6C57900D7FCC5 /* VideoResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoResources.swift; sourceTree = "<group>"; };
+		866FCCE629E8170A00D7FCC5 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		866FCCE929E835C800D7FCC5 /* UserProfilePictureDomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilePictureDomainModel.swift; sourceTree = "<group>"; };
 		869007F7299D4552001B672E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		869007FC299D45A3001B672E /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		86900800299D45D7001B672E /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
@@ -298,7 +303,6 @@
 		E1154E021D651D270F7A29C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E57101141CEDB905415519D0 /* Montserrat-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		F1004FE2045D27867651F4CC /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
-		F2D20DB60CAB416F559335E5 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		F3469B0B3CAF8559EF5218F0 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		F48BC8882D4A3148879B4DB4 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		F4C54BA810587C056CC3F3D7 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
@@ -350,6 +354,7 @@
 				7B974F3849E129DC31157D9F /* Colors.swift */,
 				AFFFCF0E3C77AE1BC7E72A54 /* Fonts.swift */,
 				158F26EF9FB4169D06749E53 /* Localization.swift */,
+				860AE90D29E8B496006CF2E1 /* Videos.swift */,
 			);
 			path = Generated;
 			sourceTree = "<group>";
@@ -635,6 +640,19 @@
 			path = ../Videos;
 			sourceTree = "<group>";
 		};
+		866FCCE829E8170D00D7FCC5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				866FCCE629E8170A00D7FCC5 /* Token.swift */,
+				86B3729729CB43590095C229 /* ImageResource.swift */,
+				864081FF29DB723500B848B7 /* FastInsulines.swift */,
+				8640820129DB739700B848B7 /* LongInsulines.swift */,
+				8640821829DE1D4200B848B7 /* DiabetesTypes.swift */,
+				866FCCE429E6C57900D7FCC5 /* VideoResources.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		869007F9299D4567001B672E /* NetworkManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -835,18 +853,6 @@
 			path = RequestModels;
 			sourceTree = "<group>";
 		};
-		86B3729029C4FAD20095C229 /* Enums */ = {
-			isa = PBXGroup;
-			children = (
-				86B3729729CB43590095C229 /* ImageResource.swift */,
-				864081FF29DB723500B848B7 /* FastInsulines.swift */,
-				8640820129DB739700B848B7 /* LongInsulines.swift */,
-				8640821829DE1D4200B848B7 /* DiabetesTypes.swift */,
-				866FCCE429E6C57900D7FCC5 /* VideoResources.swift */,
-			);
-			path = Enums;
-			sourceTree = "<group>";
-		};
 		86D0A74529A3847D00980996 /* DiaryScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -872,6 +878,7 @@
 			children = (
 				86D0A75129A656CE00980996 /* User.swift */,
 				8637ADC729B78A4A00F14489 /* Record.swift */,
+				866FCCE929E835C800D7FCC5 /* UserProfilePictureDomainModel.swift */,
 			);
 			path = LocalDataModels;
 			sourceTree = "<group>";
@@ -890,7 +897,6 @@
 				7FBD3D364C20BBBE93134107 /* Coordinators */,
 				4CCECB11523055EE4FB5BD1E /* Models */,
 				52A762556103236AC947D286 /* Services */,
-				F2D20DB60CAB416F559335E5 /* AppSettings.swift */,
 			);
 			path = BusinessLogic;
 			sourceTree = "<group>";
@@ -918,10 +924,10 @@
 			children = (
 				869007F9299D4567001B672E /* NetworkManager */,
 				44F11CDBFA5F7BC7EDCA28D3 /* Base */,
+				866FCCE829E8170D00D7FCC5 /* Models */,
 				1450C56410D9B2DED674A03E /* Extensions */,
 				60755D2662B69E0E9AB5C418 /* Helpers */,
 				CBB675FE4DD74330A735387E /* Views */,
-				86B3729029C4FAD20095C229 /* Enums */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1116,9 +1122,9 @@
 				1E446A3697B6B3EB17C3E1C1 /* AppDelegate.swift in Sources */,
 				8699F33A29B3D76B00705347 /* HomeSceneView.swift in Sources */,
 				EB6894D2911D81F047A6A96C /* AppEnvironment.swift in Sources */,
-				62E61C01E002A30AEE5782EE /* AppSettings.swift in Sources */,
 				86D0A74729A385CF00980996 /* DiarySceneViewModel.swift in Sources */,
 				8637F2B529BBE45C00941919 /* UserSceneDatasource.swift in Sources */,
+				866FCCEA29E835C800D7FCC5 /* UserProfilePictureDomainModel.swift in Sources */,
 				8699F30F29B0ABAE00705347 /* UserAuthorizationService.swift in Sources */,
 				8699F33729B3D75700705347 /* HomeSceneBuilder.swift in Sources */,
 				F155250D330A470AD15137FE /* Assets.swift in Sources */,
@@ -1212,12 +1218,14 @@
 				8634B77029A8F9A300870B66 /* LoginSceneView.swift in Sources */,
 				8637ADF229BB7A0300F14489 /* HeaderCell.swift in Sources */,
 				8699F30A29AD218900705347 /* UserDefaultsManager.swift in Sources */,
+				866FCCE729E8170A00D7FCC5 /* Token.swift in Sources */,
 				8637ADE129BA188A00F14489 /* ReportSceneView.swift in Sources */,
 				8637ADDA29BA173500F14489 /* ReportSceneBuilder.swift in Sources */,
 				86D0A74D29A38F3500980996 /* DiaryCoordinator.swift in Sources */,
 				866FCCE529E6C57900D7FCC5 /* VideoResources.swift in Sources */,
 				86900804299D45FE001B672E /* HTTPMethods.swift in Sources */,
 				8699F30C29B0AB8700705347 /* UserAuthorizationEndpoint.swift in Sources */,
+				860AE90E29E8B496006CF2E1 /* Videos.swift in Sources */,
 				8637ADEC29BB73A900F14489 /* DateFormatManager.swift in Sources */,
 				44C5B91C0DAC7048CDB2E47A /* UserService.swift in Sources */,
 				869007FD299D45A3001B672E /* Endpoint.swift in Sources */,

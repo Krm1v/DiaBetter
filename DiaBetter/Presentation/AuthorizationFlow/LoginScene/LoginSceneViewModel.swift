@@ -66,12 +66,9 @@ final class LoginSceneViewModel: BaseViewModel {
 					self.errorSubject.send(error)
 				}
 			} receiveValue: { [weak self] fetchedUser in
-				guard
-					let self = self,
-					let token = fetchedUser.userToken
-				else { return }
+				guard let self = self else { return }
+				debugPrint(fetchedUser.userToken)
 				self.userService.save(user: User(fetchedUser))
-				self.userService.save(token: token)
 				self.transitionSubject.send(.loggedIn)
 			}
 			.store(in: &cancellables)

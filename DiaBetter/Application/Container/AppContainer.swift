@@ -6,11 +6,11 @@
 //
 
 import Foundation
+import KeychainAccess
 
 protocol AppContainer: AnyObject {
 	var appConfiguration: AppConfiguration { get }
 	var userService: UserService { get }
-	var appSettingsService: AppSettingsService { get }
 	var userNetworkService: UserNetworkService { get }
 	var userAuthorizationService: UserAuthorizationService { get }
 	var recordsService: RecordsService { get }
@@ -21,7 +21,6 @@ final class AppContainerImpl: AppContainer {
 	//MARK: - Properties
 	let appConfiguration: AppConfiguration
 	let userService: UserService
-	let appSettingsService: AppSettingsService
 	let userNetworkService: UserNetworkService
 	let userAuthorizationService: UserAuthorizationService
 	let recordsService: RecordsService
@@ -32,11 +31,11 @@ final class AppContainerImpl: AppContainer {
 		let appConfiguration = AppConfigurationImpl()
 		self.appConfiguration = appConfiguration
 		
-		let appSettingsService = AppSettingsServiceImpl()
-		self.appSettingsService = appSettingsService
-		
 		let recordsService = RecordsServiceImpl(configuration: appConfiguration)
 		self.recordsService = recordsService
+		
+		let keychain = Keychain(service: appConfiguration.bundleId)
+		let tokenStorage = TokenStorageImpl(keychain: keychain)
 		
 		let networkManager = NetworkManager()
 		let networkService = NetworkServiceProviderImpl<UserEndpoint>(
@@ -52,10 +51,10 @@ final class AppContainerImpl: AppContainer {
 			decoder: JSONDecoder()
 		)
 		self.userNetworkService = UserNetworkServiceImpl(networkService)
-		self.userAuthorizationService = UserAuthorizationServiceImpl(authorizationNetworkService)
+		self.userAuthorizationService = UserAuthorizationServiceImpl(authorizationNetworkService,
+																	 tokenStorage: tokenStorage)
 		
-		let userService = UserServiceImpl(configuration: appConfiguration,
-										  userNetworkService: userNetworkService)
+		let userService = UserServiceImpl(userNetworkService: userNetworkService, tokenStorage: tokenStorage)
 		self.userService = userService
 		
 		let userNetworkService = NetworkServiceProviderImpl<RecordsEndpoint>(

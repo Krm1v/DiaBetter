@@ -48,8 +48,8 @@ private extension LoginSceneViewController {
 	
 	//MARK: - AVPlayer
 	func playBackgroundVideo() {
-		guard let path = Bundle.main.path(forResource: VideoResources.loginBackground.rawValue,
-										  ofType: VideoFormats.mp4.rawValue) else {
+		guard let path = Bundle.main.path(forResource: Files.loginBackgroundMp4.name,
+										  ofType: Files.loginBackgroundMp4.ext) else {
 			return
 		}
 		let asset = AVAsset(url: URL(fileURLWithPath: path))
