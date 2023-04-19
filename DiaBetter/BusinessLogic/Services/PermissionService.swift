@@ -9,25 +9,16 @@ import UIKit
 import PhotosUI
 import Combine
 
-enum PermissionType {
-	case authorized
-	case limited
-	case restricted
-	case notDetermined
-	case denied
-}
-
 protocol PermissionService {
-	var permissionPublisher: AnyPublisher<PermissionType, Never> { get }
+	var permissionPublisher: AnyPublisher<PHAuthorizationStatus, Never> { get }
 	
 	func askForPermissions()
-	func moveToSettings()
 }
 
 final class PermissionServiceImpl: PermissionService {
 	//MARK: - Piblishers
 	private(set) lazy var permissionPublisher = permissionSubject.eraseToAnyPublisher()
-	private let permissionSubject = PassthroughSubject<PermissionType, Never>()
+	private let permissionSubject = PassthroughSubject<PHAuthorizationStatus, Never>()
 	
 	//MARK: - Public methods
 	func askForPermissions() {
@@ -36,14 +27,6 @@ final class PermissionServiceImpl: PermissionService {
 				self.checkAuthorizationStatus(for: status)
 			}
 		}
-	}
-	
-	func moveToSettings() {
-		guard let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) else {
-			assertionFailure("Not able to open App privacy settings")
-			return
-		}
-		UIApplication.shared.open(url)
 	}
 }
 

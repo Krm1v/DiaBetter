@@ -27,7 +27,7 @@ final class UserSceneView: BaseView {
 	
 	//MARK: - UI Elements
 	private lazy var logoutButton = buildGradientButton(with: Localization.logout, fontSize: Constants.basicFontSize)
-	private lazy var collectionView = UICollectionView(frame: self.bounds, collectionViewLayout: makeLayout())
+	private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeLayout())
 	
 	//MARK: - Init
 	override init(frame: CGRect) {
@@ -149,7 +149,7 @@ private extension UserSceneView {
 			guard let self = self else { return UICollectionViewCell() }
 			switch item {
 			case .header(let model):
-				let cell = self.configureCell(cellType: HeaderCell.self, indexPath: indexPath)
+				let cell = collectionView.configureCell(cellType: HeaderCell.self, indexPath: indexPath)
 				cell.configure(with: model)
 				cell.editButton.tapPublisher
 					.sink { [unowned self] in
@@ -158,7 +158,7 @@ private extension UserSceneView {
 					.store(in: &self.cancellables)
 				return cell
 			case .plainWithTextfield(let model):
-				let cell = self.configureCell(cellType: UserDataCell.self, indexPath: indexPath)
+				let cell = collectionView.configureCell(cellType: UserDataCell.self, indexPath: indexPath)
 				cell.configure(with: model)
 				cell.userDataCellEventsPublisher
 					.sink { [weak self] event in
@@ -171,7 +171,7 @@ private extension UserSceneView {
 					.store(in: &self.cancellables)
 				return cell
 			case .plainWithLabel(let model):
-				let cell = self.configureCell(cellType: UserDataMenuCell.self, indexPath: indexPath)
+				let cell = collectionView.configureCell(cellType: UserDataMenuCell.self, indexPath: indexPath)
 				cell.configure(with: model)
 				cell.userDataMenuPublisher
 					.sink { [weak self] event in
@@ -211,16 +211,6 @@ private extension UserSceneView {
 		collectionView.register(HeaderCell.self, forCellWithReuseIdentifier: HeaderCell.reuseID)
 		collectionView.register(UserDataMenuCell.self, forCellWithReuseIdentifier: UserDataMenuCell.reuseID)
 		setupDiffableDatasource()
-	}
-	
-	//MARK: - Cell configuring
-	func configureCell<T: SelfConfiguringCollectionViewCell>(cellType: T.Type,
-															 indexPath: IndexPath) -> T {
-		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseID,
-															for: indexPath) as? T else {
-			fatalError("Error \(cellType)")
-		}
-		return cell
 	}
 	
 	//MARK: - Actions

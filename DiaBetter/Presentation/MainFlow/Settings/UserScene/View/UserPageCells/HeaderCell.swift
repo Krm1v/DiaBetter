@@ -7,7 +7,6 @@
 
 import UIKit
 import Combine
-import Kingfisher
 
 final class HeaderCell: UICollectionViewCell {
 	//MARK: - UIElements
@@ -94,35 +93,21 @@ private extension HeaderCell {
 			.isActive = true
 	}
 	
-	func setImage(_ url: URL) {
-		self.userImage.kf.indicatorType = .activity
-		self.userImage.kf.setImage(with: url, placeholder: Assets.userImagePlaceholder.image, options: [.forceRefresh])
-	}
-	
-	func setImage(_ data: Data) {
-		self.userImage.image = UIImage(data: data)
-	}
-	
-	func setImage(_ asset: ImageAsset) {
-		self.userImage.image = asset.image
-	}
-	
 	func updateImage(model: UserHeaderModel) {
 		switch model.image {
 		case .url(let url):
-			self.setImage(url)
+			userImage.setImage(url)
 		case .data(let data):
-			self.setImage(data)
+			userImage.setImage(data)
 		case .asset(let asset):
-			self.setImage(asset)
+			userImage.setImage(asset)
 		case .none:
-			debugPrint("NONE")
 			break
 		}
 	}
 }
 
-extension HeaderCell: SelfConfiguringCollectionViewCell {
+extension HeaderCell: SelfConfiguringCell {
 	static var reuseID: String {
 		return "headerCell"
 	}

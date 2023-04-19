@@ -33,6 +33,8 @@
 		83940A46BF53DCCBC541ACAD /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BC8882D4A3148879B4DB4 /* BaseViewModel.swift */; };
 		839AC6682F2EC36367C5E321 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70F9FDBCE897E3B0BF3C056 /* UIView+Ext.swift */; };
 		860AE90E29E8B496006CF2E1 /* Videos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860AE90D29E8B496006CF2E1 /* Videos.swift */; };
+		860AE91029E9BAE0006CF2E1 /* UIImageView+SetImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860AE90F29E9BAE0006CF2E1 /* UIImageView+SetImage.swift */; };
+		860AE91229E9C04D006CF2E1 /* UIApplication+OpenSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860AE91129E9C04D006CF2E1 /* UIApplication+OpenSettings.swift */; };
 		8634B76929A8F96F00870B66 /* LoginSceneModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634B76829A8F96F00870B66 /* LoginSceneModuleBuilder.swift */; };
 		8634B76C29A8F98600870B66 /* LoginSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634B76B29A8F98600870B66 /* LoginSceneViewModel.swift */; };
 		8634B76E29A8F99300870B66 /* LoginSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634B76D29A8F99300870B66 /* LoginSceneViewController.swift */; };
@@ -58,7 +60,6 @@
 		8637ADE129BA188A00F14489 /* ReportSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637ADE029BA188A00F14489 /* ReportSceneView.swift */; };
 		8637ADE329BA194400F14489 /* ReportCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637ADE229BA194400F14489 /* ReportCoordinator.swift */; };
 		8637ADE529BA817A00F14489 /* String+DecimalValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637ADE429BA817A00F14489 /* String+DecimalValue.swift */; };
-		8637ADEC29BB73A900F14489 /* DateFormatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637ADEB29BB73A900F14489 /* DateFormatManager.swift */; };
 		8637ADF229BB7A0300F14489 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637ADF129BB7A0300F14489 /* HeaderCell.swift */; };
 		8637F2B329BBB10F00941919 /* UserDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637F2B229BBB10F00941919 /* UserDataCell.swift */; };
 		8637F2B529BBE45C00941919 /* UserSceneDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637F2B429BBE45C00941919 /* UserSceneDatasource.swift */; };
@@ -73,8 +74,12 @@
 		86665AA029E0778D00745331 /* TokenPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86665A9F29E0778D00745331 /* TokenPlugin.swift */; };
 		86665AA229E0793300745331 /* ContentTypePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86665AA129E0793300745331 /* ContentTypePlugin.swift */; };
 		86665AB029E0922200745331 /* loginBackground.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86665AAF29E0920300745331 /* loginBackground.mp4 */; };
+		866C140F29EE9F0F0029D770 /* Date+Timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866C140E29EE9F0F0029D770 /* Date+Timestamp.swift */; };
+		866C141329EEA4C20029D770 /* AddNewRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866C141229EEA4C20029D770 /* AddNewRecordView.swift */; };
+		866C141629EEA62B0029D770 /* Datasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866C141529EEA62B0029D770 /* Datasource.swift */; };
+		866C141829EEA6A60029D770 /* GlucoseLevelOrMealCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866C141729EEA6A60029D770 /* GlucoseLevelOrMealCell.swift */; };
+		866C141B29EEAEA00029D770 /* UICollectionView+ConfigureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866C141A29EEAEA00029D770 /* UICollectionView+ConfigureCell.swift */; };
 		866FCCE329E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FCCE229E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift */; };
-		866FCCE529E6C57900D7FCC5 /* VideoResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FCCE429E6C57900D7FCC5 /* VideoResources.swift */; };
 		866FCCE729E8170A00D7FCC5 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FCCE629E8170A00D7FCC5 /* Token.swift */; };
 		866FCCEA29E835C800D7FCC5 /* UserProfilePictureDomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FCCE929E835C800D7FCC5 /* UserProfilePictureDomainModel.swift */; };
 		868FC8DABB7F9E307A73FD0D /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A3F26E42FA42232CBD936F /* AuthCoordinator.swift */; };
@@ -111,6 +116,12 @@
 		8699F33C29B3D77700705347 /* HomeSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8699F33B29B3D77700705347 /* HomeSceneViewController.swift */; };
 		8699F33E29B3D78100705347 /* HomeSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8699F33D29B3D78100705347 /* HomeSceneViewModel.swift */; };
 		8699F34829B66F5100705347 /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8699F34729B66F5100705347 /* SettingsCoordinator.swift */; };
+		86AE57F429F0021600A50F05 /* InsulinCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE57F329F0021600A50F05 /* InsulinCell.swift */; };
+		86AE57F629F0113000A50F05 /* NoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE57F529F0113000A50F05 /* NoteCell.swift */; };
+		86AE57FA29F01E4100A50F05 /* NoteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE57F929F01E4100A50F05 /* NoteTextView.swift */; };
+		86AE57FC29F0558700A50F05 /* ButtonsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE57FB29F0558700A50F05 /* ButtonsCell.swift */; };
+		86AE57FE29F05D4F00A50F05 /* SwiftUICanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE57FD29F05D4F00A50F05 /* SwiftUICanvas.swift */; };
+		86AE580029F0611300A50F05 /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE57FF29F0611300A50F05 /* DatePickerCell.swift */; };
 		86B3728D29C4F5A50095C229 /* CollectionViewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B3728C29C4F5A50095C229 /* CollectionViewProtocols.swift */; };
 		86B3729229C9DE320095C229 /* UserUpdateRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B3729129C9DE320095C229 /* UserUpdateRequestModel.swift */; };
 		86B3729429C9F1600095C229 /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B3729329C9F1600095C229 /* SectionModel.swift */; };
@@ -188,6 +199,8 @@
 		7EAD39D2B3CD094529718CB8 /* Montserrat-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-BlackItalic.ttf"; sourceTree = "<group>"; };
 		8426DEB881571E3462BCD3F9 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		860AE90D29E8B496006CF2E1 /* Videos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Videos.swift; sourceTree = "<group>"; };
+		860AE90F29E9BAE0006CF2E1 /* UIImageView+SetImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+SetImage.swift"; sourceTree = "<group>"; };
+		860AE91129E9C04D006CF2E1 /* UIApplication+OpenSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+OpenSettings.swift"; sourceTree = "<group>"; };
 		8634B76829A8F96F00870B66 /* LoginSceneModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSceneModuleBuilder.swift; sourceTree = "<group>"; };
 		8634B76B29A8F98600870B66 /* LoginSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSceneViewModel.swift; sourceTree = "<group>"; };
 		8634B76D29A8F99300870B66 /* LoginSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSceneViewController.swift; sourceTree = "<group>"; };
@@ -213,7 +226,6 @@
 		8637ADE029BA188A00F14489 /* ReportSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSceneView.swift; sourceTree = "<group>"; };
 		8637ADE229BA194400F14489 /* ReportCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCoordinator.swift; sourceTree = "<group>"; };
 		8637ADE429BA817A00F14489 /* String+DecimalValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+DecimalValue.swift"; sourceTree = "<group>"; };
-		8637ADEB29BB73A900F14489 /* DateFormatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatManager.swift; sourceTree = "<group>"; };
 		8637ADF129BB7A0300F14489 /* HeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCell.swift; sourceTree = "<group>"; };
 		8637F2B229BBB10F00941919 /* UserDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataCell.swift; sourceTree = "<group>"; };
 		8637F2B429BBE45C00941919 /* UserSceneDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSceneDatasource.swift; sourceTree = "<group>"; };
@@ -228,8 +240,12 @@
 		86665A9F29E0778D00745331 /* TokenPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenPlugin.swift; sourceTree = "<group>"; };
 		86665AA129E0793300745331 /* ContentTypePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTypePlugin.swift; sourceTree = "<group>"; };
 		86665AAF29E0920300745331 /* loginBackground.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = loginBackground.mp4; sourceTree = "<group>"; };
+		866C140E29EE9F0F0029D770 /* Date+Timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Timestamp.swift"; sourceTree = "<group>"; };
+		866C141229EEA4C20029D770 /* AddNewRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewRecordView.swift; sourceTree = "<group>"; };
+		866C141529EEA62B0029D770 /* Datasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Datasource.swift; sourceTree = "<group>"; };
+		866C141729EEA6A60029D770 /* GlucoseLevelOrMealCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseLevelOrMealCell.swift; sourceTree = "<group>"; };
+		866C141A29EEAEA00029D770 /* UICollectionView+ConfigureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+ConfigureCell.swift"; sourceTree = "<group>"; };
 		866FCCE229E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+isPlaying.swift"; sourceTree = "<group>"; };
-		866FCCE429E6C57900D7FCC5 /* VideoResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoResources.swift; sourceTree = "<group>"; };
 		866FCCE629E8170A00D7FCC5 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		866FCCE929E835C800D7FCC5 /* UserProfilePictureDomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilePictureDomainModel.swift; sourceTree = "<group>"; };
 		869007F7299D4552001B672E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -265,6 +281,12 @@
 		8699F33B29B3D77700705347 /* HomeSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSceneViewController.swift; sourceTree = "<group>"; };
 		8699F33D29B3D78100705347 /* HomeSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSceneViewModel.swift; sourceTree = "<group>"; };
 		8699F34729B66F5100705347 /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
+		86AE57F329F0021600A50F05 /* InsulinCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsulinCell.swift; sourceTree = "<group>"; };
+		86AE57F529F0113000A50F05 /* NoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCell.swift; sourceTree = "<group>"; };
+		86AE57F929F01E4100A50F05 /* NoteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTextView.swift; sourceTree = "<group>"; };
+		86AE57FB29F0558700A50F05 /* ButtonsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsCell.swift; sourceTree = "<group>"; };
+		86AE57FD29F05D4F00A50F05 /* SwiftUICanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUICanvas.swift; sourceTree = "<group>"; };
+		86AE57FF29F0611300A50F05 /* DatePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; };
 		86B3728C29C4F5A50095C229 /* CollectionViewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewProtocols.swift; sourceTree = "<group>"; };
 		86B3729129C9DE320095C229 /* UserUpdateRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdateRequestModel.swift; sourceTree = "<group>"; };
 		86B3729329C9F1600095C229 /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
@@ -343,6 +365,7 @@
 				8637ADE629BA818000F14489 /* Foundation */,
 				86B3729929CC6E500095C229 /* ImageAsset+Hashable.swift */,
 				866FCCE229E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift */,
+				860AE91129E9C04D006CF2E1 /* UIApplication+OpenSettings.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -458,7 +481,6 @@
 				780DCE0D2E8C52E9A5492CD3 /* Coordinator.swift */,
 				8C25FA3E12FDAB7557BCBA1C /* ViewRepresentable.swift */,
 				8699F31029B0B9A600705347 /* DataConverter.swift */,
-				8637ADEB29BB73A900F14489 /* DateFormatManager.swift */,
 				8699F31B29B0CF2A00705347 /* UIElementsBuilder.swift */,
 				86B3728C29C4F5A50095C229 /* CollectionViewProtocols.swift */,
 				86900818299D7A0B001B672E /* LocalStorages */,
@@ -527,6 +549,7 @@
 				8637ADC129B7611400F14489 /* AddRecordSceneView.swift */,
 				8637ADC329B7629000F14489 /* AddRecordSceneViewController.swift */,
 				8637ADC529B762B700F14489 /* AddRecordSceneViewModel.swift */,
+				866C141429EEA6200029D770 /* View */,
 			);
 			path = AddRecordScene;
 			sourceTree = "<group>";
@@ -564,6 +587,7 @@
 			children = (
 				8637ADE429BA817A00F14489 /* String+DecimalValue.swift */,
 				863C7EBE29C10183008F93F0 /* NSMutableData+AppendString.swift */,
+				866C140E29EE9F0F0029D770 /* Date+Timestamp.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -631,6 +655,28 @@
 			path = Datasource;
 			sourceTree = "<group>";
 		};
+		866C141429EEA6200029D770 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				866C141229EEA4C20029D770 /* AddNewRecordView.swift */,
+				86AE57F229EF02F800A50F05 /* Datasource */,
+				866C141929EEABD00029D770 /* CustomCells */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		866C141929EEABD00029D770 /* CustomCells */ = {
+			isa = PBXGroup;
+			children = (
+				866C141729EEA6A60029D770 /* GlucoseLevelOrMealCell.swift */,
+				86AE57F329F0021600A50F05 /* InsulinCell.swift */,
+				86AE57F529F0113000A50F05 /* NoteCell.swift */,
+				86AE57FB29F0558700A50F05 /* ButtonsCell.swift */,
+				86AE57FF29F0611300A50F05 /* DatePickerCell.swift */,
+			);
+			path = CustomCells;
+			sourceTree = "<group>";
+		};
 		866FCCE129E0AE2A00D7FCC5 /* Videos */ = {
 			isa = PBXGroup;
 			children = (
@@ -648,7 +694,6 @@
 				864081FF29DB723500B848B7 /* FastInsulines.swift */,
 				8640820129DB739700B848B7 /* LongInsulines.swift */,
 				8640821829DE1D4200B848B7 /* DiabetesTypes.swift */,
-				866FCCE429E6C57900D7FCC5 /* VideoResources.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -853,6 +898,14 @@
 			path = RequestModels;
 			sourceTree = "<group>";
 		};
+		86AE57F229EF02F800A50F05 /* Datasource */ = {
+			isa = PBXGroup;
+			children = (
+				866C141529EEA62B0029D770 /* Datasource.swift */,
+			);
+			path = Datasource;
+			sourceTree = "<group>";
+		};
 		86D0A74529A3847D00980996 /* DiaryScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -938,6 +991,8 @@
 				34520C26878407F59DDCF83D /* AxisScrollView.swift */,
 				47372721DE44C2F0333914A8 /* LoadingView.swift */,
 				8634B77129A9131600870B66 /* GradientedButton.swift */,
+				86AE57F929F01E4100A50F05 /* NoteTextView.swift */,
+				86AE57FD29F05D4F00A50F05 /* SwiftUICanvas.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -980,6 +1035,8 @@
 				6A4C9ADE6866519B9ECE23E0 /* UIView+Constraints.swift */,
 				F70F9FDBCE897E3B0BF3C056 /* UIView+Ext.swift */,
 				86B3729529CB42920095C229 /* UIImage+URL.swift */,
+				860AE90F29E9BAE0006CF2E1 /* UIImageView+SetImage.swift */,
+				866C141A29EEAEA00029D770 /* UICollectionView+ConfigureCell.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -1119,6 +1176,7 @@
 				86D0A73E299FA23900980996 /* UserSceneViewController.swift in Sources */,
 				8699F32A29B2986D00705347 /* SettingsTableView.swift in Sources */,
 				BDCE57006225DD52F169E3D9 /* AppCoordinator.swift in Sources */,
+				86AE57FE29F05D4F00A50F05 /* SwiftUICanvas.swift in Sources */,
 				1E446A3697B6B3EB17C3E1C1 /* AppDelegate.swift in Sources */,
 				8699F33A29B3D76B00705347 /* HomeSceneView.swift in Sources */,
 				EB6894D2911D81F047A6A96C /* AppEnvironment.swift in Sources */,
@@ -1128,6 +1186,7 @@
 				8699F30F29B0ABAE00705347 /* UserAuthorizationService.swift in Sources */,
 				8699F33729B3D75700705347 /* HomeSceneBuilder.swift in Sources */,
 				F155250D330A470AD15137FE /* Assets.swift in Sources */,
+				866C141829EEA6A60029D770 /* GlucoseLevelOrMealCell.swift in Sources */,
 				86900801299D45D7001B672E /* NetworkError.swift in Sources */,
 				868FC8DABB7F9E307A73FD0D /* AuthCoordinator.swift in Sources */,
 				8637ADC429B7629000F14489 /* AddRecordSceneViewController.swift in Sources */,
@@ -1136,13 +1195,16 @@
 				8699F32F29B2CD2100705347 /* SettingsDatasource.swift in Sources */,
 				86D0A75229A656CE00980996 /* User.swift in Sources */,
 				8699F32429B284C300705347 /* SettingsSceneView.swift in Sources */,
+				86AE580029F0611300A50F05 /* DatePickerCell.swift in Sources */,
 				86665AA229E0793300745331 /* ContentTypePlugin.swift in Sources */,
+				86AE57F629F0113000A50F05 /* NoteCell.swift in Sources */,
 				86D0A74F29A520E200980996 /* NetworkServiceProvider.swift in Sources */,
 				86900812299D4CBA001B672E /* UserSceneBuilder.swift in Sources */,
 				8634B77729ABE23500870B66 /* CreateUserProfileView.swift in Sources */,
 				8637ADBE29B7609700F14489 /* AddRecordSceneBuilder.swift in Sources */,
 				C37DE041F430700A105F9CC9 /* AxisScrollView.swift in Sources */,
 				86665AA029E0778D00745331 /* TokenPlugin.swift in Sources */,
+				866C141B29EEAEA00029D770 /* UICollectionView+ConfigureCell.swift in Sources */,
 				5E8EE54653B0991739A3447E /* BaseView.swift in Sources */,
 				FD95A82E45DDBD6179945692 /* BaseViewController.swift in Sources */,
 				83940A46BF53DCCBC541ACAD /* BaseViewModel.swift in Sources */,
@@ -1159,13 +1221,17 @@
 				12BB16AE5A908CCF13169B5F /* MainTabBarCoordinator.swift in Sources */,
 				1F351057FB5E5999C32F7EDD /* MainTabBarModuleBuilder.swift in Sources */,
 				8699F31829B0BF9700705347 /* ResetPasswordScene.swift in Sources */,
+				86AE57FA29F01E4100A50F05 /* NoteTextView.swift in Sources */,
+				866C141629EEA62B0029D770 /* Datasource.swift in Sources */,
 				8634B76C29A8F98600870B66 /* LoginSceneViewModel.swift in Sources */,
 				CA31AE1F2B6517869FD7E948 /* MainTabBarViewController.swift in Sources */,
 				863C7EBF29C10183008F93F0 /* NSMutableData+AppendString.swift in Sources */,
 				8640821929DE1D4200B848B7 /* DiabetesTypes.swift in Sources */,
 				8699F31129B0B9A600705347 /* DataConverter.swift in Sources */,
+				866C141329EEA4C20029D770 /* AddNewRecordView.swift in Sources */,
 				8699F32829B2853700705347 /* SettingsSceneViewModel.swift in Sources */,
 				86900815299D4D76001B672E /* UserSceneViewModel.swift in Sources */,
+				860AE91229E9C04D006CF2E1 /* UIApplication+OpenSettings.swift in Sources */,
 				86900808299D4867001B672E /* UserEndpoint.swift in Sources */,
 				8699F33129B2D9F300705347 /* SettingsTableViewDiffableDataSource.swift in Sources */,
 				869007F8299D4552001B672E /* NetworkManager.swift in Sources */,
@@ -1174,6 +1240,7 @@
 				AE1B914B0BC67CF6D07F35F4 /* MainTabBarViewModel.swift in Sources */,
 				955613A67F6F5BEFAA23DD23 /* Module.swift in Sources */,
 				8699F31A29B0C02A00705347 /* ResetPasswordViewModel.swift in Sources */,
+				866C140F29EE9F0F0029D770 /* Date+Timestamp.swift in Sources */,
 				0336AF01AF458363ADD35EA7 /* SceneDelegate.swift in Sources */,
 				86D0A742299FA41500980996 /* HomeCoordinator.swift in Sources */,
 				86B3729A29CC6E500095C229 /* ImageAsset+Hashable.swift in Sources */,
@@ -1192,6 +1259,7 @@
 				8637ADD129B7983E00F14489 /* RecordsEndpoint.swift in Sources */,
 				E096CCD98388CCC06CA338E3 /* UIEdgeInsets+Ext.swift in Sources */,
 				43AC8306B78E720734FD42DD /* UIStackView+Ext.swift in Sources */,
+				86AE57F429F0021600A50F05 /* InsulinCell.swift in Sources */,
 				86665A9E29E076D700745331 /* TokenStorage.swift in Sources */,
 				8637ADC629B762B700F14489 /* AddRecordSceneViewModel.swift in Sources */,
 				86900810299D4978001B672E /* UserResponseModel.swift in Sources */,
@@ -1209,6 +1277,7 @@
 				86B3729229C9DE320095C229 /* UserUpdateRequestModel.swift in Sources */,
 				86D0A74B29A3871B00980996 /* DiarySceneView.swift in Sources */,
 				9C1BC8295DFBA3BD9DAF0D80 /* UIView+Constraints.swift in Sources */,
+				86AE57FC29F0558700A50F05 /* ButtonsCell.swift in Sources */,
 				866FCCE329E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift in Sources */,
 				86B3729429C9F1600095C229 /* SectionModel.swift in Sources */,
 				839AC6682F2EC36367C5E321 /* UIView+Ext.swift in Sources */,
@@ -1222,11 +1291,10 @@
 				8637ADE129BA188A00F14489 /* ReportSceneView.swift in Sources */,
 				8637ADDA29BA173500F14489 /* ReportSceneBuilder.swift in Sources */,
 				86D0A74D29A38F3500980996 /* DiaryCoordinator.swift in Sources */,
-				866FCCE529E6C57900D7FCC5 /* VideoResources.swift in Sources */,
+				860AE91029E9BAE0006CF2E1 /* UIImageView+SetImage.swift in Sources */,
 				86900804299D45FE001B672E /* HTTPMethods.swift in Sources */,
 				8699F30C29B0AB8700705347 /* UserAuthorizationEndpoint.swift in Sources */,
 				860AE90E29E8B496006CF2E1 /* Videos.swift in Sources */,
-				8637ADEC29BB73A900F14489 /* DateFormatManager.swift in Sources */,
 				44C5B91C0DAC7048CDB2E47A /* UserService.swift in Sources */,
 				869007FD299D45A3001B672E /* Endpoint.swift in Sources */,
 				5B3E85CDCB829E0B644D4284 /* ViewRepresentable.swift in Sources */,

@@ -46,6 +46,12 @@ final class UserDataMenuCell: UICollectionViewCell {
 		bindActions()
 	}
 	
+	//MARK: - Overriden methods
+	override func prepareForReuse() {
+		super.prepareForReuse()
+		cancellables.removeAll()
+	}
+	
 	//MARK: - Public methods
 	func configure(with model: UserDataMenuSettingsModel) {
 		titleLabel.text = model.title
@@ -116,7 +122,7 @@ private extension UserDataMenuCell {
 extension UserDataMenuCell: UIElementsBuilder {}
 
 //MARK: - Extension SelfConfiguringCollectionViewCell
-extension UserDataMenuCell: SelfConfiguringCollectionViewCell {
+extension UserDataMenuCell: SelfConfiguringCell {
 	static var reuseID: String {
 		return "userDataMenuCell"
 	}

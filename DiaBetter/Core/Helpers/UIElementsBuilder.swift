@@ -96,11 +96,11 @@ extension UIElementsBuilder {
 		return label
 	}
 	
-	func buildTitleLabel(with text: String = "") -> UILabel {
+	func buildTitleLabel(with text: String = "", fontSize: CGFloat = Constants.basicTitleFontSize) -> UILabel {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textColor = Colors.customPink.color
-		label.font = FontFamily.Montserrat.bold.font(size: Constants.basicTitleFontSize)
+		label.font = FontFamily.Montserrat.bold.font(size: fontSize)
 		label.text = text
 		label.textAlignment = .center
 		label.minimumScaleFactor = Constants.labelTextMinScaleFactor

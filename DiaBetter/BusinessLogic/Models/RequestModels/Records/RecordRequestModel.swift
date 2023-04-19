@@ -14,6 +14,6 @@ struct RecordRequestModel: Encodable {
 	let recordNote: String?
 	let glucoseLevel: Decimal?
 	let meal: Decimal?
-	let recordDate: String
+	let recordDate: String?
 }
 

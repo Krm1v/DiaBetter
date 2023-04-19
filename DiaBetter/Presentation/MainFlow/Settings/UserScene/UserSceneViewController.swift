@@ -85,6 +85,8 @@ private extension UserSceneViewController {
 					presentImagePickerController()
 				case .denied, .limited, .notDetermined, .restricted:
 					showAccessDeniedAlert()
+				@unknown default:
+					break
 				}
 			}
 			.store(in: &cancellables)
@@ -122,8 +124,8 @@ private extension UserSceneViewController {
 		let alertController = UIAlertController(title: Localization.accessDenied,
 												message: Localization.photoLibraryPermissionsMessage,
 												preferredStyle: .alert)
-		let goToSettingsAction = UIAlertAction(title: Localization.goToSettings, style: .default) { [unowned self] _ in
-			self.viewModel.moveToSettings()
+		let goToSettingsAction = UIAlertAction(title: Localization.goToSettings, style: .default) { _ in
+			UIApplication.shared.openSettings()
 		}
 		let cancelAction = UIAlertAction(title: Localization.cancel, style: .cancel)
 		alertController.addAction(goToSettingsAction); alertController.addAction(cancelAction)

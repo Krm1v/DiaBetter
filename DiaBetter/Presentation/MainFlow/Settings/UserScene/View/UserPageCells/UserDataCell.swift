@@ -92,7 +92,7 @@ private extension UserDataCell {
 
 //MARK: - Extension SelfConfiguringCollectionViewCell
 extension UserDataCell: UIElementsBuilder {}
-extension UserDataCell: SelfConfiguringCollectionViewCell {
+extension UserDataCell: SelfConfiguringCell {
 	static var reuseID: String {
 		return "userDataCell"
 	}

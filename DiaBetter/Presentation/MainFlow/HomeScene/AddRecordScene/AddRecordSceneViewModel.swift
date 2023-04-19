@@ -8,22 +8,32 @@
 import Foundation
 import Combine
 
+enum RecordType: String {
+	case noMeal
+	case beforeMeal
+	case afterMeal
+}
+
 final class AddRecordSceneViewModel: BaseViewModel {
 	private(set) lazy var transitionPiblisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<AddRecordSceneTransition, Never>()
 	private let recordsService: RecordsService
-	private let recordsNetworkService: RecordsNetworkService
 	@Published var glucoseLvl: Decimal?
 	@Published var meal: Decimal?
 	@Published var fastInsulin: Decimal?
 	@Published var longInsulin: Decimal?
 	@Published var notes = ""
 	@Published var date = Date()
+	@Published var sections: [SectionModel<RecordParameterSections, RecordParameterItems>] = []
 	
 	//MARK: - Init
-	init(recordsService: RecordsService, recordsNetworkService: RecordsNetworkService) {
+	init(recordsService: RecordsService) {
 		self.recordsService = recordsService
-		self.recordsNetworkService = recordsNetworkService
+	}
+	
+	//MARK: - Overriden methods
+	override func onViewDidLoad() {
+		updateDatasource()
 	}
 	
 	//MARK: - Public methods
@@ -39,42 +49,62 @@ final class AddRecordSceneViewModel: BaseViewModel {
 		transitionSubject.send(.success)
 	}
 	
-	func saveRecord() {
-		let requestObject: (record: RecordRequestModel, token: String) = buildRequestModel()
-		isLoadingSubject.send(true)
-		recordsNetworkService.addRecord(record: requestObject.record, userToken: requestObject.token)
+	func addNewRecord() {
+		guard let record = setupNewRecord() else { return }
+		recordsService.addRecord(record: record)
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
 				guard let self = self else { return }
-				self.isLoadingSubject.send(false)
 				switch completion {
 				case .finished:
-					self.transitionSubject.send(.success)
+					debugPrint("Finished")
+					self.closeAddRecordScene()
 				case .failure(let error):
-					debugPrint(error.localizedDescription)
-					self.errorSubject.send(error)
+					debugPrint(error)
+					Logger.error(error.localizedDescription)
 				}
-			} receiveValue: { record in
-				print(record.recordNote)
+			} receiveValue: { [weak self] record in
+				guard let self = self else { return }
 			}
 			.store(in: &cancellables)
+	}
+	
+	func updateDatasource() {
+		let glucose = GlucoseLevelOrMealCellModel(title: Localization.glucose,
+												  parameterTitle: Localization.glucose,
+												  textfieldValue: "000",
+												  unitsTitle: "mmol/L")
+		let meal = GlucoseLevelOrMealCellModel(title: Localization.meal,
+											   parameterTitle: Localization.meal,
+											   textfieldValue: "000",
+											   unitsTitle: "BU")
+		let insulin = InsulinCellModel(title: Localization.insulin,
+									   parameterTitleForFastInsulin: Localization.fastActingInsulin,
+									   parameterTitleForBasalInsulin: Localization.basalInsulin,
+									   fastInsulinTextfieldValue: "000",
+									   basalInsulinTextFieldValue: "000",
+									   unitsTitleForFastInsulin: "u.",
+									   unitsTitleForBasalInsulin: "u.")
+		let note = NoteCellModel(title: Localization.notes, textViewValue: "Note your feelings")
+		let dateSectionModel = DatePickerCellModel(title: "Date")
+		let dateSection = SectionModel<RecordParameterSections, RecordParameterItems>(section: .date, items: [.date(dateSectionModel)])
+		let mainSection = SectionModel<RecordParameterSections, RecordParameterItems>(section: .main, items: [.glucoseLevelOrMeal(glucose), .glucoseLevelOrMeal(meal)])
+		let insulinSection = SectionModel<RecordParameterSections, RecordParameterItems>(section: .unsulin, items: [.insulin(insulin)])
+		let noteSection = SectionModel<RecordParameterSections, RecordParameterItems>(section: .note, items: [.note(note)])
+		let buttonsSection = SectionModel<RecordParameterSections, RecordParameterItems>(section: .buttons, items: [.buttons])
+		sections = [dateSection, mainSection, insulinSection, noteSection, buttonsSection]
 	}
 }
 
 //MARK: - Private extension
 private extension AddRecordSceneViewModel {
-	func buildRequestModel() -> (RecordRequestModel, String) {
-		let currentDate = recordsService.convertDateToString(fromTimeStamp: date.timeIntervalSince1970)
-		let record = RecordRequestModel(fastInsulin: fastInsulin,
-										recordType: "main",
-										longInsulin: longInsulin,
-										recordNote: notes,
-										glucoseLevel: glucoseLvl,
-										meal: meal,
-										recordDate: currentDate)
-		guard let token = recordsService.token else {
-			return (record, "no token")
-		}
-		return (record, token)
+	func setupNewRecord() -> Record? {
+		let record = Record(meal: meal,
+							fastInsulin: fastInsulin,
+							glucoseLevel: glucoseLvl,
+							longInsulin: longInsulin,
+							recordNote: notes,
+							recordType: RecordType.noMeal.rawValue)
+		return record
 	}
 }

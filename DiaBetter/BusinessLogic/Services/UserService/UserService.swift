@@ -49,7 +49,6 @@ final class UserServiceImpl {
 	}
 	
 	//MARK: - Public methods
-	//MARK: - Keychain and UserDefaults
 	func save(user: User) {
 		let dataUser = seriallize(user: user)
 		saveToDefaults(value: dataUser, for: .dataUser)
@@ -88,12 +87,7 @@ final class UserServiceImpl {
 	
 	//MARK: - Network requests
 	func uploadUserProfilePhoto(data: MultipartDataItem) -> AnyPublisher<UserProfilePictureDomainModel, Error> {
-		guard let tokenValue = tokenStorage.token else {
-			return Fail(error: UserServiceError.missingToken)
-				.eraseToAnyPublisher()
-			
-		}
-		return userNetworkService.uploadUserProfilePhoto(with: tokenValue, data: data)
+		return userNetworkService.uploadUserProfilePhoto(data: data)
 			.mapError { $0 as Error }
 			.map { response in
 				return UserProfilePictureDomainModel(response)
@@ -107,21 +101,13 @@ final class UserServiceImpl {
 	}
 	
 	func logoutUser() -> AnyPublisher<Void, Error> {
-		guard let tokenValue = tokenStorage.token else {
-			return Fail(error: UserServiceError.missingToken)
-				.eraseToAnyPublisher()
-		}
-		return userNetworkService.logoutUser(userToken: tokenValue)
+		return userNetworkService.logoutUser()
 			.mapError { $0 as Error }
 			.eraseToAnyPublisher()
 	}
 	
 	func deletePhoto(filename: String) -> AnyPublisher<Void, Error> {
-		guard let tokenValue = tokenStorage.token else {
-			return Fail(error: UserServiceError.missingToken)
-				.eraseToAnyPublisher()
-		}
-		return userNetworkService.deletePhoto(userToken: tokenValue, filename: filename)
+		return userNetworkService.deletePhoto(filename: filename)
 			.mapError { $0 as Error }
 			.eraseToAnyPublisher()
 	}
@@ -132,16 +118,11 @@ final class UserServiceImpl {
 													   fastActingInsulin: user.fastActingInsulin,
 													   name: user.name,
 													   userProfileImage: user.userProfileImage)
-		debugPrint(userUpdateRequest)
-		guard let tokenValue = tokenStorage.token else {
-			return Fail(error: UserServiceError.missingToken)
-				.eraseToAnyPublisher()
-		}
 		guard let userId = user.remoteId else {
 			return Fail(error: UserServiceError.missingUserId)
 				.eraseToAnyPublisher()
 		}
-		return userNetworkService.updateUser(user: userUpdateRequest, objectId: userId, token: tokenValue)
+		return userNetworkService.updateUser(user: userUpdateRequest, objectId: userId)
 			.mapError { $0 as Error }
 			.map(User.init)
 			.handleEvents(receiveOutput: { [weak self] response in
@@ -150,13 +131,9 @@ final class UserServiceImpl {
 			})
 			.eraseToAnyPublisher()
 	}
-	
+
 	func fetchUser(id: String) -> AnyPublisher<User, Error> {
-		guard let tokenValue = tokenStorage.token else {
-			return Fail(error: UserServiceError.missingToken)
-				.eraseToAnyPublisher()
-		}
-		return userNetworkService.fetchUser(userToken: tokenValue, withId: id)
+		return userNetworkService.fetchUser(withId: id)
 			.mapError { $0 as Error }
 			.map(User.init)
 			.handleEvents(receiveOutput: { [weak self] response in

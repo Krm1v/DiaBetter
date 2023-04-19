@@ -31,16 +31,17 @@ final class AppContainerImpl: AppContainer {
 		let appConfiguration = AppConfigurationImpl()
 		self.appConfiguration = appConfiguration
 		
-		let recordsService = RecordsServiceImpl(configuration: appConfiguration)
-		self.recordsService = recordsService
-		
 		let keychain = Keychain(service: appConfiguration.bundleId)
 		let tokenStorage = TokenStorageImpl(keychain: keychain)
 		
+		let tokenPlugin = TokenPlugin(tokenStorage: tokenStorage)
+		let contentTypePlugin = JSONContentTypePlugin()
+		
 		let networkManager = NetworkManager()
-		let networkService = NetworkServiceProviderImpl<UserEndpoint>(
+		let userNetworkServiceProvider = NetworkServiceProviderImpl<UserEndpoint>(
 			baseURLStorage: appConfiguration,
 			networkManager: networkManager,
+			plugins: [tokenPlugin, contentTypePlugin],
 			encoder: JSONEncoder(),
 			decoder: JSONDecoder()
 		)
@@ -50,18 +51,21 @@ final class AppContainerImpl: AppContainer {
 			encoder: JSONEncoder(),
 			decoder: JSONDecoder()
 		)
-		self.userNetworkService = UserNetworkServiceImpl(networkService)
+		self.userNetworkService = UserNetworkServiceImpl(userNetworkServiceProvider)
 		self.userAuthorizationService = UserAuthorizationServiceImpl(authorizationNetworkService,
 																	 tokenStorage: tokenStorage)
+		let recordNetworkProvider = NetworkServiceProviderImpl<RecordsEndpoint>(
+			baseURLStorage: appConfiguration,
+			networkManager: networkManager,
+			plugins: [tokenPlugin, contentTypePlugin],
+			encoder: JSONEncoder(),
+			decoder: JSONDecoder())
+		self.recordsNetworkService = RecordsNetworkServiceImpl(recordNetworkProvider)
 		
 		let userService = UserServiceImpl(userNetworkService: userNetworkService, tokenStorage: tokenStorage)
 		self.userService = userService
 		
-		let userNetworkService = NetworkServiceProviderImpl<RecordsEndpoint>(
-			baseURLStorage: appConfiguration,
-			networkManager: networkManager,
-			encoder: JSONEncoder(),
-			decoder: JSONDecoder())
-		self.recordsNetworkService = RecordsNetworkServiceImpl(userNetworkService)
+		let recordService = RecordsServiceImpl(recordsNetworkService: recordsNetworkService, tokenStorage: tokenStorage)
+		self.recordsService = recordService  
 	}
 }

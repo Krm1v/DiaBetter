@@ -10,7 +10,7 @@ import Combine
 
 final class AddRecordSceneViewController: BaseViewController<AddRecordSceneViewModel> {
 	//MARK: - Properties
-	private let contentView = AddRecordSceneView()
+	private let contentView = AddNewRecordView()
 	
 	//MARK: - UIView lifecycle methods
 	override func loadView() {
@@ -20,36 +20,49 @@ final class AddRecordSceneViewController: BaseViewController<AddRecordSceneViewM
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		bindActions()
+		//		contentView.setupDateLabel(with: viewModel.setupDataFormat())
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
 		setupNavBar()
-		contentView.setupDateLabel(with: viewModel.setupDataFormat())
+		updateDiffableDatasourceSnapshot()
 	}
 }
 
 //MARK: - Private extension
 private extension AddRecordSceneViewController {
 	func setupNavBar() {
-		navigationController?.navigationBar.prefersLargeTitles = true
 		title = Localization.addNewRecord
+		navigationController?.navigationBar.prefersLargeTitles = true
+		navigationController?.navigationBar.largeTitleTextAttributes = [
+			NSAttributedString.Key.foregroundColor: Colors.customPink.color,
+			NSAttributedString.Key.font: FontFamily.Montserrat.bold.font(size: 30)
+		]
+		navigationController?.navigationBar.backgroundColor = .black
+		navigationController?.navigationBar.titleTextAttributes = [
+			NSAttributedString.Key.foregroundColor: Colors.customPink.color
+		]
+		UINavigationBar.appearance().tintColor = Colors.customPink.color
+	}
+	
+	func updateDiffableDatasourceSnapshot() {
+		viewModel.$sections
+			.receive(on: DispatchQueue.main)
+			.sink { [unowned self] sections in
+				self.contentView.setupSnapshot(sections: sections)
+			}
+			.store(in: &cancellables)
 	}
 	
 	func bindActions() {
 		contentView.actionPublisher
 			.sink { [unowned self] action in
 				switch action {
-				case .glucoseTextFieldDidChanged(let text):
-					viewModel.glucoseLvl = text.decimalValue
-				case .mealTextFieldDidChanged(let text):
-					viewModel.meal = text.decimalValue
-				case .fastInsulinTextFieldChanged(let text):
-					viewModel.fastInsulin = text.decimalValue
-				case .longInsulinTextFieldDidChanged(let text):
-					viewModel.longInsulin = text.decimalValue
-				case .noteTextViewDidChanged(let text):
-					viewModel.notes = text
-				case .closeButtonPressed:
+				case .saveButtonTapped:
+					viewModel.addNewRecord()
+				case .closeButtonTapped:
 					viewModel.closeAddRecordScene()
-				case .saveButtonPressed:
-					viewModel.saveRecord()
 				}
 			}
 			.store(in: &cancellables)

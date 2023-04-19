@@ -8,11 +8,6 @@
 import Foundation
 import Combine
 
-fileprivate enum PathStrings {
-	static let registration = "/users/register"
-	static let login = "/users/login"
-}
-
 enum UserAuthorizationEndpoint: Endpoint {
 	case register(user: UserRequestModel)
 	case login(credentials: Login)
@@ -21,9 +16,9 @@ enum UserAuthorizationEndpoint: Endpoint {
 	var path: String? {
 		switch self {
 		case .register:
-			return PathStrings.registration
+			return "/users/register"
 		case .login:
-			return PathStrings.login
+			return "/users/login"
 		}
 	}
 	

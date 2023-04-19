@@ -82,10 +82,6 @@ final class UserSceneViewModel: BaseViewModel {
 		permissionService.askForPermissions()
 	}
 	
-	func moveToSettings() {
-		permissionService.moveToSettings()
-	}
-	
 	//MARK: - Network requests
 	func fetchUser() {
 		isLoadingSubject.send(true)
@@ -147,12 +143,14 @@ final class UserSceneViewModel: BaseViewModel {
 				switch completion {
 				case .finished:
 					debugPrint("Success")
+					self.updateDatasource()
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
 				}
 			} receiveValue: { [weak self] response in
 				guard let self = self else { return }
 				guard var user = userService.user else { return }
+				self.clearImageCache()
 				user.userProfileImage = response.fileURL
 				self.updateUser(user)
 			}
@@ -168,6 +166,7 @@ final class UserSceneViewModel: BaseViewModel {
 			case .finished:
 				debugPrint("Photo was deleted from backend")
 				guard var user = userService.user else { return }
+				self.clearImageCache()
 				user.userProfileImage = ""
 				self.updateUser(user)
 			case .failure(let error):
@@ -220,6 +219,15 @@ final class UserSceneViewModel: BaseViewModel {
 		user.diabetesType = userDiabetesType
 		user.fastActingInsulin = userFastInsulin
 		return user
+	}
+	
+	func clearImageCache() {
+		guard let userProfileImage = userService.user?.userProfileImage else {
+			return
+		}
+		let cache = ImageCache.default
+		cache.removeImage(forKey: userProfileImage)
+		cache.clearMemoryCache()
 	}
 }
 

@@ -30,14 +30,17 @@ final class NetworkServiceProviderImpl<E: Endpoint> {
 	private let networkManager: NetworkManager
 	private let decoder: JSONDecoder
 	private let encoder: JSONEncoder
+	private let plugins: [NetworkPlugin]
 	
 	//MARK: - Init
 	init(baseURLStorage: BaseURLStorage,
 		 networkManager: NetworkManager,
-		 encoder: JSONEncoder,
-		 decoder: JSONDecoder) {
+		 plugins: [NetworkPlugin] = [],
+		 encoder: JSONEncoder = JSONEncoder(),
+		 decoder: JSONDecoder = JSONDecoder()) {
 		self.baseURLStorage = baseURLStorage
 		self.networkManager = networkManager
+		self.plugins = plugins
 		self.encoder = encoder
 		self.decoder = decoder
 	}
@@ -46,7 +49,7 @@ final class NetworkServiceProviderImpl<E: Endpoint> {
 //MARK: - Extension NetworkServiceProvider
 extension NetworkServiceProviderImpl: NetworkServiceProvider {
 	func execute(endpoint: E) -> AnyPublisher<Void, NetworkError> {
-		guard let request = endpoint.buildRequest(baseURL: baseURLStorage.baseURL, encoder: encoder) else {
+		guard let request = endpoint.buildRequest(baseURL: baseURLStorage.baseURL, encoder: encoder, plugins: plugins) else {
 			return Fail(error: NetworkError.badRequest(code: .zero, error: ErrorsDescription.badRequest))
 				.eraseToAnyPublisher()
 		}
@@ -56,7 +59,7 @@ extension NetworkServiceProviderImpl: NetworkServiceProvider {
 	}
 	
 	func execute<Model>(endpoint: E, decodeType: Model.Type) -> AnyPublisher<Model, NetworkError> where Model: Decodable {
-		guard let request = endpoint.buildRequest(baseURL: baseURLStorage.baseURL, encoder: encoder) else {
+		guard let request = endpoint.buildRequest(baseURL: baseURLStorage.baseURL, encoder: encoder, plugins: plugins) else {
 			return Fail(error: NetworkError.badRequest(code: .zero, error: ErrorsDescription.badRequest))
 				.eraseToAnyPublisher()
 		}
