@@ -22,7 +22,7 @@ final class AddRecordSceneViewModel: BaseViewModel {
 	@Published var meal: Decimal?
 	@Published var fastInsulin: Decimal?
 	@Published var longInsulin: Decimal?
-	@Published var notes = ""
+	@Published var note = ""
 	@Published var date = Date()
 	@Published var sections: [SectionModel<RecordParameterSections, RecordParameterItems>] = []
 	
@@ -64,20 +64,23 @@ final class AddRecordSceneViewModel: BaseViewModel {
 					Logger.error(error.localizedDescription)
 				}
 			} receiveValue: { [weak self] record in
-				guard let self = self else { return }
+#warning("TODO: Save records.")
 			}
 			.store(in: &cancellables)
 	}
 	
 	func updateDatasource() {
+#warning("TODO: Change strings to settings enums")
 		let glucose = GlucoseLevelOrMealCellModel(title: Localization.glucose,
 												  parameterTitle: Localization.glucose,
 												  textfieldValue: "000",
-												  unitsTitle: "mmol/L")
+												  unitsTitle: "mmol/L",
+												  currentField: .glucose)
 		let meal = GlucoseLevelOrMealCellModel(title: Localization.meal,
 											   parameterTitle: Localization.meal,
 											   textfieldValue: "000",
-											   unitsTitle: "BU")
+											   unitsTitle: "BU",
+											   currentField: .meal)
 		let insulin = InsulinCellModel(title: Localization.insulin,
 									   parameterTitleForFastInsulin: Localization.fastActingInsulin,
 									   parameterTitleForBasalInsulin: Localization.basalInsulin,
@@ -85,13 +88,39 @@ final class AddRecordSceneViewModel: BaseViewModel {
 									   basalInsulinTextFieldValue: "000",
 									   unitsTitleForFastInsulin: "u.",
 									   unitsTitleForBasalInsulin: "u.")
-		let note = NoteCellModel(title: Localization.notes, textViewValue: "Note your feelings")
-		let dateSectionModel = DatePickerCellModel(title: "Date")
-		let dateSection = SectionModel<RecordParameterSections, RecordParameterItems>(section: .date, items: [.date(dateSectionModel)])
-		let mainSection = SectionModel<RecordParameterSections, RecordParameterItems>(section: .main, items: [.glucoseLevelOrMeal(glucose), .glucoseLevelOrMeal(meal)])
-		let insulinSection = SectionModel<RecordParameterSections, RecordParameterItems>(section: .unsulin, items: [.insulin(insulin)])
-		let noteSection = SectionModel<RecordParameterSections, RecordParameterItems>(section: .note, items: [.note(note)])
-		let buttonsSection = SectionModel<RecordParameterSections, RecordParameterItems>(section: .buttons, items: [.buttons])
+		let note = NoteCellModel(title: Localization.notes, textViewValue: Localization.howDoYouFeel)
+		let dateSectionModel = DatePickerCellModel(title: Localization.date)
+		let dateSection = SectionModel<RecordParameterSections, RecordParameterItems>(
+			section: .date,
+			items: [
+				.date(dateSectionModel)
+			]
+		)
+		let mainSection = SectionModel<RecordParameterSections, RecordParameterItems>(
+			section: .main,
+			items: [
+				.glucoseLevelOrMeal(glucose),
+				.glucoseLevelOrMeal(meal)
+			]
+		)
+		let insulinSection = SectionModel<RecordParameterSections, RecordParameterItems>(
+			section: .insulin,
+			items: [
+				.insulin(insulin)
+			]
+		)
+		let noteSection = SectionModel<RecordParameterSections, RecordParameterItems>(
+			section: .note,
+			items: [
+				.note(note)
+			]
+		)
+		let buttonsSection = SectionModel<RecordParameterSections, RecordParameterItems>(
+			section: .buttons,
+			items: [
+				.buttons
+			]
+		)
 		sections = [dateSection, mainSection, insulinSection, noteSection, buttonsSection]
 	}
 }
@@ -103,7 +132,8 @@ private extension AddRecordSceneViewModel {
 							fastInsulin: fastInsulin,
 							glucoseLevel: glucoseLvl,
 							longInsulin: longInsulin,
-							recordNote: notes,
+							recordDate: date.convertToInt(),
+							recordNote: note,
 							recordType: RecordType.noMeal.rawValue)
 		return record
 	}

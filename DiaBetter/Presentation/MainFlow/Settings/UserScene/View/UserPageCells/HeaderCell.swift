@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class HeaderCell: UICollectionViewCell {
+final class HeaderCell: BaseCollectionViewCell {
 	//MARK: - UIElements
 	private lazy var userImage: UIImageView = {
 		let image = UIImageView()
@@ -84,7 +84,7 @@ private extension HeaderCell {
 			.isActive = true
 		editButton.topAnchor.constraint(equalTo: userImage.bottomAnchor,
 										constant: Constants.basicTopInset)
-		.isActive = true
+			.isActive = true
 		editButton.centerXAnchor.constraint(equalTo: centerXAnchor)
 			.isActive = true
 		emailLabel.topAnchor.constraint(equalTo: editButton.bottomAnchor)

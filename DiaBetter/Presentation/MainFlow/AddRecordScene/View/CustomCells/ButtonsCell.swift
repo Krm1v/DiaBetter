@@ -13,11 +13,10 @@ enum ButtonsCellActions {
 	case closeButtonDidTapped
 }
 
-final class ButtonsCell: UICollectionViewCell {
+final class ButtonsCell: BaseCollectionViewCell {
 	//MARK: - Properties
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
 	private let actionSubject = PassthroughSubject<ButtonsCellActions, Never>()
-	private var cancellables = Set<AnyCancellable>()
 	
 	//MARK: - UI Elements
 	private lazy var saveButton = buildGradientButton(with: Localization.save, fontSize: 13)
@@ -39,12 +38,6 @@ final class ButtonsCell: UICollectionViewCell {
 		setupUI()
 		setupBindings()
 	}
-	
-	//MARK: - Overriden methods
-	override func prepareForReuse() {
-		super.prepareForReuse()
-		cancellables.removeAll()
-	}
 }
 
 //MARK: - Private extension
@@ -63,8 +56,6 @@ private extension ButtonsCell {
 		])
 		[saveButton, closeButton].forEach {
 			vStackForButtons.addArrangedSubview($0)
-			$0.heightAnchor.constraint(equalToConstant: 50)
-				.isActive = true
 		}
 	}
 	

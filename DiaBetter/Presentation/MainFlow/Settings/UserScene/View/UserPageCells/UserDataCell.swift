@@ -12,11 +12,11 @@ enum UserDataCellEvents {
 	case textFieldDidChanged(String)
 }
 
-final class UserDataCell: UICollectionViewCell {
+final class UserDataCell: BaseCollectionViewCell {
 	//MARK: - Properties
 	private(set) lazy var userDataCellEventsPublisher = userDataCellEventsSubject.eraseToAnyPublisher()
 	private let userDataCellEventsSubject = PassthroughSubject<UserDataCellEvents, Never>()
-	private var cancellables = Set<AnyCancellable>()
+
 	//MARK: - UI Elements
 	private lazy var titleLabel = buildFieldTitleLabel()
 	private(set) lazy var userTextField: UITextField = {
@@ -38,12 +38,6 @@ final class UserDataCell: UICollectionViewCell {
 		super.init(coder: coder)
 		setupUI()
 		setupEvents()
-	}
-	
-	//MARK: - Overriden methods
-	override func prepareForReuse() {
-		super.prepareForReuse()
-		cancellables.removeAll()
 	}
 	
 	//MARK: - Public methods

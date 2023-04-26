@@ -12,10 +12,16 @@ struct DatePickerCellModel: Hashable {
 }
 
 struct GlucoseLevelOrMealCellModel: Hashable {
+	enum GlucoseOrMealCellState {
+		case glucose
+		case meal
+	}
+	
 	let title: String
 	let parameterTitle: String
 	let textfieldValue: String
 	let unitsTitle: String
+	let currentField: GlucoseOrMealCellState
 }
 
 struct InsulinCellModel: Hashable {
@@ -36,7 +42,7 @@ struct NoteCellModel: Hashable {
 enum RecordParameterSections: Int, Hashable {
 	case date
 	case main
-	case unsulin
+	case insulin
 	case note
 	case buttons
 }

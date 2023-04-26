@@ -65,7 +65,8 @@
 "access-denied" = "Access denied";
 "photoLibraryPermissionsMessage" = "You need to give an access to Photo Library for application to pick an image for user profile.";
 "go-to-settings" = "Go to settings";
-
+"how-do-you-feel" = "How do you feel?";
+"date" = "Date";
 
 
 

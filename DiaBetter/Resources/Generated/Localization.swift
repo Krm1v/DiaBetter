@@ -42,6 +42,8 @@ internal enum Localization {
   internal static let customization = Localization.tr("Localizable", "customization", fallback: "Customization")
   /// Data
   internal static let data = Localization.tr("Localizable", "data", fallback: "Data")
+  /// Date
+  internal static let date = Localization.tr("Localizable", "date", fallback: "Date")
   /// Delete photo
   internal static let deletePhoto = Localization.tr("Localizable", "delete-photo", fallback: "Delete photo")
   /// Diabetes type
@@ -77,6 +79,8 @@ internal enum Localization {
   internal static let goToSettings = Localization.tr("Localizable", "go-to-settings", fallback: "Go to settings")
   /// Home
   internal static let home = Localization.tr("Localizable", "home", fallback: "Home")
+  /// How do you feel?
+  internal static let howDoYouFeel = Localization.tr("Localizable", "how-do-you-feel", fallback: "How do you feel?")
   /// Insulin
   internal static let insulin = Localization.tr("Localizable", "insulin", fallback: "Insulin")
   /// Login

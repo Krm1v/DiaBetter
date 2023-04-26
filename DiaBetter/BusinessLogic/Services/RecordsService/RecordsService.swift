@@ -10,6 +10,7 @@ import Combine
 
 enum RecordServiceErrors: Error {
 	case missingRemoteId
+	case failToConvert
 }
 
 protocol RecordsService {
@@ -82,17 +83,25 @@ final class RecordsServiceImpl {
 	
 	//MARK: - Network requests
 	func addRecord(record: Record) -> AnyPublisher<Record, Error> {
-		
+		guard let date = record.recordDate else {
+			return Fail(error: RecordServiceErrors.failToConvert)
+				.eraseToAnyPublisher()
+		}
+		let recordDate = transformIntToTimeInterval(date: date)
 		let createRecordRequest = RecordRequestModel(fastInsulin: record.fastInsulin,
 													 recordType: record.recordType,
 													 longInsulin: record.longInsulin,
 													 recordNote: record.recordNote,
 													 glucoseLevel: record.glucoseLevel,
 													 meal: record.meal,
-													 recordDate: getCurrentDate())
+													 recordDate: recordDate.convertDateToString(format: .monthDayYearTime))
 		return recordsNetworkService.addRecord(record: createRecordRequest)
 			.mapError { $0 as Error }
-			.map { Record($0) }
+			.map {
+				let record = Record($0)
+				self.save(record: record)
+				return record
+			}
 			.eraseToAnyPublisher()
 	}
 	
@@ -146,10 +155,7 @@ extension RecordsServiceImpl: RecordsService {
 
 //MARK: - Private extension
 private extension RecordsServiceImpl {
-	func getCurrentDate() -> String {
-		let timestamp = Date().timeIntervalSince1970
-		let date = Date()
-		return date.convertDateToString(fromTimeStamp: timestamp,
-										format: .monthDayYearTime)
+	func transformIntToTimeInterval(date: Int) -> TimeInterval {
+		return TimeInterval(date)
 	}
 }

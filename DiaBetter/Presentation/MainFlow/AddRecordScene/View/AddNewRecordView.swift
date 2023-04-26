@@ -7,10 +7,16 @@
 
 import UIKit
 import Combine
+import KeyboardLayoutGuide
 
 enum AddNewRecordActions {
 	case saveButtonTapped
 	case closeButtonTapped
+	case noteTextViewDidChanged(String)
+	case fastInsulinTextfieldDidChanged(String)
+	case basalInsulinTextfieldDidChanged(String)
+	case glucoseOrMealTextfieldDidChanged(String, GlucoseLevelOrMealCellModel?)
+	case dateDidChanged(Date)
 }
 
 final class AddNewRecordView: BaseView {
@@ -49,6 +55,11 @@ final class AddNewRecordView: BaseView {
 		}
 		datasource?.apply(snapshot)
 	}
+	
+	func changeScrollViewInsets(insets: UIEdgeInsets) {
+		collectionView.contentInset = insets
+		collectionView.scrollIndicatorInsets = insets
+	}
 }
 
 //MARK: - Private extension
@@ -72,11 +83,17 @@ private extension AddNewRecordView {
 	
 	func setupCollectionView() {
 		collectionView.backgroundColor = .black
-		collectionView.register(DatePickerCell.self, forCellWithReuseIdentifier: DatePickerCell.reuseID)
-		collectionView.register(GlucoseLevelOrMealCell.self, forCellWithReuseIdentifier: GlucoseLevelOrMealCell.reuseID)
-		collectionView.register(InsulinCell.self, forCellWithReuseIdentifier: InsulinCell.reuseID)
-		collectionView.register(NoteCell.self, forCellWithReuseIdentifier: NoteCell.reuseID)
-		collectionView.register(ButtonsCell.self, forCellWithReuseIdentifier: ButtonsCell.reuseID)
+		collectionView.register(DatePickerCell.self,
+								forCellWithReuseIdentifier: DatePickerCell.reuseID)
+		collectionView.register(GlucoseLevelOrMealCell.self,
+								forCellWithReuseIdentifier: GlucoseLevelOrMealCell.reuseID)
+		collectionView.register(InsulinCell.self,
+								forCellWithReuseIdentifier: InsulinCell.reuseID)
+		
+		collectionView.register(NoteCell.self,
+								forCellWithReuseIdentifier: NoteCell.reuseID)
+		collectionView.register(ButtonsCell.self,
+								forCellWithReuseIdentifier: ButtonsCell.reuseID)
 		setupDatasource()
 	}
 	
@@ -89,21 +106,58 @@ private extension AddNewRecordView {
 				let cell = collectionView.configureCell(cellType: DatePickerCell.self,
 														indexPath: indexPath)
 				cell.configure(model: model)
+				cell.actionPublisher
+					.sink { [unowned self] action in
+						switch action {
+						case .dateDidChanged(let date):
+							self.actionSubject.send(.dateDidChanged(date))
+						}
+					}
+					.store(in: &cancellables)
 				return cell
 			case .glucoseLevelOrMeal(let model):
 				let cell = collectionView.configureCell(cellType: GlucoseLevelOrMealCell.self,
 														indexPath: indexPath)
 				cell.configure(with: model)
+				let object = getObject(with: indexPath)
+				cell.actionPublisher
+					.sink { [unowned self] action in
+						switch action {
+						case .textFieldValueDidChanged(let text):
+							self.actionSubject.send(.glucoseOrMealTextfieldDidChanged(text, object))
+						case .none: break
+						}
+					}
+					.store(in: &cancellables)
 				return cell
 			case .insulin(let model):
 				let cell = collectionView.configureCell(cellType: InsulinCell.self,
 														indexPath: indexPath)
+				cell.actionPublisher
+					.sink { [unowned self] action in
+						switch action {
+						case .fastInsulinTextfieldDidChanged(let text):
+							self.actionSubject.send(.fastInsulinTextfieldDidChanged(text))
+						case .basalInsulinTextfieldDidChanged(let text):
+							self.actionSubject.send(.basalInsulinTextfieldDidChanged(text))
+						case .none: break
+						}
+					}
+					.store(in: &cancellables)
 				cell.configure(with: model)
 				return cell
 			case .note(let model):
 				let cell = collectionView.configureCell(cellType: NoteCell.self,
 														indexPath: indexPath)
 				cell.configure(with: model)
+				cell.actionPublisher
+					.sink { [unowned self] action in
+						switch action {
+						case .textViewDidChanged(let text):
+							self.actionSubject.send(.noteTextViewDidChanged(text))
+						}
+					}
+					.store(in: &cancellables)
 				return cell
 			case .buttons:
 				let cell = collectionView.configureCell(cellType: ButtonsCell.self,
@@ -123,6 +177,17 @@ private extension AddNewRecordView {
 		})
 	}
 	
+	func getObject(with indexPath: IndexPath) -> GlucoseLevelOrMealCellModel? {
+		guard let object = datasource?.itemIdentifier(for: indexPath) else { return nil }
+		var modelToReturn: GlucoseLevelOrMealCellModel?
+		switch object {
+		case .glucoseLevelOrMeal(let model):
+			modelToReturn = model
+		default: break
+		}
+		return modelToReturn
+	}
+	
 	//MARK: - Compositional layout setup methods
 	func makeLayout() -> UICollectionViewLayout {
 		let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
@@ -137,7 +202,7 @@ private extension AddNewRecordView {
 				return makeDateSection()
 			case .main:
 				return makeMainSection()
-			case .unsulin:
+			case .insulin:
 				return makeInsulinSection()
 			case .note:
 				return makeNoteSection()
@@ -157,7 +222,7 @@ private extension AddNewRecordView {
 													 bottom: .zero,
 													 trailing: 16)
 		let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-											   heightDimension: .fractionalHeight(0.08))
+											   heightDimension: .estimated(70))
 		let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
 													 subitem: item,
 													 count: 1)
@@ -174,7 +239,7 @@ private extension AddNewRecordView {
 													 bottom: .zero,
 													 trailing: 16)
 		let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-											   heightDimension: .fractionalHeight(0.15))
+											   heightDimension: .estimated(100))
 		let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
 													 subitem: item,
 													 count: 1)
@@ -191,7 +256,7 @@ private extension AddNewRecordView {
 													 bottom: .zero,
 													 trailing: 16)
 		let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-											   heightDimension: .fractionalHeight(0.2))
+											   heightDimension: .estimated(140))
 		let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
 													 subitem: item,
 													 count: 1)
@@ -208,7 +273,7 @@ private extension AddNewRecordView {
 													 bottom: .zero,
 													 trailing: 16)
 		let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-											   heightDimension: .fractionalHeight(0.25))
+											   heightDimension: .estimated(140))
 		let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
 													 subitem: item,
 													 count: 1)

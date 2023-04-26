@@ -8,9 +8,15 @@
 import UIKit
 import Combine
 
-final class InsulinCell: UICollectionViewCell {
+enum InsulinCellActions {
+	case fastInsulinTextfieldDidChanged(String)
+	case basalInsulinTextfieldDidChanged(String)
+}
+
+final class InsulinCell: BaseCollectionViewCell {
 	//MARK: - Properties
-	
+	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
+	private let actionSubject = CurrentValueSubject<InsulinCellActions?, Never>(nil)
 	
 	//MARK: - UI Elements
 	private lazy var titleLabel = buildTitleLabel(fontSize: 25)
@@ -37,11 +43,13 @@ final class InsulinCell: UICollectionViewCell {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
+		setupBindings()
 	}
 	
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
+		setupBindings()
 	}
 	
 	func configure(with model: InsulinCellModel) {
@@ -73,12 +81,33 @@ private extension InsulinCell {
 		addSubview(vStack, constraints: [
 			vStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
 			vStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-			vStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)])
+			vStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+		])
 		[fastInsulinParameterTitle, fastInsulinTextfield, unitsLabelForFastInsulin].forEach {
 			hStackForFastInsulin.addArrangedSubview($0)
 		}
 		[basalInsulinParameterTitle, basalInsulinTextfield, unitsLabelForBasalInsulin].forEach { hStackForBasalInsulin.addArrangedSubview($0) }
 		[hStackForFastInsulin, hStackForBasalInsulin].forEach { vStack.addArrangedSubview($0) }
+	}
+	
+	func setupBindings() {
+		fastInsulinTextfield.textPublisher
+			.sink { [unowned self] text in
+				guard let text = text else {
+					return
+				}
+				self.actionSubject.send(.fastInsulinTextfieldDidChanged(text))
+			}
+			.store(in: &cancellables)
+		basalInsulinTextfield.textPublisher
+			.sink { [unowned self] text in
+				guard let text = text else {
+					return
+				}
+				self.actionSubject.send(.basalInsulinTextfieldDidChanged(text))
+			}
+			.store(in: &cancellables)
+		
 	}
 }
 

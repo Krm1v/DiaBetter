@@ -13,11 +13,10 @@ enum UserDataMenuCellEvents {
 	case userParameterDidChanged(String)
 }
 
-final class UserDataMenuCell: UICollectionViewCell {
+final class UserDataMenuCell: BaseCollectionViewCell {
 	//MARK: - Properties
 	private(set) lazy var userDataMenuPublisher = userDataMenuSubject.eraseToAnyPublisher()
 	private let userDataMenuSubject = PassthroughSubject<UserDataMenuCellEvents, Never>()
-	private var cancellables = Set<AnyCancellable>()
 	private var menuDatasource = [SettingsMenuDatasourceProtocol]()
 	
 	//MARK: - UI Elements
@@ -44,12 +43,6 @@ final class UserDataMenuCell: UICollectionViewCell {
 		super.init(coder: coder)
 		setupUI()
 		bindActions()
-	}
-	
-	//MARK: - Overriden methods
-	override func prepareForReuse() {
-		super.prepareForReuse()
-		cancellables.removeAll()
 	}
 	
 	//MARK: - Public methods

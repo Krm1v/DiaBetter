@@ -8,9 +8,14 @@
 import UIKit
 import Combine
 
-final class DatePickerCell: UICollectionViewCell {
+enum DatePickerCellActions {
+	case dateDidChanged(Date)
+}
+
+final class DatePickerCell: BaseCollectionViewCell {
 	//MARK: - Properties
-	
+	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
+	private let actionSubject = PassthroughSubject<DatePickerCellActions, Never>()
 	
 	//MARK: - UI Elements
 	private lazy var titleLabel = buildTitleLabel(fontSize: 25)
@@ -29,12 +34,6 @@ final class DatePickerCell: UICollectionViewCell {
 		setupBindings()
 	}
 	
-	//MARK: - Overriden methods
-	override func prepareForReuse() {
-		super.prepareForReuse()
-//		cancellables.removeAll()
-	}
-	
 	//MARK: - Public methods
 	func configure(model: DatePickerCellModel) {
 		titleLabel.text = model.title
@@ -48,21 +47,26 @@ private extension DatePickerCell {
 		rounded(12)
 		setupLayout()
 		datePicker.preferredDatePickerStyle = .compact
+		datePicker.tintColor = Colors.customPink.color
 	}
 	
 	func setupLayout() {
 		addSubview(titleLabel, constraints: [
-			titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+			titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
 			titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8)
 		])
 		addSubview(datePicker, constraints: [
-			datePicker.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+			datePicker.centerYAnchor.constraint(equalTo: centerYAnchor),
 			datePicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8)
 		])
 	}
 	
 	func setupBindings() {
-		
+		datePicker.datePublisher
+			.sink { [unowned self] date in
+				actionSubject.send(.dateDidChanged(date))
+			}
+			.store(in: &cancellables)
 	}
 }
 

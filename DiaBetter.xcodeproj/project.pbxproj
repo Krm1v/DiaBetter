@@ -45,7 +45,6 @@
 		8634B77929ABE24000870B66 /* CreateUserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634B77829ABE24000870B66 /* CreateUserProfileViewController.swift */; };
 		8634B77B29ABE24C00870B66 /* CreateUserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634B77A29ABE24C00870B66 /* CreateUserProfileViewModel.swift */; };
 		8637ADBE29B7609700F14489 /* AddRecordSceneBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637ADBD29B7609700F14489 /* AddRecordSceneBuilder.swift */; };
-		8637ADC229B7611400F14489 /* AddRecordSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637ADC129B7611400F14489 /* AddRecordSceneView.swift */; };
 		8637ADC429B7629000F14489 /* AddRecordSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637ADC329B7629000F14489 /* AddRecordSceneViewController.swift */; };
 		8637ADC629B762B700F14489 /* AddRecordSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637ADC529B762B700F14489 /* AddRecordSceneViewModel.swift */; };
 		8637ADC829B78A4A00F14489 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637ADC729B78A4A00F14489 /* Record.swift */; };
@@ -122,6 +121,10 @@
 		86AE57FC29F0558700A50F05 /* ButtonsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE57FB29F0558700A50F05 /* ButtonsCell.swift */; };
 		86AE57FE29F05D4F00A50F05 /* SwiftUICanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE57FD29F05D4F00A50F05 /* SwiftUICanvas.swift */; };
 		86AE580029F0611300A50F05 /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE57FF29F0611300A50F05 /* DatePickerCell.swift */; };
+		86AE580229F13E8300A50F05 /* String+LeadingSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE580129F13E8300A50F05 /* String+LeadingSpaces.swift */; };
+		86AE580429F1493D00A50F05 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE580329F1493D00A50F05 /* BaseCollectionViewCell.swift */; };
+		86AE580829F6EABC00A50F05 /* TimeInterval+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE580729F6EABC00A50F05 /* TimeInterval+String.swift */; };
+		86AE580A29F9378500A50F05 /* Notification.Name+UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE580929F9378500A50F05 /* Notification.Name+UIResponder.swift */; };
 		86B3728D29C4F5A50095C229 /* CollectionViewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B3728C29C4F5A50095C229 /* CollectionViewProtocols.swift */; };
 		86B3729229C9DE320095C229 /* UserUpdateRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B3729129C9DE320095C229 /* UserUpdateRequestModel.swift */; };
 		86B3729429C9F1600095C229 /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B3729329C9F1600095C229 /* SectionModel.swift */; };
@@ -211,7 +214,6 @@
 		8634B77829ABE24000870B66 /* CreateUserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserProfileViewController.swift; sourceTree = "<group>"; };
 		8634B77A29ABE24C00870B66 /* CreateUserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserProfileViewModel.swift; sourceTree = "<group>"; };
 		8637ADBD29B7609700F14489 /* AddRecordSceneBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecordSceneBuilder.swift; sourceTree = "<group>"; };
-		8637ADC129B7611400F14489 /* AddRecordSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecordSceneView.swift; sourceTree = "<group>"; };
 		8637ADC329B7629000F14489 /* AddRecordSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecordSceneViewController.swift; sourceTree = "<group>"; };
 		8637ADC529B762B700F14489 /* AddRecordSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecordSceneViewModel.swift; sourceTree = "<group>"; };
 		8637ADC729B78A4A00F14489 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
@@ -287,6 +289,10 @@
 		86AE57FB29F0558700A50F05 /* ButtonsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsCell.swift; sourceTree = "<group>"; };
 		86AE57FD29F05D4F00A50F05 /* SwiftUICanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUICanvas.swift; sourceTree = "<group>"; };
 		86AE57FF29F0611300A50F05 /* DatePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; };
+		86AE580129F13E8300A50F05 /* String+LeadingSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+LeadingSpaces.swift"; sourceTree = "<group>"; };
+		86AE580329F1493D00A50F05 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		86AE580729F6EABC00A50F05 /* TimeInterval+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+String.swift"; sourceTree = "<group>"; };
+		86AE580929F9378500A50F05 /* Notification.Name+UIResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+UIResponder.swift"; sourceTree = "<group>"; };
 		86B3728C29C4F5A50095C229 /* CollectionViewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewProtocols.swift; sourceTree = "<group>"; };
 		86B3729129C9DE320095C229 /* UserUpdateRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdateRequestModel.swift; sourceTree = "<group>"; };
 		86B3729329C9F1600095C229 /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
@@ -366,6 +372,7 @@
 				86B3729929CC6E500095C229 /* ImageAsset+Hashable.swift */,
 				866FCCE229E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift */,
 				860AE91129E9C04D006CF2E1 /* UIApplication+OpenSettings.swift */,
+				86AE580929F9378500A50F05 /* Notification.Name+UIResponder.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -429,6 +436,7 @@
 				F48BC8882D4A3148879B4DB4 /* BaseViewModel.swift */,
 				8EBA49D36093D9210C72E8D7 /* Module.swift */,
 				86B3729329C9F1600095C229 /* SectionModel.swift */,
+				86AE580329F1493D00A50F05 /* BaseCollectionViewCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -535,6 +543,7 @@
 			children = (
 				E054F9DD0877D01EE11868F9 /* MainTabBar */,
 				8699F33829B3D75A00705347 /* HomeScene */,
+				8637ADBF29B7609A00F14489 /* AddRecordScene */,
 				86D0A74529A3847D00980996 /* DiaryScene */,
 				8699F33529B3D70A00705347 /* Settings */,
 				8637ADDB29BA17A300F14489 /* ReportScene */,
@@ -546,10 +555,9 @@
 			isa = PBXGroup;
 			children = (
 				8637ADBD29B7609700F14489 /* AddRecordSceneBuilder.swift */,
-				8637ADC129B7611400F14489 /* AddRecordSceneView.swift */,
+				866C141429EEA6200029D770 /* View */,
 				8637ADC329B7629000F14489 /* AddRecordSceneViewController.swift */,
 				8637ADC529B762B700F14489 /* AddRecordSceneViewModel.swift */,
-				866C141429EEA6200029D770 /* View */,
 			);
 			path = AddRecordScene;
 			sourceTree = "<group>";
@@ -588,6 +596,8 @@
 				8637ADE429BA817A00F14489 /* String+DecimalValue.swift */,
 				863C7EBE29C10183008F93F0 /* NSMutableData+AppendString.swift */,
 				866C140E29EE9F0F0029D770 /* Date+Timestamp.swift */,
+				86AE580129F13E8300A50F05 /* String+LeadingSpaces.swift */,
+				86AE580729F6EABC00A50F05 /* TimeInterval+String.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -875,7 +885,6 @@
 				8699F33929B3D76B00705347 /* HomeSceneView.swift */,
 				8699F33B29B3D77700705347 /* HomeSceneViewController.swift */,
 				8699F33D29B3D78100705347 /* HomeSceneViewModel.swift */,
-				8637ADBF29B7609A00F14489 /* AddRecordScene */,
 			);
 			path = HomeScene;
 			sourceTree = "<group>";
@@ -1187,6 +1196,7 @@
 				8699F33729B3D75700705347 /* HomeSceneBuilder.swift in Sources */,
 				F155250D330A470AD15137FE /* Assets.swift in Sources */,
 				866C141829EEA6A60029D770 /* GlucoseLevelOrMealCell.swift in Sources */,
+				86AE580829F6EABC00A50F05 /* TimeInterval+String.swift in Sources */,
 				86900801299D45D7001B672E /* NetworkError.swift in Sources */,
 				868FC8DABB7F9E307A73FD0D /* AuthCoordinator.swift in Sources */,
 				8637ADC429B7629000F14489 /* AddRecordSceneViewController.swift in Sources */,
@@ -1198,6 +1208,7 @@
 				86AE580029F0611300A50F05 /* DatePickerCell.swift in Sources */,
 				86665AA229E0793300745331 /* ContentTypePlugin.swift in Sources */,
 				86AE57F629F0113000A50F05 /* NoteCell.swift in Sources */,
+				86AE580A29F9378500A50F05 /* Notification.Name+UIResponder.swift in Sources */,
 				86D0A74F29A520E200980996 /* NetworkServiceProvider.swift in Sources */,
 				86900812299D4CBA001B672E /* UserSceneBuilder.swift in Sources */,
 				8634B77729ABE23500870B66 /* CreateUserProfileView.swift in Sources */,
@@ -1209,11 +1220,12 @@
 				FD95A82E45DDBD6179945692 /* BaseViewController.swift in Sources */,
 				83940A46BF53DCCBC541ACAD /* BaseViewModel.swift in Sources */,
 				9606D899A4BA38A4B22F5F46 /* Colors.swift in Sources */,
+				86AE580429F1493D00A50F05 /* BaseCollectionViewCell.swift in Sources */,
 				8699F32129B284AE00705347 /* SettingsSceneBuilder.swift in Sources */,
 				8634B76929A8F96F00870B66 /* LoginSceneModuleBuilder.swift in Sources */,
 				52240AD4FD6858299CF66229 /* Coordinator.swift in Sources */,
-				8637ADC229B7611400F14489 /* AddRecordSceneView.swift in Sources */,
 				95AA89A577C06A4D69C5312A /* Fonts.swift in Sources */,
+				86AE580229F13E8300A50F05 /* String+LeadingSpaces.swift in Sources */,
 				6C9561E1A9C8AFF3E3224B33 /* LoadingView.swift in Sources */,
 				FE76E20111DBDDA1A8CC5B1C /* Localization.swift in Sources */,
 				8699F31629B0BEF800705347 /* ResetPasswordSceneViewController.swift in Sources */,

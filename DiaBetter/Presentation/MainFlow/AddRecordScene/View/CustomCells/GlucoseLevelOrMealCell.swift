@@ -8,9 +8,14 @@
 import UIKit
 import Combine
 
-final class GlucoseLevelOrMealCell: UICollectionViewCell {
+enum GlucoseOrMealCellActions {
+	case textFieldValueDidChanged(String)
+}
+
+final class GlucoseLevelOrMealCell: BaseCollectionViewCell {
 	//MARK: - Properties
-	var model: GlucoseLevelOrMealCellModel?
+	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
+	private let actionSubject = CurrentValueSubject<GlucoseOrMealCellActions?, Never>(nil)
 	
 	//MARK: - UI Elements
 	private lazy var titleLabel = buildTitleLabel(fontSize: 25)
@@ -26,11 +31,13 @@ final class GlucoseLevelOrMealCell: UICollectionViewCell {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
+		setupBindings()
 	}
 	
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
+		setupBindings()
 	}
 	
 	func configure(with model: GlucoseLevelOrMealCellModel) {
@@ -48,12 +55,6 @@ private extension GlucoseLevelOrMealCell {
 		textField.borderStyle = .none
 		self.rounded(12)
 		setupLayout()
-//		self.layer.shadowColor = Colors.customPink.color.cgColor
-//		self.layer.shadowOffset = CGSizeMake(0, 1)
-//		self.layer.shadowOpacity = 2
-//		self.layer.shadowRadius = 1.0
-//		self.clipsToBounds = false
-//		self.layer.masksToBounds = false
 	}
 	
 	func setupLayout() {
@@ -67,6 +68,17 @@ private extension GlucoseLevelOrMealCell {
 			hStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
 		])
 		[parameterTitle, textField, unitsLabel].forEach { hStack.addArrangedSubview($0) }
+	}
+	
+	func setupBindings() {
+		textField.textPublisher
+			.sink { [unowned self] text in
+				guard let text = text else {
+					return
+				}
+				actionSubject.send(.textFieldValueDidChanged(text))
+			}
+			.store(in: &cancellables)
 	}
 }
 
