@@ -26,24 +26,21 @@ final class TableViewCustomCell: UITableViewCell {
 	}
 }
 
-//MARK: - Extension SelfConfiguringTableViewCell
-extension TableViewCustomCell: SelfConfiguringCell {
-	static var reuseID: String {
-		return Constants.reuseID
-	}
-}
-
 //MARK: - Private extension
 private extension TableViewCustomCell {
 	func setupCell() {
 		backgroundColor = Colors.darkNavyBlue.color
 		selectionStyle = .none
-		separatorInset = UIEdgeInsets(top: .zero, left: 8, bottom: .zero, right: 8)
-		textLabel?.font = FontFamily.Montserrat.semiBold.font(size: 17)
+		separatorInset = UIEdgeInsets(top: .zero,
+									  left: Constants.defaultEdgeInset,
+									  bottom: .zero,
+									  right: Constants.defaultEdgeInset)
+		textLabel?.font = FontFamily.Montserrat.semiBold.font(size: Constants.defaultFontSize)
 	}
 }
 
 //MARK: - Constants
 fileprivate enum Constants {
-	static let reuseID = "settingsTableViewCell"
+	static let defaultEdgeInset: CGFloat = 8
+	static let defaultFontSize:  CGFloat = 17
 }

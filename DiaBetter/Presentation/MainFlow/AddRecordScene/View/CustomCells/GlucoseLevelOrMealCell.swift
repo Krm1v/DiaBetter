@@ -15,57 +15,62 @@ enum GlucoseOrMealCellActions {
 final class GlucoseLevelOrMealCell: BaseCollectionViewCell {
 	//MARK: - Properties
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
-	private let actionSubject = CurrentValueSubject<GlucoseOrMealCellActions?, Never>(nil)
+	private let actionSubject = PassthroughSubject<GlucoseOrMealCellActions, Never>()
 	
 	//MARK: - UI Elements
-	private lazy var titleLabel = buildTitleLabel(fontSize: 25)
-	private lazy var parameterTitle = buildFieldTitleLabel(fontSize: 20)
+	private lazy var titleLabel = buildTitleLabel(fontSize: Constants.titleLabelFontSize)
+	private lazy var parameterTitle = buildFieldTitleLabel(fontSize: Constants.parameterTitleFontSize)
 	private lazy var textField = buildSystemTextField(with: "", keyBoardType: .decimalPad)
 	private lazy var unitsLabel = buildUserInfoLabel()
 	private lazy var hStack = buildStackView(axis: .horizontal,
 											 alignment: .fill,
 											 distribution: .fill,
-											 spacing: 8)
+											 spacing: Constants.defaultStackViewSpacing)
 	
 	//MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
-		setupBindings()
 	}
 	
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
-		setupBindings()
 	}
 	
+	//MARK: - Public methods
 	func configure(with model: GlucoseLevelOrMealCellModel) {
 		titleLabel.text = model.title
 		parameterTitle.text = model.parameterTitle
 		textField.placeholder = model.textfieldValue
 		unitsLabel.text = model.unitsTitle
+		setupBindings()
 	}
 }
 
 //MARK: - Private extension
 private extension GlucoseLevelOrMealCell {
 	func setupUI() {
-		backgroundColor = Colors.darkNavyBlue.color
-		textField.borderStyle = .none
-		self.rounded(12)
 		setupLayout()
+		self.rounded(Constants.defaultCornerRadius)
+		self.backgroundColor = Colors.darkNavyBlue.color
+		textField.borderStyle = .none
 	}
 	
 	func setupLayout() {
 		addSubview(titleLabel, constraints: [
-			titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-			titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8)
+			titleLabel.topAnchor.constraint(equalTo: topAnchor,
+											constant: Constants.defaultSmallEdgeInset),
+			titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
+												constant: Constants.defaultSmallEdgeInset)
 		])
 		addSubview(hStack, constraints: [
-			hStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-			hStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-			hStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+			hStack.leadingAnchor.constraint(equalTo: leadingAnchor,
+											constant: Constants.defaultLargeEdgeInset),
+			hStack.trailingAnchor.constraint(equalTo: trailingAnchor,
+											 constant: -Constants.defaultLargeEdgeInset),
+			hStack.bottomAnchor.constraint(equalTo: bottomAnchor,
+										   constant: -Constants.defaultSmallEdgeInset)
 		])
 		[parameterTitle, textField, unitsLabel].forEach { hStack.addArrangedSubview($0) }
 	}
@@ -82,12 +87,12 @@ private extension GlucoseLevelOrMealCell {
 	}
 }
 
-//MARK: - Extension SelfConfiguringCell
-extension GlucoseLevelOrMealCell: SelfConfiguringCell {
-	static var reuseID: String {
-		"plainCell"
-	}
+//MARK: - Constants
+fileprivate enum Constants {
+	static let titleLabelFontSize: 		CGFloat = 25
+	static let parameterTitleFontSize:  CGFloat = 20
+	static let defaultStackViewSpacing: CGFloat = 8
+	static let defaultSmallEdgeInset: 	CGFloat = 8
+	static let defaultLargeEdgeInset: 	CGFloat = 16
+	static let defaultCornerRadius:		CGFloat = 12
 }
-
-//MARK: - Extension UIElementsBuilder
-extension GlucoseLevelOrMealCell: UIElementsBuilder {}

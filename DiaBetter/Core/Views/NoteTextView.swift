@@ -82,9 +82,11 @@ private extension NoteTextView {
 			return
 		}
 		fakePlaceholder.frame.origin = CGPoint(x: 15, y: (pointSize) / 1.4)
-		charactersCountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.basicEdgeInset)
+		charactersCountLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
+													   constant: -Constants.basicEdgeInset)
 			.isActive = true
-		charactersCountLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.basicEdgeInset)
+		charactersCountLabel.bottomAnchor.constraint(equalTo: bottomAnchor,
+													 constant: -Constants.basicEdgeInset)
 			.isActive = true
 		textView.textContainerInset = Constants.textContainerInsets
 	}

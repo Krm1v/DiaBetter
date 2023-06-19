@@ -18,65 +18,63 @@ final class DatePickerCell: BaseCollectionViewCell {
 	private let actionSubject = PassthroughSubject<DatePickerCellActions, Never>()
 	
 	//MARK: - UI Elements
-	private lazy var titleLabel = buildTitleLabel(fontSize: 25)
+	private lazy var titleLabel = buildTitleLabel(fontSize: Constants.titleLabelFontSize)
 	private lazy var datePicker = UIDatePicker()
 	
 	//MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
-		setupBindings()
 	}
 	
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
-		setupBindings()
 	}
 	
 	//MARK: - Public methods
 	func configure(model: DatePickerCellModel) {
 		titleLabel.text = model.title
+		setupBindings()
 	}
 }
 
 //MARK: - Private extension
 private extension DatePickerCell {
 	func setupUI() {
-		backgroundColor = Colors.darkNavyBlue.color
-		rounded(12)
 		setupLayout()
+		self.rounded(Constants.defaultCornerRadius)
+		self.backgroundColor = Colors.darkNavyBlue.color
+		datePicker.datePickerMode = .dateAndTime
 		datePicker.preferredDatePickerStyle = .compact
 		datePicker.tintColor = Colors.customPink.color
+		datePicker.maximumDate = .now
 	}
 	
 	func setupLayout() {
 		addSubview(titleLabel, constraints: [
 			titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-			titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8)
+			titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
+												constant: Constants.smallEdgeInset)
 		])
 		addSubview(datePicker, constraints: [
 			datePicker.centerYAnchor.constraint(equalTo: centerYAnchor),
-			datePicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8)
+			datePicker.trailingAnchor.constraint(equalTo: trailingAnchor,
+												 constant: -Constants.smallEdgeInset)
 		])
 	}
 	
 	func setupBindings() {
 		datePicker.datePublisher
-			.sink { [unowned self] date in
-				actionSubject.send(.dateDidChanged(date))
-			}
+			.map { DatePickerCellActions.dateDidChanged($0) }
+			.subscribe(actionSubject)
 			.store(in: &cancellables)
 	}
 }
 
-//MARK: - Extension SelfConfiguringCell
-extension DatePickerCell: SelfConfiguringCell {
-	static var reuseID: String {
-		"datePickerCell"
-	}
+//MARK: - Constants
+fileprivate enum Constants {
+	static let titleLabelFontSize:  CGFloat = 25
+	static let defaultCornerRadius: CGFloat = 12
+	static let smallEdgeInset: 		CGFloat = 8
 }
-
-//MARK: - Extension UIElementsBuilder
-extension DatePickerCell: UIElementsBuilder {}
-

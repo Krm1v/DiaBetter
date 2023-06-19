@@ -21,7 +21,7 @@ protocol RecordsService {
 	func clear()
 	func addRecord(record: Record) -> AnyPublisher<Record, Error>
 	func updateRecord(record: Record, id: String) -> AnyPublisher<Record, Error>
-	func fetchRecords() -> AnyPublisher<[Record], Error>
+	func fetchRecords(userId: String) -> AnyPublisher<[Record], Error>
 	func deleteRecord(id: String) -> AnyPublisher<Void, Error>
 }
 
@@ -87,15 +87,12 @@ final class RecordsServiceImpl {
 			return Fail(error: RecordServiceErrors.failToConvert)
 				.eraseToAnyPublisher()
 		}
-		let recordDate = transformIntToTimeInterval(date: date)
-		let createRecordRequest = RecordRequestModel(fastInsulin: record.fastInsulin,
-													 recordType: record.recordType,
-													 longInsulin: record.longInsulin,
-													 recordNote: record.recordNote,
-													 glucoseLevel: record.glucoseLevel,
-													 meal: record.meal,
-													 recordDate: recordDate.convertDateToString(format: .monthDayYearTime))
-		return recordsNetworkService.addRecord(record: createRecordRequest)
+		let recordRequestModel = createRequestModel(
+			record,
+			date: date.stringRepresentation(format: .monthDayYearTime,
+											timeZone: TimeZone(identifier: "GMT") ?? .current)
+		)
+		return recordsNetworkService.addRecord(record: recordRequestModel)
 			.mapError { $0 as Error }
 			.map {
 				let record = Record($0)
@@ -106,18 +103,16 @@ final class RecordsServiceImpl {
 	}
 	
 	func updateRecord(record: Record, id: String) -> AnyPublisher<Record, Error> {
-		let recordUpdateRequest = RecordRequestModel(fastInsulin: record.fastInsulin,
-													 recordType: record.recordType,
-													 longInsulin: record.longInsulin,
-													 recordNote: record.recordNote,
-													 glucoseLevel: record.glucoseLevel,
-													 meal: record.meal,
-													 recordDate: nil)
-		guard let recordId = record.objectId else {
-			return Fail(error: RecordServiceErrors.missingRemoteId)
+		guard let date = record.recordDate else {
+			return Fail(error: RecordServiceErrors.failToConvert)
 				.eraseToAnyPublisher()
 		}
-		return recordsNetworkService.updateRecord(record: recordUpdateRequest, id: recordId)
+		let recordRequestModel = createRequestModel(
+			record,
+			date: date.stringRepresentation(format: .monthDayYearTime,
+											timeZone: TimeZone(identifier: "GMT") ?? .current)
+		)
+		return recordsNetworkService.updateRecord(record: recordRequestModel, id: record.objectId)
 			.mapError { $0 as Error }
 			.map(Record.init)
 			.handleEvents(receiveOutput: { [weak self] response in
@@ -127,8 +122,8 @@ final class RecordsServiceImpl {
 			.eraseToAnyPublisher()
 	}
 	
-	func fetchRecords() -> AnyPublisher<[Record], Error> {
-		return recordsNetworkService.fetchRecords()
+	func fetchRecords(userId: String) -> AnyPublisher<[Record], Error> {
+		return recordsNetworkService.fetchRecords(userId: userId)
 			.mapError { $0 as Error }
 			.map({ $0.map(Record.init) })
 			.eraseToAnyPublisher()
@@ -143,7 +138,6 @@ final class RecordsServiceImpl {
 			.mapError { $0 as Error }
 			.eraseToAnyPublisher()
 	}
-	
 }
 
 //MARK: - Extension UserService
@@ -154,8 +148,14 @@ extension RecordsServiceImpl: RecordsService {
 }
 
 //MARK: - Private extension
-private extension RecordsServiceImpl {
-	func transformIntToTimeInterval(date: Int) -> TimeInterval {
-		return TimeInterval(date)
+private extension RecordsService {
+	func createRequestModel(_ record: Record, date: String?) -> RecordRequestModel {
+		return RecordRequestModel(fastInsulin: record.fastInsulin,
+								  longInsulin: record.longInsulin,
+								  recordNote: record.recordNote,
+								  glucoseLevel: record.glucoseLevel,
+								  meal: record.meal,
+								  recordDate: date,
+								  ownerId: record.userId)
 	}
 }

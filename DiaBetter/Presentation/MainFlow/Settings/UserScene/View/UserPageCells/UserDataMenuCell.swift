@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-enum UserDataMenuCellEvents {
+enum UserDataMenuCellActions {
 	case menuDidTapped
 	case userParameterDidChanged(String)
 }
@@ -16,33 +16,23 @@ enum UserDataMenuCellEvents {
 final class UserDataMenuCell: BaseCollectionViewCell {
 	//MARK: - Properties
 	private(set) lazy var userDataMenuPublisher = userDataMenuSubject.eraseToAnyPublisher()
-	private let userDataMenuSubject = PassthroughSubject<UserDataMenuCellEvents, Never>()
+	private let userDataMenuSubject = PassthroughSubject<UserDataMenuCellActions, Never>()
 	private var menuDatasource = [SettingsMenuDatasourceProtocol]()
 	
 	//MARK: - UI Elements
 	private lazy var titleLabel = buildFieldTitleLabel()
-	private lazy var userParameterButton: UIButton = {
-		let button = UIButton(type: .system)
-		button.translatesAutoresizingMaskIntoConstraints = false
-		button.titleLabel?.font = FontFamily.Montserrat.regular.font(size: 17)
-		button.tintColor = .white
-		button.showsMenuAsPrimaryAction = true
-		return button
-	}()
-	
+	private lazy var userParameterButton = UIButton()
 	private var menu = UIMenu()
 	
 	//MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
-		bindActions()
 	}
 	
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
-		bindActions()
 	}
 	
 	//MARK: - Public methods
@@ -51,12 +41,50 @@ final class UserDataMenuCell: BaseCollectionViewCell {
 		userParameterButton.setTitle(model.labelValue, for: .normal)
 		switch model.source {
 		case .diabetesType:
-			menuDatasource = DiabetesType.allCases
+			menuDatasource = UserTreatmentSettings.DiabetesType.allCases
 		case .longInsulines:
-			menuDatasource = LongInsulines.allCases
+			menuDatasource = UserTreatmentSettings.LongInsulines.allCases
 		case .fastInsulines:
-			menuDatasource = FastInsulines.allCases
+			menuDatasource = UserTreatmentSettings.FastInsulines.allCases
 		}
+		bindActions()
+	}
+}
+
+//MARK: - Private extension
+private extension UserDataMenuCell {
+	func setupUI() {
+		setupLayout()
+		titleLabel.textColor = .white
+		self.backgroundColor = Colors.darkNavyBlue.color
+		userParameterButton.titleLabel?.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelFontSize)
+		userParameterButton.tintColor = .white
+		userParameterButton.showsMenuAsPrimaryAction = true
+	}
+	
+	func setupLayout() {
+		addSubview(titleLabel, constraints: [
+			titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+			titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
+												constant: Constants.defaultEdgeInsets)
+		])
+		
+		addSubview(userParameterButton, constraints: [
+			userParameterButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+			userParameterButton.trailingAnchor.constraint(equalTo: trailingAnchor,
+														  constant: -Constants.defaultEdgeInsets)
+		])
+	}
+	
+	func presentPopover(with datasource: [SettingsMenuDatasourceProtocol]) {
+		let menuItems = datasource.map { item in
+			UIAction(title: item.title) { [unowned self] _ in
+				self.userParameterButton.setTitle(item.title, for: .normal)
+				self.userDataMenuSubject.send(.userParameterDidChanged(item.title))
+			} }
+		menu = UIMenu(title: "", children: menuItems)
+		userParameterButton.showsMenuAsPrimaryAction = true
+		userParameterButton.menu = menu
 	}
 	
 	//MARK: - Actions
@@ -70,53 +98,8 @@ final class UserDataMenuCell: BaseCollectionViewCell {
 	}
 }
 
-//MARK: - Private extension
-private extension UserDataMenuCell {
-	func setupUI() {
-		backgroundColor = Colors.darkNavyBlue.color
-		addSubs()
-		setupLayout()
-		titleLabel.textColor = .white
-	}
-	
-	func addSubs() {
-		addSubview(titleLabel)
-		addSubview(userParameterButton)
-	}
-	
-	func setupLayout() {
-		titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
-			.isActive = true
-		titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8)
-			.isActive = true
-		userParameterButton.centerYAnchor.constraint(equalTo: centerYAnchor)
-			.isActive = true
-		userParameterButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8)
-			.isActive = true
-	}
-	
-	func presentPopover(with datasource: [SettingsMenuDatasourceProtocol]) {
-		var menuItems = [UIAction]()
-		let _ = datasource.map { item in
-			let action = UIAction(title: item.title) { [weak self] _ in
-				guard let self = self else { return }
-				self.userParameterButton.setTitle(item.title, for: .normal)
-				self.userDataMenuSubject.send(.userParameterDidChanged(item.title))
-			}
-			menuItems.append(action)
-		}
-		menu = UIMenu(title: "", children: menuItems)
-		userParameterButton.showsMenuAsPrimaryAction = true
-		userParameterButton.menu = menu
-	}
-}
-
-//MARK: - Extension UIElementsBuilder
-extension UserDataMenuCell: UIElementsBuilder {}
-
-//MARK: - Extension SelfConfiguringCollectionViewCell
-extension UserDataMenuCell: SelfConfiguringCell {
-	static var reuseID: String {
-		return "userDataMenuCell"
-	}
+//MARK: - Constants
+fileprivate enum Constants {
+	static let titleLabelFontSize: CGFloat = 17
+	static let defaultEdgeInsets:  CGFloat = 8
 }

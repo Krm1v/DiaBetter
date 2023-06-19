@@ -15,6 +15,8 @@ protocol AppContainer: AnyObject {
 	var userAuthorizationService: UserAuthorizationService { get }
 	var recordsService: RecordsService { get }
 	var recordsNetworkService: RecordsNetworkService { get }
+	var userNotificationManager: UserNotificationManager { get }
+	var permissionService: PermissionService { get }
 }
 
 final class AppContainerImpl: AppContainer {
@@ -25,6 +27,8 @@ final class AppContainerImpl: AppContainer {
 	let userAuthorizationService: UserAuthorizationService
 	let recordsService: RecordsService
 	let recordsNetworkService: RecordsNetworkService
+	let userNotificationManager: UserNotificationManager
+	let permissionService: PermissionService
 	
 	//MARK: - Init
 	init() {
@@ -62,10 +66,18 @@ final class AppContainerImpl: AppContainer {
 			decoder: JSONDecoder())
 		self.recordsNetworkService = RecordsNetworkServiceImpl(recordNetworkProvider)
 		
-		let userService = UserServiceImpl(userNetworkService: userNetworkService, tokenStorage: tokenStorage)
+		let userService = UserServiceImpl(userNetworkService: userNetworkService,
+										  userAuthorizationService: userAuthorizationService,
+										  tokenStorage: tokenStorage)
 		self.userService = userService
 		
-		let recordService = RecordsServiceImpl(recordsNetworkService: recordsNetworkService, tokenStorage: tokenStorage)
-		self.recordsService = recordService  
+		let recordService = RecordsServiceImpl(recordsNetworkService: recordsNetworkService,
+											   tokenStorage: tokenStorage)
+		self.recordsService = recordService
+		let userNotificationManager = UserNotificationManagerImpl()
+		self.userNotificationManager = userNotificationManager
+		
+		let permissionService = PermissionServiceImpl()
+		self.permissionService = permissionService
 	}
 }

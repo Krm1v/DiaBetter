@@ -11,16 +11,16 @@ struct RecordsResponseModel: Decodable {
 	let meal: Decimal?
 	let longInsulin: Decimal?
 	let glucoseLevel: Decimal?
-	let recordType: String
 	let created: Int?
 	let recordNote: String?
 	let fastInsulin: Decimal?
-	let objectID: String?
-	let recordDate: Int
+	let objectID: String
+	let recordDate: Double
+	let ownerId: String
 	
 	enum CodingKeys: String, CodingKey {
-		case meal, longInsulin, glucoseLevel, recordType, created, recordDate
-		case recordNote
+		case meal, longInsulin, glucoseLevel, created, recordDate
+		case recordNote, ownerId
 		case fastInsulin
 		case objectID = "objectId"
 	}

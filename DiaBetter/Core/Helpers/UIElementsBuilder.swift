@@ -51,13 +51,22 @@ extension UIElementsBuilder {
 		return button
 	}
 	
+	func buildDeleteButton() -> GradientFilledButton {
+		let button = GradientFilledButton(type: .system)
+		button.translatesAutoresizingMaskIntoConstraints = false
+		button.setTitle(Localization.delete, for: .normal)
+		button.setTitleColor(.white, for: .normal)
+		button.titleLabel?.font = FontFamily.Montserrat.semiBold.font(size: 13)
+		return button
+	}
+	
 	func buildNavBarButton() -> UIBarButtonItem {
 		let button = UIBarButtonItem()
 		return button
 	}
 	
 	//MARK: - TextFields
-	func buildSystemTextField(with placeholder: String,
+	func buildSystemTextField(with placeholder: String = "",
 							  keyBoardType: UIKeyboardType = .default,
 							  capitalization: UITextAutocapitalizationType = .words) -> UITextField {
 		let textField = UITextField()

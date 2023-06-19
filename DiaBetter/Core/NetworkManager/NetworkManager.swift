@@ -45,7 +45,6 @@ final class NetworkManager: Requestable {
 						.eraseToAnyPublisher()
 				}
 				Logger.info(response.statusCode.description)
-				Logger.info(response.description)
 				switch response.statusCode {
 				case 200...399:
 					return Just(output.data)

@@ -19,6 +19,7 @@
 "email" = "Email";
 "password" = "Password";
 "confirm-password" = "Confirm password";
+"detail" = "Detail";
 
 "home" = "Home";
 "settings" = "Settings";
@@ -40,6 +41,7 @@
 "user-profile" = "User profile";
 "change-photo" = "Change photo";
 "delete-photo" = "Delete photo";
+"delete" = "Delete";
 "cancel" = "Cancel";
 "report" = "Report";
 "general" = "General";
@@ -67,6 +69,24 @@
 "go-to-settings" = "Go to settings";
 "how-do-you-feel" = "How do you feel?";
 "date" = "Date";
-
+"password-description" = "Password must contains at least 8 characters, one capitalized letter, one number and one special symbol";
+"insulin-usage" = "Insulin usage";
+"glucose-level" = "Glucose level";
+"app-title" = "DiaBetter";
+"reset-password-title" = "Password has been successfully reset";
+"reset-password-message" = "Your new password was sent to your email address.";
+"reset-password-description" = "Enter your email address which was used for registration and the new password will be send immediately.";
+"login-validation-error-description" = "Wrong email or password. Check your login data and try again, please.";
+"create-account-validation-error-description" = "Enter email or password in correct format";
+"add-new-record-error-description" = "Your data is empty. Fill at least one of the fields except note field.";
+"notification-access-denied-message" = "DiaBetter needs an access to push notifications. Please, turn on push notifications in system settings.";
+"check-glucose-level" = "Check glucose level";
+"insulin-injection" = "Insulin injection";
+"have meal" = "Have meal";
+"morning" = "Morning";
+"day" = "Day";
+"evening" = "Evening";
+"enable-or-disable-notifications" = "Enable or disable notifications";
+"choose-reminders" = "Choose reminders you need";
 
 

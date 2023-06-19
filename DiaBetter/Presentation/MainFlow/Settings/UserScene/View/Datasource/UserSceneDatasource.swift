@@ -10,37 +10,10 @@ import Combine
 
 protocol UserDataModel {}
 
-struct UserHeaderModel: Hashable {
-	let email: String
-	let image: ImageResource?
-}
-
-struct UserDataSettingsModel: Hashable, UserDataModel {
-	let title: String
-	let textFieldValue: String
-}
-
-struct UserDataMenuSettingsModel: Hashable, UserDataModel {
-	let title: String
-	var labelValue: String
-	let source: SettingsMenuDatasource
-}
-
 enum SettingsMenuDatasource: Hashable {
 	case diabetesType
 	case fastInsulines
 	case longInsulines
-	
-	var type: [SettingsMenuDatasourceProtocol] {
-		switch self {
-		case .diabetesType:
-			return DiabetesType.allCases
-		case .fastInsulines:
-			return FastInsulines.allCases
-		case .longInsulines:
-			return LongInsulines.allCases
-		}
-	}
 }
 
 enum UserProfileSections: Int, Hashable {

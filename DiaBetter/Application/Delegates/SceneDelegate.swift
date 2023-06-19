@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import Combine
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -24,7 +25,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		self.appContainer = AppContainerImpl()
 		self.appCoordinator = AppCoordinator(window: window!,
 											 container: appContainer)
+		UIBarButtonItem.appearance().setTitleTextAttributes(
+			[
+				.font: FontFamily.Montserrat.regular.font(size: 15)
+			],
+			for: .normal)
 		self.appCoordinator?.start()
 	}
 }
-

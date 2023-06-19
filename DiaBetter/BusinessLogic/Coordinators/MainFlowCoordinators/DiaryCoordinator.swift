@@ -29,10 +29,27 @@ final class DiaryCoordinator: Coordinator {
 		module.transitionPublisher
 			.sink { [unowned self] transition in
 				switch transition {
-				case .success: didFinishSubject.send()
+				case .edit(let record):
+					presentDetailScene(record: record)
 				}
 			}
 			.store(in: &cancellables)
 		setRoot(module.viewController)
+	}
+}
+
+//MARK: - Private extension
+private extension DiaryCoordinator {
+	func presentDetailScene(record: Record) {
+		let module = DiaryDetailSceneBuilder.build(container: container, record: record)
+		module.transitionPublisher
+			.sink { [unowned self] transition in
+				switch transition {
+				case .backToDiary:
+					pop()
+				}
+			}
+			.store(in: &cancellables)
+		push(module.viewController)
 	}
 }

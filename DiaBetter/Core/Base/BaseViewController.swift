@@ -8,7 +8,6 @@
 import UIKit
 import Combine
 import CombineCocoa
-import KeyboardLayoutGuide
 
 class BaseViewController<VM: ViewModel>: UIViewController {
 	//MARK: - Properties
@@ -38,18 +37,19 @@ class BaseViewController<VM: ViewModel>: UIViewController {
 		
 		viewModel.errorPublisher
 			.sink { [weak self] error in
-				let alertController = UIAlertController(title: Localization.error, message: error.localizedDescription, preferredStyle: .alert)
-				let okAction = UIAlertAction(title: Localization.ok, style: .default, handler: nil)
-				alertController.addAction(okAction)
-				self?.present(alertController, animated: true, completion: nil)
+				guard let self = self else { return }
+				self.presentAlert(title: Localization.error,
+								  message: error.localizedDescription,
+								  actionTitle: Localization.ok)
 			}
 			.store(in: &cancellables)
+		
 		viewModel.infoPublisher
 			.sink { [weak self] (title, info) in
-				let alertController = UIAlertController(title: title, message: info, preferredStyle: .alert)
-				let okAction = UIAlertAction(title: Localization.ok, style: .default)
-				alertController.addAction(okAction)
-				self?.present(alertController, animated: true)
+				guard let self = self else { return }
+				self.presentAlert(title: title,
+								  message: info,
+								  actionTitle: Localization.ok)
 			}
 			.store(in: &cancellables)
 	}
@@ -78,10 +78,10 @@ class BaseViewController<VM: ViewModel>: UIViewController {
 	//MARK: - Public methods
 	func showLoadingView() {
 		let windowView = UIApplication.shared.windows.first(where: { $0.isKeyWindow })
-		if let loadingView = windowView?.viewWithTag(LoadingView.tagValue) as? LoadingView {
+		if let loadingView = windowView?.viewWithTag(CustomActivityIndicator.tagValue) as? CustomActivityIndicator {
 			loadingView.isLoading = true
 		} else {
-			let loadingView = LoadingView(frame: UIScreen.main.bounds)
+			let loadingView = CustomActivityIndicator(frame: UIScreen.main.bounds)
 			windowView?.addSubview(loadingView)
 			loadingView.isLoading = true
 		}
@@ -89,7 +89,32 @@ class BaseViewController<VM: ViewModel>: UIViewController {
 	
 	func hideLoadingView() {
 		let windowView = UIApplication.shared.windows.first(where: { $0.isKeyWindow })
-		windowView?.viewWithTag(LoadingView.tagValue)?.removeFromSuperview()
+		windowView?.viewWithTag(CustomActivityIndicator.tagValue)?.removeFromSuperview()
+	}
+	
+	func setupNavBar() {
+		navigationController?.navigationBar.isHidden = false
+		navigationController?.navigationBar.prefersLargeTitles = true
+		navigationController?.interactivePopGestureRecognizer?.delegate = nil
+		navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+		
+		navigationController?.navigationBar.largeTitleTextAttributes = [
+			NSAttributedString.Key.foregroundColor: Colors.customPink.color,
+			NSAttributedString.Key.font: FontFamily.Montserrat.bold.font(size: Constants.largeFontSize)
+		]
+		
+		navigationController?.navigationBar.titleTextAttributes = [
+			NSAttributedString.Key.foregroundColor: Colors.customPink.color,
+			NSAttributedString.Key.font: FontFamily.Montserrat.bold.font(size: Constants.regularFontSize)
+		]
+		
+		let appearance = UINavigationBarAppearance()
+		let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
+		buttonAppearance.normal.titleTextAttributes = [
+			.foregroundColor: Colors.customPink.color
+		]
+		appearance.buttonAppearance = buttonAppearance
+		UINavigationBar.appearance().tintColor = Colors.customPink.color
 	}
 	
 	//MARK: - Deinit
@@ -100,15 +125,18 @@ class BaseViewController<VM: ViewModel>: UIViewController {
 
 //MARK: - Private extension
 private extension BaseViewController {
-	func setupNavBar() {
-		navigationController?.navigationBar.largeTitleTextAttributes = [
-			NSAttributedString.Key.foregroundColor: Colors.customPink.color,
-			NSAttributedString.Key.font: FontFamily.Montserrat.bold.font(size: 30)
-		]
-		let appearance = UINavigationBarAppearance()
-		let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
-		buttonAppearance.normal.titleTextAttributes = [.foregroundColor: Colors.customPink.color]
-		appearance.buttonAppearance = buttonAppearance
-		UINavigationBar.appearance().tintColor = Colors.customPink.color
+	func presentAlert(title: String, message: String, actionTitle: String) {
+		let alertController = UIAlertController(title: title,
+												message: message,
+												preferredStyle: .alert)
+		let okAction = UIAlertAction(title: actionTitle, style: .default)
+		alertController.addAction(okAction)
+		self.present(alertController, animated: true)
 	}
+}
+
+//MARK: - Constants
+fileprivate enum Constants {
+	static let largeFontSize: CGFloat = 30
+	static let regularFontSize: CGFloat = 17
 }

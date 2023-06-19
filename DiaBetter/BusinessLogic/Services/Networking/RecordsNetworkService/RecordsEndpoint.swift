@@ -9,10 +9,10 @@ import Foundation
 import Combine
 
 enum RecordsEndpoint: Endpoint {
-	case addRecord(RecordRequestModel)
-	case updateRecord(RecordRequestModel, String)
-	case fetchRecords
-	case deleteRecord(String)
+	case addRecord(model: RecordRequestModel)
+	case updateRecord(model: RecordRequestModel, id: String)
+	case fetchRecords(userId: String)
+	case deleteRecord(id: String)
 	
 	//MARK: - Properties
 	var path: String? {
@@ -24,7 +24,7 @@ enum RecordsEndpoint: Endpoint {
 		case .fetchRecords:
 			return "/data/Records"
 		case .deleteRecord(let id):
-			return "data/Records/\(id)"
+			return "/data/Records/\(id)"
 		}
 	}
 	var httpMethod: HTTPMethods {
@@ -42,6 +42,14 @@ enum RecordsEndpoint: Endpoint {
 	
 	var queries: HTTPQueries {
 		switch self {
+		case .fetchRecords(let id):
+			guard
+				let sortValue = "%60recordDate%60%50desc".removingPercentEncoding,
+				let ownerIdValue = "ownerId%20%3D%20'\(id)'".removingPercentEncoding
+			else {
+				return [:]
+			}
+			return ["where": ownerIdValue, "sortBy": sortValue]
 		default: return [:]
 		}
 	}

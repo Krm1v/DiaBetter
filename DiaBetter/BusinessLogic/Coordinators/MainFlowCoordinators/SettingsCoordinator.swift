@@ -31,6 +31,8 @@ final class SettingsCoordinator: Coordinator {
 				switch transition {
 				case .userScene:
 					openUserSettings()
+				case .notificationsScene:
+					openNotificationsSettings()
 				}
 			}
 			.store(in: &cancellables)
@@ -49,6 +51,14 @@ private extension SettingsCoordinator {
 					didFinishSubject.send()
 				}
 			}
+			.store(in: &cancellables)
+		push(module.viewController)
+	}
+	
+	func openNotificationsSettings() {
+		let module = NotificationsSceneBuilder.build(container: container)
+		module.transitionPublisher
+			.sink { _ in }
 			.store(in: &cancellables)
 		push(module.viewController)
 	}

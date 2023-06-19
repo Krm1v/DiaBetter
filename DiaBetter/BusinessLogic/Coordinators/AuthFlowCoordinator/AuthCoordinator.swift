@@ -36,8 +36,8 @@ private extension AuthCoordinator {
 		module.transitionPublisher
 			.sink { [unowned self] transition in
 				switch transition {
-				case .loggedIn: didFinishSubject.send()
-				case .signUp: signUp()
+				case .loggedIn: 	   didFinishSubject.send()
+				case .signUp: 		   signUp()
 				case .restorePassword: restorePassword()
 				}
 			}
