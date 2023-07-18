@@ -57,6 +57,7 @@ private extension DataSceneView {
 				return cell
 			case .backupItem:
 				return nil
+				
 			}
 		})
 	}

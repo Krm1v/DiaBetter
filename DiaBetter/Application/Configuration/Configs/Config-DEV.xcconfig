@@ -1,0 +1,15 @@
+//
+//  Config-DEV.xcconfig
+//  MVVMSkeleton
+//
+//  Created by Roman Savchenko on 16.12.2021.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+APP_ENVIRONMENT = dev
+APP_NAME = DiaBetter DEV
+APP_BUNDLE_ID = vladyslavbarankevych.com.diabetterapp.dev
+API_KEY = 578AC521-F18E-1B13-FF6E-EF12A242D000
+RESTAPI_KEY = 4C823F64-B69E-47C8-BFF6-1C98195EE0C0
