@@ -115,6 +115,9 @@ private extension NotePresentationView {
 	}
 }
 
+//MARK: - Extension UIElementsBuilder
+extension NotePresentationView: UIElementsBuilder { }
+
 //MARK: - Constants
 fileprivate enum Constants {
 	static let defaultFontSize: CGFloat = 17

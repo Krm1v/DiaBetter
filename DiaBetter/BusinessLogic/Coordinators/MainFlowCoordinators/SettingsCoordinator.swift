@@ -29,10 +29,11 @@ final class SettingsCoordinator: Coordinator {
 		module.transitionPublisher
 			.sink { [unowned self] transition in
 				switch transition {
-				case .userScene:
-					openUserSettings()
-				case .notificationsScene:
-					openNotificationsSettings()
+				case .userScene: 		  openUserSettings()
+				case .notificationsScene: openNotificationsSettings()
+				case .dataScene: 		  openDataScene()
+				case .unitsScene: 		  openUnitsScene()
+				case .creditsScene: 	  openCreditsScene()
 				}
 			}
 			.store(in: &cancellables)
@@ -57,6 +58,30 @@ private extension SettingsCoordinator {
 	
 	func openNotificationsSettings() {
 		let module = NotificationsSceneBuilder.build(container: container)
+		module.transitionPublisher
+			.sink { _ in }
+			.store(in: &cancellables)
+		push(module.viewController)
+	}
+	
+	func openCreditsScene() {
+		let module = CreditsSceneBuilder.build(container: container)
+		module.transitionPublisher
+			.sink { _ in }
+			.store(in: &cancellables)
+		push(module.viewController)
+	}
+	
+	func openDataScene() {
+		let module = DataSceneBuilder.build(container: container)
+		module.transitionPublisher
+			.sink { _ in }
+			.store(in: &cancellables)
+		push(module.viewController)
+	}
+	
+	func openUnitsScene() {
+		let module = UnitsSceneBuilder.build(container: container)
 		module.transitionPublisher
 			.sink { _ in }
 			.store(in: &cancellables)

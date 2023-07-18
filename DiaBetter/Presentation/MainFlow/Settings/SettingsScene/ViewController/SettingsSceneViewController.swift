@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import MessageUI
 
 final class SettingsSceneViewController: BaseViewController<SettingsSceneViewModel> {
 	//MARK: - Properties
@@ -37,14 +38,61 @@ private extension SettingsSceneViewController {
 				switch actions {
 				case .cellTapped(let setting):
 					switch setting {
-					case .user:
-						viewModel.openDetailSettingsScreen(.user)
-					case .notifications:
-						viewModel.openDetailSettingsScreen(.notifications)
+					case .user: 		 viewModel.openDetailSettingsScreen(.user)
+					case .notifications: viewModel.openDetailSettingsScreen(.notifications)
+					case .data:			 viewModel.openDetailSettingsScreen(.data)
+					case .units: 		 viewModel.openDetailSettingsScreen(.units)
+					case .credits: 		 viewModel.openDetailSettingsScreen(.credits)
+					case .sendFeedback:  sendEmail()
 					default: break
 					}
 				}
 			}
 			.store(in: &cancellables)
+	}
+	
+	func sendEmail() {
+		let recipientEmail = "hellodiabetter@gmail.com"
+		let subject = "Send feedback"
+		if MFMailComposeViewController.canSendMail() {
+			let mail = MFMailComposeViewController()
+			mail.mailComposeDelegate = self
+			mail.setToRecipients([recipientEmail])
+			mail.setSubject(subject)
+			present(mail, animated: true)
+		} else if let emailURL = createEmailUrl(to: recipientEmail, subject: subject) {
+			UIApplication.shared.open(emailURL)
+		}
+	}
+	
+	func createEmailUrl(to: String, subject: String) -> URL? {
+		guard let subjectEncoded = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+			return nil
+		}
+		
+		let gmailUrl = URL(string: "googlegmail://co?to=\(to)&subject=\(subjectEncoded)")
+		let outlookUrl = URL(string: "ms-outlook://compose?to=\(to)&subject=\(subjectEncoded)")
+		let yahooMail = URL(string: "ymail://mail/compose?to=\(to)&subject=\(subjectEncoded)")
+		let sparkUrl = URL(string: "readdle-spark://compose?recipient=\(to)&subject=\(subjectEncoded)")
+		let defaultUrl = URL(string: "mailto:\(to)?subject=\(subjectEncoded)")
+		
+		if let gmailUrl = gmailUrl, UIApplication.shared.canOpenURL(gmailUrl) {
+			return gmailUrl
+		} else if let outlookUrl = outlookUrl, UIApplication.shared.canOpenURL(outlookUrl) {
+			return outlookUrl
+		} else if let yahooMail = yahooMail, UIApplication.shared.canOpenURL(yahooMail) {
+			return yahooMail
+		} else if let sparkUrl = sparkUrl, UIApplication.shared.canOpenURL(sparkUrl) {
+			return sparkUrl
+		}
+		
+		return defaultUrl
+	}
+}
+
+//MARK: - Extension MFMailComposeViewControllerDelegate
+extension SettingsSceneViewController: MFMailComposeViewControllerDelegate {
+	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+		controller.dismiss(animated: true)
 	}
 }

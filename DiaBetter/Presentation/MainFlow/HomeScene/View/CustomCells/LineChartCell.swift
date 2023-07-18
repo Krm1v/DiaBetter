@@ -38,7 +38,7 @@ final class LineChartCell: BaseWidgetCell {
 	//MARK: - Public methods
 	func configure(with model: LineChartCellModel) {
 		setupBindings()
-		var chartsEntries = model.items.map { $0.entry }
+		let chartsEntries = model.items.map { $0.entry }
 		titleLabel.text = model.state.title
 		segmentedControl.selectedSegmentIndex = model.state.rawValue
 		setData(chartsEntries)

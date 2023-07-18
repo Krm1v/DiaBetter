@@ -107,6 +107,9 @@ private extension RecordPresentationView {
 	}
 }
 
+//MARK: - Extension UIElementsBuilder
+extension RecordPresentationView: UIElementsBuilder { }
+
 //MARK: - Constants
 fileprivate enum Constants {
 	static let defaultFontSize: CGFloat = 17

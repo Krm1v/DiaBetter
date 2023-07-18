@@ -74,8 +74,12 @@ private extension BoxElementView {
 	}
 }
 
+//MARK: - Extension UIElementsBuilder
+extension BoxElementView: UIElementsBuilder { }
+
 //MARK: - Constants
 fileprivate enum Constants {
 	static let largeFontSize: CGFloat = 17
 	static let regularFontSize: CGFloat = 13
 }
+

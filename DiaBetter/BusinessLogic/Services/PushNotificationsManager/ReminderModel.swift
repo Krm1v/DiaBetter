@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ReminderType: Codable {
+enum ReminderType: Hashable, Codable {
 	case glucose
 	case insulin
 	case meal

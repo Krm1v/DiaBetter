@@ -28,6 +28,8 @@ internal enum Localization {
   internal static let basalInsulin = Localization.tr("Localizable", "basal-insulin", fallback: "Basal insulin")
   /// Cancel
   internal static let cancel = Localization.tr("Localizable", "cancel", fallback: "Cancel")
+  /// Carbohydrates
+  internal static let carbohydrates = Localization.tr("Localizable", "carbohydrates", fallback: "Carbohydrates")
   /// Change photo
   internal static let changePhoto = Localization.tr("Localizable", "change-photo", fallback: "Change photo")
   /// Check glucose level
@@ -91,12 +93,26 @@ internal enum Localization {
   internal static let evening = Localization.tr("Localizable", "evening", fallback: "Evening")
   /// Fast acting insulin
   internal static let fastActingInsulin = Localization.tr("Localizable", "fast-acting-insulin", fallback: "Fast acting insulin")
+  /// Follow us on Facebook
+  internal static let followFb = Localization.tr("Localizable", "follow-fb", fallback: "Follow us on Facebook")
+  /// Follow us on Instagram
+  internal static let followInstagram = Localization.tr("Localizable", "follow-instagram", fallback: "Follow us on Instagram")
+  /// Follow us on LinkedIn
+  internal static let followLinkedIn = Localization.tr("Localizable", "follow-linkedIn", fallback: "Follow us on LinkedIn")
+  /// Follow us on Twitter
+  internal static let followTwitter = Localization.tr("Localizable", "follow-twitter", fallback: "Follow us on Twitter")
   /// General
   internal static let general = Localization.tr("Localizable", "general", fallback: "General")
   /// Glucose
   internal static let glucose = Localization.tr("Localizable", "glucose", fallback: "Glucose")
   /// Glucose level
   internal static let glucoseLevel = Localization.tr("Localizable", "glucose-level", fallback: "Glucose level")
+  /// It's time to make a measurement of glucose level
+  internal static let glucoseReminderBody = Localization.tr("Localizable", "glucose-reminder-body", fallback: "It's time to make a measurement of glucose level")
+  /// Don't forget to check your glucose level
+  internal static let glucoseReminderName = Localization.tr("Localizable", "glucose-reminder-name", fallback: "Don't forget to check your glucose level")
+  /// Glucose units
+  internal static let glucoseUnits = Localization.tr("Localizable", "glucose-units", fallback: "Glucose units")
   /// Go to settings
   internal static let goToSettings = Localization.tr("Localizable", "go-to-settings", fallback: "Go to settings")
   /// Have meal
@@ -117,8 +133,12 @@ internal enum Localization {
   internal static let loginValidationErrorDescription = Localization.tr("Localizable", "login-validation-error-description", fallback: "Wrong email or password. Check your login data and try again, please.")
   /// Logout
   internal static let logout = Localization.tr("Localizable", "logout", fallback: "Logout")
+  /// Max
+  internal static let max = Localization.tr("Localizable", "max", fallback: "Max")
   /// Meal
   internal static let meal = Localization.tr("Localizable", "meal", fallback: "Meal")
+  /// Min
+  internal static let min = Localization.tr("Localizable", "min", fallback: "Min")
   /// Morning
   internal static let morning = Localization.tr("Localizable", "morning", fallback: "Morning")
   /// Name
@@ -137,6 +157,8 @@ internal enum Localization {
   internal static let passwordDescription = Localization.tr("Localizable", "password-description", fallback: "Password must contains at least 8 characters, one capitalized letter, one number and one special symbol")
   /// You need to give an access to Photo Library for application to pick an image for user profile.
   internal static let photoLibraryPermissionsMessage = Localization.tr("Localizable", "photoLibraryPermissionsMessage", fallback: "You need to give an access to Photo Library for application to pick an image for user profile.")
+  /// Privacy policy
+  internal static let privacyPolicy = Localization.tr("Localizable", "privacy-policy", fallback: "Privacy policy")
   /// Rate the app
   internal static let rateTheApp = Localization.tr("Localizable", "rate-the-app", fallback: "Rate the app")
   /// Report
@@ -165,12 +187,18 @@ internal enum Localization {
   internal static let signUp = Localization.tr("Localizable", "sign-up", fallback: "Sign Up")
   /// Skip
   internal static let skip = Localization.tr("Localizable", "skip", fallback: "Skip")
+  /// Target glucose
+  internal static let targetGlucose = Localization.tr("Localizable", "target-glucose", fallback: "Target glucose")
+  /// Terms and conditions
+  internal static let termsAndConditions = Localization.tr("Localizable", "terms-and-conditions", fallback: "Terms and conditions")
   /// Units
   internal static let units = Localization.tr("Localizable", "units", fallback: "Units")
   /// User
   internal static let user = Localization.tr("Localizable", "user", fallback: "User")
   /// User profile
   internal static let userProfile = Localization.tr("Localizable", "user-profile", fallback: "User profile")
+  /// Visit website
+  internal static let visitWebsite = Localization.tr("Localizable", "visit-website", fallback: "Visit website")
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

@@ -57,6 +57,7 @@ private extension UserDataMenuCell {
 		setupLayout()
 		titleLabel.textColor = .white
 		self.backgroundColor = Colors.darkNavyBlue.color
+		titleLabel.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelDefaultFontSize)
 		userParameterButton.titleLabel?.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelFontSize)
 		userParameterButton.tintColor = .white
 		userParameterButton.showsMenuAsPrimaryAction = true
@@ -83,7 +84,6 @@ private extension UserDataMenuCell {
 				self.userDataMenuSubject.send(.userParameterDidChanged(item.title))
 			} }
 		menu = UIMenu(title: "", children: menuItems)
-		userParameterButton.showsMenuAsPrimaryAction = true
 		userParameterButton.menu = menu
 	}
 	
@@ -100,6 +100,7 @@ private extension UserDataMenuCell {
 
 //MARK: - Constants
 fileprivate enum Constants {
-	static let titleLabelFontSize: CGFloat = 17
-	static let defaultEdgeInsets:  CGFloat = 8
+	static let titleLabelFontSize: 		  CGFloat = 15
+	static let defaultEdgeInsets:  		  CGFloat = 8
+	static let titleLabelDefaultFontSize: CGFloat = 15
 }

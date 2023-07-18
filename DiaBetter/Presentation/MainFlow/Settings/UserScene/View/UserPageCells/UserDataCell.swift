@@ -46,6 +46,7 @@ private extension UserDataCell {
 		titleLabel.textColor = .white
 		self.backgroundColor = Colors.darkNavyBlue.color
 		addSubs()
+		titleLabel.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelDefaultFontSize)
 		userTextField.borderStyle = .none
 		userTextField.font = FontFamily.Montserrat.regular.font(size: Constants.userTextFieldDefaultFontSize)
 	}
@@ -78,6 +79,7 @@ fileprivate enum Constants {
 	static let basicLargeEdgeInset: 		 CGFloat = 16
 	static let basicSmallEdgeInset: 		 CGFloat = 8
 	static let basicCornerRadius: 			 CGFloat = 20
-	static let userTextFieldDefaultFontSize: CGFloat = 17
+	static let userTextFieldDefaultFontSize: CGFloat = 15
+	static let titleLabelDefaultFontSize:	 CGFloat = 15
 }
 

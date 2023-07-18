@@ -17,6 +17,7 @@ protocol AppContainer: AnyObject {
 	var recordsNetworkService: RecordsNetworkService { get }
 	var userNotificationManager: UserNotificationManager { get }
 	var permissionService: PermissionService { get }
+	var appSettingsService: SettingsService { get }
 }
 
 final class AppContainerImpl: AppContainer {
@@ -29,6 +30,7 @@ final class AppContainerImpl: AppContainer {
 	let recordsNetworkService: RecordsNetworkService
 	let userNotificationManager: UserNotificationManager
 	let permissionService: PermissionService
+	let appSettingsService: SettingsService
 	
 	//MARK: - Init
 	init() {
@@ -79,5 +81,8 @@ final class AppContainerImpl: AppContainer {
 		
 		let permissionService = PermissionServiceImpl()
 		self.permissionService = permissionService
+		
+		let appSettingsService = SettingsServiceImpl()
+		self.appSettingsService = appSettingsService
 	}
 }

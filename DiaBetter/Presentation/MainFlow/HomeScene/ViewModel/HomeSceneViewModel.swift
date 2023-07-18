@@ -45,7 +45,10 @@ final class HomeSceneViewModel: BaseViewModel {
 		self.dateFilterState = filterState
 		updateDatasource()
 	}
-	
+}
+
+//MARK: - Private extension
+private extension HomeSceneViewModel {
 	func updateDatasource() {
 		let sortedRecords = records.sorted { $0.recordDate ?? Date() < $1.recordDate ?? Date() }
 		let lineChartModel = setupLineChartCellModel(sortedRecords)
@@ -73,10 +76,7 @@ final class HomeSceneViewModel: BaseViewModel {
 		)
 		sections = [lineChartSection, cubicLineChartSection, insulinUsageSection]
 	}
-}
-
-//MARK: - Private extension
-private extension HomeSceneViewModel {
+	
 	func fetchRecords() {
 		guard let userId = userService.user?.remoteId else { return }
 		recordService.fetchRecords(userId: userId)

@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct ReminderModel {
-	let type: ReminderValueType
+struct ReminderModel: Codable {
+	let type: ReminderType
 	var isOn: Bool
 	var time: ReminderTimeModel
 }
 
-struct ReminderTimeModel {
+struct ReminderTimeModel: Codable {
 	var morning: Date
 	var day: Date
 	var evening: Date
@@ -33,7 +33,6 @@ struct SwitcherCellModel: Hashable {
 }
 
 struct ReminderCellModel: Hashable {
-	let uuid = UUID()
 	let dayTime: ReminderDayTime
 	let date: Date?
 	
@@ -42,12 +41,3 @@ struct ReminderCellModel: Hashable {
 	}
 }
 
-//extension ReminderCellModel {
-//	func hash(into hasher: inout Hasher) {
-//		hasher.combine(uuid)
-//		hasher.combine(title)
-//	}
-//	static func ==(lhs: ReminderCellModel, rhs: ReminderCellModel) -> Bool {
-//		return lhs.uuid == rhs.uuid && lhs.title == rhs.title
-//	}
-//}

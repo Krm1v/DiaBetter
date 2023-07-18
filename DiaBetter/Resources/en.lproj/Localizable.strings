@@ -88,5 +88,20 @@
 "evening" = "Evening";
 "enable-or-disable-notifications" = "Enable or disable notifications";
 "choose-reminders" = "Choose reminders you need";
-
+"target-glucose" = "Target glucose";
+"glucose-units" = "Glucose units";
+"carbohydrates" = "Carbohydrates";
+"min" = "Min";
+"max" = "Max";
+"glucose-reminder-name" = "Don't forget to check your glucose level";
+"glucose-reminder-body" = "It's time to make a measurement of glucose level";
+"visit-website" = "Visit website";
+"follow-instagram" = "Follow us on Instagram";
+"follow-twitter" = "Follow us on Twitter";
+"follow-fb" = "Follow us on Facebook";
+"follow-linkedIn" = "Follow us on LinkedIn";
+"terms-and-conditions" = "Terms and conditions";
+"privacy-policy" = "Privacy policy";
+"credits" = "Credits";
+"data" = "Data";
 

@@ -14,12 +14,13 @@ final class SettingsSceneViewModel: BaseViewModel {
 	private let transitionSubject = PassthroughSubject<SettingsTransition, Never>()
 	
 	//MARK: - Public methods
-	func openDetailSettingsScreen(_ object: Settings?) {
+	func openDetailSettingsScreen(_ object: Settings) {
 		switch object {
-		case .user:
-			transitionSubject.send(.userScene)
-		case .notifications:
-			transitionSubject.send(.notificationsScene)
+		case .user: 		 transitionSubject.send(.userScene)
+		case .notifications: transitionSubject.send(.notificationsScene)
+		case .data:			 transitionSubject.send(.dataScene)
+		case .units: 		 transitionSubject.send(.unitsScene)
+		case .credits: 		 transitionSubject.send(.creditsScene)
 		default: break
 		}
 	}

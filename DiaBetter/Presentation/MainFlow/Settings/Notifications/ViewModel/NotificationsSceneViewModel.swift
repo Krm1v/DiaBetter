@@ -12,8 +12,9 @@ final class NotificationsSceneViewModel: BaseViewModel {
 	//MARK: - Properties
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<NotificationsSceneTransitions, Never>()
-	private(set) var permissionService: PermissionService
+	private let permissionService: PermissionService
 	private let notificationManager: UserNotificationManager
+	private let appSettingsService: SettingsService
 	
 	//MARK: - @Published properties
 	@Published var sections: [SectionModel<NotificationsSections, NotificationItems>] = []
@@ -23,14 +24,21 @@ final class NotificationsSceneViewModel: BaseViewModel {
 	@Published var mealReminder = ReminderModel(type: .meal, isOn: false, time: .init())
 	
 	//MARK: - Overriden methods
-	override func onViewWillAppear() {
-		updateDatasource()
+	override func onViewDidLoad() {
+		updateCurrentSettings()
+	}
+
+	override func onViewWillDisappear() {
+		saveNotificationState()
 	}
 	
 	//MARK: - Init
-	init(permissionService: PermissionService, notificationManager: UserNotificationManager) {
+	init(permissionService: PermissionService,
+		 notificationManager: UserNotificationManager,
+		 appSettingsService: SettingsService) {
 		self.permissionService = permissionService
 		self.notificationManager = notificationManager
+		self.appSettingsService = appSettingsService
 	}
 	
 	//MARK: - Public methods
@@ -60,16 +68,19 @@ final class NotificationsSceneViewModel: BaseViewModel {
 		updateDatasource()
 	}
 	
-	func didChangedState(for type: ReminderValueType, isOn: Bool) {
+	func didChangedState(for type: ReminderType, isOn: Bool) {
 		switch type {
-		case .glucose: glucoseReminder.isOn = isOn
-		case .insulin: insulinReminder.isOn = isOn
-		case .meal:    mealReminder.isOn = isOn
+		case .glucose:
+			glucoseReminder.isOn = isOn
+		case .insulin:
+			insulinReminder.isOn = isOn
+		case .meal:
+			mealReminder.isOn = isOn
 		}
 		updateDatasource()
 	}
 	
-	func didChangedTime(for type: ReminderValueType, time: Date, dayTime: ReminderDayTime) {
+	func didChangedTime(for type: ReminderType, time: Date, dayTime: ReminderDayTime) {
 		switch type {
 		case .glucose:
 			switch dayTime {
@@ -94,16 +105,13 @@ final class NotificationsSceneViewModel: BaseViewModel {
 	}
 	
 	func setGlucoseReminder() {
-		let time = createDateWithHoursAndMinutes(hours: 14, minutes: 30)
-		debugPrint("Time: \(time)")
-		debugPrint("reminder.time: \(glucoseReminder.time.morning)")
 		let reminder = Reminder(time: glucoseReminder.time.morning,
 								reminderType: .glucose,
 								repeats: true)
-		let task = Task(name: "Don't forget to check your glucose level",
-						body: "It's time to make a measurement of glucose level",
+		debugPrint(reminder.time)
+		let task = Task(name: Localization.glucoseReminderName,
+						body: Localization.glucoseReminderBody,
 						reminder: reminder)
-		debugPrint(task)
 		notificationManager.scheduleNotification(task: task)
 			.receive(on: DispatchQueue.main)
 			.sink { [unowned self] completion in
@@ -126,8 +134,13 @@ private extension NotificationsSceneViewModel {
 		// General notifications switch
 		let notificationSectionModel = SwitcherCellModel(title: Localization.notifications,
 														 isOn: notificationsAreEnabled)
-		let notificationSection = SectionModel<NotificationsSections, NotificationItems>(section: .enabler,
-																						 items: [.notificationsEnabler(notificationSectionModel)])
+		
+		let notificationSection = SectionModel<NotificationsSections, NotificationItems>(
+			section: .enabler,
+			items: [
+				.notificationsEnabler(notificationSectionModel)
+			]
+		)
 		datasource.append(notificationSection)
 		
 		guard notificationsAreEnabled else {
@@ -135,10 +148,14 @@ private extension NotificationsSceneViewModel {
 			return
 		}
 		
+		// Main section
 		var mainSectionItems: [NotificationItems] = []
 		
-		let glucoseSwitcherModel = SwitcherCellModel(title: Localization.checkGlucoseLevel, isOn: glucoseReminder.isOn)
+		let glucoseSwitcherModel = SwitcherCellModel(title: Localization.checkGlucoseLevel,
+													 isOn: glucoseReminder.isOn)
+		
 		mainSectionItems.append(.reminderSwitch(type: .glucose, model: glucoseSwitcherModel))
+		
 		if glucoseReminder.isOn {
 			mainSectionItems.append(contentsOf: [
 				.reminder(type: .glucose, model: ReminderCellModel(dayTime: .morning, date: glucoseReminder.time.morning)),
@@ -147,7 +164,9 @@ private extension NotificationsSceneViewModel {
 			])
 		}
 		
-		let insulinSwitcherModel = SwitcherCellModel(title: Localization.insulinInjection, isOn: insulinReminder.isOn)
+		let insulinSwitcherModel = SwitcherCellModel(title: Localization.insulinInjection,
+													 isOn: insulinReminder.isOn)
+		
 		mainSectionItems.append(.reminderSwitch(type: .insulin, model: insulinSwitcherModel))
 		
 		if insulinReminder.isOn {
@@ -158,7 +177,9 @@ private extension NotificationsSceneViewModel {
 			])
 		}
 		
-		let mealSwitcherModel = SwitcherCellModel(title: Localization.haveMeal, isOn: mealReminder.isOn)
+		let mealSwitcherModel = SwitcherCellModel(title: Localization.haveMeal,
+												  isOn: mealReminder.isOn)
+		
 		mainSectionItems.append(.reminderSwitch(type: .meal, model: mealSwitcherModel))
 		
 		if mealReminder.isOn {
@@ -187,5 +208,26 @@ private extension NotificationsSceneViewModel {
 				}
 			} receiveValue: { _ in }
 			.store(in: &cancellables)
+	}
+	
+	func updateCurrentSettings() {
+		notificationsAreEnabled = appSettingsService.settings.notifications.areNotificationsEnabled
+		self.glucoseReminder = appSettingsService.settings.notifications.glucoseReminder
+		self.insulinReminder = appSettingsService.settings.notifications.insulinReminder
+		self.mealReminder = appSettingsService.settings.notifications.mealReminder
+		updateDatasource()
+	}
+	
+	func saveNotificationState() {
+		let notifications = NotificationsModel(areNotificationsEnabled: notificationsAreEnabled,
+											   glucoseReminder: glucoseReminder,
+											   insulinReminder: insulinReminder,
+											   mealReminder: mealReminder)
+		let settings = AppSettingsModel(notifications: notifications,
+										glucoseUnits: appSettingsService.settings.glucoseUnits,
+										carbohydrates: appSettingsService.settings.carbohydrates,
+										glucoseTarget: appSettingsService.settings.glucoseTarget)
+		appSettingsService.settings = settings
+		appSettingsService.save(settings: settings)
 	}
 }

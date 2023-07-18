@@ -35,12 +35,12 @@ private extension TableViewCustomCell {
 									  left: Constants.defaultEdgeInset,
 									  bottom: .zero,
 									  right: Constants.defaultEdgeInset)
-		textLabel?.font = FontFamily.Montserrat.semiBold.font(size: Constants.defaultFontSize)
+		textLabel?.font = FontFamily.Montserrat.regular.font(size: Constants.defaultFontSize)
 	}
 }
 
 //MARK: - Constants
 fileprivate enum Constants {
 	static let defaultEdgeInset: CGFloat = 8
-	static let defaultFontSize:  CGFloat = 17
+	static let defaultFontSize:  CGFloat = 15
 }

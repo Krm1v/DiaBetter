@@ -19,7 +19,7 @@ final class SwitcherCell: BaseTableViewCell {
 											 alignment: .center,
 											 distribution: .fill,
 											 spacing: .zero)
-	private lazy var titleLabel = buildFieldTitleLabel(with: "", fontSize: 17)
+	private lazy var titleLabel = buildFieldTitleLabel(with: "", fontSize: 15)
 	
 	//MARK: - Properties
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
@@ -51,6 +51,7 @@ private extension SwitcherCell {
 		selectionStyle = .none
 		switcher.onTintColor = Colors.customPink.color
 		setupLayout()
+		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
 	}
 	
 	func setupLayout() {

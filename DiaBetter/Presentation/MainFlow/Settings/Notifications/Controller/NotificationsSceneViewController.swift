@@ -58,6 +58,7 @@ private extension NotificationsSceneViewController {
 					
 				case .reminderSwitchDidToggled(let type, let isOn):
 					viewModel.didChangedState(for: type, isOn: isOn)
+					debugPrint(type)
 					
 				case .reminderTimeDidChanged(let type, let time, let dayTime):
 					viewModel.didChangedTime(for: type, time: time, dayTime: dayTime)

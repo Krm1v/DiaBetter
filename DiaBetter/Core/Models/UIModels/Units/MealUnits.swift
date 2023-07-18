@@ -10,7 +10,7 @@ import Foundation
 enum MealUnits: String, Hashable {
 	case breadUnits
 	case grams
-	
+
 	var description: String {
 		switch self {
 		case .breadUnits: return "BU"

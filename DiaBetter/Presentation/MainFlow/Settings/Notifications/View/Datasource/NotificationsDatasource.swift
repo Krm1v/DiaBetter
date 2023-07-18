@@ -29,14 +29,6 @@ enum ReminderDayTime: Hashable {
 	}
 }
 
-enum ReminderValueType: Hashable {
-	case glucose
-	case insulin
-	case meal
-}
-
-
-
 enum NotificationsSections: Int, Hashable, CaseIterable {
 	case enabler
 	case main
@@ -51,6 +43,6 @@ enum NotificationsSections: Int, Hashable, CaseIterable {
 
 enum NotificationItems: Hashable {
 	case notificationsEnabler(SwitcherCellModel)
-	case reminderSwitch(type: ReminderValueType, model: SwitcherCellModel)
-	case reminder(type: ReminderValueType, model: ReminderCellModel)
+	case reminderSwitch(type: ReminderType, model: SwitcherCellModel)
+	case reminder(type: ReminderType, model: ReminderCellModel)
 }

@@ -68,7 +68,7 @@ final class MainTabBarCoordinator: Coordinator {
 	func start() {
 		setupHomeCoordinator()
 		setupReportCoordinator()
-		setupMeasurementsCoordinator()
+		setupDiaryCoordinator()
 		setupSettingsCoordinator()
 		let controllers = childCoordinators
 			.compactMap { $0.navigationController }
@@ -93,7 +93,7 @@ private extension MainTabBarCoordinator {
 		coordinator.start()
 	}
 	
-	func setupMeasurementsCoordinator() {
+	func setupDiaryCoordinator() {
 		let navigationController = UINavigationController()
 		navigationController.tabBarItem = TabBarItems.diary.tabBarItem
 		let coordinator = DiaryCoordinator(navigationController: navigationController, container: container)

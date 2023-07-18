@@ -11,6 +11,9 @@ import Combine
 enum SettingsTransition: Transition {
 	case userScene
 	case notificationsScene
+	case unitsScene
+	case dataScene
+	case creditsScene
 }
 
 final class SettingsSceneBuilder {

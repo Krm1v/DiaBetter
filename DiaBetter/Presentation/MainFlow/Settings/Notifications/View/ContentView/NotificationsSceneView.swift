@@ -10,14 +10,14 @@ import Combine
 
 enum NotificationsViewActions {
 	case notificationsEnablerDidToggled(Bool)
-	case reminderSwitchDidToggled(type: ReminderValueType, isOn: Bool)
-	case reminderTimeDidChanged(type: ReminderValueType, time: Date, dayTime: ReminderDayTime)
+	case reminderSwitchDidToggled(type: ReminderType, isOn: Bool)
+	case reminderTimeDidChanged(type: ReminderType, time: Date, dayTime: ReminderDayTime)
 	case saveButtonDidTapped
 }
 
 final class NotificationsSceneView: BaseView {
-	private typealias Datasource = NotificationsTableViewDiffableDataSource
-	private typealias Snapshot = NSDiffableDataSourceSnapshot<NotificationsSections, NotificationItems>
+	typealias Datasource = NotificationsTableViewDiffableDataSource
+	typealias Snapshot = NSDiffableDataSourceSnapshot<NotificationsSections, NotificationItems>
 	
 	//MARK: - UI Elements
 	private let tableView = UITableView(frame: .zero, style: .insetGrouped)

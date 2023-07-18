@@ -7,15 +7,6 @@
 
 import Foundation
 
-//func createDate(hour: Int) -> Date {
-//	let calendar = Calendar.current
-//
-//	var dateComponents = DateComponents()
-//	dateComponents.hour = hour
-//
-//	return calendar.date(from: dateComponents) ?? Date()
-//}
-
 func createDateWithHoursAndMinutes(hours: Int, minutes: Int) -> Date {
 	var calendar = Calendar.current
 	let currentDate = Date()

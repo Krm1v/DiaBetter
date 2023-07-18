@@ -18,3 +18,6 @@ class BaseCollectionViewCell: UICollectionViewCell {
 		cancellables.removeAll()
 	}
 }
+
+//MARK: - Extension UIElementsBuilder
+extension BaseCollectionViewCell: UIElementsBuilder { }

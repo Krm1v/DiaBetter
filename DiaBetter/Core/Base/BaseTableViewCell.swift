@@ -18,3 +18,6 @@ class BaseTableViewCell: UITableViewCell {
 		cancellables.removeAll()
 	}
 }
+
+//MARK: - Extension UIElementsBuilder
+extension BaseTableViewCell: UIElementsBuilder { }

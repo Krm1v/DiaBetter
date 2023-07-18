@@ -37,3 +37,6 @@ private extension MainSectionHeader {
 													 right: .zero))
 	}
 }
+
+//MARK: - Extension UIElementsBuilder
+extension MainSectionHeader: UIElementsBuilder { }

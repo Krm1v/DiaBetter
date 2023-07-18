@@ -14,3 +14,5 @@ class BaseView: UIView {
     var cancellables = Set<AnyCancellable>()
 }
 
+//MARK: - Extension UIElementsBuilder
+extension BaseView: UIElementsBuilder { }
