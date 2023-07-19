@@ -56,11 +56,9 @@ private extension UnitsSceneViewController {
 				case .saveButtonDidTapped:
 					viewModel.saveSettings()
 				case .carbsMenuDidTapped(let carbs):
-					debugPrint(carbs.title)
 					viewModel.carbohydrates = carbs
 				case .targetGlucoseValueDidChaged(let glucoseTargetValue, let object):
 					viewModel.glucoseTargetDidChanged(object, glucoseTargetValue)
-					debugPrint(glucoseTargetValue)
 				}
 			}
 			.store(in: &cancellables)

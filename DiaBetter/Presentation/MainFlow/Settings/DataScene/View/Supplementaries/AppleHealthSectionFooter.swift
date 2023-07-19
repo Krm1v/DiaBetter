@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class UnitsSectionHeader: UICollectionReusableView {
+final class AppleHealthSectionFooter: UICollectionReusableView {
 	//MARK: - UI Elements
 	lazy var titleLabel = buildUserInfoLabel()
 	
@@ -24,20 +24,21 @@ final class UnitsSectionHeader: UICollectionReusableView {
 }
 
 //MARK: - Private extension
-private extension UnitsSectionHeader {
+private extension AppleHealthSectionFooter {
 	func setupUI() {
 		addSubs()
 		titleLabel.textColor = .systemGray
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
+		titleLabel.numberOfLines = .zero
 	}
 	
 	func addSubs() {
 		addSubview(titleLabel, withEdgeInsets: .init(top: .zero,
 													 left: 16,
 													 bottom: .zero,
-													 right: .zero))
+													 right: 16))
 	}
 }
 
 //MARK: - Extension UIElementsBuilder
-extension UnitsSectionHeader: UIElementsBuilder { }
+extension AppleHealthSectionFooter: UIElementsBuilder { }

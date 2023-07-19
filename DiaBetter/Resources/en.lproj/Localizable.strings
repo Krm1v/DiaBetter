@@ -105,3 +105,14 @@
 "credits" = "Credits";
 "data" = "Data";
 
+//Backup scene
+"start-date" = "Start date";
+"end-date" = "End date";
+"backup-all-data" = "Backup all data";
+"pick-date-range-footer-text" = "Pick a date range you want to save or save all of your data.";
+"create-backup" = "Create backup";
+"share-data" = "Share data";
+"backup-or-share-footer-text" = "Backup your data on device or share it with your doctor.";
+"erase-all-data" = "Erase all data";
+"erase-data-footer-text" = "You can erase all of your data. This action can't be undo.";
+

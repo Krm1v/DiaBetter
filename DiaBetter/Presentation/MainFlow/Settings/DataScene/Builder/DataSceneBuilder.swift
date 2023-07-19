@@ -7,7 +7,9 @@
 
 import UIKit
 
-enum DataSceneTransitions: Transition {}
+enum DataSceneTransitions: Transition {
+	case moveToBackupScene
+}
 
 final class DataSceneBuilder {
 	static func build(container: AppContainer) -> Module<DataSceneTransitions, UIViewController> {

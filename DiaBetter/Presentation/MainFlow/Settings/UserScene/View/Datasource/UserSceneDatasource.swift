@@ -5,8 +5,7 @@
 //  Created by Владислав Баранкевич on 10.03.2023.
 //
 
-import UIKit
-import Combine
+import Foundation
 
 protocol UserDataModel {}
 

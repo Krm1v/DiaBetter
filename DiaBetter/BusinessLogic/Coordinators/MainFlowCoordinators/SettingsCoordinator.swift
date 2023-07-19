@@ -75,13 +75,25 @@ private extension SettingsCoordinator {
 	func openDataScene() {
 		let module = DataSceneBuilder.build(container: container)
 		module.transitionPublisher
-			.sink { _ in }
+			.sink { [unowned self] transitions in
+				switch transitions {
+				case .moveToBackupScene: openBackupScene()
+				}
+			}
 			.store(in: &cancellables)
 		push(module.viewController)
 	}
 	
 	func openUnitsScene() {
 		let module = UnitsSceneBuilder.build(container: container)
+		module.transitionPublisher
+			.sink { _ in }
+			.store(in: &cancellables)
+		push(module.viewController)
+	}
+	
+	func openBackupScene() {
+		let module = BackupSceneBuilder.build(container: container)
 		module.transitionPublisher
 			.sink { _ in }
 			.store(in: &cancellables)

@@ -25,24 +25,34 @@ final class AppleHealthActivationCell: BaseCollectionViewCell {
 		super.init(coder: coder)
 		setupUI()
 	}
+	
+	//MARK: - Public methods
+	func configure(_ model: AppleHealthCellModel) {
+		titleLabel.text = model.title
+		healthSwitch.isOn = model.isConnected
+	}
 }
 
 //MARK: - Private extension
 private extension AppleHealthActivationCell {
 	func setupUI() {
+		self.backgroundColor = Colors.darkNavyBlue.color
+		rounded(12)
+		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
+		healthSwitch.onTintColor = Colors.customPink.color
 		setupLayout()
 	}
 	
 	func setupLayout() {
 		addSubview(titleLabel, constraints: [
 			titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-												constant: 8),
+												constant: 16),
 			titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
 		])
 		
 		addSubview(healthSwitch, constraints: [
 			healthSwitch.trailingAnchor.constraint(equalTo: self.trailingAnchor,
-												   constant: -8),
+												   constant: -16),
 			healthSwitch.centerYAnchor.constraint(equalTo: self.centerYAnchor)
 		])
 	}

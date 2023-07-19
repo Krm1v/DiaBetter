@@ -24,6 +24,10 @@ internal enum Localization {
   internal static let appTitle = Localization.tr("Localizable", "app-title", fallback: "DiaBetter")
   /// Back to login
   internal static let backToLogin = Localization.tr("Localizable", "back-to-login", fallback: "Back to login")
+  /// Backup all data
+  internal static let backupAllData = Localization.tr("Localizable", "backup-all-data", fallback: "Backup all data")
+  /// Backup your data on device or share it with your doctor.
+  internal static let backupOrShareFooterText = Localization.tr("Localizable", "backup-or-share-footer-text", fallback: "Backup your data on device or share it with your doctor.")
   /// Basal insulin
   internal static let basalInsulin = Localization.tr("Localizable", "basal-insulin", fallback: "Basal insulin")
   /// Cancel
@@ -48,6 +52,8 @@ internal enum Localization {
   internal static let createAccount = Localization.tr("Localizable", "create-account", fallback: "Create account")
   /// Enter email or password in correct format
   internal static let createAccountValidationErrorDescription = Localization.tr("Localizable", "create-account-validation-error-description", fallback: "Enter email or password in correct format")
+  /// Create backup
+  internal static let createBackup = Localization.tr("Localizable", "create-backup", fallback: "Create backup")
   /// Credits
   internal static let credits = Localization.tr("Localizable", "credits", fallback: "Credits")
   /// Customization
@@ -76,6 +82,8 @@ internal enum Localization {
   internal static let email = Localization.tr("Localizable", "email", fallback: "Email")
   /// Enable or disable notifications
   internal static let enableOrDisableNotifications = Localization.tr("Localizable", "enable-or-disable-notifications", fallback: "Enable or disable notifications")
+  /// End date
+  internal static let endDate = Localization.tr("Localizable", "end-date", fallback: "End date")
   /// Enter your country
   internal static let enterYourCountry = Localization.tr("Localizable", "enter-your-country", fallback: "Enter your country")
   /// Enter your email
@@ -84,6 +92,10 @@ internal enum Localization {
   internal static let enterYourName = Localization.tr("Localizable", "enter-your-name", fallback: "Enter your name")
   /// Enter your password
   internal static let enterYourPassword = Localization.tr("Localizable", "enter-your-password", fallback: "Enter your password")
+  /// Erase all data
+  internal static let eraseAllData = Localization.tr("Localizable", "erase-all-data", fallback: "Erase all data")
+  /// You can erase all of your data. This action can't be undo.
+  internal static let eraseDataFooterText = Localization.tr("Localizable", "erase-data-footer-text", fallback: "You can erase all of your data. This action can't be undo.")
   /// Localizable.strings
   ///   MVVMSkeleton
   /// 
@@ -157,6 +169,8 @@ internal enum Localization {
   internal static let passwordDescription = Localization.tr("Localizable", "password-description", fallback: "Password must contains at least 8 characters, one capitalized letter, one number and one special symbol")
   /// You need to give an access to Photo Library for application to pick an image for user profile.
   internal static let photoLibraryPermissionsMessage = Localization.tr("Localizable", "photoLibraryPermissionsMessage", fallback: "You need to give an access to Photo Library for application to pick an image for user profile.")
+  /// Pick a date range you want to save or save all of your data.
+  internal static let pickDateRangeFooterText = Localization.tr("Localizable", "pick-date-range-footer-text", fallback: "Pick a date range you want to save or save all of your data.")
   /// Privacy policy
   internal static let privacyPolicy = Localization.tr("Localizable", "privacy-policy", fallback: "Privacy policy")
   /// Rate the app
@@ -179,6 +193,8 @@ internal enum Localization {
   internal static let sendFeedback = Localization.tr("Localizable", "send-feedback", fallback: "Send feedback")
   /// Settings
   internal static let settings = Localization.tr("Localizable", "settings", fallback: "Settings")
+  /// Share data
+  internal static let shareData = Localization.tr("Localizable", "share-data", fallback: "Share data")
   /// Show onboarding
   internal static let showOnboarding = Localization.tr("Localizable", "show-onboarding", fallback: "Show onboarding")
   /// Sign In
@@ -187,6 +203,8 @@ internal enum Localization {
   internal static let signUp = Localization.tr("Localizable", "sign-up", fallback: "Sign Up")
   /// Skip
   internal static let skip = Localization.tr("Localizable", "skip", fallback: "Skip")
+  /// Start date
+  internal static let startDate = Localization.tr("Localizable", "start-date", fallback: "Start date")
   /// Target glucose
   internal static let targetGlucose = Localization.tr("Localizable", "target-glucose", fallback: "Target glucose")
   /// Terms and conditions

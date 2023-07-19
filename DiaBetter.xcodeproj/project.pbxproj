@@ -158,6 +158,18 @@
 		8699F33C29B3D77700705347 /* HomeSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8699F33B29B3D77700705347 /* HomeSceneViewController.swift */; };
 		8699F33E29B3D78100705347 /* HomeSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8699F33D29B3D78100705347 /* HomeSceneViewModel.swift */; };
 		8699F34829B66F5100705347 /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8699F34729B66F5100705347 /* SettingsCoordinator.swift */; };
+		869BF7032A66A68F000BD030 /* BackupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF7022A66A68F000BD030 /* BackupCell.swift */; };
+		869BF7052A66B4B7000BD030 /* AppleHealthSectionFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF7042A66B4B7000BD030 /* AppleHealthSectionFooter.swift */; };
+		869BF7082A66E239000BD030 /* BackupSceneBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF7072A66E238000BD030 /* BackupSceneBuilder.swift */; };
+		869BF70C2A66E26C000BD030 /* BackupSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF70B2A66E26C000BD030 /* BackupSceneView.swift */; };
+		869BF7102A66E286000BD030 /* BackupSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF70F2A66E286000BD030 /* BackupSceneViewController.swift */; };
+		869BF7132A66E2A9000BD030 /* BackupSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF7122A66E2A9000BD030 /* BackupSceneViewModel.swift */; };
+		869BF7162A67FC38000BD030 /* BackupDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF7152A67FC38000BD030 /* BackupDateCell.swift */; };
+		869BF7192A67FFDF000BD030 /* BackupSceneDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF7182A67FFDF000BD030 /* BackupSceneDatasource.swift */; };
+		869BF71C2A680246000BD030 /* BackupPlainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF71B2A680246000BD030 /* BackupPlainCell.swift */; };
+		869BF71E2A6818CC000BD030 /* TextTypeColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF71D2A6818CC000BD030 /* TextTypeColors.swift */; };
+		869BF7202A682C7E000BD030 /* BackupSectionFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF71F2A682C7E000BD030 /* BackupSectionFooter.swift */; };
+		869BF7232A682CFB000BD030 /* BaseFooterSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF7222A682CFB000BD030 /* BaseFooterSupplementaryView.swift */; };
 		869C9FC12A39FCC1005C2361 /* Date+CreateDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C9FC02A39FCC1005C2361 /* Date+CreateDate.swift */; };
 		869C9FC32A3B1DA3005C2361 /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C9FC22A3B1DA3005C2361 /* PushNotificationsManager.swift */; };
 		869C9FC62A3B2DB7005C2361 /* ReminderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C9FC52A3B2DB7005C2361 /* ReminderModel.swift */; };
@@ -401,6 +413,18 @@
 		8699F33B29B3D77700705347 /* HomeSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSceneViewController.swift; sourceTree = "<group>"; };
 		8699F33D29B3D78100705347 /* HomeSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSceneViewModel.swift; sourceTree = "<group>"; };
 		8699F34729B66F5100705347 /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
+		869BF7022A66A68F000BD030 /* BackupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupCell.swift; sourceTree = "<group>"; };
+		869BF7042A66B4B7000BD030 /* AppleHealthSectionFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleHealthSectionFooter.swift; sourceTree = "<group>"; };
+		869BF7072A66E238000BD030 /* BackupSceneBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupSceneBuilder.swift; sourceTree = "<group>"; };
+		869BF70B2A66E26C000BD030 /* BackupSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupSceneView.swift; sourceTree = "<group>"; };
+		869BF70F2A66E286000BD030 /* BackupSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupSceneViewController.swift; sourceTree = "<group>"; };
+		869BF7122A66E2A9000BD030 /* BackupSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupSceneViewModel.swift; sourceTree = "<group>"; };
+		869BF7152A67FC38000BD030 /* BackupDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupDateCell.swift; sourceTree = "<group>"; };
+		869BF7182A67FFDF000BD030 /* BackupSceneDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupSceneDatasource.swift; sourceTree = "<group>"; };
+		869BF71B2A680246000BD030 /* BackupPlainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupPlainCell.swift; sourceTree = "<group>"; };
+		869BF71D2A6818CC000BD030 /* TextTypeColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTypeColors.swift; sourceTree = "<group>"; };
+		869BF71F2A682C7E000BD030 /* BackupSectionFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupSectionFooter.swift; sourceTree = "<group>"; };
+		869BF7222A682CFB000BD030 /* BaseFooterSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFooterSupplementaryView.swift; sourceTree = "<group>"; };
 		869C9FC02A39FCC1005C2361 /* Date+CreateDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CreateDate.swift"; sourceTree = "<group>"; };
 		869C9FC22A3B1DA3005C2361 /* PushNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
 		869C9FC52A3B2DB7005C2361 /* ReminderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderModel.swift; sourceTree = "<group>"; };
@@ -590,6 +614,7 @@
 				86AE580329F1493D00A50F05 /* BaseCollectionViewCell.swift */,
 				86B3CB322A23C91900D7AAC6 /* BaseWidgetCell.swift */,
 				866E21B72A388FD800468486 /* BaseTableViewCell.swift */,
+				869BF7222A682CFB000BD030 /* BaseFooterSupplementaryView.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -650,6 +675,7 @@
 				86E73DC02A13A54500D34B96 /* ChartsDateFormatter.swift */,
 				861FCA0A29F9E72000743055 /* DateFormats.swift */,
 				86B3CB3D2A265F2500D7AAC6 /* RegularExpressions.swift */,
+				869BF71D2A6818CC000BD030 /* TextTypeColors.swift */,
 				86900818299D7A0B001B672E /* LocalStorages */,
 			);
 			path = Helpers;
@@ -1505,6 +1531,7 @@
 			children = (
 				868FD8B72A570A7A00EAF87D /* ContentView */,
 				868FD8C02A57111C00EAF87D /* CustomCells */,
+				869BF7062A66B500000BD030 /* Supplementaries */,
 				868FD8C32A6541EC00EAF87D /* Datasource */,
 			);
 			path = View;
@@ -1538,6 +1565,7 @@
 			isa = PBXGroup;
 			children = (
 				868FD8BE2A57111500EAF87D /* AppleHealthActivationCell.swift */,
+				869BF7022A66A68F000BD030 /* BackupCell.swift */,
 			);
 			path = CustomCells;
 			sourceTree = "<group>";
@@ -1727,6 +1755,7 @@
 				86900813299D4CBC001B672E /* UserScene */,
 				866E21A82A3884B600468486 /* Notifications */,
 				868FD8B22A570A4600EAF87D /* DataScene */,
+				869BF7092A66E23C000BD030 /* BackupScene */,
 				86A5D1F72A435D4C006E9424 /* UnitsScene */,
 				86A5D1D72A40B9D1006E9424 /* CreditsScene */,
 			);
@@ -1742,6 +1771,93 @@
 				861FCA2F29FA851900743055 /* ViewModel */,
 			);
 			path = HomeScene;
+			sourceTree = "<group>";
+		};
+		869BF7062A66B500000BD030 /* Supplementaries */ = {
+			isa = PBXGroup;
+			children = (
+				869BF7042A66B4B7000BD030 /* AppleHealthSectionFooter.swift */,
+			);
+			path = Supplementaries;
+			sourceTree = "<group>";
+		};
+		869BF7092A66E23C000BD030 /* BackupScene */ = {
+			isa = PBXGroup;
+			children = (
+				869BF70A2A66E253000BD030 /* Builder */,
+				869BF70D2A66E26F000BD030 /* View */,
+				869BF7112A66E289000BD030 /* Controller */,
+				869BF7142A66E2C5000BD030 /* ViewModel */,
+			);
+			path = BackupScene;
+			sourceTree = "<group>";
+		};
+		869BF70A2A66E253000BD030 /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				869BF7072A66E238000BD030 /* BackupSceneBuilder.swift */,
+			);
+			path = Builder;
+			sourceTree = "<group>";
+		};
+		869BF70D2A66E26F000BD030 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				869BF70E2A66E274000BD030 /* ContentView */,
+				869BF7172A67FC3B000BD030 /* CustomCells */,
+				869BF7212A682C81000BD030 /* Supplementaries */,
+				869BF71A2A67FFE3000BD030 /* Datasource */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		869BF70E2A66E274000BD030 /* ContentView */ = {
+			isa = PBXGroup;
+			children = (
+				869BF70B2A66E26C000BD030 /* BackupSceneView.swift */,
+			);
+			path = ContentView;
+			sourceTree = "<group>";
+		};
+		869BF7112A66E289000BD030 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				869BF70F2A66E286000BD030 /* BackupSceneViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		869BF7142A66E2C5000BD030 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				869BF7122A66E2A9000BD030 /* BackupSceneViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		869BF7172A67FC3B000BD030 /* CustomCells */ = {
+			isa = PBXGroup;
+			children = (
+				869BF7152A67FC38000BD030 /* BackupDateCell.swift */,
+				869BF71B2A680246000BD030 /* BackupPlainCell.swift */,
+			);
+			path = CustomCells;
+			sourceTree = "<group>";
+		};
+		869BF71A2A67FFE3000BD030 /* Datasource */ = {
+			isa = PBXGroup;
+			children = (
+				869BF7182A67FFDF000BD030 /* BackupSceneDatasource.swift */,
+			);
+			path = Datasource;
+			sourceTree = "<group>";
+		};
+		869BF7212A682C81000BD030 /* Supplementaries */ = {
+			isa = PBXGroup;
+			children = (
+				869BF71F2A682C7E000BD030 /* BackupSectionFooter.swift */,
+			);
+			path = Supplementaries;
 			sourceTree = "<group>";
 		};
 		869C9FC42A3B2D97005C2361 /* PushNotificationsManager */ = {
@@ -2325,7 +2441,9 @@
 				869C9FC12A39FCC1005C2361 /* Date+CreateDate.swift in Sources */,
 				FD95A82E45DDBD6179945692 /* BaseViewController.swift in Sources */,
 				83940A46BF53DCCBC541ACAD /* BaseViewModel.swift in Sources */,
+				869BF70C2A66E26C000BD030 /* BackupSceneView.swift in Sources */,
 				86A5D1EA2A40C839006E9424 /* Datasource.swift in Sources */,
+				869BF7162A67FC38000BD030 /* BackupDateCell.swift in Sources */,
 				9606D899A4BA38A4B22F5F46 /* Colors.swift in Sources */,
 				866E21A72A3884B300468486 /* NotificationsSceneBuilder.swift in Sources */,
 				86B3CB332A23C91900D7AAC6 /* BaseWidgetCell.swift in Sources */,
@@ -2361,6 +2479,7 @@
 				86900815299D4D76001B672E /* UserSceneViewModel.swift in Sources */,
 				868FD8B12A570A4000EAF87D /* DataSceneBuilder.swift in Sources */,
 				860AE91229E9C04D006CF2E1 /* UIApplication+OpenSettings.swift in Sources */,
+				869BF7082A66E239000BD030 /* BackupSceneBuilder.swift in Sources */,
 				86900808299D4867001B672E /* UserEndpoint.swift in Sources */,
 				86A518AB2A44930A00267A60 /* SettingsService.swift in Sources */,
 				8699F33129B2D9F300705347 /* SettingsTableViewDiffableDataSource.swift in Sources */,
@@ -2381,11 +2500,13 @@
 				86B3729A29CC6E500095C229 /* ImageAsset+Hashable.swift in Sources */,
 				86900806299D4612001B672E /* Logger.swift in Sources */,
 				86D0A74929A3868C00980996 /* DiarySceneViewController.swift in Sources */,
+				869BF7052A66B4B7000BD030 /* AppleHealthSectionFooter.swift in Sources */,
 				86D0A740299FA28E00980996 /* UserSceneView.swift in Sources */,
 				86D0A75529A65FD400980996 /* UserNetworkService.swift in Sources */,
 				863FED712A360BB0004B48FF /* DiaryDetailDatasource.swift in Sources */,
 				868FD8B52A570A7100EAF87D /* DataSceneView.swift in Sources */,
 				8699F34829B66F5100705347 /* SettingsCoordinator.swift in Sources */,
+				869BF7102A66E286000BD030 /* BackupSceneViewController.swift in Sources */,
 				86D0A74429A3847900980996 /* DiarySceneBuilder.swift in Sources */,
 				8637ADC829B78A4A00F14489 /* Record.swift in Sources */,
 				866406082A0A795B00B8F22B /* ChartsDatasource.swift in Sources */,
@@ -2412,10 +2533,14 @@
 				86AE57F429F0021600A50F05 /* InsulinCell.swift in Sources */,
 				868FD8AC2A4ED85900EAF87D /* UnitsSceneModel.swift in Sources */,
 				86023DA12A2A681900D8B161 /* CustomActivityIndicator.swift in Sources */,
+				869BF7032A66A68F000BD030 /* BackupCell.swift in Sources */,
+				869BF7132A66E2A9000BD030 /* BackupSceneViewModel.swift in Sources */,
 				86665A9E29E076D700745331 /* TokenStorage.swift in Sources */,
 				86A5D1DE2A40BAB7006E9424 /* CreditsSceneViewController.swift in Sources */,
 				8637ADC629B762B700F14489 /* AddRecordSceneViewModel.swift in Sources */,
 				86900810299D4978001B672E /* UserResponseModel.swift in Sources */,
+				869BF7192A67FFDF000BD030 /* BackupSceneDatasource.swift in Sources */,
+				869BF7202A682C7E000BD030 /* BackupSectionFooter.swift in Sources */,
 				8690080E299D495C001B672E /* UserLoginRequestModel.swift in Sources */,
 				866E21BC2A38924800468486 /* UITableView+ConfigureCell.swift in Sources */,
 				8637F2B329BBB10F00941919 /* UserDataCell.swift in Sources */,
@@ -2444,6 +2569,7 @@
 				86A5D2012A435D8F006E9424 /* UnitsSceneViewModel.swift in Sources */,
 				869C9FC32A3B1DA3005C2361 /* PushNotificationsManager.swift in Sources */,
 				86AE57FC29F0558700A50F05 /* ButtonsCell.swift in Sources */,
+				869BF71E2A6818CC000BD030 /* TextTypeColors.swift in Sources */,
 				86A5D1D62A40B9CE006E9424 /* CreditsSceneBuilder.swift in Sources */,
 				866FCCE329E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift in Sources */,
 				86B3729429C9F1600095C229 /* SectionModel.swift in Sources */,
@@ -2466,6 +2592,7 @@
 				8637ADDA29BA173500F14489 /* ReportSceneBuilder.swift in Sources */,
 				86D0A74D29A38F3500980996 /* DiaryCoordinator.swift in Sources */,
 				862FF7092A2BE7C6001BE802 /* DiaryDetailSceneViewController.swift in Sources */,
+				869BF7232A682CFB000BD030 /* BaseFooterSupplementaryView.swift in Sources */,
 				860AE91029E9BAE0006CF2E1 /* UIImageView+SetImage.swift in Sources */,
 				86900804299D45FE001B672E /* HTTPMethods.swift in Sources */,
 				8699F30C29B0AB8700705347 /* UserAuthorizationEndpoint.swift in Sources */,
@@ -2479,6 +2606,7 @@
 				86B3CB352A252F9800D7AAC6 /* UICollectionViewCell+ReuseID.swift in Sources */,
 				8699F31C29B0CF2A00705347 /* UIElementsBuilder.swift in Sources */,
 				86E73DC12A13A54500D34B96 /* ChartsDateFormatter.swift in Sources */,
+				869BF71C2A680246000BD030 /* BackupPlainCell.swift in Sources */,
 				8699F32629B284DC00705347 /* SettingsSceneViewController.swift in Sources */,
 				861FCA2829FA84D100743055 /* AddRecordCellModels.swift in Sources */,
 				8699F31329B0BE2700705347 /* ResetPasswordSceneBuilder.swift in Sources */,

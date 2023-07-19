@@ -17,9 +17,45 @@ final class DataSceneViewConroller: BaseViewController<DataSceneViewModel> {
 		view = contentView
 	}
 	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		setupBindings()
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		setupDatasourceSnapshot()
+	}
+	
 	//MARK: - Overriden methods
 	override func setupNavBar() {
 		super.setupNavBar()
 		title = Localization.data
+	}
+}
+
+//MARK: - Private extension
+private extension DataSceneViewConroller {
+	func setupDatasourceSnapshot() {
+		viewModel.$sections
+			.receive(on: DispatchQueue.main)
+			.sink { [unowned self] sections in
+				self.contentView.setupSnapshot(sections: sections)
+			}
+			.store(in: &cancellables)
+	}
+	
+	func setupBindings() {
+		contentView.actionPublisher
+			.sink { [unowned self] actions in
+				switch actions {
+				case .backupDidTapped(let model):
+					switch model.item {
+					case .backup:
+						self.viewModel.openBackupScene()
+					}
+				}
+			}
+			.store(in: &cancellables)
 	}
 }
