@@ -17,10 +17,31 @@ final class BackupSceneViewModel: BaseViewModel {
 	@Published var sections: [SectionModel<BackupSceneSections, BackupSceneItems>] = []
 	@Published var startDate = Date()
 	@Published var endDate = Date()
+	@Published var backupRecords = [Data]()
+	private var records: [Record] = []
+	private let userService: UserService
+	private let recordService: RecordsService
+	private var fileName = ""
+	var outputURL: URL?
+	
+	//MARK: - Init
+	init(recordService: RecordsService, userService: UserService) {
+		self.recordService = recordService
+		self.userService = userService
+	}
 	
 	//MARK: - Overriden methods
+	override func onViewDidLoad() {
+		setupFileURL()
+	}
+	
 	override func onViewWillAppear() {
 		updateDatasource()
+	}
+	
+	//MARK: - Public methods
+	func backupData() {
+		createBackup()
 	}
 }
 
@@ -64,6 +85,94 @@ private extension BackupSceneViewModel {
 		])
 		
 		sections = [backupDateSection, shareSection, deleteAllDataSection]
+	}
+	
+	func createBackup() {
+		fetchRecords()
+	}
+	
+	func saveFile(_ url: URL) {
+		do {
+			let jsonEncoder = JSONEncoder()
+			let jsonCodedData = try jsonEncoder.encode(records)
+			guard let prettyJSON = jsonCodedData.prettyPrintedJSONString else { return }
+			try prettyJSON.write(to: url, atomically: true, encoding: String.Encoding.utf8.rawValue)
+		} catch let error {
+			Logger.error(error.localizedDescription, shouldLogContext: true)
+			return
+		}
+	}
+	
+	func setupFileURL() {
+		guard let docDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+		else { return }
+		let fileNameDate = Date().stringRepresentation(format: .dayMonthYear)
+		fileName = "DiaBetter-\(fileNameDate)"
+		let outputURL = docDirectoryURL.appendingPathComponent(fileName).appendingPathExtension("json")
+		self.outputURL = outputURL
+		do {
+			try createBackupFileIfNeeded(fileName)
+		} catch let error {
+			Logger.error(error.localizedDescription, shouldLogContext: true)
+		}
+	}
+	
+//	func showFiles(_ file: Data) {
+//		let fileManager = FileManager.default
+//		
+//		guard let docDirectoryURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+//		else { return }
+//		
+//		let inputFileURL = docDirectoryURL.appendingPathComponent(fileName)
+//		
+//		guard fileManager.fileExists(atPath: inputFileURL.path)
+//		else {
+//			return
+//		}
+//		
+//		do {
+//			let inputData = try Data(contentsOf: inputFileURL)
+//			let decoder = JSONDecoder()
+//			let decodedString = try decoder.decode(Data.self, from: inputData)
+//		} catch let error {
+//			Logger.error(error.localizedDescription, shouldLogContext: true)
+//			return
+//		}
+//	}
+	
+	func fetchRecords() {
+		guard let id = userService.user?.remoteId else { return }
+		isLoadingSubject.send(true)
+		recordService.fetchRecords(userId: id)
+			.receive(on: DispatchQueue.global(qos: .userInitiated))
+			.sink { [weak self] completion in
+				guard let self = self else { return }
+				switch completion {
+				case .finished:
+					guard let url = outputURL else { return }
+					self.saveFile(url)
+					Logger.info("Finished", shouldLogContext: true)
+				case .failure(let error):
+					Logger.error(error.localizedDescription, shouldLogContext: true)
+					self.errorSubject.send(error)
+				}
+			} receiveValue: { [weak self] records in
+				guard let self = self else { return }
+				self.records = records
+				DispatchQueue.main.async {
+					self.isLoadingSubject.send(false)
+				}
+			}
+			.store(in: &cancellables)
+	}
+	
+	func createBackupFileIfNeeded(_ fileName: String) throws {
+		guard let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+		let fileURL = filePath.appendingPathComponent(fileName).appendingPathExtension("json")
+		if !FileManager.default.fileExists(atPath: fileURL.path) {
+			let data = Data()
+			try data.write(to: fileURL)
+		}
 	}
 }
 

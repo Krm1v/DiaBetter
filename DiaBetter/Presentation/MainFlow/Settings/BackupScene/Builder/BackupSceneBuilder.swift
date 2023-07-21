@@ -11,7 +11,7 @@ enum BackupSceneTransitions: Transition {}
 
 final class BackupSceneBuilder {
 	static func build(container: AppContainer) -> Module<BackupSceneTransitions, UIViewController> {
-		let viewModel = BackupSceneViewModel()
+		let viewModel = BackupSceneViewModel(recordService: container.recordsService, userService: container.userService)
 		let viewController = BackupSceneViewController(viewModel: viewModel)
 		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
 	}

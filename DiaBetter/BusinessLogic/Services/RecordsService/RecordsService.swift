@@ -125,7 +125,7 @@ final class RecordsServiceImpl {
 	func fetchRecords(userId: String) -> AnyPublisher<[Record], Error> {
 		return recordsNetworkService.fetchRecords(userId: userId)
 			.mapError { $0 as Error }
-			.map({ $0.map(Record.init) })
+			.map { $0.map(Record.init) }
 			.eraseToAnyPublisher()
 	}
 	

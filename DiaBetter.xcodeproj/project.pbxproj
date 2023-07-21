@@ -170,6 +170,7 @@
 		869BF71E2A6818CC000BD030 /* TextTypeColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF71D2A6818CC000BD030 /* TextTypeColors.swift */; };
 		869BF7202A682C7E000BD030 /* BackupSectionFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF71F2A682C7E000BD030 /* BackupSectionFooter.swift */; };
 		869BF7232A682CFB000BD030 /* BaseFooterSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF7222A682CFB000BD030 /* BaseFooterSupplementaryView.swift */; };
+		869BF7272A6ACFBB000BD030 /* Data+PrettyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BF7262A6ACFBA000BD030 /* Data+PrettyJSON.swift */; };
 		869C9FC12A39FCC1005C2361 /* Date+CreateDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C9FC02A39FCC1005C2361 /* Date+CreateDate.swift */; };
 		869C9FC32A3B1DA3005C2361 /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C9FC22A3B1DA3005C2361 /* PushNotificationsManager.swift */; };
 		869C9FC62A3B2DB7005C2361 /* ReminderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C9FC52A3B2DB7005C2361 /* ReminderModel.swift */; };
@@ -425,6 +426,7 @@
 		869BF71D2A6818CC000BD030 /* TextTypeColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTypeColors.swift; sourceTree = "<group>"; };
 		869BF71F2A682C7E000BD030 /* BackupSectionFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupSectionFooter.swift; sourceTree = "<group>"; };
 		869BF7222A682CFB000BD030 /* BaseFooterSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFooterSupplementaryView.swift; sourceTree = "<group>"; };
+		869BF7262A6ACFBA000BD030 /* Data+PrettyJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+PrettyJSON.swift"; sourceTree = "<group>"; };
 		869C9FC02A39FCC1005C2361 /* Date+CreateDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CreateDate.swift"; sourceTree = "<group>"; };
 		869C9FC22A3B1DA3005C2361 /* PushNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
 		869C9FC52A3B2DB7005C2361 /* ReminderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderModel.swift; sourceTree = "<group>"; };
@@ -548,6 +550,7 @@
 				86B3729929CC6E500095C229 /* ImageAsset+Hashable.swift */,
 				866FCCE229E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift */,
 				86AE580929F9378500A50F05 /* Notification.Name+UIResponder.swift */,
+				869BF7262A6ACFBA000BD030 /* Data+PrettyJSON.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2401,6 +2404,7 @@
 				868FD8AA2A49B25300EAF87D /* AppSettingsModel.swift in Sources */,
 				1E446A3697B6B3EB17C3E1C1 /* AppDelegate.swift in Sources */,
 				8699F33A29B3D76B00705347 /* HomeSceneView.swift in Sources */,
+				869BF7272A6ACFBB000BD030 /* Data+PrettyJSON.swift in Sources */,
 				EB6894D2911D81F047A6A96C /* AppEnvironment.swift in Sources */,
 				86AE580D29F99B5200A50F05 /* DiarySceneDatasource.swift in Sources */,
 				862FF7012A2BE6EB001BE802 /* DiaryDetailSceneBuilder.swift in Sources */,

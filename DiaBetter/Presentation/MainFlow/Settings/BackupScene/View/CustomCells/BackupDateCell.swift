@@ -48,6 +48,7 @@ private extension BackupDateCell {
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
 		datePicker.datePickerMode = .date
 		datePicker.preferredDatePickerStyle = .compact
+		datePicker.tintColor = Colors.customPink.color
 		setupLayout()
 	}
 	
