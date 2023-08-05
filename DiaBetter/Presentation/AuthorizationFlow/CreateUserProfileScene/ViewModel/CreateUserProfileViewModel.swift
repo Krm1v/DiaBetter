@@ -65,14 +65,15 @@ private extension CreateUserProfileViewModel {
 						fastActingInsulin: fastInsulin,
 						userProfileImage: nil)
 		userService.createUser(user)
+			.subscribe(on: DispatchQueue.global(qos: .userInitiated))
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
 				guard let self = self else { return }
-				self.isLoadingSubject.send(false)
 				switch completion {
 				case .finished:
 					Logger.info("Finished", shouldLogContext: true)
 					self.authorizeUser()
+					self.isLoadingSubject.send(false)
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
 					self.errorSubject.send(error)
@@ -84,6 +85,7 @@ private extension CreateUserProfileViewModel {
 	func authorizeUser() {
 		let credentials = Login(login: email, password: password)
 		userService.loginUser(with: credentials)
+			.subscribe(on: DispatchQueue.global())
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
 				guard let self = self else { return }

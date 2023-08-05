@@ -30,7 +30,7 @@ final class UnitsSceneViewController: BaseViewController<UnitsSceneViewModel> {
 	//MARK: - Overriden methods
 	override func setupNavBar() {
 		super.setupNavBar()
-		title = "Units"
+		title = Localization.units
 		navigationItem.largeTitleDisplayMode = .always
 		contentView.setupSaveButton(for: self)
 	}

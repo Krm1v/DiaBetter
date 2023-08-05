@@ -25,13 +25,14 @@ final class ResetPasswordSceneViewModel: BaseViewModel {
 	func resetPassword() {
 		isLoadingSubject.send(true)
 		userService.restorePassword(email)
+			.subscribe(on: DispatchQueue.global())
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self ] completion in
 				guard let self = self else { return }
-				self.isLoadingSubject.send(false)
 				switch completion {
 				case .finished:
 					Logger.info("Finished", shouldLogContext: true)
+					self.isLoadingSubject.send(false)
 					self.infoSubject.send((Localization.resetPasswordTitle,
 										   Localization.resetPasswordMessage))
 				case .failure(let error):

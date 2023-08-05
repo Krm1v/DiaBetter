@@ -58,14 +58,15 @@ private extension LoginSceneViewModel {
 		isLoadingSubject.send(true)
 		let creds = Login(login: email, password: password)
 		userService.loginUser(with: creds)
+			.subscribe(on: DispatchQueue.global(qos: .userInitiated))
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
 				guard let self = self else { return }
-				self.isLoadingSubject.send(false)
 				switch completion {
 				case .finished:
-					debugPrint("\(#function) Success")
+					Logger.info("Success", shouldLogContext: true)
 					self.transitionSubject.send(.loggedIn)
+					self.isLoadingSubject.send(false)
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
 					self.errorSubject.send(error)

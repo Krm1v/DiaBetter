@@ -61,10 +61,11 @@ private extension BackupSceneViewController {
 				case .plainCellDidTapped(let items):
 					switch items.item {
 					case .backupAllData:
-						viewModel.backupData()
-						showActivityViewController()
+						viewModel.backupData(didFiltered: false)
+						presentDocumentPickerController()
 					case .createBackup:
-						debugPrint("Create backup")
+						viewModel.backupData(didFiltered: true)
+						presentDocumentPickerController()
 					case .shareData:
 						debugPrint("Share data")
 					case .eraseAllData:
@@ -80,23 +81,21 @@ private extension BackupSceneViewController {
 									  message: "This action can't be undo.",
 									  preferredStyle: .alert)
 		let deleteAction = UIAlertAction(title: Localization.delete, style: .destructive) { [weak self] _ in
-			debugPrint("Delete")
+			guard let self = self else { return }
+			self.viewModel.eraseAllData()
 		}
 		let cancelAction = UIAlertAction(title: Localization.cancel, style: .cancel)
 		alert.addAction(deleteAction); alert.addAction(cancelAction)
 		present(alert, animated: true)
 	}
 	
-	func showActivityViewController() {
+	func presentDocumentPickerController() {
 		guard let url = viewModel.outputURL else { return }
-		debugPrint(viewModel.outputURL)
 		let uiDocumentController = UIDocumentPickerViewController(forExporting: [url], asCopy: true)
 		uiDocumentController.delegate = self
 		present(uiDocumentController, animated: true, completion: nil)
-		
 	}
 }
 
-extension BackupSceneViewController: UIDocumentPickerDelegate {
-	
-}
+//MARK: - Extension UIDocumentPickerDelegate
+extension BackupSceneViewController: UIDocumentPickerDelegate { }

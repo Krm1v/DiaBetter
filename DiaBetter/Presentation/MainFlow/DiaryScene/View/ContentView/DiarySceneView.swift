@@ -9,7 +9,6 @@ import UIKit
 import Combine
 
 enum DiarySceneViewActions {
-	case filterButtonDidTapped
 	case didSelectItem(DiarySceneItem)
 }
 
@@ -42,12 +41,6 @@ final class DiarySceneView: BaseView {
 	}
 	
 	//MARK: - Public methods
-	func setupFilterButton(for controller: UIViewController) {
-		filterButton.style = .plain
-		filterButton.image = UIImage(systemName: Constants.filterButtonImage)
-		controller.navigationItem.rightBarButtonItem = filterButton
-	}
-	
 	func setupSnapshot(sections: [SectionModel<DiarySceneSection, DiarySceneItem>]) {
 		var snapshot = NSDiffableDataSourceSnapshot<DiarySceneSection, DiarySceneItem>()
 		for section in sections {

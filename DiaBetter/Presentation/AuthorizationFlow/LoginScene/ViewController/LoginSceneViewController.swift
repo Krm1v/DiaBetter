@@ -69,20 +69,26 @@ private extension LoginSceneViewController {
 		notificationCenter.addObserver(self,
 									   selector: #selector(willResignActive),
 									   name: UIApplication.willResignActiveNotification,
-									   object: nil)
+									   object: nil
+		)
+		
 		notificationCenter.addObserver(self,
 									   selector: #selector(didBecomeActive),
 									   name: UIApplication.didBecomeActiveNotification,
-									   object: nil)
+									   object: nil
+		)
 	}
 	
 	func removeObservers() {
 		notificationCenter.removeObserver(self,
 										  name: UIApplication.willResignActiveNotification,
-										  object: nil)
+										  object: nil
+		)
+		
 		notificationCenter.removeObserver(self,
 										  name: UIApplication.didBecomeActiveNotification,
-										  object: nil)
+										  object: nil
+		)
 	}
 	
 	//MARK: - @Objc methods

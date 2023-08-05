@@ -12,13 +12,14 @@ struct UserHeaderModel: Hashable {
 	let image: ImageResource?
 }
 
-struct UserDataSettingsModel: Hashable, UserDataModel {
+struct UserDataSettingsModel: Hashable {
 	let title: String
 	let textFieldValue: String
 }
 
-struct UserDataMenuSettingsModel: Hashable, UserDataModel {
-	let title: String
+struct UserDataMenuSettingsModel: Hashable {
+	let rowTitle: String
 	var labelValue: String
-	let source: SettingsMenuDatasource
+	let source: UserParameters
 }
+

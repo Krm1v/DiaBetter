@@ -166,20 +166,18 @@ private extension UserSceneView {
 				let cell = collectionView.configureCell(cellType: UserDataMenuCell.self, indexPath: indexPath)
 				cell.configure(with: model)
 				cell.userDataMenuPublisher
-					.sink { [weak self] event in
+					.sink { [weak self] action in
 						guard let self = self else { return }
 						guard var object = self.getObject(with: indexPath) else {
 							return
 						}
-						switch event {
-						case .menuDidTapped:
-							self.actionSubject.send(.popoverListDidTapped(object))
-						case .userParameterDidChanged(let parameter):
-							object.labelValue = parameter
+						switch action {
+						case .menuDidTapped(let item):
+							object.labelValue = item.title
 							self.actionSubject.send(.popoverListDidTapped(object))
 						}
 					}
-					.store(in: &self.cancellables)
+					.store(in: &cell.cancellables)
 				return cell
 			}
 		})

@@ -52,7 +52,7 @@ enum UserEndpoint: Endpoint {
 	var queries: HTTPQueries {
 		switch self {
 		case .uploadPhoto:
-			return ["overwrite": "true"]
+			return [.overwrite: "true"]
 		default: return [:]
 		}
 	}

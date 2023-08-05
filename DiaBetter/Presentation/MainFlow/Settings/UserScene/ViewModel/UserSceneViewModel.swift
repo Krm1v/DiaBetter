@@ -44,42 +44,6 @@ final class UserSceneViewModel: BaseViewModel {
 	}
 	
 	//MARK: - Public methods
-	//MARK: - Datasource methods
-	func updateDatasource() {
-		getImageResource()
-		guard let user = userService.user else { return }
-		let userHeaderModel = UserHeaderModel(email: user.email ?? "",
-											  image: userImageResource)
-		let userHeaderSection = SectionModel<UserProfileSections, UserSettings>(
-			section: .header,
-			items: [
-				.header(userHeaderModel)
-			]
-		)
-		let userName = UserDataSettingsModel(title: Localization.name,
-											 textFieldValue: user.name ?? "")
-		let userSettings = [
-			UserDataMenuSettingsModel(title: Localization.diabetsType,
-									  labelValue: user.diabetesType ?? "",
-									  source: .diabetesType),
-			UserDataMenuSettingsModel(title: Localization.fastActingInsulin,
-									  labelValue: user.fastActingInsulin ?? "",
-									  source: .fastInsulines),
-			UserDataMenuSettingsModel(title: Localization.basalInsulin,
-									  labelValue: user.basalInsulin ?? "",
-									  source: .longInsulines)
-		]
-		var userDataSection = SectionModel<UserProfileSections, UserSettings>(
-			section: .list,
-			items: []
-		)
-		userDataSection.items.append(.plainWithTextfield(userName))
-		let _ = userSettings.map { item in
-			userDataSection.items.append(.plainWithLabel(item))
-		}
-		sections = [userHeaderSection, userDataSection]
-	}
-	
 	//MARK: - User's profile picture helpers
 	func fetchImageData(from data: Data) {
 		userImage = data
@@ -105,11 +69,13 @@ final class UserSceneViewModel: BaseViewModel {
 		isLoadingSubject.send(true)
 		guard let id = userService.user?.remoteId else { return }
 		userService.fetchUser(id: id)
+			.subscribe(on: DispatchQueue.global(qos: .userInitiated))
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
 				guard let self = self else { return }
 				switch completion {
 				case .finished:
+					self.isLoadingSubject.send(false)
 					Logger.info("Finished", shouldLogContext: true)
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
@@ -122,7 +88,6 @@ final class UserSceneViewModel: BaseViewModel {
 				userDiabetesType = user.diabetesType ?? ""
 				userFastInsulin = user.fastActingInsulin ?? ""
 				userBasalInsulin = user.basalInsulin ?? ""
-				self.isLoadingSubject.send(false)
 				self.updateDatasource()
 			}
 			.store(in: &cancellables)
@@ -131,22 +96,21 @@ final class UserSceneViewModel: BaseViewModel {
 	func logoutUser() {
 		isLoadingSubject.send(true)
 		userService.logoutUser()
+			.subscribe(on: DispatchQueue.global())
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
 				guard let self = self else { return }
-				self.isLoadingSubject.send(false)
 				switch completion {
 				case .finished:
+					self.userService.clear()
+					self.isLoadingSubject.send(false)
+					self.transitionSubject.send(.success)
 					Logger.info("Finished", shouldLogContext: true)
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
 					self.errorSubject.send(error)
 				}
-			} receiveValue: { [weak self] response in
-				guard let self = self else { return }
-				self.userService.clear()
-				self.transitionSubject.send(.success)
-			}
+			} receiveValue: { _ in }
 			.store(in: &cancellables)
 	}
 	
@@ -159,6 +123,7 @@ final class UserSceneViewModel: BaseViewModel {
 										   attachmentKey: "",
 										   fileName: Constants.basicUserProfileImageName)
 		userService.uploadUserProfilePhoto(data: uploadData)
+			.subscribe(on: DispatchQueue.global(qos: .userInitiated))
 			.receive(on: DispatchQueue.main)
 			.sink { completion in
 				switch completion {
@@ -181,6 +146,7 @@ final class UserSceneViewModel: BaseViewModel {
 	func deleteUserProfilePhoto() {
 		guard var user = userService.user else { return }
 		userService.deletePhoto(filename: Constants.basicUserProfileImageName + Constants.basicImageFormat)
+			.subscribe(on: DispatchQueue.global(qos: .userInitiated))
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
 				guard let self = self else { return }
@@ -202,12 +168,14 @@ final class UserSceneViewModel: BaseViewModel {
 	func updateUser(_ user: User) {
 		isLoadingSubject.send(true)
 		userService.updateUser(user: user)
+			.subscribe(on: DispatchQueue.global())
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
 				guard let self = self else { return }
-				self.isLoadingSubject.send(false)
+				
 				switch completion {
 				case .finished:
+					self.isLoadingSubject.send(false)
 					Logger.info("Finished", shouldLogContext: true)
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
@@ -248,6 +216,40 @@ final class UserSceneViewModel: BaseViewModel {
 	
 	func clearImageCache() {
 		KingfisherManager.shared.cache.clearCache()
+	}
+}
+
+private extension UserSceneViewModel {
+	func updateDatasource() {
+		getImageResource()
+		guard let user = userService.user else { return }
+		let userHeaderModel = UserHeaderModel(email: user.email ?? "",
+											  image: userImageResource)
+		let userHeaderSection = SectionModel<UserProfileSections, UserSettings>(
+			section: .header,
+			items: [
+				.header(userHeaderModel)
+			]
+		)
+		let userName = UserDataSettingsModel(title: Localization.name,
+											 textFieldValue: user.name ?? "")
+		let userSettings = [
+			UserDataMenuSettingsModel(rowTitle: Localization.diabetsType,
+									  labelValue: user.diabetesType ?? "", source: .diabetesType),
+			UserDataMenuSettingsModel(rowTitle: Localization.fastActingInsulin,
+									  labelValue: user.fastActingInsulin ?? "", source: .fastInsulin),
+			UserDataMenuSettingsModel(rowTitle: Localization.basalInsulin,
+									  labelValue: user.basalInsulin ?? "", source: .longInsulin)
+		]
+		var userDataSection = SectionModel<UserProfileSections, UserSettings>(
+			section: .list,
+			items: []
+		)
+		userDataSection.items.append(.plainWithTextfield(userName))
+		let _ = userSettings.map { item in
+			userDataSection.items.append(.plainWithLabel(item))
+		}
+		sections = [userHeaderSection, userDataSection]
 	}
 }
 

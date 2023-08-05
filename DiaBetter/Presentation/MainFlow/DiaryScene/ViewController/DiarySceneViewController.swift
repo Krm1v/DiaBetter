@@ -26,7 +26,6 @@ final class DiarySceneViewController: BaseViewController<DiarySceneViewModel> {
 		super.setupNavBar()
 		title = Localization.diary
 		navigationItem.largeTitleDisplayMode = .always
-		contentView.setupFilterButton(for: self)
 	}
 }
 
@@ -42,8 +41,6 @@ private extension DiarySceneViewController {
 		contentView.actionPublisher
 			.sink { [unowned self] action in
 				switch action {
-				case .filterButtonDidTapped:
-					debugPrint("123")
 				case .didSelectItem(let item):
 					viewModel.didSelectItem(item)
 				}

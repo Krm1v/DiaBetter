@@ -15,4 +15,5 @@ enum DateFormats: String {
 	case day = 				"MMM d"
 	case month = 			"MMM"
 	case dayMonthYearTime = "d MMM YYYY hh:mm"
+	case monthDayYear =     "MM/dd/YYYY"
 }

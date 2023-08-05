@@ -13,7 +13,7 @@ enum RequestBody {
 	case multipartData([MultipartDataItem])
 }
 
-typealias HTTPQueries = [String: String]
+typealias HTTPQueries = [Queries: String]
 typealias HTTPHeaders = [String: String]
 
 protocol Endpoint: RequestBuilder {
@@ -42,7 +42,7 @@ extension Endpoint {
 		guard var components = URLComponents(url: completedURL,
 											 resolvingAgainstBaseURL: true) else { return nil }
 		components.queryItems = queries.map { item in
-			URLQueryItem(name: item.key, value: item.value)
+			URLQueryItem(name: item.key.rawValue, value: item.value)
 		}
 		guard let urlForRequest = components.url else { return nil }
 		var urlRequest = URLRequest(url: urlForRequest)

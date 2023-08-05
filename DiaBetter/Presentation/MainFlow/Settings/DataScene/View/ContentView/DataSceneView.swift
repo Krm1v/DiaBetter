@@ -84,6 +84,11 @@ private extension DataSceneView {
 														indexPath: indexPath)
 				cell.configure(model)
 				return cell
+			case .importItem(let model):
+				let cell = collectionView.configureCell(cellType: BackupCell.self,
+														indexPath: indexPath)
+				cell.configure(model)
+				return cell
 			}
 		})
 		datasource?.supplementaryViewProvider = { [weak self] (collectionView, kind, indexPath) -> UICollectionReusableView? in
@@ -110,8 +115,9 @@ private extension DataSceneView {
 				return nil
 			}
 			switch sections {
-			case .appleHealth: return makeListSection(with: layoutEnvironment)
-			case .backup: 	   return makeListSection(with: layoutEnvironment)
+			case .appleHealth: 	 return makeListSection(with: layoutEnvironment, isFooterExist: true)
+			case .backup: 	   	 return makeListSection(with: layoutEnvironment, isFooterExist: false)
+			case .importSection: return makeListSection(with: layoutEnvironment, isFooterExist: false)
 			}
 		}
 		let configuration = UICollectionViewCompositionalLayoutConfiguration()
@@ -120,7 +126,7 @@ private extension DataSceneView {
 		return layout
 	}
 	
-	func makeListSection(with layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+	func makeListSection(with layoutEnvironment: NSCollectionLayoutEnvironment, isFooterExist: Bool) -> NSCollectionLayoutSection {
 		var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
 		configuration.backgroundColor = .black
 		
@@ -129,8 +135,10 @@ private extension DataSceneView {
 														leading: 16,
 														bottom: .zero,
 														trailing: 16)
-		let footer = makeSectionFooter()
-		section.boundarySupplementaryItems = [footer]
+		if isFooterExist {
+			let footer = makeSectionFooter()
+			section.boundarySupplementaryItems = [footer]
+		}
 		return section
 	}
 	
@@ -163,6 +171,8 @@ private extension DataSceneView {
 		var backupCellModel: BackupCellModel?
 		switch object {
 		case .backupItem(let model):
+			backupCellModel = model
+		case .importItem(let model):
 			backupCellModel = model
 		default: break
 		}

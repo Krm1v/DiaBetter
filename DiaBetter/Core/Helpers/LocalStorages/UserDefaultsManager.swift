@@ -10,6 +10,7 @@ import Foundation
 enum UserDefaultsKeys: String {
 	case dataUser
 	case dataRecord
+	case dataRecords
 	case appSettings
 }
 

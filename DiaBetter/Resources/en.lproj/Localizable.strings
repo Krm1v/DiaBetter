@@ -115,4 +115,8 @@
 "backup-or-share-footer-text" = "Backup your data on device or share it with your doctor.";
 "erase-all-data" = "Erase all data";
 "erase-data-footer-text" = "You can erase all of your data. This action can't be undo.";
+"apple-health-connect" = "Apple Health connect";
+"apple-health-footer-description" = "Turn on to let DiaBetter connect with Apple Health to write and read data";
+"import" = "Import";
+"wrong-backup-error-description" = "Wrong data. This backup file doesn't belong to this account";
 

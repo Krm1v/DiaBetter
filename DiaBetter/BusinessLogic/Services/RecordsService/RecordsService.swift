@@ -18,11 +18,15 @@ protocol RecordsService {
 	var recordPublisher: AnyPublisher<Record?, Never> { get }
 	
 	func save(record: Record)
+	func save(records: [Record])
 	func clear()
 	func addRecord(record: Record) -> AnyPublisher<Record, Error>
 	func updateRecord(record: Record, id: String) -> AnyPublisher<Record, Error>
 	func fetchRecords(userId: String) -> AnyPublisher<[Record], Error>
 	func deleteRecord(id: String) -> AnyPublisher<Void, Error>
+	func deleteAllRecords(id: String) -> AnyPublisher<Void, Error>
+	func uploadAllRecords(records: [Record]) -> AnyPublisher<[String], Error>
+	func filterRecordsByDate(userId: String, startDate: Date, endDate: Date) -> AnyPublisher<[Record], Error>
 }
 
 final class RecordsServiceImpl {
@@ -51,6 +55,12 @@ final class RecordsServiceImpl {
 		let dataRecord = seriallize(record: record)
 		saveToDefaults(value: dataRecord, for: .dataRecord)
 		recordSubject.send(record)
+	}
+	
+	func save(records: [Record]) {
+		let dataRecords = records.map { seriallize(record: $0) }
+		saveToDefaults(value: dataRecords, for: .dataRecords)
+		_ = records.map { recordSubject.send($0) }
 	}
 	
 	func clear() {
@@ -102,6 +112,35 @@ final class RecordsServiceImpl {
 			.eraseToAnyPublisher()
 	}
 	
+	func uploadAllRecords(records: [Record]) -> AnyPublisher<[String], Error> {
+		var recordsModel: [RecordRequestModel] = []
+		
+		for record in records {
+			let recordRequestModel = createRequestModel(
+				record,
+				date: record.recordDate?.stringRepresentation(format: .monthDayYearTime)
+			)
+			recordsModel.append(recordRequestModel)
+			debugPrint(record.recordDate?.stringRepresentation(format: .monthDayYearTime))
+		}
+		let chunkSize = 100
+		let chunks: [[RecordRequestModel]] = stride(from: 0, to: recordsModel.count, by: chunkSize).map {
+			Array(recordsModel[$0..<min($0 + chunkSize, recordsModel.count)])
+		}
+		
+		return chunks
+			.publisher
+			.flatMap({ records -> AnyPublisher<[String], Error> in
+				return self.recordsNetworkService.uploadRecords(records: records)
+					.mapError { $0 as Error }
+					.eraseToAnyPublisher()
+			})
+			.reduce([]) { acc, value in
+				acc + value
+			}
+			.eraseToAnyPublisher()
+	}
+	
 	func updateRecord(record: Record, id: String) -> AnyPublisher<Record, Error> {
 		guard let date = record.recordDate else {
 			return Fail(error: RecordServiceErrors.failToConvert)
@@ -138,6 +177,23 @@ final class RecordsServiceImpl {
 			.mapError { $0 as Error }
 			.eraseToAnyPublisher()
 	}
+	
+	func deleteAllRecords(id: String) -> AnyPublisher<Void, Error> {
+		return recordsNetworkService.deleteAllRecords(userId: id)
+			.mapError { $0 as Error }
+			.eraseToAnyPublisher()
+	}
+	
+	func filterRecordsByDate(userId: String, startDate: Date, endDate: Date) -> AnyPublisher<[Record], Error> {
+		return recordsNetworkService.filterRecordsByDate(
+			userId: userId,
+			startDate: startDate.stringRepresentation(format: .monthDayYear, timeZone: TimeZone(identifier: "GMT") ?? .current),
+			endDate: endDate.stringRepresentation(format: .monthDayYear, timeZone: TimeZone(identifier: "GMT") ?? .current)
+		)
+			.mapError { $0 as Error }
+			.map { $0.map(Record.init) }
+			.eraseToAnyPublisher()
+	}
 }
 
 //MARK: - Extension UserService
@@ -154,8 +210,8 @@ private extension RecordsService {
 								  longInsulin: record.longInsulin,
 								  recordNote: record.recordNote,
 								  glucoseLevel: record.glucoseLevel,
-								  meal: record.meal,
 								  recordDate: date,
+								  meal: record.meal,
 								  ownerId: record.userId)
 	}
 }

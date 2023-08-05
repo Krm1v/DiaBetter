@@ -12,8 +12,18 @@ final class DataSceneViewModel: BaseViewModel {
 	//MARK: - Properties
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<DataSceneTransitions, Never>()
+	private let recordService: RecordsService
+	private let userService: UserService
+	private var records: [Record] = []
 	@Published var sections: [SectionModel<DataSceneSections, DataSceneItems>] = []
 	@Published var isConnected = false
+	var inputURL: URL?
+	
+	//MARK: - Init
+	init(recordService: RecordsService, userService: UserService) {
+		self.recordService = recordService
+		self.userService = userService
+	}
 	
 	//MARK: - Overriden methods
 	override func onViewWillAppear() {
@@ -24,13 +34,18 @@ final class DataSceneViewModel: BaseViewModel {
 	func openBackupScene() {
 		transitionSubject.send(.moveToBackupScene)
 	}
+	
+	func importBackup() {
+		showFiles()
+		loadRecords()
+	}
 }
 
 //MARK: - Private extension
 private extension DataSceneViewModel {
 	func updateDatasource() {
-		let appleHealthModel = AppleHealthCellModel(title: "Apple Health connect", isConnected: isConnected)
-		let sectionFooterModel = AppleHealthSectionModel(title: "Turn on to let DiaBetter connect with Apple Health to write and read data")
+		let appleHealthModel = AppleHealthCellModel(title: Localization.appleHealthConnect, isConnected: isConnected)
+		let sectionFooterModel = DataSceneSectionsModel(title: Localization.appleHealthFooterDescription)
 		let appleHealthSection = SectionModel<DataSceneSections, DataSceneItems>(
 			section: .appleHealth(sectionFooterModel),
 			items: [
@@ -38,14 +53,65 @@ private extension DataSceneViewModel {
 			]
 		)
 		
-		let createBackupModel = BackupCellModel(title: "Create backup", item: .backup)
+		let createBackupModel = BackupCellModel(title: Localization.createBackup, item: .backup)
+		let createBackupSectionModel = DataSceneSectionsModel(title: nil)
 		let createBackupSection = SectionModel<DataSceneSections, DataSceneItems>(
-			section: .backup,
+			section: .backup(createBackupSectionModel),
 			items: [
 				.backupItem(createBackupModel)
 			]
 		)
 		
-		sections = [appleHealthSection, createBackupSection]
+		let importModel = BackupCellModel(title: Localization.import, item: .ʼimportʼ)
+		let importSectionModel = DataSceneSectionsModel(title: nil)
+		let importSection = SectionModel<DataSceneSections, DataSceneItems>(
+			section: .importSection(importSectionModel),
+			items: [
+				.importItem(importModel)
+			]
+		)
+		
+		sections = [appleHealthSection, createBackupSection, importSection]
+	}
+	
+	func showFiles() {
+		let fileManager = FileManager.default
+		guard let inputURL = inputURL else {
+			return
+		}
+		
+		guard inputURL.startAccessingSecurityScopedResource() else { return }
+			do {
+				let inputData = try Data(contentsOf: inputURL)
+				let decoder = JSONDecoder()
+					self.records = try decoder.decode([Record].self, from: inputData)
+			} catch let error {
+				Logger.error(error.localizedDescription, shouldLogContext: true)
+				return
+		}
+		inputURL.stopAccessingSecurityScopedResource()
+	}
+	
+	func loadRecords() {
+		guard let userId = userService.user?.remoteId else { return }
+		if records.contains(where: { $0.userId != userId }) {
+			let error = NSError(domain: Localization.wrongBackupErrorDescription, code: 1)
+			errorSubject.send(error)
+			return
+		}
+		debugPrint(records)
+		recordService.uploadAllRecords(records: records)
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] completion in
+				guard let self = self else { return }
+				switch completion {
+				case .finished:
+					Logger.info("Finished", shouldLogContext: true)
+				case .failure(let error):
+					Logger.error(error.localizedDescription, shouldLogContext: true)
+					self.errorSubject.send(error)
+				}
+			} receiveValue: { _ in }
+			.store(in: &cancellables)
 	}
 }

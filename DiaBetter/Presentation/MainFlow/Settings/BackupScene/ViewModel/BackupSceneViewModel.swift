@@ -40,8 +40,30 @@ final class BackupSceneViewModel: BaseViewModel {
 	}
 	
 	//MARK: - Public methods
-	func backupData() {
-		createBackup()
+	func backupData(didFiltered: Bool) {
+		createBackup(didFiltered: didFiltered)
+	}
+	
+	func eraseAllData() {
+		guard let userId = userService.user?.remoteId else {
+			return
+		}
+		isLoadingSubject.send(true)
+		recordService.deleteAllRecords(id: userId)
+			.subscribe(on: DispatchQueue.global(qos: .background))
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] completion in
+				guard let self = self else { return }
+				switch completion {
+				case .finished:
+					Logger.info("Finished", shouldLogContext: true)
+					isLoadingSubject.send(false)
+					infoSubject.send(("Done", "All data successfully deleted"))
+				case .failure(let error):
+					Logger.error(error.localizedDescription, shouldLogContext: true)
+				}
+			} receiveValue: { _ in }
+			.store(in: &cancellables)
 	}
 }
 
@@ -87,8 +109,8 @@ private extension BackupSceneViewModel {
 		sections = [backupDateSection, shareSection, deleteAllDataSection]
 	}
 	
-	func createBackup() {
-		fetchRecords()
+	func createBackup(didFiltered: Bool) {
+		didFiltered == true ? filterRecordsByDate() : fetchRecords()
 	}
 	
 	func saveFile(_ url: URL) {
@@ -117,34 +139,12 @@ private extension BackupSceneViewModel {
 		}
 	}
 	
-//	func showFiles(_ file: Data) {
-//		let fileManager = FileManager.default
-//		
-//		guard let docDirectoryURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-//		else { return }
-//		
-//		let inputFileURL = docDirectoryURL.appendingPathComponent(fileName)
-//		
-//		guard fileManager.fileExists(atPath: inputFileURL.path)
-//		else {
-//			return
-//		}
-//		
-//		do {
-//			let inputData = try Data(contentsOf: inputFileURL)
-//			let decoder = JSONDecoder()
-//			let decodedString = try decoder.decode(Data.self, from: inputData)
-//		} catch let error {
-//			Logger.error(error.localizedDescription, shouldLogContext: true)
-//			return
-//		}
-//	}
-	
 	func fetchRecords() {
 		guard let id = userService.user?.remoteId else { return }
 		isLoadingSubject.send(true)
 		recordService.fetchRecords(userId: id)
-			.receive(on: DispatchQueue.global(qos: .userInitiated))
+			.subscribe(on: DispatchQueue.global(qos: .userInitiated))
+			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
 				guard let self = self else { return }
 				switch completion {
@@ -155,6 +155,35 @@ private extension BackupSceneViewModel {
 				case .failure(let error):
 					Logger.error(error.localizedDescription, shouldLogContext: true)
 					self.errorSubject.send(error)
+				}
+			} receiveValue: { [weak self] records in
+				guard let self = self else { return }
+				self.records = records
+				DispatchQueue.main.async {
+					self.isLoadingSubject.send(false)
+				}
+			}
+			.store(in: &cancellables)
+	}
+	
+	func filterRecordsByDate() {
+		guard let id = userService.user?.remoteId else {
+			return
+		}
+		isLoadingSubject.send(true)
+		recordService.filterRecordsByDate(userId: id, startDate: startDate, endDate: endDate)
+			.subscribe(on: DispatchQueue.global())
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] completion in
+				guard let self = self else { return }
+				switch completion {
+				case .finished:
+					guard let url = outputURL else { return }
+					self.saveFile(url)
+					Logger.info("Finished", shouldLogContext: true)
+				case .failure(let error):
+					Logger.error(error.localizedDescription, shouldLogContext: true)
+					errorSubject.send(error)
 				}
 			} receiveValue: { [weak self] records in
 				guard let self = self else { return }

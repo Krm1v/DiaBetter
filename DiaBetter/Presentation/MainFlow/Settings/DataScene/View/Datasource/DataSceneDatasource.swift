@@ -17,14 +17,15 @@ struct BackupCellModel: Hashable {
 	let item: BackupListSectionItems
 }
 
-struct AppleHealthSectionModel: Hashable {
+struct DataSceneSectionsModel: Hashable, Identifiable {
 	let id = UUID()
 	let title: String?
 }
 
 enum DataSceneSections: Hashable {
-	case appleHealth(AppleHealthSectionModel?)
-	case backup
+	case appleHealth(DataSceneSectionsModel?)
+	case backup(DataSceneSectionsModel?)
+	case importSection(DataSceneSectionsModel?)
 }
 
 extension DataSceneSections: RawRepresentable {
@@ -34,22 +35,25 @@ extension DataSceneSections: RawRepresentable {
 	//MARK: - Properties
 	var rawValue: RawValue {
 		switch self {
-		case .appleHealth: return 0
-		case .backup: 	   return 1
+		case .appleHealth: 	 return 0
+		case .backup: 	   	 return 1
+		case .importSection: return 2
 		}
 	}
 	
 	var title: String? {
 		switch self {
-		case .appleHealth(let model): return model?.title
-		case .backup: 		   		  return nil
+		case .appleHealth(let model):   return model?.title
+		case .backup(let model):        return model?.title
+		case .importSection(let model): return model?.title
 		}
 	}
 	
 	var id: UUID? {
 		switch self {
-		case .appleHealth(let model): return model?.id
-		case .backup: 				  return nil
+		case .appleHealth(let model): 	return model?.id
+		case .backup(let model): 		return model?.id
+		case .importSection(let model): return model?.id
 		}
 	}
 	
@@ -57,7 +61,8 @@ extension DataSceneSections: RawRepresentable {
 	init?(rawValue: RawValue) {
 		switch rawValue {
 		case 0: self = .appleHealth(nil)
-		case 1: self = .backup
+		case 1: self = .backup(nil)
+		case 2: self = .importSection(nil)
 		default: return nil
 		}
 	}
@@ -71,8 +76,10 @@ extension DataSceneSections: RawRepresentable {
 enum DataSceneItems: Hashable {
 	case appleHealthItem(AppleHealthCellModel)
 	case backupItem(BackupCellModel)
+	case importItem(BackupCellModel)
 }
 
 enum BackupListSectionItems: Hashable {
 	case backup
+	case ʼimportʼ
 }

@@ -18,8 +18,8 @@ final class UserSceneViewController: BaseViewController<UserSceneViewModel> {
 	}
 	
 	override func viewDidLoad() {
-		super.viewDidLoad()
 		setupActions()
+		super.viewDidLoad()
 		setupPermissions()
 	}
 	
@@ -66,9 +66,9 @@ private extension UserSceneViewController {
 					switch setting.source {
 					case .diabetesType:
 						self.viewModel.userDiabetesType = setting.labelValue
-					case .fastInsulines:
+					case .fastInsulin:
 						self.viewModel.userFastInsulin = setting.labelValue
-					case .longInsulines:
+					case .longInsulin:
 						self.viewModel.userBasalInsulin = setting.labelValue
 					}
 				}

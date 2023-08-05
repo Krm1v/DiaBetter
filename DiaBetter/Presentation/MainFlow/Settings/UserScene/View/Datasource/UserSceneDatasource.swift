@@ -7,21 +7,32 @@
 
 import Foundation
 
-protocol UserDataModel {}
-
-enum SettingsMenuDatasource: Hashable {
-	case diabetesType
-	case fastInsulines
-	case longInsulines
-}
-
+//MARK: - Sections
 enum UserProfileSections: Int, Hashable {
 	case header
 	case list
 }
 
-enum UserSettings: Hashable, UserDataModel {
+//MARK: - Items
+enum UserSettings: Hashable {
 	case header(UserHeaderModel)
 	case plainWithTextfield(UserDataSettingsModel)
 	case plainWithLabel(UserDataMenuSettingsModel)
+}
+
+enum UserParameters: Hashable {
+	case diabetesType
+	case fastInsulin
+	case longInsulin
+	
+	var items: [UserParametersProtocol] {
+		switch self {
+		case .diabetesType:
+			return UserTreatmentSettings.DiabetesType.allCases
+		case .fastInsulin:
+			return UserTreatmentSettings.FastInsulines.allCases
+		case .longInsulin:
+			return UserTreatmentSettings.LongInsulines.allCases
+		}
+	}
 }

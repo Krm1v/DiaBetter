@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol SettingsMenuDatasourceProtocol {
+protocol UserParametersProtocol {
 	var title: String { get }
 }
 
-enum UserTreatmentSettings {
-	enum DiabetesType: String, CaseIterable, SettingsMenuDatasourceProtocol {
+enum UserTreatmentSettings: Hashable {
+	enum DiabetesType: String, CaseIterable, UserParametersProtocol {
 		case type1
 		case type2
 		case gestational
@@ -35,7 +35,7 @@ enum UserTreatmentSettings {
 		}
 	}
 
-	enum FastInsulines: String, CaseIterable, SettingsMenuDatasourceProtocol {
+	enum FastInsulines: String, CaseIterable, UserParametersProtocol {
 		case actrapid
 		case afrezza
 		case apidra
@@ -85,7 +85,7 @@ enum UserTreatmentSettings {
 		}
 	}
 
-	enum LongInsulines: String, CaseIterable, SettingsMenuDatasourceProtocol {
+	enum LongInsulines: String, CaseIterable, UserParametersProtocol {
 		case basaglar
 		case gensulinG
 		case humalogMix50
@@ -167,6 +167,5 @@ enum UserTreatmentSettings {
 			}
 		}
 	}
-
 }
 

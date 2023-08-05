@@ -22,6 +22,10 @@ internal enum Localization {
   internal static let appIcon = Localization.tr("Localizable", "app-icon", fallback: "App Icon")
   /// DiaBetter
   internal static let appTitle = Localization.tr("Localizable", "app-title", fallback: "DiaBetter")
+  /// Apple Health connect
+  internal static let appleHealthConnect = Localization.tr("Localizable", "apple-health-connect", fallback: "Apple Health connect")
+  /// Turn on to let DiaBetter connect with Apple Health to write and read data
+  internal static let appleHealthFooterDescription = Localization.tr("Localizable", "apple-health-footer-description", fallback: "Turn on to let DiaBetter connect with Apple Health to write and read data")
   /// Back to login
   internal static let backToLogin = Localization.tr("Localizable", "back-to-login", fallback: "Back to login")
   /// Backup all data
@@ -133,6 +137,8 @@ internal enum Localization {
   internal static let home = Localization.tr("Localizable", "home", fallback: "Home")
   /// How do you feel?
   internal static let howDoYouFeel = Localization.tr("Localizable", "how-do-you-feel", fallback: "How do you feel?")
+  /// Import
+  internal static let `import` = Localization.tr("Localizable", "import", fallback: "Import")
   /// Insulin
   internal static let insulin = Localization.tr("Localizable", "insulin", fallback: "Insulin")
   /// Insulin injection
@@ -217,6 +223,8 @@ internal enum Localization {
   internal static let userProfile = Localization.tr("Localizable", "user-profile", fallback: "User profile")
   /// Visit website
   internal static let visitWebsite = Localization.tr("Localizable", "visit-website", fallback: "Visit website")
+  /// Wrong data. This backup file doesn't belong to this account
+  internal static let wrongBackupErrorDescription = Localization.tr("Localizable", "wrong-backup-error-description", fallback: "Wrong data. This backup file doesn't belong to this account")
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

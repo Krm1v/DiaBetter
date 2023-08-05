@@ -9,15 +9,14 @@ import UIKit
 import Combine
 
 enum UserDataMenuCellActions {
-	case menuDidTapped
-	case userParameterDidChanged(String)
+	case menuDidTapped(UserParametersProtocol)
 }
 
 final class UserDataMenuCell: BaseCollectionViewCell {
 	//MARK: - Properties
 	private(set) lazy var userDataMenuPublisher = userDataMenuSubject.eraseToAnyPublisher()
 	private let userDataMenuSubject = PassthroughSubject<UserDataMenuCellActions, Never>()
-	private var menuDatasource = [SettingsMenuDatasourceProtocol]()
+	private var menuDatasource: [UserParametersProtocol] = []
 	
 	//MARK: - UI Elements
 	private lazy var titleLabel = buildFieldTitleLabel()
@@ -37,30 +36,24 @@ final class UserDataMenuCell: BaseCollectionViewCell {
 	
 	//MARK: - Public methods
 	func configure(with model: UserDataMenuSettingsModel) {
-		titleLabel.text = model.title
+		debugPrint(model)
+		titleLabel.text = model.rowTitle
 		userParameterButton.setTitle(model.labelValue, for: .normal)
-		switch model.source {
-		case .diabetesType:
-			menuDatasource = UserTreatmentSettings.DiabetesType.allCases
-		case .longInsulines:
-			menuDatasource = UserTreatmentSettings.LongInsulines.allCases
-		case .fastInsulines:
-			menuDatasource = UserTreatmentSettings.FastInsulines.allCases
-		}
-		bindActions()
+		menuDatasource = model.source.items
+		setupUIMenu()
 	}
 }
 
 //MARK: - Private extension
 private extension UserDataMenuCell {
 	func setupUI() {
-		setupLayout()
 		titleLabel.textColor = .white
 		self.backgroundColor = Colors.darkNavyBlue.color
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelDefaultFontSize)
 		userParameterButton.titleLabel?.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelFontSize)
 		userParameterButton.tintColor = .white
 		userParameterButton.showsMenuAsPrimaryAction = true
+		setupLayout()
 	}
 	
 	func setupLayout() {
@@ -77,24 +70,16 @@ private extension UserDataMenuCell {
 		])
 	}
 	
-	func presentPopover(with datasource: [SettingsMenuDatasourceProtocol]) {
-		let menuItems = datasource.map { item in
+	func setupUIMenu() {
+		let menuItems = menuDatasource.map { item in
 			UIAction(title: item.title) { [unowned self] _ in
 				self.userParameterButton.setTitle(item.title, for: .normal)
-				self.userDataMenuSubject.send(.userParameterDidChanged(item.title))
-			} }
-		menu = UIMenu(title: "", children: menuItems)
-		userParameterButton.menu = menu
-	}
-	
-	//MARK: - Actions
-	func bindActions() {
-		userParameterButton.tapPublisher
-			.sink { [unowned self] in
-				userDataMenuSubject.send(.menuDidTapped)
-				presentPopover(with: menuDatasource)
+				self.userDataMenuSubject.send(.menuDidTapped(item))
 			}
-			.store(in: &cancellables)
+		}
+		
+		menu = UIMenu(children: menuItems)
+		userParameterButton.menu = menu
 	}
 }
 

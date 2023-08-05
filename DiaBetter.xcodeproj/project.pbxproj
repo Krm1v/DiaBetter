@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -229,6 +229,7 @@
 		86D0A74F29A520E200980996 /* NetworkServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A74E29A520E200980996 /* NetworkServiceProvider.swift */; };
 		86D0A75229A656CE00980996 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A75129A656CE00980996 /* User.swift */; };
 		86D0A75529A65FD400980996 /* UserNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A75429A65FD400980996 /* UserNetworkService.swift */; };
+		86E4EC1B2A7D7B0E00F17EC9 /* QueryAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E4EC1A2A7D7B0E00F17EC9 /* QueryAssembler.swift */; };
 		86E73DBD2A12BC4100D34B96 /* InsulinUsageChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E73DBC2A12BC4100D34B96 /* InsulinUsageChartCell.swift */; };
 		86E73DC12A13A54500D34B96 /* ChartsDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E73DC02A13A54500D34B96 /* ChartsDateFormatter.swift */; };
 		86E73DC72A1D4EA800D34B96 /* ChartsItem+Charts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E73DC62A1D4EA700D34B96 /* ChartsItem+Charts.swift */; };
@@ -484,6 +485,7 @@
 		86D0A74E29A520E200980996 /* NetworkServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProvider.swift; sourceTree = "<group>"; };
 		86D0A75129A656CE00980996 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		86D0A75429A65FD400980996 /* UserNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNetworkService.swift; sourceTree = "<group>"; };
+		86E4EC1A2A7D7B0E00F17EC9 /* QueryAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryAssembler.swift; sourceTree = "<group>"; };
 		86E73DBC2A12BC4100D34B96 /* InsulinUsageChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsulinUsageChartCell.swift; sourceTree = "<group>"; };
 		86E73DC02A13A54500D34B96 /* ChartsDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsDateFormatter.swift; sourceTree = "<group>"; };
 		86E73DC62A1D4EA700D34B96 /* ChartsItem+Charts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChartsItem+Charts.swift"; sourceTree = "<group>"; };
@@ -881,7 +883,6 @@
 				86415D4D29FA8B5400219ACC /* DiarySceneModels */,
 				8678498D2A20BF4700D7B129 /* AddRecordSceneModels */,
 				86E73DC82A1D4EBE00D34B96 /* HomeSceneModels */,
-				86B3CB3A2A25370100D7AAC6 /* UserSceneModels */,
 				869C9FC92A3B9507005C2361 /* NotificationSceneModel */,
 				868FD8AD2A4ED85E00EAF87D /* UnitsSceneModels */,
 			);
@@ -1133,6 +1134,7 @@
 			isa = PBXGroup;
 			children = (
 				862FF7072A2BE721001BE802 /* ContentView */,
+				863FED722A360BB2004B48FF /* Datasource */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1141,7 +1143,6 @@
 			isa = PBXGroup;
 			children = (
 				862FF7042A2BE71B001BE802 /* DiaryDetailSceneView.swift */,
-				863FED722A360BB2004B48FF /* Datasource */,
 			);
 			path = ContentView;
 			sourceTree = "<group>";
@@ -1489,6 +1490,7 @@
 			isa = PBXGroup;
 			children = (
 				864081FF29DB723500B848B7 /* SettingsMenuDatasource.swift */,
+				86B3CB382A2536F700D7AAC6 /* UserSceneModels.swift */,
 			);
 			path = UserProfileModels;
 			sourceTree = "<group>";
@@ -1587,7 +1589,6 @@
 				869007F7299D4552001B672E /* NetworkManager.swift */,
 				86D0A74E29A520E200980996 /* NetworkServiceProvider.swift */,
 				869007FC299D45A3001B672E /* Endpoint.swift */,
-				863C7EBC29C10000008F93F0 /* MultipartData.swift */,
 				86900802299D45E8001B672E /* Helpers */,
 			);
 			path = NetworkManager;
@@ -1597,7 +1598,9 @@
 			isa = PBXGroup;
 			children = (
 				86900800299D45D7001B672E /* NetworkError.swift */,
+				86E4EC1A2A7D7B0E00F17EC9 /* QueryAssembler.swift */,
 				86900803299D45FE001B672E /* HTTPMethods.swift */,
+				863C7EBC29C10000008F93F0 /* MultipartData.swift */,
 				86900805299D4612001B672E /* Logger.swift */,
 			);
 			path = Helpers;
@@ -2100,14 +2103,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		86B3CB3A2A25370100D7AAC6 /* UserSceneModels */ = {
-			isa = PBXGroup;
-			children = (
-				86B3CB382A2536F700D7AAC6 /* UserSceneModels.swift */,
-			);
-			path = UserSceneModels;
-			sourceTree = "<group>";
-		};
 		86D0A74529A3847D00980996 /* DiaryScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -2305,7 +2300,8 @@
 		74FAC7AC773B52873066C2A0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1200;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
 			};
 			buildConfigurationList = BBFDDCC5639D779293083261 /* Build configuration list for PBXProject "DiaBetter" */;
 			compatibilityVersion = "Xcode 11.0";
@@ -2380,7 +2376,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftgen >/dev/null; then\n    swiftgen\nelse\n    echo \"warning: SwiftGen not installed, download from https://github.com/SwiftGen/SwiftGen\"\nfi\n";
+			shellScript = "if arch -arm64e /opt/homebrew/bin/swiftgen >/dev/null; then\n    # M1 (arm64)\n    /opt/homebrew/bin/swiftgen\nelif arch -x86_64 /usr/local/bin/swiftgen >/dev/null; then\n    # Intel (x86_64)\n    /usr/local/bin/swiftgen\nelse\n    echo \"warning: SwiftGen not installed, download from https://github.com/SwiftGen/SwiftGen\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2462,6 +2458,7 @@
 				861FCA0B29F9E72000743055 /* DateFormats.swift in Sources */,
 				86A5D1DA2A40BA7D006E9424 /* CreditsSceneView.swift in Sources */,
 				8699F31629B0BEF800705347 /* ResetPasswordSceneViewController.swift in Sources */,
+				86E4EC1B2A7D7B0E00F17EC9 /* QueryAssembler.swift in Sources */,
 				8637ADD329B7A93900F14489 /* RecordsService.swift in Sources */,
 				869C9FC82A3B9502005C2361 /* NotificationsModels.swift in Sources */,
 				12BB16AE5A908CCF13169B5F /* MainTabBarCoordinator.swift in Sources */,

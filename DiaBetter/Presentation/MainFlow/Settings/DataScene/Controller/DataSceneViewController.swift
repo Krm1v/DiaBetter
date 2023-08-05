@@ -53,9 +53,27 @@ private extension DataSceneViewConroller {
 					switch model.item {
 					case .backup:
 						self.viewModel.openBackupScene()
+					case .ʼimportʼ:
+						presentDocumentPickerController()
 					}
 				}
 			}
 			.store(in: &cancellables)
 	}
+	
+	func presentDocumentPickerController() {
+		let uiDocumentController = UIDocumentPickerViewController(forOpeningContentTypes: [.json])
+		uiDocumentController.delegate = self
+		present(uiDocumentController, animated: true, completion: nil)
+		
+	}
 }
+
+//MARK: - Extension UIDocumentPickerDelegate
+extension DataSceneViewConroller: UIDocumentPickerDelegate {
+	func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+		viewModel.inputURL = urls.last
+		viewModel.importBackup()
+	}
+}
+
