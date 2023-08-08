@@ -7,24 +7,29 @@
 
 import Foundation
 
-struct Record: Codable {
+struct Record: Codable, Hashable {
+	let recordId: String
 	let meal: Decimal?
 	let fastInsulin: Decimal?
 	let glucoseLevel: Decimal?
 	let longInsulin: Decimal?
 	let objectId: String
-	let recordDate: Date?
+	let recordDate: Date
 	let recordNote: String?
 	let userId: String
 	
-	init(meal: Decimal? = nil,
-		 fastInsulin: Decimal? = nil,
-		 glucoseLevel: Decimal? = nil,
-		 longInsulin: Decimal? = nil,
-		 objectId: String,
-		 recordDate: Date? = nil,
-		 recordNote: String? = nil,
-		 userId: String) {
+	init(
+		recordId: String = UUID().uuidString,
+		meal: Decimal? = nil,
+		fastInsulin: Decimal? = nil,
+		glucoseLevel: Decimal? = nil,
+		longInsulin: Decimal? = nil,
+		objectId: String,
+		recordDate: Date = Date(),
+		recordNote: String? = nil,
+		userId: String
+	) {
+		self.recordId = recordId
 		self.meal = meal
 		self.fastInsulin = fastInsulin
 		self.glucoseLevel = glucoseLevel
@@ -36,6 +41,7 @@ struct Record: Codable {
 	}
 	
 	init(_ response: RecordsResponseModel) {
+		self.recordId = response.recordId
 		self.meal = response.meal
 		self.fastInsulin = response.fastInsulin
 		self.glucoseLevel = response.glucoseLevel

@@ -22,7 +22,7 @@ enum QueryParametersValues: Hashable {
 	case equalToString(stringValue: String)
 	case greaterOrEqualThan(stringValue: String)
 	case lessOrEqualThan(stringValue: String)
-	case dateRange(startDate: String, endDate: String)
+	case dateRange(startDate: Double, endDate: Double)
 }
 
 struct QueryParameters: Hashable {

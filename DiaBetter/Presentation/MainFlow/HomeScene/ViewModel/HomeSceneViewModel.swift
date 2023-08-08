@@ -50,7 +50,7 @@ final class HomeSceneViewModel: BaseViewModel {
 //MARK: - Private extension
 private extension HomeSceneViewModel {
 	func updateDatasource() {
-		let sortedRecords = records.sorted { $0.recordDate ?? Date() < $1.recordDate ?? Date() }
+		let sortedRecords = records.sorted { $0.recordDate < $1.recordDate }
 		let lineChartModel = setupLineChartCellModel(sortedRecords)
 		let lineChartSection = SectionModel<ChartSection, ChartsItems>(
 			section: .lineChart,
@@ -100,25 +100,50 @@ private extension HomeSceneViewModel {
 	
 	func setupLineChartCellModel(_ sortedRecords: [Record]) -> LineChartCellModel {
 		switch lineChartState {
+//		case .glucose:
+//			let items = sortedRecords.map {
+//				ChartItem(
+//					x: $0.recordDate?.toDouble() ?? .zero,
+//					y: $0.glucoseLevel?.toDouble() ?? .zero)
+//			}
+//			return LineChartCellModel(state: .glucose, items: items)
+//		case .insulin:
+//			let items = sortedRecords.map {
+//				ChartItem(
+//					x: $0.recordDate?.toDouble() ?? .zero,
+//					y: $0.fastInsulin?.toDouble() ?? .zero)
+//			}
+//			return LineChartCellModel(state: .insulin, items: items)
+//		case .meal:
+//			let items = sortedRecords.map {
+//				ChartItem(
+//					x: $0.recordDate?.toDouble() ?? .zero,
+//					y: $0.meal?.toDouble() ?? .zero)
+//			}
+//			return LineChartCellModel(state: .meal, items: items)
+//		}
 		case .glucose:
 			let items = sortedRecords.map {
 				ChartItem(
-					x: $0.recordDate?.toDouble() ?? .zero,
-					y: $0.glucoseLevel?.toDouble() ?? .zero)
+					x: $0.recordDate.toDouble(),
+					y: $0.glucoseLevel?.toDouble() ?? .zero
+				)
 			}
 			return LineChartCellModel(state: .glucose, items: items)
 		case .insulin:
 			let items = sortedRecords.map {
 				ChartItem(
-					x: $0.recordDate?.toDouble() ?? .zero,
-					y: $0.fastInsulin?.toDouble() ?? .zero)
+					x: $0.recordDate.toDouble(),
+					y: $0.fastInsulin?.toDouble() ?? .zero
+				)
 			}
 			return LineChartCellModel(state: .insulin, items: items)
 		case .meal:
 			let items = sortedRecords.map {
 				ChartItem(
-					x: $0.recordDate?.toDouble() ?? .zero,
-					y: $0.meal?.toDouble() ?? .zero)
+					x: $0.recordDate.toDouble(),
+					y: $0.meal?.toDouble() ?? .zero
+				)
 			}
 			return LineChartCellModel(state: .meal, items: items)
 		}
@@ -127,8 +152,9 @@ private extension HomeSceneViewModel {
 	func setupCubicBezierCellModel(_ sortedRecords: [Record]) -> GlucoseLevelPerPeriodWidgetModel {
 		let items = sortedRecords.map {
 			ChartItem(
-				x: $0.recordDate?.toDouble() ?? .zero,
-				y: $0.glucoseLevel?.toDouble() ?? .zero)
+				x: $0.recordDate.toDouble(),
+				y: $0.glucoseLevel?.toDouble() ?? .zero
+			)
 		}
 			.filter({ $0.y != .zero })
 		switch dateFilterState {
@@ -142,29 +168,51 @@ private extension HomeSceneViewModel {
 	}
 	
 	func setupInsulineUsageChartModel(_ sortedRecords: [Record]) -> InsulinUsageChartModel {
+//		let fastInsulin = sortedRecords.map {
+//			ChartItem(
+//				x: $0.recordDate?.toDouble() ?? .zero,
+//				y: $0.fastInsulin?.toDouble() ?? .zero)
+//		}
+//		let basalInsulin = sortedRecords.map {
+//			ChartItem(
+//				x: $0.recordDate?.toDouble() ?? .zero,
+//				y: $0.longInsulin?.toDouble() ?? .zero)
+//		}
+		
 		let fastInsulin = sortedRecords.map {
 			ChartItem(
-				x: $0.recordDate?.toDouble() ?? .zero,
-				y: $0.fastInsulin?.toDouble() ?? .zero)
+				x: $0.recordDate.toDouble(),
+				y: $0.fastInsulin?.toDouble() ?? .zero
+			)
 		}
 		let basalInsulin = sortedRecords.map {
 			ChartItem(
-				x: $0.recordDate?.toDouble() ?? .zero,
-				y: $0.longInsulin?.toDouble() ?? .zero)
+				x: $0.recordDate.toDouble(),
+				y: $0.longInsulin?.toDouble() ?? .zero
+			)
 		}
+		
 		switch dateFilterState {
 		case .day:
-			return InsulinUsageChartModel(filter: .day,
-										  fastInsulin: fastInsulin,
-										  basalInsulin: basalInsulin)
+			return InsulinUsageChartModel(
+				filter: .day,
+				fastInsulin: fastInsulin,
+				basalInsulin: basalInsulin
+			)
+			
 		case .week:
-			return InsulinUsageChartModel(filter: .week,
-										  fastInsulin: fastInsulin,
-										  basalInsulin: basalInsulin)
+			return InsulinUsageChartModel(
+				filter: .week,
+				fastInsulin: fastInsulin,
+				basalInsulin: basalInsulin
+			)
+			
 		case .month:
-			return InsulinUsageChartModel(filter: .day,
-										  fastInsulin: fastInsulin,
-										  basalInsulin: basalInsulin)
+			return InsulinUsageChartModel(
+				filter: .day,
+				fastInsulin: fastInsulin,
+				basalInsulin: basalInsulin
+			)
 		}
 	}
 }

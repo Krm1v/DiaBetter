@@ -22,7 +22,8 @@ struct NotificationsModel: Codable {
 	init(areNotificationsEnabled: Bool = false,
 		 glucoseReminder: ReminderModel = .init(type: .glucose, isOn: false, time: .init()),
 		 insulinReminder: ReminderModel = .init(type: .insulin, isOn: false, time: .init()),
-		 mealReminder: ReminderModel = .init(type: .meal, isOn: false, time: .init())) {
+		 mealReminder: ReminderModel = .init(type: .meal, isOn: false, time: .init())
+	) {
 		self.areNotificationsEnabled = areNotificationsEnabled
 		self.glucoseReminder = glucoseReminder
 		self.insulinReminder = insulinReminder

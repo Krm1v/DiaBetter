@@ -40,13 +40,15 @@ final class DiarySceneViewModel: BaseViewModel {
 		var orderedRecords: [DateRecord] = []
 		
 		for record in records {
-			guard let recordDate = record.recordDate else { return }
+//			guard let recordDate = record.recordDate else { return }
+			
+			
 			if let index = orderedRecords
-				.firstIndex(where: { $0.date.isSameDay(as: recordDate) }) {
+				.firstIndex(where: { $0.date.isSameDay(as: record.recordDate) }) {
 				orderedRecords[index].records.append(DiaryRecordCellModel(record, user: user))
 			} else {
 				orderedRecords.append(
-					.init(date: recordDate,
+					.init(date: record.recordDate,
 						  records: [DiaryRecordCellModel(record, user: user)])
 				)
 			}
@@ -71,7 +73,6 @@ final class DiarySceneViewModel: BaseViewModel {
 			guard let model = records.first(where: { $0.objectId == cellModel.id }) else {
 				return
 			}
-			debugPrint(model.objectId)
 			transitionSubject.send(.edit(model))
 		}
 	}
@@ -83,6 +84,7 @@ private extension DiarySceneViewModel {
 		isLoadingSubject.send(true)
 		guard let userId = userService.user?.remoteId else { return }
 		recordService.fetchRecords(userId: userId)
+			.subscribe(on: DispatchQueue.global())
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
 				guard let self = self else { return }
@@ -92,6 +94,7 @@ private extension DiarySceneViewModel {
 					Logger.info("Finished", shouldLogContext: true)
 					self.updateDatasource()
 				case .failure(let error):
+					isLoadingSubject.send(false)
 					Logger.error(error.localizedDescription)
 					self.errorSubject.send(error)
 				}

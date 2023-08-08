@@ -10,6 +10,7 @@ import Foundation
 protocol DataConverter {
 	func seriallizeToData<T: Encodable>(object: T) -> Data?
 	func deseriallizeFromData<T: Decodable>(data: Data?) -> T?
+	func deseriallizeFromData<T: Decodable>(data: Data?) -> [T?]
 }
 
 final class DataConverterImpl {
@@ -42,6 +43,17 @@ extension DataConverterImpl: DataConverter {
 		do {
 			guard let data = data else { return nil }
 			decodedObject = try decoder.decode(T.self, from: data)
+		} catch let error {
+			debugPrint(error.localizedDescription)
+		}
+		return decodedObject
+	}
+	
+	func deseriallizeFromData<T: Decodable>(data: Data?) -> [T?] {
+		var decodedObject: [T?] = []
+		do {
+			guard let data = data else { return [nil] }
+			decodedObject = try decoder.decode([T].self, from: data)
 		} catch let error {
 			debugPrint(error.localizedDescription)
 		}

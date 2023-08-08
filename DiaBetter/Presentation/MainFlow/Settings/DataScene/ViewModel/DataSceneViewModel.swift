@@ -75,7 +75,6 @@ private extension DataSceneViewModel {
 	}
 	
 	func showFiles() {
-		let fileManager = FileManager.default
 		guard let inputURL = inputURL else {
 			return
 		}
@@ -99,8 +98,9 @@ private extension DataSceneViewModel {
 			errorSubject.send(error)
 			return
 		}
-		debugPrint(records)
+		
 		recordService.uploadAllRecords(records: records)
+			.subscribe(on: DispatchQueue.global())
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
 				guard let self = self else { return }

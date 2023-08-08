@@ -8,6 +8,7 @@
 import Foundation
 
 struct RecordsResponseModel: Decodable {
+	let recordId: String
 	let meal: Decimal?
 	let longInsulin: Decimal?
 	let glucoseLevel: Decimal?
@@ -19,9 +20,8 @@ struct RecordsResponseModel: Decodable {
 	let ownerId: String
 	
 	enum CodingKeys: String, CodingKey {
-		case meal, longInsulin, glucoseLevel, created, recordDate
-		case recordNote, ownerId
-		case fastInsulin
+		case meal, longInsulin, glucoseLevel, created, recordDate, fastInsulin
+		case recordNote, ownerId, recordId
 		case objectID = "objectId"
 	}
 }

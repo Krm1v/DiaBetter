@@ -35,6 +35,7 @@
 		860AE90E29E8B496006CF2E1 /* Videos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860AE90D29E8B496006CF2E1 /* Videos.swift */; };
 		860AE91029E9BAE0006CF2E1 /* UIImageView+SetImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860AE90F29E9BAE0006CF2E1 /* UIImageView+SetImage.swift */; };
 		860AE91229E9C04D006CF2E1 /* UIApplication+OpenSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860AE91129E9C04D006CF2E1 /* UIApplication+OpenSettings.swift */; };
+		861656152A82A95B00D40AB7 /* CreateEmailURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861656142A82A95B00D40AB7 /* CreateEmailURL.swift */; };
 		861FC9FE29F9A63F00743055 /* RecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861FC9FD29F9A63F00743055 /* RecordCell.swift */; };
 		861FCA0129F9A7E300743055 /* BoxElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861FCA0029F9A7E300743055 /* BoxElementView.swift */; };
 		861FCA0329F9B31E00743055 /* MealUnits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861FCA0229F9B31E00743055 /* MealUnits.swift */; };
@@ -294,6 +295,7 @@
 		860AE90D29E8B496006CF2E1 /* Videos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Videos.swift; sourceTree = "<group>"; };
 		860AE90F29E9BAE0006CF2E1 /* UIImageView+SetImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+SetImage.swift"; sourceTree = "<group>"; };
 		860AE91129E9C04D006CF2E1 /* UIApplication+OpenSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+OpenSettings.swift"; sourceTree = "<group>"; };
+		861656142A82A95B00D40AB7 /* CreateEmailURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEmailURL.swift; sourceTree = "<group>"; };
 		861FC9FD29F9A63F00743055 /* RecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCell.swift; sourceTree = "<group>"; };
 		861FCA0029F9A7E300743055 /* BoxElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxElementView.swift; sourceTree = "<group>"; };
 		861FCA0229F9B31E00743055 /* MealUnits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealUnits.swift; sourceTree = "<group>"; };
@@ -2251,6 +2253,7 @@
 				8696B7482A30AF100094162D /* CAGradientLayer+CABaseAnimation.swift */,
 				866E21B92A38906F00468486 /* UITableViewCell+SelfConfiguringCell.swift */,
 				866E21BB2A38924800468486 /* UITableView+ConfigureCell.swift */,
+				861656142A82A95B00D40AB7 /* CreateEmailURL.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -2437,6 +2440,7 @@
 				866E21B22A38853300468486 /* NotificationsSceneViewModel.swift in Sources */,
 				866C141B29EEAEA00029D770 /* UICollectionView+ConfigureCell.swift in Sources */,
 				5E8EE54653B0991739A3447E /* BaseView.swift in Sources */,
+				861656152A82A95B00D40AB7 /* CreateEmailURL.swift in Sources */,
 				86B3CB3C2A265EEF00D7AAC6 /* String+Validation.swift in Sources */,
 				869C9FC12A39FCC1005C2361 /* Date+CreateDate.swift in Sources */,
 				FD95A82E45DDBD6179945692 /* BaseViewController.swift in Sources */,

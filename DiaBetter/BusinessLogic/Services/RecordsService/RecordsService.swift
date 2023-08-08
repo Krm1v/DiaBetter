@@ -14,10 +14,9 @@ enum RecordServiceErrors: Error {
 }
 
 protocol RecordsService {
-	var record: Record? { get }
-	var recordPublisher: AnyPublisher<Record?, Never> { get }
+	var records: [Record] { get set }
+	var recordsPublisher: AnyPublisher<[Record], Never> { get }
 	
-	func save(record: Record)
 	func save(records: [Record])
 	func clear()
 	func addRecord(record: Record) -> AnyPublisher<Record, Error>
@@ -35,8 +34,8 @@ final class RecordsServiceImpl {
 	private let userDefaults: UserDefaultsManager
 	private let dataConverter: DataConverter
 	private let tokenStorage: TokenStorage
-	private let recordSubject = CurrentValueSubject<Record?, Never>(nil)
-	private(set) lazy var recordPublisher = recordSubject.eraseToAnyPublisher()
+	private let recordsSubject = CurrentValueSubject<[Record], Never>([])
+	private(set) lazy var recordsPublisher = recordsSubject.eraseToAnyPublisher()
 	private var cancellables = Set<AnyCancellable>()
 	
 	//MARK: - Init
@@ -45,27 +44,129 @@ final class RecordsServiceImpl {
 		self.tokenStorage = tokenStorage
 		self.userDefaults = UserDefaultsManagerImpl<Record>()
 		self.dataConverter = DataConverterImpl()
-		guard let recordData: Data = fetchFromDefaults(for: .dataRecord) else { return }
-		let record = deseriallize(from: recordData)
-		recordSubject.send(record)
+		guard let recordsData: Data = fetchFromDefaults(for: .dataRecords) else { return }
+		records = deseriallize(fromDataTo: recordsData)
+		recordsSubject.send(records)
 	}
 	
 	//MARK: - Public methods
-	func save(record: Record) {
-		let dataRecord = seriallize(record: record)
-		saveToDefaults(value: dataRecord, for: .dataRecord)
-		recordSubject.send(record)
-	}
-	
 	func save(records: [Record]) {
-		let dataRecords = records.map { seriallize(record: $0) }
+		let dataRecords = seriallize(records: records)
 		saveToDefaults(value: dataRecords, for: .dataRecords)
-		_ = records.map { recordSubject.send($0) }
+		recordsSubject.send(records)
 	}
 	
 	func clear() {
-		deleteFromDefaults(for: .dataUser)
-		recordSubject.send(record)
+		records = []
+		deleteFromDefaults(for: .dataRecords)
+		recordsSubject.send(records)
+	}
+	
+	//MARK: - Network requests
+	func addRecord(record: Record) -> AnyPublisher<Record, Error> {
+		return recordsNetworkService.addRecord(record: createRequestModel(record))
+			.mapError { $0 as Error }
+			.map { Record($0) }
+			.eraseToAnyPublisher()
+	}
+	
+	func uploadAllRecords(records: [Record]) -> AnyPublisher<[String], Error> {
+		let recordsModel = createBackupSource(from: records)
+		
+		let chunkSize = 100
+		let chunks = stride(
+			from: 0,
+			to: recordsModel.count,
+			by: chunkSize)
+			.map {
+				Array(recordsModel[$0..<min($0 + chunkSize, recordsModel.count)])
+			}
+		
+		return chunks
+			.publisher
+			.flatMap({ records -> AnyPublisher<[String], Error> in
+				return self.recordsNetworkService.uploadRecords(records: records)
+					.mapError { $0 as Error }
+					.eraseToAnyPublisher()
+			})
+			.reduce([]) { acc, value in
+				acc + value
+			}
+			.eraseToAnyPublisher()
+	}
+	
+	func updateRecord(record: Record, id: String) -> AnyPublisher<Record, Error> {
+		return recordsNetworkService.updateRecord(record: createRequestModel(record), id: id)
+			.mapError { $0 as Error }
+			.map(Record.init)
+			.eraseToAnyPublisher()
+	}
+	
+	func fetchRecords(userId: String) -> AnyPublisher<[Record], Error> {
+		return recordsNetworkService.fetchRecords(userId: userId)
+			.mapError { $0 as Error }
+			.map { $0.map(Record.init) }
+			.handleEvents(receiveOutput: { [weak self] records in
+				guard let self = self else { return }
+				self.save(records: records)
+			})
+			.eraseToAnyPublisher()
+	}
+	
+	func deleteRecord(id: String) -> AnyPublisher<Void, Error> {
+		return recordsNetworkService.deleteRecord(id: id)
+			.mapError { $0 as Error }
+			.eraseToAnyPublisher()
+	}
+	
+	func deleteAllRecords(id: String) -> AnyPublisher<Void, Error> {
+		return recordsNetworkService.deleteAllRecords(userId: id)
+			.mapError { $0 as Error }
+			.handleEvents(receiveOutput: { [weak self] _ in
+				guard let self = self else { return }
+				self.clear()
+			})
+			.eraseToAnyPublisher()
+	}
+	
+	func filterRecordsByDate(userId: String, startDate: Date, endDate: Date) -> AnyPublisher<[Record], Error> {
+		return recordsNetworkService.filterRecordsByDate(
+			userId: userId,
+			startDate: startDate.timeIntervalSince1970 * 1000,
+			endDate: endDate.timeIntervalSince1970 * 1000
+		)
+		.mapError { $0 as Error }
+		.map { $0.map(Record.init) }
+		.eraseToAnyPublisher()
+	}
+}
+
+//MARK: - Extension UserService
+extension RecordsServiceImpl: RecordsService {
+	var records: [Record] {
+		get {
+			recordsSubject.value
+		}
+		set {
+			recordsSubject.value = newValue
+		}
+	}
+}
+
+//MARK: - Private extension
+private extension RecordsServiceImpl {
+	func createRequestModel(_ record: Record) -> RecordRequestModel {
+		let timeInterval = record.recordDate.timeIntervalSince1970 * 1000
+		return RecordRequestModel(
+			recordId: record.recordId,
+			fastInsulin: record.fastInsulin,
+			longInsulin: record.longInsulin,
+			recordNote: record.recordNote,
+			glucoseLevel: record.glucoseLevel,
+			recordDate: timeInterval,
+			meal: record.meal,
+			ownerId: record.userId
+		)
 	}
 	
 	func saveToDefaults<T>(value: T, for key: UserDefaultsKeys) {
@@ -86,132 +187,36 @@ final class RecordsServiceImpl {
 		return dataRecord
 	}
 	
+	func seriallize(records: [Record]) -> Data? {
+		let dataRecords = dataConverter.seriallizeToData(object: records)
+		return dataRecords
+	}
+	
 	func deseriallize(from data: Data) -> Record? {
 		let record: Record? = dataConverter.deseriallizeFromData(data: data)
 		return record
 	}
 	
-	//MARK: - Network requests
-	func addRecord(record: Record) -> AnyPublisher<Record, Error> {
-		guard let date = record.recordDate else {
-			return Fail(error: RecordServiceErrors.failToConvert)
-				.eraseToAnyPublisher()
+	func deseriallize(fromDataTo array: Data) -> [Record] {
+		guard let records: [Record] = dataConverter.deseriallizeFromData(data: array) else {
+			return []
 		}
-		let recordRequestModel = createRequestModel(
-			record,
-			date: date.stringRepresentation(format: .monthDayYearTime,
-											timeZone: TimeZone(identifier: "GMT") ?? .current)
-		)
-		return recordsNetworkService.addRecord(record: recordRequestModel)
-			.mapError { $0 as Error }
-			.map {
-				let record = Record($0)
-				self.save(record: record)
-				return record
-			}
-			.eraseToAnyPublisher()
+		return records
 	}
 	
-	func uploadAllRecords(records: [Record]) -> AnyPublisher<[String], Error> {
+	func createBackupSource(from records: [Record]) -> [RecordRequestModel] {
 		var recordsModel: [RecordRequestModel] = []
 		
-		for record in records {
-			let recordRequestModel = createRequestModel(
-				record,
-				date: record.recordDate?.stringRepresentation(format: .monthDayYearTime)
-			)
-			recordsModel.append(recordRequestModel)
-			debugPrint(record.recordDate?.stringRepresentation(format: .monthDayYearTime))
+		if !self.records.isEmpty {
+			let existingIds = Set(self.records.map { $0.recordId } )
+			
+			let uniqueRecords = records.filter { !existingIds.contains($0.recordId) }
+			
+ 			recordsModel = uniqueRecords.map { createRequestModel($0) }
+		} else {
+			recordsModel = records.map { createRequestModel($0) }
 		}
-		let chunkSize = 100
-		let chunks: [[RecordRequestModel]] = stride(from: 0, to: recordsModel.count, by: chunkSize).map {
-			Array(recordsModel[$0..<min($0 + chunkSize, recordsModel.count)])
-		}
-		
-		return chunks
-			.publisher
-			.flatMap({ records -> AnyPublisher<[String], Error> in
-				return self.recordsNetworkService.uploadRecords(records: records)
-					.mapError { $0 as Error }
-					.eraseToAnyPublisher()
-			})
-			.reduce([]) { acc, value in
-				acc + value
-			}
-			.eraseToAnyPublisher()
-	}
-	
-	func updateRecord(record: Record, id: String) -> AnyPublisher<Record, Error> {
-		guard let date = record.recordDate else {
-			return Fail(error: RecordServiceErrors.failToConvert)
-				.eraseToAnyPublisher()
-		}
-		let recordRequestModel = createRequestModel(
-			record,
-			date: date.stringRepresentation(format: .monthDayYearTime,
-											timeZone: TimeZone(identifier: "GMT") ?? .current)
-		)
-		return recordsNetworkService.updateRecord(record: recordRequestModel, id: record.objectId)
-			.mapError { $0 as Error }
-			.map(Record.init)
-			.handleEvents(receiveOutput: { [weak self] response in
-				guard let self = self else { return }
-				self.save(record: response)
-			})
-			.eraseToAnyPublisher()
-	}
-	
-	func fetchRecords(userId: String) -> AnyPublisher<[Record], Error> {
-		return recordsNetworkService.fetchRecords(userId: userId)
-			.mapError { $0 as Error }
-			.map { $0.map(Record.init) }
-			.eraseToAnyPublisher()
-	}
-	
-	func deleteRecord(id: String) -> AnyPublisher<Void, Error> {
-		guard let recordId = record?.objectId else {
-			return Fail(error: RecordServiceErrors.missingRemoteId)
-				.eraseToAnyPublisher()
-		}
-		return recordsNetworkService.deleteRecord(id: recordId)
-			.mapError { $0 as Error }
-			.eraseToAnyPublisher()
-	}
-	
-	func deleteAllRecords(id: String) -> AnyPublisher<Void, Error> {
-		return recordsNetworkService.deleteAllRecords(userId: id)
-			.mapError { $0 as Error }
-			.eraseToAnyPublisher()
-	}
-	
-	func filterRecordsByDate(userId: String, startDate: Date, endDate: Date) -> AnyPublisher<[Record], Error> {
-		return recordsNetworkService.filterRecordsByDate(
-			userId: userId,
-			startDate: startDate.stringRepresentation(format: .monthDayYear, timeZone: TimeZone(identifier: "GMT") ?? .current),
-			endDate: endDate.stringRepresentation(format: .monthDayYear, timeZone: TimeZone(identifier: "GMT") ?? .current)
-		)
-			.mapError { $0 as Error }
-			.map { $0.map(Record.init) }
-			.eraseToAnyPublisher()
+		return recordsModel
 	}
 }
 
-//MARK: - Extension UserService
-extension RecordsServiceImpl: RecordsService {
-	var record: Record? {
-		recordSubject.value
-	}
-}
-
-//MARK: - Private extension
-private extension RecordsService {
-	func createRequestModel(_ record: Record, date: String?) -> RecordRequestModel {
-		return RecordRequestModel(fastInsulin: record.fastInsulin,
-								  longInsulin: record.longInsulin,
-								  recordNote: record.recordNote,
-								  glucoseLevel: record.glucoseLevel,
-								  recordDate: date,
-								  meal: record.meal,
-								  ownerId: record.userId)
-	}
-}

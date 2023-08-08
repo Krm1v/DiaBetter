@@ -23,6 +23,7 @@ final class BackupSceneViewModel: BaseViewModel {
 	private let recordService: RecordsService
 	private var fileName = ""
 	var outputURL: URL?
+	var attachmentData: Data?
 	
 	//MARK: - Init
 	init(recordService: RecordsService, userService: UserService) {
@@ -42,6 +43,10 @@ final class BackupSceneViewModel: BaseViewModel {
 	//MARK: - Public methods
 	func backupData(didFiltered: Bool) {
 		createBackup(didFiltered: didFiltered)
+	}
+	
+	func shareRecords(didFiltered: Bool) {
+		createCSV(didFiltered: didFiltered)
 	}
 	
 	func eraseAllData() {
@@ -76,14 +81,14 @@ private extension BackupSceneViewModel {
 		let endDateModel = BackupDateCellModel(title: Localization.endDate,
 											   date: endDate,
 											   item: .endDate)
-		let allDataBackupModel = BackupShareCellModel(title: Localization.backupAllData,
-													  color: .largeTitle,
-													  item: .backupAllData)
+//		let allDataBackupModel = BackupShareCellModel(title: Localization.backupAllData,
+//													  color: .largeTitle,
+//													  item: .backupAllData)
 		let dateSectionModel = BackupSectionModel(title: Localization.pickDateRangeFooterText)
 		let backupDateSection = Section(section: .backupDateSection(dateSectionModel), items: [
 			.datePickerItem(startDateModel),
 			.datePickerItem(endDateModel),
-			.plainItem(allDataBackupModel)
+//			.plainItem(allDataBackupModel)
 		])
 		
 		let backupModel = BackupShareCellModel(title: Localization.createBackup,
@@ -203,5 +208,51 @@ private extension BackupSceneViewModel {
 			try data.write(to: fileURL)
 		}
 	}
+	
+	func buildRecordsDictionary(didFiltered: Bool) -> [[String: Any]] {
+		var recordsDictionary = [String: Any]()
+		var recordsResults: [[String: Any]] = []
+		didFiltered ? filterRecordsByDate() : fetchRecords()
+		
+		for record in records {
+			recordsDictionary.updateValue(record.recordDate.stringRepresentation(format: .dayMonthYearTime), forKey: "recordDate")
+			recordsDictionary.updateValue(record.glucoseLevel?.convertToString() ?? "", forKey: "glucose")
+			recordsDictionary.updateValue(record.fastInsulin?.convertToString() ?? "", forKey: "fastInsulin")
+			recordsDictionary.updateValue(record.longInsulin?.convertToString() ?? "", forKey: "longInsulin")
+			recordsDictionary.updateValue(record.meal?.convertToString() ?? "", forKey: "meal")
+			recordsDictionary.updateValue(record.recordNote ?? "", forKey: "note")
+			recordsResults.append(recordsDictionary)
+		}
+		return recordsResults
+	}
+	
+	func createCSV(didFiltered: Bool) {
+		let recordsDictionaries = buildRecordsDictionary(didFiltered: didFiltered)
+		var csvString = "\("Date"), \("Glucose"), \("Fast insulin"), \("Long insulin"), \("Meal"), \("Note") \r\n\r\n\r\n\r\n\r\n"
+		let _ = recordsDictionaries.map { dct in
+			guard
+				let dateString = dct["recordDate"],
+				let glucose = dct["glucose"],
+				let fastInsulin = dct["fastInsulin"],
+				let longInsulin = dct["longInsulin"],
+				let meal = dct["meal"],
+				let note = dct["note"]
+			else {
+				return
+			}
+			csvString = csvString.appending("\(dateString) , \(glucose) , \(fastInsulin) , \(longInsulin) , \(meal) , \(note)\r\n")
+		}
+		
+		let fileManager = FileManager.default
+		do {
+			let path = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+			let fileURL = path.appendingPathComponent("Records", conformingTo: .commaSeparatedText)
+			try csvString.write(to: fileURL, atomically: true, encoding: .utf8)
+			attachmentData = try Data(contentsOf: fileURL)
+		} catch {
+			debugPrint("Error happened")
+		}
+	}
 }
+
 

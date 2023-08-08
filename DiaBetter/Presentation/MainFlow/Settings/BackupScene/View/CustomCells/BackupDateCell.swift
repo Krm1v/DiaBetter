@@ -49,6 +49,7 @@ private extension BackupDateCell {
 		datePicker.datePickerMode = .date
 		datePicker.preferredDatePickerStyle = .compact
 		datePicker.tintColor = Colors.customPink.color
+		datePicker.maximumDate = .now
 		setupLayout()
 	}
 	

@@ -15,7 +15,7 @@ enum RecordsEndpoint: Endpoint {
 	case deleteRecord(id: String)
 	case bulkDetele(id: String)
 	case bulkAddRecords(model: [RecordRequestModel])
-	case filterRecords(userId: String, startDate: String, endDate: String)
+	case filterRecords(userId: String, startDate: Double, endDate: Double)
 	
 	//MARK: - Properties
 	var path: String? {

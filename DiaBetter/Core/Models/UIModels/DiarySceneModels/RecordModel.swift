@@ -23,11 +23,14 @@ struct DiaryRecordCellModel: Hashable {
 	//MARK: - Init
 	init(_ record: Record, user: User) {
 		self.id = record.objectId
-		if let date = record.recordDate {
-			self.time = date.stringRepresentation(format: .hourMinute)
-		} else {
-			self.time = ""
-		}
+//		if let date = record.recordDate {
+//			self.time = date.stringRepresentation(format: .hourMinute)
+//		} else {
+//			self.time = ""
+//		}
+		self.time = record.recordDate.stringRepresentation(format: .hourMinute)
+		
+		
 		self.glucoseInfo = Info(
 			value: record.glucoseLevel?.convertToString() ?? "∅",
 			unit: GlucoseLevelUnits.mmolL.description
