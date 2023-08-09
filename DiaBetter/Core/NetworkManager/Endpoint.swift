@@ -47,11 +47,11 @@ extension Endpoint {
 		guard let urlForRequest = components.url else { return nil }
 		var urlRequest = URLRequest(url: urlForRequest)
 		urlRequest.httpMethod = httpMethod.rawValue
-		headers.forEach { (key: String, value: String) in
-			urlRequest.addValue(value, forHTTPHeaderField: key)
-		}
 		plugins.forEach {
 			$0.modify(&urlRequest)
+		}
+		headers.forEach { (key: String, value: String) in
+			urlRequest.addValue(value, forHTTPHeaderField: key)
 		}
 		if let body = body {
 			switch body {

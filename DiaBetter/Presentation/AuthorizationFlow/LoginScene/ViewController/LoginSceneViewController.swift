@@ -56,7 +56,9 @@ private extension LoginSceneViewController {
 		let asset = AVAsset(url: URL(fileURLWithPath: path))
 		let item = AVPlayerItem(asset: asset)
 		self.player = AVQueuePlayer(playerItem: item)
-		self.playerLooper = AVPlayerLooper(player: player!, templateItem: item)
+		if let player = self.player {
+			self.playerLooper = AVPlayerLooper(player: player, templateItem: item)
+		}
 		let playerLayer = AVPlayerLayer(player: player)
 		playerLayer.frame = self.view.bounds
 		playerLayer.videoGravity = .resizeAspectFill
@@ -66,17 +68,21 @@ private extension LoginSceneViewController {
 	
 	//MARK: - NotificationCenter
 	func addObservers() {
-		notificationCenter.addObserver(self,
-									   selector: #selector(willResignActive),
-									   name: UIApplication.willResignActiveNotification,
-									   object: nil
-		)
+		notificationCenter.publisher(for: UIApplication.willResignActiveNotification,
+									 object: nil)
+		.sink { [weak self] _ in
+			guard let self = self else { return }
+			self.willResignActive()
+		}
+		.store(in: &cancellables)
 		
-		notificationCenter.addObserver(self,
-									   selector: #selector(didBecomeActive),
-									   name: UIApplication.didBecomeActiveNotification,
-									   object: nil
-		)
+		notificationCenter.publisher(for: UIApplication.didBecomeActiveNotification,
+									 object: nil)
+		.sink { [weak self] _ in
+			guard let self = self else { return }
+			self.didBecomeActive()
+		}
+		.store(in: &cancellables)
 	}
 	
 	func removeObservers() {
@@ -91,15 +97,12 @@ private extension LoginSceneViewController {
 		)
 	}
 	
-	//MARK: - @Objc methods
-	@objc
 	func willResignActive() {
 		if let player = player, player.isPlaying {
 			player.pause()
 		}
 	}
 	
-	@objc
 	func didBecomeActive() {
 		if let player = player, !player.isPlaying {
 			player.play()
