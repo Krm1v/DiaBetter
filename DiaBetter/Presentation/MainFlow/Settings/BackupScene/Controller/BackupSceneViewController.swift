@@ -30,7 +30,7 @@ final class BackupSceneViewController: BaseViewController<BackupSceneViewModel> 
 	
 	//MARK: - Overriden methods
 	override func setupNavBar() {
-		title = "Backup"
+		title = Localization.backup
 		navigationItem.largeTitleDisplayMode = .always
 	}
 }
@@ -59,23 +59,21 @@ private extension BackupSceneViewController {
 					
 				case .plainCellDidTapped(let items):
 					switch items.item {
-					case .backupAllData:
-						viewModel.backupData(didFiltered: false)
-						presentDocumentPickerController()
-						
 					case .createBackup:
-						presentActionSheet("Backup data in date range",
-										   "Backup all data") { [weak self] didFiltered in
+						presentActionSheet(Localization.backupDataInRange,
+										   Localization.backupAllData) { [weak self] didFiltered in
 							guard let self = self else { return }
-							self.viewModel.backupData(didFiltered: didFiltered)
+							self.viewModel.currentAction = .backup
+							self.viewModel.fetchRecordsSource(didFiltered: didFiltered)
 							self.presentDocumentPickerController()
 						}
 						
 					case .shareData:
-						presentActionSheet("Share data in date range",
-										   "Share all data") { [weak self] didFiltered in
+						presentActionSheet(Localization.shareDataInRange,
+										   Localization.shareAllData) { [weak self] didFiltered in
 							guard let self = self else { return }
-							self.viewModel.shareRecords(didFiltered: didFiltered)
+							self.viewModel.currentAction = .share
+							self.viewModel.fetchRecordsSource(didFiltered: didFiltered)
 							sendEmail()
 						}
 						
@@ -88,8 +86,8 @@ private extension BackupSceneViewController {
 	}
 	
 	func showDeleteAllAlert() {
-		let alert = UIAlertController(title: "Are you sure you want to delete all your data?",
-									  message: "This action can't be undo.",
+		let alert = UIAlertController(title: Localization.deletionAllDataWarning,
+									  message: Localization.deletionAllDataDescription,
 									  preferredStyle: .alert)
 		let deleteAction = UIAlertAction(title: Localization.delete, style: .destructive) { [weak self] _ in
 			guard let self = self else { return }
@@ -122,17 +120,15 @@ private extension BackupSceneViewController {
 	}
 	
 	func sendEmail() {
-		let recipientEmail = "hellodiabetter@gmail.com"
-		let subject = "Send feedback"
+		let subject = Localization.recordsEmailSubject
 		if MFMailComposeViewController.canSendMail() {
 			let mail = MFMailComposeViewController()
 			mail.mailComposeDelegate = self
-			mail.setToRecipients([recipientEmail])
 			mail.setSubject(subject)
 			guard let data = viewModel.attachmentData else { return }
 			mail.addAttachmentData(data, mimeType: "text/csv", fileName: "Record.csv")
 			present(mail, animated: true)
-		} else if let emailURL = createEmailUrl(to: recipientEmail, subject: subject) {
+		} else if let emailURL = createEmailUrl(to: "", subject: subject) {
 			UIApplication.shared.open(emailURL)
 		}
 	}
@@ -142,4 +138,8 @@ private extension BackupSceneViewController {
 extension BackupSceneViewController: UIDocumentPickerDelegate { }
 
 //MARK: - Extension MFMailComposeViewControllerDelegate
-extension BackupSceneViewController: MFMailComposeViewControllerDelegate { }
+extension BackupSceneViewController: MFMailComposeViewControllerDelegate {
+	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+		controller.dismiss(animated: true)
+	}
+}

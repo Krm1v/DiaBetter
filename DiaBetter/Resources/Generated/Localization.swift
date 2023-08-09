@@ -28,8 +28,12 @@ internal enum Localization {
   internal static let appleHealthFooterDescription = Localization.tr("Localizable", "apple-health-footer-description", fallback: "Turn on to let DiaBetter connect with Apple Health to write and read data")
   /// Back to login
   internal static let backToLogin = Localization.tr("Localizable", "back-to-login", fallback: "Back to login")
+  /// Backup
+  internal static let backup = Localization.tr("Localizable", "backup", fallback: "Backup")
   /// Backup all data
   internal static let backupAllData = Localization.tr("Localizable", "backup-all-data", fallback: "Backup all data")
+  /// Backup data in date range
+  internal static let backupDataInRange = Localization.tr("Localizable", "backup-data-in-range", fallback: "Backup data in date range")
   /// Backup your data on device or share it with your doctor.
   internal static let backupOrShareFooterText = Localization.tr("Localizable", "backup-or-share-footer-text", fallback: "Backup your data on device or share it with your doctor.")
   /// Basal insulin
@@ -72,6 +76,10 @@ internal enum Localization {
   internal static let delete = Localization.tr("Localizable", "delete", fallback: "Delete")
   /// Delete photo
   internal static let deletePhoto = Localization.tr("Localizable", "delete-photo", fallback: "Delete photo")
+  /// This action can't be undo.
+  internal static let deletionAllDataDescription = Localization.tr("Localizable", "deletion-all-data-description", fallback: "This action can't be undo.")
+  /// Are you sure you want to delete all your data?
+  internal static let deletionAllDataWarning = Localization.tr("Localizable", "deletion-all-data-warning", fallback: "Are you sure you want to delete all your data?")
   /// Detail
   internal static let detail = Localization.tr("Localizable", "detail", fallback: "Detail")
   /// Diabetes type
@@ -181,6 +189,8 @@ internal enum Localization {
   internal static let privacyPolicy = Localization.tr("Localizable", "privacy-policy", fallback: "Privacy policy")
   /// Rate the app
   internal static let rateTheApp = Localization.tr("Localizable", "rate-the-app", fallback: "Rate the app")
+  /// Records data
+  internal static let recordsEmailSubject = Localization.tr("Localizable", "records-email-subject", fallback: "Records data")
   /// Report
   internal static let report = Localization.tr("Localizable", "report", fallback: "Report")
   /// Enter your email address which was used for registration and the new password will be send immediately.
@@ -199,8 +209,12 @@ internal enum Localization {
   internal static let sendFeedback = Localization.tr("Localizable", "send-feedback", fallback: "Send feedback")
   /// Settings
   internal static let settings = Localization.tr("Localizable", "settings", fallback: "Settings")
+  /// Share all data
+  internal static let shareAllData = Localization.tr("Localizable", "share-all-data", fallback: "Share all data")
   /// Share data
   internal static let shareData = Localization.tr("Localizable", "share-data", fallback: "Share data")
+  /// Share data in date range
+  internal static let shareDataInRange = Localization.tr("Localizable", "share-data-in-range", fallback: "Share data in date range")
   /// Show onboarding
   internal static let showOnboarding = Localization.tr("Localizable", "show-onboarding", fallback: "Show onboarding")
   /// Sign In

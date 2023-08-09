@@ -95,7 +95,6 @@ enum BackupDateItems: Hashable {
 }
 
 enum BackupPlainItems: Hashable {
-	case backupAllData
 	case createBackup
 	case shareData
 	case eraseAllData

@@ -106,6 +106,7 @@
 "data" = "Data";
 
 //Backup scene
+"backup" = "Backup";
 "start-date" = "Start date";
 "end-date" = "End date";
 "backup-all-data" = "Backup all data";
@@ -119,4 +120,13 @@
 "apple-health-footer-description" = "Turn on to let DiaBetter connect with Apple Health to write and read data";
 "import" = "Import";
 "wrong-backup-error-description" = "Wrong data. This backup file doesn't belong to this account";
+"backup-data-in-range" = "Backup data in date range";
+"backup-all-data" = "Backup all data";
+"share-data-in-range" = "Share data in date range";
+"share-all-data" = "Share all data";
+"deletion-all-data-warning" = "Are you sure you want to delete all your data?";
+"deletion-all-data-description" = "This action can't be undo.";
+"records-email-subject" = "Records data";
+
+
 
