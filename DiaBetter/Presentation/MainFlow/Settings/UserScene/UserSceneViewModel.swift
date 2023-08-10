@@ -96,14 +96,14 @@ final class UserSceneViewModel: BaseViewModel {
 	}
 	
 	//MARK: - Photo library permissions
-	func askForPermissions() {
-		permissionService.askForPermissions()
+	func askForPhotoPermissions() {
+		permissionService.askForPhotoPermissions()
 	}
 	
 	//MARK: - Network requests
 	func fetchUser() {
-		isLoadingSubject.send(true)
 		guard let id = userService.user?.remoteId else { return }
+		isLoadingSubject.send(true)
 		userService.fetchUser(id: id)
 			.receive(on: DispatchQueue.main)
 			.sink { completion in

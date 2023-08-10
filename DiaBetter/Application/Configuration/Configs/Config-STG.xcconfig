@@ -10,6 +10,6 @@
 
 APP_ENVIRONMENT = stg
 APP_NAME = DiaBetter STG
-APP_BUNDLE_ID = vladyslavbarankevych.com.diabetterapp
+APP_BUNDLE_ID = com.chisw.vladyslavbarankevych.diabetterapp.stg
 API_KEY = 578AC521-F18E-1B13-FF6E-EF12A242D000
 RESTAPI_KEY = 4C823F64-B69E-47C8-BFF6-1C98195EE0C0

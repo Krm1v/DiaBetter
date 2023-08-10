@@ -12,7 +12,7 @@ import Combine
 protocol PermissionService {
 	var permissionPublisher: AnyPublisher<PHAuthorizationStatus, Never> { get }
 	
-	func askForPermissions()
+	func askForPhotoPermissions()
 }
 
 final class PermissionServiceImpl: PermissionService {
@@ -21,7 +21,7 @@ final class PermissionServiceImpl: PermissionService {
 	private let permissionSubject = PassthroughSubject<PHAuthorizationStatus, Never>()
 	
 	//MARK: - Public methods
-	func askForPermissions() {
+	func askForPhotoPermissions() {
 		PHPhotoLibrary.requestAuthorization(for: .readWrite) { [unowned self] status in
 			DispatchQueue.main.async { [unowned self] in
 				self.checkAuthorizationStatus(for: status)

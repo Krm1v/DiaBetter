@@ -99,7 +99,7 @@ private extension UserSceneViewController {
 												preferredStyle: .actionSheet)
 		let changePhotoAction = UIAlertAction(title: Localization.changePhoto, style: .default) { [weak self] _ in
 			guard let self = self else { return }
-			self.viewModel.askForPermissions()
+			self.viewModel.askForPhotoPermissions()
 		}
 		let deleteAction = UIAlertAction(title: Localization.deletePhoto, style: .destructive) { [weak self] _ in
 			guard let self = self else { return }

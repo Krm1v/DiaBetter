@@ -35,7 +35,6 @@ final class CreateUserProfileViewModel: BaseViewModel {
 	}
 	
 	func createUser() {
-		isLoadingSubject.send(true)
 		let user = UserRequestModel(basalInsulin: longInsulin,
 									diabetesType: diabetesType,
 									password: password,
@@ -43,6 +42,7 @@ final class CreateUserProfileViewModel: BaseViewModel {
 									fastActingInsulin: fastInsulin,
 									name: name,
 									userProfileImage: nil)
+		isLoadingSubject.send(true)
 		userAuthorizationService.userRegister(user: user)
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in

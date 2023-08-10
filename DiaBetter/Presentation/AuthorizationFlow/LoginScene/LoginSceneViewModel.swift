@@ -49,10 +49,9 @@ final class LoginSceneViewModel: BaseViewModel {
 	}
 	
 	func loginUser() {
-		isLoadingSubject.send(true)
 		let credentials = Login(login: email,
 								password: password)
-		debugPrint(credentials)
+		isLoadingSubject.send(true)
 		userAuthorizationService.loginUser(with: credentials)
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
