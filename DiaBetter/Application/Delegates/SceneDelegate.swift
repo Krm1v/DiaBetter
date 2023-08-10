@@ -12,7 +12,6 @@ import Combine
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	//MARK: - Properties
 	var window: UIWindow?
-	var cancellables = Set<AnyCancellable>()
 	var appCoordinator: AppCoordinator!
 	var appContainer: AppContainer!
 	

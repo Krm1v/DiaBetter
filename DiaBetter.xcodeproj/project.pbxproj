@@ -2638,7 +2638,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = KV859BQR3J;
 				INFOPLIST_FILE = DiaBetter/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DiaBetter;
@@ -2648,8 +2648,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1;
-				PRODUCT_BUNDLE_IDENTIFIER = vladyslavbarankevych.com.diabetterapp;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chisw.vladyslavbarankevych.diabetterapp.releaseStg;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -2851,7 +2851,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = KV859BQR3J;
 				INFOPLIST_FILE = DiaBetter/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DiaBetter;
@@ -2861,8 +2861,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1;
-				PRODUCT_BUNDLE_IDENTIFIER = vladyslavbarankevych.com.diabetterapp;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chisw.vladyslavbarankevych.diabetterapp.stg;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -2877,7 +2877,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = KV859BQR3J;
 				INFOPLIST_FILE = DiaBetter/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DiaBetter;
@@ -2887,8 +2887,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1;
-				PRODUCT_BUNDLE_IDENTIFIER = vladyslavbarankevych.com.diabetterapp;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chisw.vladyslavbarankevych.diabetterapp.dev;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -2963,7 +2963,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = KV859BQR3J;
 				INFOPLIST_FILE = DiaBetter/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DiaBetter;
@@ -2973,8 +2973,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1;
-				PRODUCT_BUNDLE_IDENTIFIER = vladyslavbarankevych.com.diabetterapp;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chisw.vladyslavbarankevych.diabetterapp;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -3123,7 +3123,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = KV859BQR3J;
 				INFOPLIST_FILE = DiaBetter/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DiaBetter;
@@ -3133,8 +3133,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1;
-				PRODUCT_BUNDLE_IDENTIFIER = vladyslavbarankevych.com.diabetterapp;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chisw.vladyslavbarankevych.diabetterapp.releaseDev;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -3149,7 +3149,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = KV859BQR3J;
 				INFOPLIST_FILE = DiaBetter/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DiaBetter;
@@ -3159,8 +3159,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1;
-				PRODUCT_BUNDLE_IDENTIFIER = vladyslavbarankevych.com.diabetterapp;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chisw.vladyslavbarankevych.diabetterapp.debug;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

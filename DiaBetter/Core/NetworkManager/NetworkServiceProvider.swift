@@ -13,10 +13,6 @@ fileprivate enum ErrorsDescription {
 	static let decodingError = "Decoding error happened"
 }
 
-protocol BaseURLStorage {
-	var baseURL: URL { get }
-}
-
 protocol NetworkServiceProvider {
 	associatedtype EndpointType = Endpoint
 	
