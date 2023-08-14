@@ -22,15 +22,17 @@ final class BackupSceneViewModel: BaseViewModel {
 	private var records: [Record] = []
 	private let userService: UserService
 	private let recordService: RecordsService
+	private let fileManager = FileManager.default
 	private var fileName = ""
-	var outputURL: URL?
-	var attachmentData: Data?
+	
 	var currentAction: BackupActions?
 	
 	//MARK: - @Published properties
 	@Published var sections: [Section] = []
 	@Published var startDate = Date()
 	@Published var endDate = Date()
+	@Published var attachmentURL: URL?
+	@Published var outputURL: URL?
 	
 	//MARK: - Init
 	init(recordService: RecordsService, userService: UserService) {
@@ -39,17 +41,13 @@ final class BackupSceneViewModel: BaseViewModel {
 	}
 	
 	//MARK: - Overriden methods
-	override func onViewDidLoad() {
-		setupFileURL()
-	}
-	
 	override func onViewWillAppear() {
 		updateDatasource()
 	}
 	
 	//MARK: - Public methods
 	func fetchRecordsSource(didFiltered: Bool) {
-		didFiltered == true ? filterRecordsByDate() : fetchRecords()
+		didFiltered ? filterRecordsByDate() : fetchRecords()
 	}
 	
 	func eraseAllData() {
@@ -64,11 +62,11 @@ final class BackupSceneViewModel: BaseViewModel {
 				guard let self = self else { return }
 				switch completion {
 				case .finished:
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 					isLoadingSubject.send(false)
-					infoSubject.send(("Done", "All data successfully deleted"))
+					infoSubject.send((Localization.done, Localization.dataDeletedMessage))
 				case .failure(let error):
-					Logger.error(error.localizedDescription, shouldLogContext: true)
+					NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
 				}
 			} receiveValue: { _ in }
 			.store(in: &cancellables)
@@ -137,12 +135,11 @@ private extension BackupSceneViewModel {
 				guard let self = self else { return }
 				switch completion {
 				case .finished:
-					guard let url = outputURL else { return }
-					self.createBackupOrCSVFile(fileURL: url)
-					Logger.info("Finished", shouldLogContext: true)
+					self.createBackupOrCSVFile()
+					NetworkLogger.info("Finished", shouldLogContext: true)
 				case .failure(let error):
 					self.isLoadingSubject.send(false)
-					Logger.error(error.localizedDescription, shouldLogContext: true)
+					NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
 					self.errorSubject.send(error)
 				}
 			} receiveValue: { [weak self] records in
@@ -167,12 +164,11 @@ private extension BackupSceneViewModel {
 			guard let self = self else { return }
 			switch completion {
 			case .finished:
-				guard let url = outputURL else { return }
-				self.createBackupOrCSVFile(fileURL: url)
-				Logger.info("Finished", shouldLogContext: true)
+				self.createBackupOrCSVFile()
+				NetworkLogger.info("Finished", shouldLogContext: true)
 			case .failure(let error):
 				self.isLoadingSubject.send(false)
-				Logger.error(error.localizedDescription, shouldLogContext: true)
+				NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
 				errorSubject.send(error)
 			}
 		} receiveValue: { [weak self] records in
@@ -184,38 +180,43 @@ private extension BackupSceneViewModel {
 	}
 	
 	//MARK: - Create backup methods
-	func saveFile(_ url: URL) {
-		do {
-			let jsonEncoder = JSONEncoder()
-			let jsonCodedData = try jsonEncoder.encode(records)
-			guard let prettyJSON = jsonCodedData.prettyPrintedJSONString else { return }
-			try prettyJSON.write(to: url, atomically: true, encoding: String.Encoding.utf8.rawValue)
-		} catch let error {
-			Logger.error(error.localizedDescription, shouldLogContext: true)
-			return
+	func createBackupFileIfNeeded(_ fileName: String) throws {
+		guard let filePath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+		let fileURL = filePath.appendingPathComponent(fileName).appendingPathExtension(MimeTypes.json)
+		if !fileManager.fileExists(atPath: fileURL.path) {
+			let data = Data()
+			try data.write(to: fileURL)
 		}
 	}
 	
 	func setupFileURL() {
-		guard let docDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-		else { return }
+		guard let docDirectoryURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+		else {
+			return
+		}
 		let fileNameDate = Date().stringRepresentation(format: .dayMonthYear)
-		fileName = "DiaBetter-\(fileNameDate)"
-		let outputURL = docDirectoryURL.appendingPathComponent(fileName).appendingPathExtension("json")
+		fileName = "\(Localization.appTitle)-\(fileNameDate)"
+		let outputURL = docDirectoryURL.appendingPathComponent(fileName).appendingPathExtension(MimeTypes.json)
 		self.outputURL = outputURL
 		do {
 			try createBackupFileIfNeeded(fileName)
 		} catch let error {
-			Logger.error(error.localizedDescription, shouldLogContext: true)
+			NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
 		}
 	}
 	
-	func createBackupFileIfNeeded(_ fileName: String) throws {
-		guard let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-		let fileURL = filePath.appendingPathComponent(fileName).appendingPathExtension("json")
-		if !FileManager.default.fileExists(atPath: fileURL.path) {
-			let data = Data()
-			try data.write(to: fileURL)
+	func saveFile() {
+		setupFileURL()
+		do {
+			let jsonEncoder = JSONEncoder()
+			let jsonCodedData = try jsonEncoder.encode(records)
+			guard let prettyJSON = jsonCodedData.prettyPrintedJSONString else { return }
+			if let outputURL = outputURL {
+				try prettyJSON.write(to: outputURL, atomically: true, encoding: String.Encoding.utf8)
+			}
+		} catch let error {
+			NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
+			return
 		}
 	}
 	
@@ -225,57 +226,82 @@ private extension BackupSceneViewModel {
 		
 		recordsResults = self.records.map { record in
 			var recordsDictionary = [String: Any]()
-			recordsDictionary.updateValue(record.recordDate.stringRepresentation(format: .dayMonthYearTime), forKey: "recordDate")
-			recordsDictionary.updateValue(record.glucoseLevel?.convertToString() ?? "", forKey: "glucose")
-			recordsDictionary.updateValue(record.fastInsulin?.convertToString() ?? "", forKey: "fastInsulin")
-			recordsDictionary.updateValue(record.longInsulin?.convertToString() ?? "", forKey: "longInsulin")
-			recordsDictionary.updateValue(record.meal?.convertToString() ?? "", forKey: "meal")
-			recordsDictionary.updateValue(record.recordNote ?? "", forKey: "note")
+			recordsDictionary.updateValue(
+				record.recordDate.stringRepresentation(format: .dayMonthYearTime),
+				forKey: CSVFileDictionaryKeys.recordDate
+			)
+			recordsDictionary.updateValue(
+				record.glucoseLevel?.convertToString() ?? "",
+				forKey: CSVFileDictionaryKeys.glucose
+			)
+			recordsDictionary.updateValue(
+				record.fastInsulin?.convertToString() ?? "",
+				forKey: CSVFileDictionaryKeys.fastInsulin
+			)
+			recordsDictionary.updateValue(
+				record.longInsulin?.convertToString() ?? "",
+				forKey: CSVFileDictionaryKeys.longInsulin
+			)
+			recordsDictionary.updateValue(
+				record.meal?.convertToString() ?? "",
+				forKey: CSVFileDictionaryKeys.meal
+			)
+			recordsDictionary.updateValue(
+				record.recordNote ?? "",
+				forKey: CSVFileDictionaryKeys.note
+			)
 			return recordsDictionary
 		}
 		return recordsResults
 	}
 	
 	func createCSV() {
+		let newLine = "\r\n"
 		let recordsDictionaries = buildRecordsDictionary()
-		var csvString = "\("Date"), \("Glucose"), \("Fast insulin"), \("Long insulin"), \("Meal"), \("Note") \r\n\r\n\r\n\r\n\r\n"
+		var csvString = "\(Localization.date), \(Localization.glucose), \(Localization.fastActingInsulin), \(Localization.basalInsulin), \(Localization.meal), \(Localization.notes) \(newLine)\(newLine)\(newLine)\(newLine)\(newLine)"
 		let _ = recordsDictionaries.map { dct in
 			guard
-				let dateString = dct["recordDate"],
-				let glucose = dct["glucose"],
-				let fastInsulin = dct["fastInsulin"],
-				let longInsulin = dct["longInsulin"],
-				let meal = dct["meal"],
-				let note = dct["note"]
+				let dateString = dct[CSVFileDictionaryKeys.recordDate],
+				let glucose = dct[CSVFileDictionaryKeys.glucose],
+				let fastInsulin = dct[CSVFileDictionaryKeys.fastInsulin],
+				let longInsulin = dct[CSVFileDictionaryKeys.longInsulin],
+				let meal = dct[CSVFileDictionaryKeys.meal],
+				let note = dct[CSVFileDictionaryKeys.note]
 			else {
 				return
 			}
-			csvString = csvString.appending("\(dateString) , \(glucose) , \(fastInsulin) , \(longInsulin) , \(meal) , \(note)\r\n")
+			csvString = csvString.appending("\(dateString) , \(glucose) , \(fastInsulin) , \(longInsulin) , \(meal) , \(note)\(newLine)")
 		}
 		
-		let fileManager = FileManager.default
 		do {
 			let path = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-			let fileURL = path.appendingPathComponent("Records", conformingTo: .commaSeparatedText)
+			let fileURL = path.appendingPathComponent(Localization.sharedFileName, conformingTo: .commaSeparatedText)
 			try csvString.write(to: fileURL, atomically: true, encoding: .utf8)
-			attachmentData = try Data(contentsOf: fileURL)
+			attachmentURL = fileURL
 		} catch {
-			debugPrint("Error happened")
+			assert(false, "Error occured")
 		}
 	}
 	
-	func createBackupOrCSVFile(fileURL: URL) {
+	func createBackupOrCSVFile() {
 		guard let currentAction = currentAction else {
 			return
 		}
 		
 		switch currentAction {
 		case .backup:
-			saveFile(fileURL)
+			saveFile()
 		case .share:
 			createCSV()
 		}
 	}
 }
 
-
+private enum CSVFileDictionaryKeys {
+	static let recordDate = "recordDate"
+	static let glucose = "glucose"
+	static let fastInsulin = "fastInsulin"
+	static let longInsulin = "longInsulin"
+	static let meal = "meal"
+	static let note = "note"
+}

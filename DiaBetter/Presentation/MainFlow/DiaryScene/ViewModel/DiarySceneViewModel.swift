@@ -9,6 +9,8 @@ import Combine
 import Foundation
 
 final class DiarySceneViewModel: BaseViewModel {
+	typealias DiarySection = SectionModel<DiarySceneSection, DiarySceneItem>
+	
 	//MARK: - Properties
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<DiarySceneTransition, Never>()
@@ -16,7 +18,7 @@ final class DiarySceneViewModel: BaseViewModel {
 	private let userService: UserService
 	
 	//MARK: - @Published properties
-	@Published var sections: [SectionModel<DiarySceneSection, DiarySceneItem>] = []
+	@Published var sections: [DiarySection] = []
 	@Published var records: [Record] = []
 	
 	//MARK: - Init
@@ -40,9 +42,6 @@ final class DiarySceneViewModel: BaseViewModel {
 		var orderedRecords: [DateRecord] = []
 		
 		for record in records {
-//			guard let recordDate = record.recordDate else { return }
-			
-			
 			if let index = orderedRecords
 				.firstIndex(where: { $0.date.isSameDay(as: record.recordDate) }) {
 				orderedRecords[index].records.append(DiaryRecordCellModel(record, user: user))
@@ -53,11 +52,12 @@ final class DiarySceneViewModel: BaseViewModel {
 				)
 			}
 		}
+		
 		let sortedRecords = orderedRecords.sorted(by: { $0.date > $1.date })
 		
 		for item in sortedRecords {
 			let headerModel = RecordSectionModel(title: item.date.stringRepresentation(format: .dayMonthYear))
-			var section = SectionModel<DiarySceneSection, DiarySceneItem>(
+			var section = DiarySection(
 				section: .main(headerModel),
 				items: []
 			)
@@ -81,8 +81,8 @@ final class DiarySceneViewModel: BaseViewModel {
 //MARK: - Private extension
 private extension DiarySceneViewModel {
 	func fetchRecords() {
-		isLoadingSubject.send(true)
 		guard let userId = userService.user?.remoteId else { return }
+		isLoadingSubject.send(true)
 		recordService.fetchRecords(userId: userId)
 			.subscribe(on: DispatchQueue.global())
 			.receive(on: DispatchQueue.main)
@@ -91,11 +91,11 @@ private extension DiarySceneViewModel {
 				switch completion {
 				case .finished:
 					isLoadingSubject.send(false)
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 					self.updateDatasource()
 				case .failure(let error):
 					isLoadingSubject.send(false)
-					Logger.error(error.localizedDescription)
+					NetworkLogger.error(error.localizedDescription)
 					self.errorSubject.send(error)
 				}
 			} receiveValue: { [weak self] records in

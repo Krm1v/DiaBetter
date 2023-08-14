@@ -85,10 +85,10 @@ private extension HomeSceneViewModel {
 				guard let self = self else { return }
 				switch completion {
 				case .finished:
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 					self.updateDatasource()
 				case .failure(let error):
-					Logger.error(error.localizedDescription)
+					NetworkLogger.error(error.localizedDescription)
 					errorSubject.send(error)
 				}
 			} receiveValue: { [weak self] records in
@@ -100,28 +100,6 @@ private extension HomeSceneViewModel {
 	
 	func setupLineChartCellModel(_ sortedRecords: [Record]) -> LineChartCellModel {
 		switch lineChartState {
-//		case .glucose:
-//			let items = sortedRecords.map {
-//				ChartItem(
-//					x: $0.recordDate?.toDouble() ?? .zero,
-//					y: $0.glucoseLevel?.toDouble() ?? .zero)
-//			}
-//			return LineChartCellModel(state: .glucose, items: items)
-//		case .insulin:
-//			let items = sortedRecords.map {
-//				ChartItem(
-//					x: $0.recordDate?.toDouble() ?? .zero,
-//					y: $0.fastInsulin?.toDouble() ?? .zero)
-//			}
-//			return LineChartCellModel(state: .insulin, items: items)
-//		case .meal:
-//			let items = sortedRecords.map {
-//				ChartItem(
-//					x: $0.recordDate?.toDouble() ?? .zero,
-//					y: $0.meal?.toDouble() ?? .zero)
-//			}
-//			return LineChartCellModel(state: .meal, items: items)
-//		}
 		case .glucose:
 			let items = sortedRecords.map {
 				ChartItem(
@@ -168,17 +146,6 @@ private extension HomeSceneViewModel {
 	}
 	
 	func setupInsulineUsageChartModel(_ sortedRecords: [Record]) -> InsulinUsageChartModel {
-//		let fastInsulin = sortedRecords.map {
-//			ChartItem(
-//				x: $0.recordDate?.toDouble() ?? .zero,
-//				y: $0.fastInsulin?.toDouble() ?? .zero)
-//		}
-//		let basalInsulin = sortedRecords.map {
-//			ChartItem(
-//				x: $0.recordDate?.toDouble() ?? .zero,
-//				y: $0.longInsulin?.toDouble() ?? .zero)
-//		}
-		
 		let fastInsulin = sortedRecords.map {
 			ChartItem(
 				x: $0.recordDate.toDouble(),

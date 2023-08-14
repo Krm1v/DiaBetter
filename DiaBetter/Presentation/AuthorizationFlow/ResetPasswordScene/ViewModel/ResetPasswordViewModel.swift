@@ -31,12 +31,12 @@ final class ResetPasswordSceneViewModel: BaseViewModel {
 				guard let self = self else { return }
 				switch completion {
 				case .finished:
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 					self.isLoadingSubject.send(false)
 					self.infoSubject.send((Localization.resetPasswordTitle,
 										   Localization.resetPasswordMessage))
 				case .failure(let error):
-					Logger.error(error.localizedDescription, shouldLogContext: true)
+					NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
 					self.errorSubject.send(error)
 				}
 			} receiveValue: { _ in }

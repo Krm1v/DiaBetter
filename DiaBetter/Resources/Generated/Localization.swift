@@ -68,6 +68,8 @@ internal enum Localization {
   internal static let customization = Localization.tr("Localizable", "customization", fallback: "Customization")
   /// Data
   internal static let data = Localization.tr("Localizable", "data", fallback: "Data")
+  /// All data successfully deleted
+  internal static let dataDeletedMessage = Localization.tr("Localizable", "data-deleted-message", fallback: "All data successfully deleted")
   /// Date
   internal static let date = Localization.tr("Localizable", "date", fallback: "Date")
   /// Day
@@ -215,6 +217,10 @@ internal enum Localization {
   internal static let shareData = Localization.tr("Localizable", "share-data", fallback: "Share data")
   /// Share data in date range
   internal static let shareDataInRange = Localization.tr("Localizable", "share-data-in-range", fallback: "Share data in date range")
+  /// Records
+  internal static let sharedFileName = Localization.tr("Localizable", "shared-file-name", fallback: "Records")
+  /// Here is my diabetes diary data.
+  internal static let sharingTitleText = Localization.tr("Localizable", "sharing-title-text", fallback: "Here is my diabetes diary data.")
   /// Show onboarding
   internal static let showOnboarding = Localization.tr("Localizable", "show-onboarding", fallback: "Show onboarding")
   /// Sign In

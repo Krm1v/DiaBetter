@@ -102,8 +102,6 @@
 "follow-linkedIn" = "Follow us on LinkedIn";
 "terms-and-conditions" = "Terms and conditions";
 "privacy-policy" = "Privacy policy";
-"credits" = "Credits";
-"data" = "Data";
 
 //Backup scene
 "backup" = "Backup";
@@ -127,6 +125,6 @@
 "deletion-all-data-warning" = "Are you sure you want to delete all your data?";
 "deletion-all-data-description" = "This action can't be undo.";
 "records-email-subject" = "Records data";
-
-
-
+"data-deleted-message" = "All data successfully deleted";
+"shared-file-name" = "Records";
+"sharing-title-text" = "Here is my diabetes diary data.";

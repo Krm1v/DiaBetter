@@ -56,7 +56,6 @@ final class CreateUserProfileViewModel: BaseViewModel {
 //MARK: - Private extension
 private extension CreateUserProfileViewModel {
 	func createUser() {
-		isLoadingSubject.send(true)
 		let user = User(name: name,
 						email: email,
 						password: password,
@@ -64,6 +63,7 @@ private extension CreateUserProfileViewModel {
 						basalInsulin: longInsulin,
 						fastActingInsulin: fastInsulin,
 						userProfileImage: nil)
+		isLoadingSubject.send(true)
 		userService.createUser(user)
 			.subscribe(on: DispatchQueue.global(qos: .userInitiated))
 			.receive(on: DispatchQueue.main)
@@ -71,11 +71,11 @@ private extension CreateUserProfileViewModel {
 				guard let self = self else { return }
 				switch completion {
 				case .finished:
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 					self.authorizeUser()
 					self.isLoadingSubject.send(false)
 				case .failure(let error):
-					Logger.error(error.localizedDescription)
+					NetworkLogger.error(error.localizedDescription)
 					self.errorSubject.send(error)
 				}
 			} receiveValue: { _ in }
@@ -91,10 +91,10 @@ private extension CreateUserProfileViewModel {
 				guard let self = self else { return }
 				switch completion {
 				case .finished:
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 					self.transitionSubject.send(.userCreated)
 				case .failure(let error):
-					Logger.error(error.localizedDescription)
+					NetworkLogger.error(error.localizedDescription)
 					self.errorSubject.send(error)
 				}
 			} receiveValue: { _ in }

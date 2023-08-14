@@ -10,6 +10,8 @@ import Foundation
 import Kingfisher
 
 final class UserSceneViewModel: BaseViewModel {
+	typealias UserSection = SectionModel<UserProfileSections, UserSettings>
+	
 	//MARK: - Properties
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private(set) var permissionService: PermissionService
@@ -19,7 +21,7 @@ final class UserSceneViewModel: BaseViewModel {
 	//MARK: - Published properties
 	@Published private(set) var userImage: Data?
 	@Published private var userImageResource: ImageResource?
-	@Published var sections: [SectionModel<UserProfileSections, UserSettings>] = []
+	@Published var sections: [UserSection] = []
 	@Published var userName = ""
 	@Published var userDiabetesType = ""
 	@Published var userFastInsulin = ""
@@ -60,14 +62,14 @@ final class UserSceneViewModel: BaseViewModel {
 	}
 	
 	//MARK: - Photo library permissions
-	func askForPermissions() {
+	func askForPhotoPermissions() {
 		permissionService.askForPhotoPermissions()
 	}
 	
 	//MARK: - Network requests
 	func fetchUser() {
-		isLoadingSubject.send(true)
 		guard let id = userService.user?.remoteId else { return }
+		isLoadingSubject.send(true)
 		userService.fetchUser(id: id)
 			.subscribe(on: DispatchQueue.global(qos: .userInitiated))
 			.receive(on: DispatchQueue.main)
@@ -75,15 +77,15 @@ final class UserSceneViewModel: BaseViewModel {
 				guard let self = self else { return }
 				switch completion {
 				case .finished:
+					NetworkLogger.info("Finished", shouldLogContext: true)
 					self.isLoadingSubject.send(false)
-					Logger.info("Finished", shouldLogContext: true)
 				case .failure(let error):
-					Logger.error(error.localizedDescription)
+					NetworkLogger.error(error.localizedDescription)
+					self.isLoadingSubject.send(false)
 					errorSubject.send(error)
 				}
 			} receiveValue: { [weak self] user in
 				guard let self = self else { return }
-				userService.save(user: user)
 				userName = user.name ?? ""
 				userDiabetesType = user.diabetesType ?? ""
 				userFastInsulin = user.fastActingInsulin ?? ""
@@ -105,9 +107,9 @@ final class UserSceneViewModel: BaseViewModel {
 					self.userService.clear()
 					self.isLoadingSubject.send(false)
 					self.transitionSubject.send(.success)
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 				case .failure(let error):
-					Logger.error(error.localizedDescription)
+					NetworkLogger.error(error.localizedDescription)
 					self.errorSubject.send(error)
 				}
 			} receiveValue: { _ in }
@@ -128,10 +130,10 @@ final class UserSceneViewModel: BaseViewModel {
 			.sink { completion in
 				switch completion {
 				case .finished:
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 					self.updateDatasource()
 				case .failure(let error):
-					Logger.error(error.localizedDescription)
+					NetworkLogger.error(error.localizedDescription)
 					self.errorSubject.send(error)
 				}
 			} receiveValue: { [weak self] response in
@@ -152,13 +154,13 @@ final class UserSceneViewModel: BaseViewModel {
 				guard let self = self else { return }
 				switch completion {
 				case .finished:
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 					user.userProfileImage = ""
 					self.updateUser(user)
 					self.clearImageCache()
 					self.updateDatasource()
 				case .failure(let error):
-					Logger.error(error.localizedDescription)
+					NetworkLogger.error(error.localizedDescription)
 					self.errorSubject.send(error)
 				}
 			} receiveValue: { _ in }
@@ -176,9 +178,9 @@ final class UserSceneViewModel: BaseViewModel {
 				switch completion {
 				case .finished:
 					self.isLoadingSubject.send(false)
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 				case .failure(let error):
-					Logger.error(error.localizedDescription)
+					NetworkLogger.error(error.localizedDescription)
 					errorSubject.send(error)
 				}
 			} receiveValue: { [weak self] user in
@@ -190,7 +192,7 @@ final class UserSceneViewModel: BaseViewModel {
 	
 	func showPlaceholderDatasource() {
 		let userHeaderModel = UserHeaderModel(email: Constants.loadingTitle, image: .asset(Assets.userImagePlaceholder))
-		let userHeaderSection = SectionModel<UserProfileSections, UserSettings>(section: .header,
+		let userHeaderSection = UserSection(section: .header,
 																				items: [.header(userHeaderModel)])
 		let userSettings = [
 			UserDataSettingsModel(title: Localization.name, textFieldValue: Constants.loadingTitle),
@@ -198,7 +200,7 @@ final class UserSceneViewModel: BaseViewModel {
 			UserDataSettingsModel(title: Localization.fastActingInsulin, textFieldValue: Constants.loadingTitle),
 			UserDataSettingsModel(title: Localization.basalInsulin, textFieldValue: Constants.loadingTitle)
 		]
-		var userDataSection = SectionModel<UserProfileSections, UserSettings>(section: .list, items: [])
+		var userDataSection = UserSection(section: .list, items: [])
 		userDataSection.items = userSettings.map { .plainWithTextfield($0) }
 		sections = [userHeaderSection, userDataSection]
 	}
@@ -225,7 +227,7 @@ private extension UserSceneViewModel {
 		guard let user = userService.user else { return }
 		let userHeaderModel = UserHeaderModel(email: user.email ?? "",
 											  image: userImageResource)
-		let userHeaderSection = SectionModel<UserProfileSections, UserSettings>(
+		let userHeaderSection = UserSection(
 			section: .header,
 			items: [
 				.header(userHeaderModel)
@@ -241,7 +243,7 @@ private extension UserSceneViewModel {
 			UserDataMenuSettingsModel(rowTitle: Localization.basalInsulin,
 									  labelValue: user.basalInsulin ?? "", source: .longInsulin)
 		]
-		var userDataSection = SectionModel<UserProfileSections, UserSettings>(
+		var userDataSection = UserSection(
 			section: .list,
 			items: []
 		)

@@ -9,13 +9,15 @@ import Foundation
 import Combine
 
 final class DataSceneViewModel: BaseViewModel {
+	typealias DataSection = SectionModel<DataSceneSections, DataSceneItems>
+	
 	//MARK: - Properties
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<DataSceneTransitions, Never>()
 	private let recordService: RecordsService
 	private let userService: UserService
 	private var records: [Record] = []
-	@Published var sections: [SectionModel<DataSceneSections, DataSceneItems>] = []
+	@Published var sections: [DataSection] = []
 	@Published var isConnected = false
 	var inputURL: URL?
 	
@@ -46,7 +48,7 @@ private extension DataSceneViewModel {
 	func updateDatasource() {
 		let appleHealthModel = AppleHealthCellModel(title: Localization.appleHealthConnect, isConnected: isConnected)
 		let sectionFooterModel = DataSceneSectionsModel(title: Localization.appleHealthFooterDescription)
-		let appleHealthSection = SectionModel<DataSceneSections, DataSceneItems>(
+		let appleHealthSection = DataSection(
 			section: .appleHealth(sectionFooterModel),
 			items: [
 				.appleHealthItem(appleHealthModel)
@@ -55,7 +57,7 @@ private extension DataSceneViewModel {
 		
 		let createBackupModel = BackupCellModel(title: Localization.createBackup, item: .backup)
 		let createBackupSectionModel = DataSceneSectionsModel(title: nil)
-		let createBackupSection = SectionModel<DataSceneSections, DataSceneItems>(
+		let createBackupSection = DataSection(
 			section: .backup(createBackupSectionModel),
 			items: [
 				.backupItem(createBackupModel)
@@ -64,7 +66,7 @@ private extension DataSceneViewModel {
 		
 		let importModel = BackupCellModel(title: Localization.import, item: .ʼimportʼ)
 		let importSectionModel = DataSceneSectionsModel(title: nil)
-		let importSection = SectionModel<DataSceneSections, DataSceneItems>(
+		let importSection = DataSection(
 			section: .importSection(importSectionModel),
 			items: [
 				.importItem(importModel)
@@ -85,7 +87,7 @@ private extension DataSceneViewModel {
 				let decoder = JSONDecoder()
 					self.records = try decoder.decode([Record].self, from: inputData)
 			} catch let error {
-				Logger.error(error.localizedDescription, shouldLogContext: true)
+				NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
 				return
 		}
 		inputURL.stopAccessingSecurityScopedResource()
@@ -106,9 +108,9 @@ private extension DataSceneViewModel {
 				guard let self = self else { return }
 				switch completion {
 				case .finished:
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 				case .failure(let error):
-					Logger.error(error.localizedDescription, shouldLogContext: true)
+					NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
 					self.errorSubject.send(error)
 				}
 			} receiveValue: { _ in }

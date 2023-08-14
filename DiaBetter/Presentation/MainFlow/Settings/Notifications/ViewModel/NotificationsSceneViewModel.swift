@@ -9,6 +9,8 @@ import Foundation
 import Combine
 
 final class NotificationsSceneViewModel: BaseViewModel {
+	typealias NotificationSection = SectionModel<NotificationsSections, NotificationItems>
+	
 	//MARK: - Properties
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<NotificationsSceneTransitions, Never>()
@@ -17,7 +19,7 @@ final class NotificationsSceneViewModel: BaseViewModel {
 	private let appSettingsService: SettingsService
 	
 	//MARK: - @Published properties
-	@Published var sections: [SectionModel<NotificationsSections, NotificationItems>] = []
+	@Published var sections: [NotificationSection] = []
 	@Published var notificationsAreEnabled = false
 	@Published var glucoseReminder = ReminderModel(type: .glucose, isOn: false, time: .init())
 	@Published var insulinReminder = ReminderModel(type: .insulin, isOn: false, time: .init())
@@ -48,11 +50,11 @@ final class NotificationsSceneViewModel: BaseViewModel {
 			.sink { [unowned self] completion in
 				switch completion {
 				case .finished:
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 					self.notificationsAreEnabled = isOn
 					self.updateDatasource()
 				case .failure(let error):
-					Logger.error(error.localizedDescription, shouldLogContext: true)
+					NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
 				}
 			} receiveValue: { [unowned self] granted in
 				if !granted {
@@ -108,7 +110,6 @@ final class NotificationsSceneViewModel: BaseViewModel {
 		let reminder = Reminder(time: glucoseReminder.time.morning,
 								reminderType: .glucose,
 								repeats: true)
-		debugPrint(reminder.time)
 		let task = Task(name: Localization.glucoseReminderName,
 						body: Localization.glucoseReminderBody,
 						reminder: reminder)
@@ -117,9 +118,9 @@ final class NotificationsSceneViewModel: BaseViewModel {
 			.sink { [unowned self] completion in
 				switch completion {
 				case .finished:
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 				case .failure(let error):
-					Logger.error(error.localizedDescription, shouldLogContext: true)
+					NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
 				}
 			} receiveValue: { _ in }
 			.store(in: &cancellables)
@@ -129,13 +130,13 @@ final class NotificationsSceneViewModel: BaseViewModel {
 //MARK: - Private extension
 private extension NotificationsSceneViewModel {
 	func updateDatasource() {
-		var datasource: [SectionModel<NotificationsSections, NotificationItems>] = []
+		var datasource: [NotificationSection] = []
 		
 		// General notifications switch
 		let notificationSectionModel = SwitcherCellModel(title: Localization.notifications,
 														 isOn: notificationsAreEnabled)
 		
-		let notificationSection = SectionModel<NotificationsSections, NotificationItems>(
+		let notificationSection = NotificationSection(
 			section: .enabler,
 			items: [
 				.notificationsEnabler(notificationSectionModel)
@@ -190,8 +191,8 @@ private extension NotificationsSceneViewModel {
 			])
 		}
 		
-		let mainSection = SectionModel<NotificationsSections, NotificationItems>(section: .main,
-																				 items: mainSectionItems)
+		let mainSection = NotificationSection(section: .main,
+											  items: mainSectionItems)
 		datasource.append(mainSection)
 		
 		sections = datasource
@@ -202,9 +203,9 @@ private extension NotificationsSceneViewModel {
 			.sink { [unowned self] completion in
 				switch completion {
 				case .finished:
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 				case .failure(let error):
-					Logger.error(error.localizedDescription, shouldLogContext: true)
+					NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
 				}
 			} receiveValue: { _ in }
 			.store(in: &cancellables)

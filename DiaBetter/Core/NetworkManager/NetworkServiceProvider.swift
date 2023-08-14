@@ -8,11 +8,6 @@
 import Foundation
 import Combine
 
-fileprivate enum ErrorsDescription {
-	static let badRequest = "Bad request"
-	static let decodingError = "Decoding error happened"
-}
-
 protocol NetworkServiceProvider {
 	associatedtype EndpointType = Endpoint
 	
@@ -46,7 +41,7 @@ final class NetworkServiceProviderImpl<E: Endpoint> {
 extension NetworkServiceProviderImpl: NetworkServiceProvider {
 	func execute(endpoint: E) -> AnyPublisher<Void, NetworkError> {
 		guard let request = endpoint.buildRequest(baseURL: baseURLStorage.baseURL, encoder: encoder, plugins: plugins) else {
-			return Fail(error: NetworkError.badRequest(code: .zero, error: ErrorsDescription.badRequest))
+			return Fail(error: NetworkError.dataDecodingError)
 				.eraseToAnyPublisher()
 		}
 		return networkManager.request(request: request)
@@ -56,13 +51,16 @@ extension NetworkServiceProviderImpl: NetworkServiceProvider {
 	
 	func execute<Model>(endpoint: E, decodeType: Model.Type) -> AnyPublisher<Model, NetworkError> where Model: Decodable {
 		guard let request = endpoint.buildRequest(baseURL: baseURLStorage.baseURL, encoder: encoder, plugins: plugins) else {
-			return Fail(error: NetworkError.badRequest(code: .zero, error: ErrorsDescription.badRequest))
+			return Fail(error: NetworkError.requestError(.encodingError))
 				.eraseToAnyPublisher()
 		}
 		return networkManager.request(request: request)
 			.decode(type: decodeType, decoder: decoder)
 			.mapError { error in
-				return NetworkError.unableToParseData(ErrorsDescription.decodingError)
+				if case let error as RequestBuilderError = error {
+					return NetworkError.requestError(error)
+				}
+				return NetworkError.unexpectedError
 			}
 			.eraseToAnyPublisher()
 	}

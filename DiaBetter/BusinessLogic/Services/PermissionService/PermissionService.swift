@@ -38,7 +38,7 @@ final class PermissionServiceImpl: PermissionService {
 			self.userNotificationCenter.requestAuthorization(options: [.alert, .sound]) { granted, error in
 				if let error = error {
 					promise(.failure(error))
-					Logger.error(error.localizedDescription, shouldLogContext: true)
+					NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
 				} else {
 					promise(.success(granted))
 					self.userNotificationCenter.getNotificationSettings { (settings) in

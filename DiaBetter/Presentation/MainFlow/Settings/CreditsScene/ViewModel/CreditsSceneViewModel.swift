@@ -9,10 +9,12 @@ import Foundation
 import Combine
 
 final class CreditsSceneViewModel: BaseViewModel {
+	typealias CreditsSection = SectionModel<CreditsSceneSections, CreditsSceneItems>
+	
 	//MARK: - Properties
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<CreditsSceneTransitions, Never>()
-	@Published var sections: [SectionModel<CreditsSceneSections, CreditsSceneItems>] = []
+	@Published var sections: [CreditsSection] = []
 	
 	//MARK: - Overriden methods
 	override func onViewWillAppear() {
@@ -31,9 +33,9 @@ private extension CreditsSceneViewModel {
 											buildVersion: "Build: \(buildVersion)",
 											companyInfo: "CHI Software")
 		
-		let appInfoSection = SectionModel<CreditsSceneSections, CreditsSceneItems>(section: .appInfoSection, items: [.appInfoItem(appInfoModel)])
+		let appInfoSection = CreditsSection(section: .appInfoSection, items: [.appInfoItem(appInfoModel)])
 		
-		let socialMediaSection = SectionModel<CreditsSceneSections, CreditsSceneItems>(
+		let socialMediaSection = CreditsSection(
 			section: .socialMediaSection,
 			items:
 				[
@@ -45,7 +47,7 @@ private extension CreditsSceneViewModel {
 				]
 		)
 		
-		let termsAndConditionsSection = SectionModel<CreditsSceneSections, CreditsSceneItems>(
+		let termsAndConditionsSection = CreditsSection(
 			section: .termsAndConditionsSection,
 			items:
 				[

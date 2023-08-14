@@ -9,6 +9,9 @@ import Foundation
 import Combine
 
 final class AddRecordSceneViewModel: BaseViewModel {
+	typealias Section = SectionModel<RecordParameterSections, RecordParameterItems>
+	
+	//MARK: - Properties
 	private(set) lazy var transitionPiblisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<AddRecordSceneTransition, Never>()
 	private let recordsService: RecordsService
@@ -20,7 +23,7 @@ final class AddRecordSceneViewModel: BaseViewModel {
 	@Published var longInsulin: Decimal?
 	@Published var note = ""
 	@Published var date = Date()
-	@Published var sections: [SectionModel<RecordParameterSections, RecordParameterItems>] = []
+	@Published var sections: [Section] = []
 	
 	//MARK: - Init
 	init(recordsService: RecordsService, userService: UserService) {
@@ -70,16 +73,15 @@ final class AddRecordSceneViewModel: BaseViewModel {
 				guard let self = self else { return }
 				switch completion {
 				case .finished:
-					Logger.info("Finished", shouldLogContext: true)
+					NetworkLogger.info("Finished", shouldLogContext: true)
 					isLoadingSubject.send(false)
 					self.closeAddRecordScene()
 				case .failure(let error):
-					Logger.error(error.localizedDescription)
+					NetworkLogger.error(error.localizedDescription)
+					isLoadingSubject.send(false)
 					errorSubject.send(error)
 				}
-			} receiveValue: { [weak self] record in
-#warning("TODO: Save records locally.")
-			}
+			} receiveValue: { _ in }
 			.store(in: &cancellables)
 	}
 	
@@ -105,32 +107,32 @@ final class AddRecordSceneViewModel: BaseViewModel {
 									   unitsTitleForBasalInsulin: Constants.unitsDefaultPlaceholder)
 		let note = NoteCellModel(title: Localization.notes, textViewValue: Localization.howDoYouFeel)
 		let dateSectionModel = DatePickerCellModel(title: Localization.date)
-		let dateSection = SectionModel<RecordParameterSections, RecordParameterItems>(
+		let dateSection = Section(
 			section: .date,
 			items: [
 				.date(dateSectionModel)
 			]
 		)
-		let mainSection = SectionModel<RecordParameterSections, RecordParameterItems>(
+		let mainSection = Section(
 			section: .main,
 			items: [
 				.glucoseLevelOrMeal(glucose),
 				.glucoseLevelOrMeal(meal)
 			]
 		)
-		let insulinSection = SectionModel<RecordParameterSections, RecordParameterItems>(
+		let insulinSection = Section(
 			section: .insulin,
 			items: [
 				.insulin(insulin)
 			]
 		)
-		let noteSection = SectionModel<RecordParameterSections, RecordParameterItems>(
+		let noteSection = Section(
 			section: .note,
 			items: [
 				.note(note)
 			]
 		)
-		let buttonsSection = SectionModel<RecordParameterSections, RecordParameterItems>(
+		let buttonsSection = Section(
 			section: .buttons,
 			items: [
 				.buttons

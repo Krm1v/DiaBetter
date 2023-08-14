@@ -18,7 +18,7 @@ struct DiaryDetailModel {
 	
 	//MARK: - Init
 	init(_ record: Record) {
-		self.date = record.recordDate ?? Date()
+		self.date = record.recordDate
 		self.glucose = record.glucoseLevel?.convertToString() ?? "∅"
 		self.meal = record.meal?.convertToString() ?? "∅"
 		self.fastInsulin = record.fastInsulin?.convertToString() ?? "∅"

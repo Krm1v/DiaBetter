@@ -39,11 +39,11 @@ final class DiaryDetailSceneViewModel: BaseViewModel {
 				guard let self = self else { return }
 				switch completion {
 				case .finished:
-					Logger.info("Record updated", shouldLogContext: true)
+					NetworkLogger.info("Record updated", shouldLogContext: true)
 					self.isLoadingSubject.send(false)
 					self.transitionSubject.send(.backToDiary)
 				case .failure(let error):
-					Logger.error(error.localizedDescription, shouldLogContext: true)
+					NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
 					self.errorSubject.send(error)
 					self.isLoadingSubject.send(false)
 				}
@@ -60,11 +60,11 @@ final class DiaryDetailSceneViewModel: BaseViewModel {
 				guard let self = self else { return }
 				switch completion {
 				case .finished:
-					Logger.info("Record deleted", shouldLogContext: true)
+					NetworkLogger.info("Record deleted", shouldLogContext: true)
 					self.isLoadingSubject.send(false)
 					self.transitionSubject.send(.backToDiary)
 				case .failure(let error):
-					Logger.error(error.localizedDescription, shouldLogContext: true)
+					NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
 					self.errorSubject.send(error)
 					self.isLoadingSubject.send(false)
 				}

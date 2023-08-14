@@ -55,8 +55,8 @@ final class LoginSceneViewModel: BaseViewModel {
 //MARK: - Private extension
 private extension LoginSceneViewModel {
 	func loginUser() {
-		isLoadingSubject.send(true)
 		let creds = Login(login: email, password: password)
+		isLoadingSubject.send(true)
 		userService.loginUser(with: creds)
 			.subscribe(on: DispatchQueue.global(qos: .userInitiated))
 			.receive(on: DispatchQueue.main)
@@ -64,11 +64,12 @@ private extension LoginSceneViewModel {
 				guard let self = self else { return }
 				switch completion {
 				case .finished:
-					Logger.info("Success", shouldLogContext: true)
+					NetworkLogger.info("Success", shouldLogContext: true)
 					self.transitionSubject.send(.loggedIn)
 					self.isLoadingSubject.send(false)
 				case .failure(let error):
-					Logger.error(error.localizedDescription)
+					NetworkLogger.error(error.localizedDescription)
+					self.isLoadingSubject.send(false)
 					self.errorSubject.send(error)
 				}
 			} receiveValue: { _ in }
