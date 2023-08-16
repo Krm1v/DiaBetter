@@ -101,9 +101,14 @@ class BaseViewController<VM: ViewModel>: UIViewController {
 //MARK: - Private extension
 private extension BaseViewController {
 	func setupNavBar() {
-		navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 214/255,
-																													   green: 0/255,
-																													   blue: 255/255,
-																													   alpha: 1)]
+		navigationController?.navigationBar.largeTitleTextAttributes = [
+			NSAttributedString.Key.foregroundColor: Colors.customPink.color,
+			NSAttributedString.Key.font: FontFamily.Montserrat.bold.font(size: 30)
+		]
+		let appearance = UINavigationBarAppearance()
+		let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
+		buttonAppearance.normal.titleTextAttributes = [.foregroundColor: Colors.customPink.color]
+		appearance.buttonAppearance = buttonAppearance
+		UINavigationBar.appearance().tintColor = Colors.customPink.color
 	}
 }

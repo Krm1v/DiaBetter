@@ -29,7 +29,7 @@ private extension HomeSceneViewController {
 		contentView.setupSettingsButton(for: self)
 		title = Localization.home
 		navigationController?.navigationBar.prefersLargeTitles = true
-		navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.red]
+		
 	}
 	
 	func setupBindings() {

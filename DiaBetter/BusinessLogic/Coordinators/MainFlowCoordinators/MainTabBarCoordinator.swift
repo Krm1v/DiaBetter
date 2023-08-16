@@ -8,6 +8,46 @@
 import UIKit
 import Combine
 
+fileprivate enum TabBarItems {
+	case home
+	case diary
+	case report
+	case settings
+	
+	var title: String {
+		switch self {
+		case .home: 	return Localization.home
+		case .diary: 	return Localization.diary
+		case .report: 	return Localization.report
+		case .settings: return Localization.settings
+		}
+	}
+	
+	var image: UIImage? {
+		switch self {
+		case .home: 	return UIImage(systemName: "house")
+		case .diary: 	return UIImage(systemName: "book.closed")
+		case .report: 	return UIImage(systemName: "drop")
+		case .settings: return UIImage(systemName: "gear.circle")
+		}
+	}
+	
+	var selectedImage: UIImage? {
+		switch self {
+		case .home: 	return UIImage(systemName: "house.fill")
+		case .diary: 	return UIImage(systemName: "book.closed.fill")
+		case .report: 	return UIImage(systemName: "drop.fill")
+		case .settings: return UIImage(systemName: "gear.circle.fill")
+		}
+	}
+	
+	var tabBarItem: UITabBarItem {
+		return UITabBarItem(title: title,
+							image: image,
+							selectedImage: selectedImage)
+	}
+}
+
 final class MainTabBarCoordinator: Coordinator {
 	//MARK: - Properties
 	var childCoordinators: [Coordinator] = []
@@ -18,7 +58,8 @@ final class MainTabBarCoordinator: Coordinator {
 	private let container: AppContainer
 	
 	//MARK: - Init
-	init(navigationController: UINavigationController, container: AppContainer) {
+	init(navigationController: UINavigationController,
+		 container: AppContainer) {
 		self.navigationController = navigationController
 		self.container = container
 	}
@@ -40,9 +81,7 @@ final class MainTabBarCoordinator: Coordinator {
 private extension MainTabBarCoordinator {
 	func setupHomeCoordinator() {
 		let navigationController = UINavigationController()
-		navigationController.tabBarItem = .init(title: "Home",
-												image: UIImage(systemName: ImageConstants.house),
-												selectedImage: UIImage(systemName: ImageConstants.houseFilled))
+		navigationController.tabBarItem = TabBarItems.home.tabBarItem
 		let coordinator = HomeCoordinator(navigationController: navigationController, container: container)
 		childCoordinators.append(coordinator)
 		coordinator.didFinishPublisher
@@ -56,10 +95,8 @@ private extension MainTabBarCoordinator {
 	
 	func setupMeasurementsCoordinator() {
 		let navigationController = UINavigationController()
-		navigationController.tabBarItem = .init(title: "Diary",
-												image: UIImage(systemName: ImageConstants.book),
-												selectedImage: UIImage(systemName: ImageConstants.bookFilled))
-		let coordinator = MeasurementsCoordinator(navigationController: navigationController, container: container)
+		navigationController.tabBarItem = TabBarItems.diary.tabBarItem
+		let coordinator = DiaryCoordinator(navigationController: navigationController, container: container)
 		childCoordinators.append(coordinator)
 		coordinator.didFinishPublisher
 			.sink { [unowned self] in
@@ -72,9 +109,7 @@ private extension MainTabBarCoordinator {
 	
 	func setupReportCoordinator() {
 		let navigationController = UINavigationController()
-		navigationController.tabBarItem = .init(title: "Report",
-												image: UIImage(systemName: "list.bullet.clipboard"),
-												selectedImage: UIImage(systemName: "list.bullet.clipboard.fill"))
+		navigationController.tabBarItem = TabBarItems.report.tabBarItem
 		let coordinator = ReportCoordinator(navigationController: navigationController, container: container)
 		childCoordinators.append(coordinator)
 		coordinator.didFinishPublisher
@@ -88,9 +123,7 @@ private extension MainTabBarCoordinator {
 	
 	func setupSettingsCoordinator() {
 		let navigationController = UINavigationController()
-		navigationController.tabBarItem = .init(title: "Settings",
-												image: UIImage(systemName: ImageConstants.gear),
-												selectedImage: UIImage(systemName: ImageConstants.gearFilled))
+		navigationController.tabBarItem = TabBarItems.settings.tabBarItem
 		let coordinator = SettingsCoordinator(navigationController: navigationController, container: container)
 		childCoordinators.append(coordinator)
 		coordinator.didFinishPublisher
@@ -101,14 +134,4 @@ private extension MainTabBarCoordinator {
 			.store(in: &cancellables)
 		coordinator.start()
 	}
-}
-
-//MARK: - ImageConstants
-fileprivate enum ImageConstants {
-	static let house = "house"
-	static let houseFilled = "house.fill"
-	static let book = "book.closed"
-	static let bookFilled = "book.closed.fill"
-	static let gear = "gear.circle"
-	static let gearFilled = "gear.circle.fill"
 }

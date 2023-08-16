@@ -38,17 +38,11 @@ final class MainTabBarViewController: UITabBarController {
 private extension MainTabBarViewController {
 	func setupTabBarAppearance() {
 		let tabBarAppearance = UITabBarAppearance()
-		tabBarAppearance.backgroundColor = .white
-		tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(red: 214/255,
-																										   green: 0/255,
-																										   blue: 255/255,
-																										   alpha: 1)]
-		tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.black]
-		tabBarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor.black
-		tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor(red: 214/255,
-																			  green: 0/255,
-																			  blue: 255/255,
-																			  alpha: 1)
+		tabBarAppearance.backgroundColor = .black
+		tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: Colors.customPink.color]
+		tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: Colors.customDarkenPink.color]
+		tabBarAppearance.stackedLayoutAppearance.normal.iconColor = Colors.customDarkenPink.color
+		tabBarAppearance.stackedLayoutAppearance.selected.iconColor = Colors.customPink.color
 		tabBar.standardAppearance = tabBarAppearance
 		if #available(iOS 15.0, *) {
 			tabBar.scrollEdgeAppearance = tabBarAppearance

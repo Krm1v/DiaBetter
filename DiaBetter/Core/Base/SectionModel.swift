@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SectionModel<Section, Item> {
+struct SectionModel<Section: Hashable, Item: Hashable> {
 	let section: Section
 	var items: [Item]
 }

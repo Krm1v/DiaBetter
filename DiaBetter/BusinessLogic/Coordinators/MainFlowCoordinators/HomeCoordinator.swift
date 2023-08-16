@@ -50,6 +50,7 @@ private extension HomeCoordinator {
 				}
 			}
 			.store(in: &cancellables)
-		presentScene(module.viewController)
+		let navigationController = UINavigationController(rootViewController: module.viewController)
+		presentScene(navigationController)
 	}
 }

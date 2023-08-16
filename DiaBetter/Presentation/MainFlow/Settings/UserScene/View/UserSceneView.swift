@@ -11,10 +11,8 @@ import Combine
 enum UserSceneViewActions {
 	case logoutButtonTapped
 	case editButtonTapped
-}
-
-enum UserSceneViewEvents {
-	case userEmailLabelChanged(String)
+	case userDataTextfieldDidChanged(String)
+	case popoverListDidTapped(UserDataMenuSettingsModel)
 }
 
 final class UserSceneView: BaseView {
@@ -29,7 +27,7 @@ final class UserSceneView: BaseView {
 	
 	//MARK: - UI Elements
 	private lazy var logoutButton = buildGradientButton(with: Localization.logout, fontSize: Constants.basicFontSize)
-	private lazy var collectionView = UICollectionView(frame: self.bounds, collectionViewLayout: makeLayout())
+	private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeLayout())
 	
 	//MARK: - Init
 	override init(frame: CGRect) {
@@ -61,7 +59,7 @@ final class UserSceneView: BaseView {
 private extension UserSceneView {
 	//MARK: - SetupUI
 	func setupUI() {
-		backgroundColor = .white
+		backgroundColor = .black
 		addSubs()
 	}
 	
@@ -136,7 +134,7 @@ private extension UserSceneView {
 	
 	func makeListSection(with layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
 		var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-		configuration.backgroundColor = .white
+		configuration.backgroundColor = .black
 		let section = NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
 		section.contentInsets = NSDirectionalEdgeInsets(top: .zero,
 														leading: Constants.defaultEdgeInsets,
@@ -151,7 +149,7 @@ private extension UserSceneView {
 			guard let self = self else { return UICollectionViewCell() }
 			switch item {
 			case .header(let model):
-				let cell = self.configureCell(cellType: HeaderCell.self, indexPath: indexPath)
+				let cell = collectionView.configureCell(cellType: HeaderCell.self, indexPath: indexPath)
 				cell.configure(with: model)
 				cell.editButton.tapPublisher
 					.sink { [unowned self] in
@@ -159,30 +157,60 @@ private extension UserSceneView {
 					}
 					.store(in: &self.cancellables)
 				return cell
-			case .plain(let model):
-				let cell = self.configureCell(cellType: UserDataCell.self, indexPath: indexPath)
+			case .plainWithTextfield(let model):
+				let cell = collectionView.configureCell(cellType: UserDataCell.self, indexPath: indexPath)
 				cell.configure(with: model)
+				cell.userDataCellEventsPublisher
+					.sink { [weak self] event in
+						guard let self = self else { return }
+						switch event {
+						case .textFieldDidChanged(let text):
+							self.actionSubject.send(.userDataTextfieldDidChanged(text))
+						}
+					}
+					.store(in: &self.cancellables)
+				return cell
+			case .plainWithLabel(let model):
+				let cell = collectionView.configureCell(cellType: UserDataMenuCell.self, indexPath: indexPath)
+				cell.configure(with: model)
+				cell.userDataMenuPublisher
+					.sink { [weak self] event in
+						guard let self = self else { return }
+						guard var object = self.getObject(with: indexPath) else {
+							return
+						}
+						switch event {
+						case .menuDidTapped:
+							self.actionSubject.send(.popoverListDidTapped(object))
+						case .userParameterDidChanged(let parameter):
+							object.labelValue = parameter
+							self.actionSubject.send(.popoverListDidTapped(object))
+						}
+					}
+					.store(in: &self.cancellables)
 				return cell
 			}
 		})
 	}
 	
-	//MARK: - Setup Collection
-	func setupCollection() {
-		collectionView.backgroundColor = .white
-		collectionView.register(UserDataCell.self, forCellWithReuseIdentifier: UserDataCell.reuseID)
-		collectionView.register(HeaderCell.self, forCellWithReuseIdentifier: HeaderCell.reuseID)
-		setupDiffableDatasource()
+	func getObject(with indexPath: IndexPath) -> UserDataMenuSettingsModel? {
+		guard let object = diffableDatasource?.itemIdentifier(for: indexPath) else { return nil }
+		var model: UserDataMenuSettingsModel?
+		switch object {
+		case .plainWithLabel(let userDataMenuSettingsModel):
+			model = userDataMenuSettingsModel
+		default: break
+		}
+		return model
 	}
 	
-	//MARK: - Cell configuring
-	func configureCell<T: SelfConfiguringCollectionViewCell>(cellType: T.Type,
-															 indexPath: IndexPath) -> T {
-		guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseID,
-															for: indexPath) as? T else {
-			fatalError("Error \(cellType)")
-		}
-		return cell
+	//MARK: - Setup Collection
+	func setupCollection() {
+		collectionView.backgroundColor = .black
+		collectionView.register(UserDataCell.self, forCellWithReuseIdentifier: UserDataCell.reuseID)
+		collectionView.register(HeaderCell.self, forCellWithReuseIdentifier: HeaderCell.reuseID)
+		collectionView.register(UserDataMenuCell.self, forCellWithReuseIdentifier: UserDataMenuCell.reuseID)
+		setupDiffableDatasource()
 	}
 	
 	//MARK: - Actions

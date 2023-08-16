@@ -13,7 +13,7 @@ struct Record: Codable {
 	let glucoseLevel: Decimal?
 	let longInsulin: Decimal?
 	let objectId: String?
-	let recordDate: Int
+	let recordDate: Int?
 	let recordNote: String?
 	let recordType: String
 	
@@ -22,7 +22,7 @@ struct Record: Codable {
 		 glucoseLevel: Decimal? = nil,
 		 longInsulin: Decimal? = nil,
 		 objectId: String? = nil,
-		 recordDate: Int,
+		 recordDate: Int? = nil,
 		 recordNote: String? = nil,
 		 recordType: String) {
 		self.meal = meal

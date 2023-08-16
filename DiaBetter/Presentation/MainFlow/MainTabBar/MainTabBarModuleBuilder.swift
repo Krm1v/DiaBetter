@@ -8,9 +8,7 @@
 import UIKit
 import Combine
 
-enum MainTabBarTransition: Transition {
-    
-}
+enum MainTabBarTransition: Transition {}
 
 final class MainTabBarModuleBuilder {
     class func build(viewControllers: [UIViewController]) -> Module<MainTabBarTransition, UIViewController> {

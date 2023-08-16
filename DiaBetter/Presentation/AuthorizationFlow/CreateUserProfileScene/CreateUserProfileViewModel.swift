@@ -35,13 +35,14 @@ final class CreateUserProfileViewModel: BaseViewModel {
 	}
 	
 	func createUser() {
-		isLoadingSubject.send(true)
 		let user = UserRequestModel(basalInsulin: longInsulin,
 									diabetesType: diabetesType,
 									password: password,
 									email: email,
 									fastActingInsulin: fastInsulin,
-									name: name, userProfileImage: nil)
+									name: name,
+									userProfileImage: nil)
+		isLoadingSubject.send(true)
 		userAuthorizationService.userRegister(user: user)
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
@@ -77,7 +78,6 @@ private extension CreateUserProfileViewModel {
 				guard let self = self else { return }
 				self.userService.save(user: User(user))
 				guard let token = user.userToken else { return }
-				self.userService.save(token: token)
 			}
 			.store(in: &cancellables)
 	}

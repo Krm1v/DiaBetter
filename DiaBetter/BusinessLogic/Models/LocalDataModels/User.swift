@@ -17,6 +17,7 @@ struct User: Codable {
 	var basalInsulin: String?
 	var fastActingInsulin: String?
 	var userProfileImage: String?
+	var updated: Int?
 	
 	//MARK: - Init
 	init(name: String? = nil,
@@ -44,5 +45,7 @@ struct User: Codable {
 		self.diabetesType = response.diabetesType
 		self.fastActingInsulin = response.fastActingInsulin
 		self.basalInsulin = response.basalInsulin
+		self.userProfileImage = response.userProfileImage
+		self.updated = response.updated
 	}
 }

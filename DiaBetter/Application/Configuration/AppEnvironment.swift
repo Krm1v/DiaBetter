@@ -27,12 +27,4 @@ enum AppEnvironment: String {
 		else { return "" }
 		return apiKey + "/" + restApiKey
 	}
-
-    var apiToken: String {
-        switch self {
-        case .dev: return apiKey
-        case .stg: return apiKey
-        case .prod: return apiKey
-        }
-    }
 }

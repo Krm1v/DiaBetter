@@ -12,6 +12,8 @@ import Foundation
 internal enum Localization {
   /// About
   internal static let about = Localization.tr("Localizable", "about", fallback: "About")
+  /// Access denied
+  internal static let accessDenied = Localization.tr("Localizable", "access-denied", fallback: "Access denied")
   /// Add new record
   internal static let addNewRecord = Localization.tr("Localizable", "add-new-record", fallback: "Add new record")
   /// App Icon
@@ -40,6 +42,8 @@ internal enum Localization {
   internal static let customization = Localization.tr("Localizable", "customization", fallback: "Customization")
   /// Data
   internal static let data = Localization.tr("Localizable", "data", fallback: "Data")
+  /// Date
+  internal static let date = Localization.tr("Localizable", "date", fallback: "Date")
   /// Delete photo
   internal static let deletePhoto = Localization.tr("Localizable", "delete-photo", fallback: "Delete photo")
   /// Diabetes type
@@ -71,8 +75,12 @@ internal enum Localization {
   internal static let general = Localization.tr("Localizable", "general", fallback: "General")
   /// Glucose
   internal static let glucose = Localization.tr("Localizable", "glucose", fallback: "Glucose")
+  /// Go to settings
+  internal static let goToSettings = Localization.tr("Localizable", "go-to-settings", fallback: "Go to settings")
   /// Home
   internal static let home = Localization.tr("Localizable", "home", fallback: "Home")
+  /// How do you feel?
+  internal static let howDoYouFeel = Localization.tr("Localizable", "how-do-you-feel", fallback: "How do you feel?")
   /// Insulin
   internal static let insulin = Localization.tr("Localizable", "insulin", fallback: "Insulin")
   /// Login
@@ -91,6 +99,8 @@ internal enum Localization {
   internal static let ok = Localization.tr("Localizable", "ok", fallback: "OK")
   /// Password
   internal static let password = Localization.tr("Localizable", "password", fallback: "Password")
+  /// You need to give an access to Photo Library for application to pick an image for user profile.
+  internal static let photoLibraryPermissionsMessage = Localization.tr("Localizable", "photoLibraryPermissionsMessage", fallback: "You need to give an access to Photo Library for application to pick an image for user profile.")
   /// Rate the app
   internal static let rateTheApp = Localization.tr("Localizable", "rate-the-app", fallback: "Rate the app")
   /// Report

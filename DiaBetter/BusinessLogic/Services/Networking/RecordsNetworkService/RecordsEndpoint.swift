@@ -8,30 +8,23 @@
 import Foundation
 import Combine
 
-fileprivate enum PathStrings {
-	static let addRecord = "/data/Records"
-	static let updateRecord = "/data/Records/"
-	static let fetchRecords = "/data/Records"
-	static let deleteRecord = "data/Records/"
-}
-
 enum RecordsEndpoint: Endpoint {
-	case addRecord(RecordRequestModel, String)
-	case updateRecord(recordModel: RecordRequestModel, userToken: String, objectId: String)
-	case fetchRecords(String)
+	case addRecord(RecordRequestModel)
+	case updateRecord(RecordRequestModel, String)
+	case fetchRecords
 	case deleteRecord(String)
 	
 	//MARK: - Properties
 	var path: String? {
 		switch self {
 		case .addRecord:
-			return PathStrings.addRecord
-		case .updateRecord(recordModel: _, userToken: _, objectId: let objectId):
-			return PathStrings.updateRecord + objectId
+			return "/data/Records"
+		case .updateRecord(_, let id):
+			return "/data/Records/\(id)"
 		case .fetchRecords:
-			return PathStrings.fetchRecords
-		case .deleteRecord(let objectId):
-			return PathStrings.deleteRecord + objectId
+			return "/data/Records"
+		case .deleteRecord(let id):
+			return "data/Records/\(id)"
 		}
 	}
 	var httpMethod: HTTPMethods {
@@ -55,14 +48,14 @@ enum RecordsEndpoint: Endpoint {
 	
 	var headers: HTTPHeaders {
 		switch self {
-		case .addRecord(_, let token), .updateRecord(recordModel: _, userToken: let token, objectId: _), .fetchRecords(let token), .deleteRecord(let token):
-			return ["Content-Type": "application/json", "user-token": "\(token)"]
+		case .addRecord, .updateRecord, .fetchRecords, .deleteRecord:
+			return ["": ""]
 		}
 	}
 	
 	var body: RequestBody? {
 		switch self {
-		case .addRecord(let recordModel, _), .updateRecord(recordModel: let recordModel, userToken: _, objectId: _):
+		case .addRecord(let recordModel), .updateRecord(let recordModel, _):
 			return .encodable(recordModel)
 		case .deleteRecord, .fetchRecords:
 			return nil

@@ -51,26 +51,26 @@ private extension SettingsTableView {
 			switch section {
 			case .general:
 				let cell = self.configureCell(cellType: TableViewCustomCell.self,
-										  with: identifier.title,
-										  indexPath: indexPath)
+											  with: identifier.title,
+											  indexPath: indexPath)
 				cell.configure(with: section.group, indexPath: indexPath.row)
 				return cell
 			case .customization:
 				let cell = self.configureCell(cellType: TableViewCustomCell.self,
-										  with: identifier.title,
-										  indexPath: indexPath)
+											  with: identifier.title,
+											  indexPath: indexPath)
 				cell.configure(with: section.group, indexPath: indexPath.row)
 				return cell
 			case .about:
 				let cell = self.configureCell(cellType: TableViewCustomCell.self,
-										  with: identifier.title,
+											  with: identifier.title,
 											  indexPath: indexPath)
 				cell.configure(with: section.group, indexPath: indexPath.row)
 				return cell
 			case .empty:
 				let cell = self.configureCell(cellType: TableViewCustomCell.self,
-										  with: identifier.title,
-										  indexPath: indexPath)
+											  with: identifier.title,
+											  indexPath: indexPath)
 				cell.configure(with: section.group, indexPath: indexPath.row)
 				return cell
 			}
@@ -80,14 +80,14 @@ private extension SettingsTableView {
 	//MARK: - SetupUI
 	func setupTable() {
 		register(TableViewCustomCell.self, forCellReuseIdentifier: Constants.reuseId)
-		backgroundColor = .white
+		backgroundColor = .black
 		setupDiffableDatasource()
 		reloadDiffableDatasourceData()
 	}
 	
-	func configureCell<T: SelfConfiguringTableViewCell>(cellType: T.Type,
-														with: String,
-														indexPath: IndexPath) -> T {
+	func configureCell<T: SelfConfiguringCell>(cellType: T.Type,
+											   with: String,
+											   indexPath: IndexPath) -> T {
 		guard let cell = dequeueReusableCell(withIdentifier: cellType.reuseID,
 											 for: indexPath) as? T else {
 			fatalError("Error \(cellType)")

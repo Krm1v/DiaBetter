@@ -49,10 +49,9 @@ final class LoginSceneViewModel: BaseViewModel {
 	}
 	
 	func loginUser() {
-		isLoadingSubject.send(true)
 		let credentials = Login(login: email,
 								password: password)
-		debugPrint(credentials)
+		isLoadingSubject.send(true)
 		userAuthorizationService.loginUser(with: credentials)
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
@@ -66,12 +65,9 @@ final class LoginSceneViewModel: BaseViewModel {
 					self.errorSubject.send(error)
 				}
 			} receiveValue: { [weak self] fetchedUser in
-				guard
-					let self = self,
-					let token = fetchedUser.userToken
-				else { return }
+				guard let self = self else { return }
+				debugPrint(fetchedUser.userToken)
 				self.userService.save(user: User(fetchedUser))
-				self.userService.save(token: token)
 				self.transitionSubject.send(.loggedIn)
 			}
 			.store(in: &cancellables)

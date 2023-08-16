@@ -7,6 +7,7 @@
 
 import Foundation
 
-protocol SelfConfiguringCollectionViewCell: AnyObject {
+protocol SelfConfiguringCell: AnyObject {
 	static var reuseID: String { get }
 }
+

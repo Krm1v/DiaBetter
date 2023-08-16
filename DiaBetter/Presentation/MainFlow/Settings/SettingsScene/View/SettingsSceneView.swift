@@ -37,7 +37,7 @@ final class SettingsSceneView: BaseView {
 //MARK: - Private extension
 private extension SettingsSceneView {
 	func setupUI() {
-		backgroundColor = .white
+		backgroundColor = .black
 		addSubs()
 		setupConstraintsForTableView()
 	}

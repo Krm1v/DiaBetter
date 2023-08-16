@@ -20,31 +20,34 @@ final class UserSceneViewController: BaseViewController<UserSceneViewModel> {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupActions()
+		setupPermissions()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		setupUI()
+		updateDiffableDatasourceSnapshot()
 		setupNavBar()
 	}
 }
 
 //MARK: - Private extension
 private extension UserSceneViewController {
-	func setupUI() {
+	//MARK: - SetupUI
+	func setupNavBar() {
+		navigationController?.navigationBar.prefersLargeTitles = true
+		navigationItem.largeTitleDisplayMode = .never
+		navigationItem.backBarButtonItem?.tintColor = .black
+		title = Localization.userProfile
+	}
+	
+	//MARK: - Datasource and bindings
+	func updateDiffableDatasourceSnapshot() {
 		viewModel.$sections
 			.receive(on: DispatchQueue.main)
 			.sink { [unowned self] sections in
 				self.contentView.setupSnapshot(sections: sections)
 			}
 			.store(in: &cancellables)
-	}
-	
-	func setupNavBar() {
-		navigationController?.navigationBar.prefersLargeTitles = true
-		navigationItem.largeTitleDisplayMode = .never
-		navigationItem.backBarButtonItem?.tintColor = .black
-		title = Localization.userProfile
 	}
 	
 	func setupActions() {
@@ -56,18 +59,47 @@ private extension UserSceneViewController {
 					self.viewModel.logoutUser()
 				case .editButtonTapped:
 					self.presentActionSheet()
+				case .userDataTextfieldDidChanged(let text):
+					self.viewModel.userName = text
+				case .popoverListDidTapped(let setting):
+					switch setting.source {
+					case .diabetesType:
+						self.viewModel.userDiabetesType = setting.labelValue
+						debugPrint(setting.labelValue)
+					case .fastInsulines:
+						self.viewModel.userFastInsulin = setting.labelValue
+					case .longInsulines:
+						self.viewModel.userBasalInsulin = setting.labelValue
+					}
 				}
 			}
 			.store(in: &cancellables)
 	}
 	
+	//MARK: - Photo library permissions
+	func setupPermissions() {
+		viewModel.permissionService.permissionPublisher
+			.sink { [unowned self] status in
+				switch status {
+				case .authorized:
+					presentImagePickerController()
+				case .denied, .limited, .notDetermined, .restricted:
+					showAccessDeniedAlert()
+				@unknown default:
+					break
+				}
+			}
+			.store(in: &cancellables)
+	}
+	
+	//MARK: - Presentable elements
 	func presentActionSheet() {
 		let alertController = UIAlertController(title: nil,
 												message: nil,
 												preferredStyle: .actionSheet)
 		let changePhotoAction = UIAlertAction(title: Localization.changePhoto, style: .default) { [weak self] _ in
 			guard let self = self else { return }
-			self.presentImagePickerController()
+			self.viewModel.askForPhotoPermissions()
 		}
 		let deleteAction = UIAlertAction(title: Localization.deletePhoto, style: .destructive) { [weak self] _ in
 			guard let self = self else { return }
@@ -83,8 +115,21 @@ private extension UserSceneViewController {
 	func presentImagePickerController() {
 		let picker = UIImagePickerController()
 		picker.allowsEditing = true
+		picker.sourceType = .photoLibrary
 		picker.delegate = self
 		present(picker, animated: true)
+	}
+	
+	func showAccessDeniedAlert() {
+		let alertController = UIAlertController(title: Localization.accessDenied,
+												message: Localization.photoLibraryPermissionsMessage,
+												preferredStyle: .alert)
+		let goToSettingsAction = UIAlertAction(title: Localization.goToSettings, style: .default) { _ in
+			UIApplication.shared.openSettings()
+		}
+		let cancelAction = UIAlertAction(title: Localization.cancel, style: .cancel)
+		alertController.addAction(goToSettingsAction); alertController.addAction(cancelAction)
+		present(alertController, animated: true)
 	}
 }
 
@@ -98,9 +143,9 @@ extension UserSceneViewController: UIImagePickerControllerDelegate & UINavigatio
 		guard let dataImage = image.pngData() else {
 			return
 		}
-		viewModel.saveUserImageData(from: dataImage)
-		dismiss(animated: true)
+		viewModel.fetchImageData(from: dataImage)
 		viewModel.uploadUserProfileImage()
+		dismiss(animated: true)
 	}
 }
 

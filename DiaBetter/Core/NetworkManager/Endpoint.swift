@@ -26,7 +26,7 @@ protocol Endpoint: RequestBuilder {
 }
 
 protocol RequestBuilder {
-	func buildRequest(baseURL: URL, encoder: JSONEncoder) -> URLRequest?
+	func buildRequest(baseURL: URL, encoder: JSONEncoder, plugins: [NetworkPlugin]) -> URLRequest?
 }
 
 //MARK: - Endpoint Extension
@@ -35,7 +35,7 @@ extension Endpoint {
 	var baseURL: URL? { return nil }
 	
 	//MARK: - Methods
-	func buildRequest(baseURL: URL, encoder: JSONEncoder) -> URLRequest? {
+	func buildRequest(baseURL: URL, encoder: JSONEncoder, plugins: [NetworkPlugin]) -> URLRequest? {
 		var completedURL = self.baseURL ?? baseURL
 		guard let path = path else { return nil }
 		completedURL = completedURL.appendingPathComponent(path)
@@ -47,6 +47,12 @@ extension Endpoint {
 		guard let urlForRequest = components.url else { return nil }
 		var urlRequest = URLRequest(url: urlForRequest)
 		urlRequest.httpMethod = httpMethod.rawValue
+		headers.forEach { (key: String, value: String) in
+			urlRequest.addValue(value, forHTTPHeaderField: key)
+		}
+		plugins.forEach {
+			$0.modify(&urlRequest)
+		}
 		if let body = body {
 			switch body {
 			case let .rawData(data):
@@ -57,13 +63,11 @@ extension Endpoint {
 			case let .multipartData(items):
 				let multipartBody = MultipartBody.buildMultipartBody(from: items)
 				urlRequest.httpBody = multipartBody.multipartData
-				urlRequest.addValue("multipart/form-data; boundary=\(multipartBody.boundary)",
+				urlRequest.setValue("multipart/form-data; boundary=\(multipartBody.boundary)",
 									forHTTPHeaderField: "Content-Type")
-				urlRequest.addValue("\(multipartBody.lenght)", forHTTPHeaderField: "Content-Lenght")
+				urlRequest.addValue("\(multipartBody.lenght)",
+									forHTTPHeaderField: "Content-Lenght")
 			}
-		}
-		headers.forEach { (key: String, value: String) in
-			urlRequest.addValue(value, forHTTPHeaderField: key)
 		}
 		return urlRequest
 	}

@@ -16,7 +16,7 @@ final class GradientedButton: UIButton {
 		let borderLayer = CAGradientLayer()
 		borderLayer.type = .axial
 		borderLayer.colors = [Constants.primaryLoginButtonColor.cgColor,
-							  Constants.secondaryLoginButtonGradientColor.cgColor]
+							  Colors.customPink.color.cgColor]
 		borderLayer.startPoint = CGPoint(x: .zero, y: 1)
 		borderLayer.endPoint = CGPoint(x: 1, y: .zero)
 		return borderLayer
