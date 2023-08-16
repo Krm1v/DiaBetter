@@ -37,7 +37,7 @@ enum UserAuthorizationEndpoint: Endpoint {
 
 	var headers: HTTPHeaders {
 		switch self {
-		default: return [:]
+		default: return ["Content-Type": "application/json"]
 		}
 	}
 
