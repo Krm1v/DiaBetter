@@ -89,7 +89,7 @@ extension UIElementsBuilder {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textColor = .white
-		label.font = FontFamily.Montserrat.semiBold.font(size: fontSize)
+		label.font = FontFamily.Montserrat.regular.font(size: fontSize)
 		label.text = text + ":"
 		label.textAlignment = textAllignment
 		label.adjustsFontSizeToFitWidth = true
@@ -143,7 +143,7 @@ extension UIElementsBuilder {
 // MARK: - Constants
 private enum Constants {
 	static let basicButtonTitleFontSize: CGFloat = 13
-	static let basicLabelFontSize: CGFloat = 17
+	static let basicLabelFontSize: CGFloat = 15
 	static let labelTextMinScaleFactor: CGFloat = 0.5
 	static let basicTitleFontSize: CGFloat = 45
 	static let basicCornerRadius: CGFloat = 7

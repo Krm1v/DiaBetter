@@ -19,9 +19,8 @@ final class InsulinCell: BaseCollectionViewCell {
 	private let actionSubject = PassthroughSubject<InsulinCellActions, Never>()
 
 	// MARK: - UI Elements
-	private lazy var titleLabel = buildTitleLabel(fontSize: Constants.titleLabelFontSize)
-	private lazy var fastInsulinParameterTitle = buildFieldTitleLabel(fontSize: Constants.parameterTitleFontSize)
-	private lazy var basalInsulinParameterTitle = buildFieldTitleLabel(fontSize: Constants.parameterTitleFontSize)
+	private lazy var fastInsulinTitle = buildFieldTitleLabel()
+	private lazy var basalInsulinTitle = buildFieldTitleLabel()
 	private lazy var fastInsulinTextfield = buildSystemTextField(with: "", keyBoardType: .decimalPad)
 	private lazy var basalInsulinTextfield = buildSystemTextField(with: "", keyBoardType: .decimalPad)
 	private lazy var unitsLabelForFastInsulin = buildUserInfoLabel()
@@ -52,9 +51,8 @@ final class InsulinCell: BaseCollectionViewCell {
 
 	// MARK: - Public methods
 	func configure(with model: InsulinCellModel) {
-		titleLabel.text = model.title
-		fastInsulinParameterTitle.text = model.parameterTitleForFastInsulin
-		basalInsulinParameterTitle.text = model.parameterTitleForBasalInsulin
+		fastInsulinTitle.text = model.fastInsulinTitle
+		basalInsulinTitle.text = model.basalInsulinTitle
 		fastInsulinTextfield.placeholder = model.fastInsulinTextfieldValue
 		basalInsulinTextfield.placeholder = model.basalInsulinTextFieldValue
 		unitsLabelForFastInsulin.text = model.unitsTitleForFastInsulin
@@ -74,16 +72,6 @@ private extension InsulinCell {
 	}
 
 	func setupLayout() {
-		addSubview(titleLabel, constraints: [
-			titleLabel.topAnchor.constraint(
-				equalTo: topAnchor,
-				constant: Constants.smallEdgeInset),
-
-			titleLabel.leadingAnchor.constraint(
-				equalTo: leadingAnchor,
-				constant: Constants.smallEdgeInset)
-		])
-
 		addSubview(vStack, constraints: [
 			vStack.leadingAnchor.constraint(
 				equalTo: leadingAnchor,
@@ -93,15 +81,13 @@ private extension InsulinCell {
 				equalTo: trailingAnchor,
 				constant: -Constants.largeEdgeInset),
 
-			vStack.bottomAnchor.constraint(
-				equalTo: bottomAnchor,
-				constant: -Constants.smallEdgeInset)
-		])
+			vStack.centerYAnchor.constraint(equalTo: self.centerYAnchor)])
 
-		[fastInsulinParameterTitle, fastInsulinTextfield, unitsLabelForFastInsulin].forEach {
+		[fastInsulinTitle, fastInsulinTextfield, unitsLabelForFastInsulin].forEach {
 			hStackForFastInsulin.addArrangedSubview($0)
 		}
-		[basalInsulinParameterTitle, basalInsulinTextfield, unitsLabelForBasalInsulin].forEach {
+
+		[basalInsulinTitle, basalInsulinTextfield, unitsLabelForBasalInsulin].forEach {
 			hStackForBasalInsulin.addArrangedSubview($0)
 		}
 
@@ -131,11 +117,8 @@ private extension InsulinCell {
 
 // MARK: - Constants
 private enum Constants {
-	static let titleLabelFontSize: 	   CGFloat = 25
-	static let parameterTitleFontSize: CGFloat = 20
 	static let stackViewSmallSpacing:  CGFloat = 8
 	static let stackViewLargeSpacing:  CGFloat = 20
 	static let defaultCornerRadius:    CGFloat = 12
-	static let smallEdgeInset: 		   CGFloat = 8
 	static let largeEdgeInset: 		   CGFloat = 16
 }

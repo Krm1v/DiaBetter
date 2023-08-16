@@ -18,16 +18,14 @@ struct GlucoseLevelOrMealCellModel: Hashable {
 	}
 
 	let title: String
-	let parameterTitle: String
 	let textfieldValue: String
 	let unitsTitle: String
 	let currentField: GlucoseOrMealCellState
 }
 
 struct InsulinCellModel: Hashable {
-	let title: String
-	let parameterTitleForFastInsulin: String
-	let parameterTitleForBasalInsulin: String
+	let fastInsulinTitle: String
+	let basalInsulinTitle: String
 	let fastInsulinTextfieldValue: String
 	let basalInsulinTextFieldValue: String
 	let unitsTitleForFastInsulin: String

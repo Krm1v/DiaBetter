@@ -18,7 +18,7 @@ final class DatePickerCell: BaseCollectionViewCell {
 	private let actionSubject = PassthroughSubject<DatePickerCellActions, Never>()
 
 	// MARK: - UI Elements
-	private lazy var titleLabel = buildTitleLabel(fontSize: Constants.titleLabelFontSize)
+	private lazy var titleLabel = buildFieldTitleLabel()
 	private lazy var datePicker = UIDatePicker()
 
 	// MARK: - Init
@@ -58,7 +58,7 @@ private extension DatePickerCell {
 
 			titleLabel.leadingAnchor.constraint(
 				equalTo: leadingAnchor,
-				constant: Constants.smallEdgeInset)
+				constant: Constants.defaultEdgeInset)
 		])
 
 		addSubview(datePicker, constraints: [
@@ -83,4 +83,5 @@ private enum Constants {
 	static let titleLabelFontSize:  CGFloat = 25
 	static let defaultCornerRadius: CGFloat = 12
 	static let smallEdgeInset: 		CGFloat = 8
+	static let defaultEdgeInset:    CGFloat = 16
 }

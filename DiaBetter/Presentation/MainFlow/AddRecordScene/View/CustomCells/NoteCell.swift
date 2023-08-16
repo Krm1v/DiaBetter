@@ -18,7 +18,7 @@ final class NoteCell: BaseCollectionViewCell {
 	private let actionSubject = PassthroughSubject<NoteCellActions, Never>()
 
 	// MARK: - UI Elements
-	private lazy var titleLabel = buildTitleLabel(fontSize: Constants.titleLabelFontSize)
+	private lazy var titleLabel = buildFieldTitleLabel()
 	private lazy var noteTextView = NoteTextView()
 
 	// MARK: - Init
@@ -55,8 +55,7 @@ private extension NoteCell {
 
 			titleLabel.leadingAnchor.constraint(
 				equalTo: leadingAnchor,
-				constant: Constants.largeEdgeInset)
-		])
+				constant: Constants.largeEdgeInset)])
 
 		addSubview(noteTextView, constraints: [
 			noteTextView.topAnchor.constraint(
@@ -65,8 +64,7 @@ private extension NoteCell {
 
 			noteTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
 			noteTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
-			noteTextView.bottomAnchor.constraint(equalTo: bottomAnchor)
-		])
+			noteTextView.bottomAnchor.constraint(equalTo: bottomAnchor)])
 	}
 
 	func setupBindings() {

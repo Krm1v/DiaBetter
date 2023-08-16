@@ -72,22 +72,19 @@ private extension AddRecordSceneViewModel {
 	func updateDatasource() {
 		let glucose = GlucoseLevelOrMealCellModel(
 			title: Localization.glucose,
-			parameterTitle: Localization.glucose,
 			textfieldValue: Constants.textFieldDefaultPlaceholder,
 			unitsTitle: GlucoseLevelUnits.mmolL.description,
 			currentField: .glucose)
 
 		let meal = GlucoseLevelOrMealCellModel(
 			title: Localization.meal,
-			parameterTitle: Localization.meal,
 			textfieldValue: Constants.textFieldDefaultPlaceholder,
 			unitsTitle: MealUnits.breadUnits.description,
 			currentField: .meal)
 
 		let insulin = InsulinCellModel(
-			title: Localization.insulin,
-			parameterTitleForFastInsulin: Localization.fastActingInsulin,
-			parameterTitleForBasalInsulin: Localization.basalInsulin,
+			fastInsulinTitle: Localization.fastActingInsulin,
+			basalInsulinTitle: Localization.basalInsulin,
 			fastInsulinTextfieldValue: Constants.textFieldDefaultPlaceholder,
 			basalInsulinTextFieldValue: Constants.textFieldDefaultPlaceholder,
 			unitsTitleForFastInsulin: Constants.unitsDefaultPlaceholder,
@@ -101,33 +98,28 @@ private extension AddRecordSceneViewModel {
 		let dateSection = Section(
 			section: .date,
 			items: [
-				.date(dateSectionModel)
-			])
+				.date(dateSectionModel)])
 
 		let mainSection = Section(
 			section: .main,
 			items: [
 				.glucoseLevelOrMeal(glucose),
-				.glucoseLevelOrMeal(meal)
-			])
+				.glucoseLevelOrMeal(meal)])
 
 		let insulinSection = Section(
 			section: .insulin,
 			items: [
-				.insulin(insulin)
-			])
+				.insulin(insulin)])
 
 		let noteSection = Section(
 			section: .note,
 			items: [
-				.note(note)
-			])
+				.note(note)])
 
 		let buttonsSection = Section(
 			section: .buttons,
 			items: [
-				.buttons
-			])
+				.buttons])
 
 		sections = [dateSection, mainSection, insulinSection, noteSection, buttonsSection]
 	}

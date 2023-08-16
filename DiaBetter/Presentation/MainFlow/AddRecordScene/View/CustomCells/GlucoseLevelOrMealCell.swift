@@ -18,8 +18,7 @@ final class GlucoseLevelOrMealCell: BaseCollectionViewCell {
 	private let actionSubject = PassthroughSubject<GlucoseOrMealCellActions, Never>()
 
 	// MARK: - UI Elements
-	private lazy var titleLabel = buildTitleLabel(fontSize: Constants.titleLabelFontSize)
-	private lazy var parameterTitle = buildFieldTitleLabel(fontSize: Constants.parameterTitleFontSize)
+	private lazy var title = buildFieldTitleLabel()
 	private lazy var textField = buildSystemTextField(with: "", keyBoardType: .decimalPad)
 	private lazy var unitsLabel = buildUserInfoLabel()
 	private lazy var hStack = buildStackView(axis: .horizontal,
@@ -40,8 +39,7 @@ final class GlucoseLevelOrMealCell: BaseCollectionViewCell {
 
 	// MARK: - Public methods
 	func configure(with model: GlucoseLevelOrMealCellModel) {
-		titleLabel.text = model.title
-		parameterTitle.text = model.parameterTitle
+		title.text = model.title
 		textField.placeholder = model.textfieldValue
 		unitsLabel.text = model.unitsTitle
 		setupBindings()
@@ -58,31 +56,20 @@ private extension GlucoseLevelOrMealCell {
 	}
 
 	func setupLayout() {
-		addSubview(titleLabel, constraints: [
-			titleLabel.topAnchor.constraint(
-				equalTo: topAnchor,
-				constant: Constants.defaultSmallEdgeInset),
+		addSubview(
+			hStack,
+			constraints: [
+				hStack.leadingAnchor.constraint(
+					equalTo: leadingAnchor,
+					constant: Constants.defaultLargeEdgeInset),
 
-			titleLabel.leadingAnchor.constraint(
-				equalTo: leadingAnchor,
-				constant: Constants.defaultSmallEdgeInset)
-		])
+				hStack.trailingAnchor.constraint(
+					equalTo: trailingAnchor,
+					constant: -Constants.defaultLargeEdgeInset),
 
-		addSubview(hStack, constraints: [
-			hStack.leadingAnchor.constraint(
-				equalTo: leadingAnchor,
-				constant: Constants.defaultLargeEdgeInset),
+				hStack.centerYAnchor.constraint(equalTo: self.centerYAnchor)])
 
-			hStack.trailingAnchor.constraint(
-				equalTo: trailingAnchor,
-				constant: -Constants.defaultLargeEdgeInset),
-
-			hStack.bottomAnchor.constraint(
-				equalTo: bottomAnchor,
-				constant: -Constants.defaultSmallEdgeInset)
-		])
-
-		[parameterTitle, textField, unitsLabel].forEach { hStack.addArrangedSubview($0) }
+		[title, textField, unitsLabel].forEach { hStack.addArrangedSubview($0) }
 	}
 
 	func setupBindings() {
@@ -99,8 +86,6 @@ private extension GlucoseLevelOrMealCell {
 
 // MARK: - Constants
 private enum Constants {
-	static let titleLabelFontSize: 		CGFloat = 25
-	static let parameterTitleFontSize:  CGFloat = 20
 	static let defaultStackViewSpacing: CGFloat = 8
 	static let defaultSmallEdgeInset: 	CGFloat = 8
 	static let defaultLargeEdgeInset: 	CGFloat = 16

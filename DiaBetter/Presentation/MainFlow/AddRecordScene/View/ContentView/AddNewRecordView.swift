@@ -77,7 +77,7 @@ private extension AddNewRecordView {
 
 	func setupLayout() {
 		addSubview(collectionView, constraints: [
-			collectionView.topAnchor.constraint(equalTo: topAnchor),
+			collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
 			collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
 			collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
 			collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
@@ -281,10 +281,10 @@ private extension AddNewRecordView {
 // MARK: - Constants
 private enum Constants {
 	static let dateSectionHeight: 	 CGFloat = 0.16
-	static let mainSectionHeight: 	 CGFloat = 0.25
-	static let insulinSectionHeight: CGFloat = 0.35
-	static let noteSectionHeight: 	 CGFloat = 0.4
-	static let buttonsSectionHeight: CGFloat = 0.35
+	static let mainSectionHeight: 	 CGFloat = 0.15
+	static let insulinSectionHeight: CGFloat = 0.27
+	static let noteSectionHeight: 	 CGFloat = 0.5
+	static let buttonsSectionHeight: CGFloat = 0.32
 	static let defaultItemSize: 	 CGFloat = 1.0
 	static let defaultEdgeInset: 	 CGFloat = 16
 }
