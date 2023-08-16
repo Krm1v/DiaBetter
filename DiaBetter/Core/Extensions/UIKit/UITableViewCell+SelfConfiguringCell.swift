@@ -12,4 +12,3 @@ extension UITableViewCell: SelfConfiguringCell {
 		Self.description()
 	}
 }
-

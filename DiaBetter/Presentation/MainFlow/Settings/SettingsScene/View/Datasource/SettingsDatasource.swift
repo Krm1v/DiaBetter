@@ -12,7 +12,7 @@ enum SettingsGroup: Int, CaseIterable, Hashable {
 	case customization
 	case about
 	case empty
-	
+
 	var title: String {
 		switch self {
 		case .general:
@@ -25,7 +25,7 @@ enum SettingsGroup: Int, CaseIterable, Hashable {
 			return ""
 		}
 	}
-	
+
 	var group: [Settings] {
 		switch self {
 		case .general:
@@ -50,7 +50,7 @@ enum Settings: String, Hashable {
 	case rateTheApp
 	case sendFeedback
 	case showOnboarding
-	
+
 	var title: String {
 		switch self {
 		case .user:

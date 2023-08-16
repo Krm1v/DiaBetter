@@ -8,29 +8,24 @@
 import Foundation
 
 struct DiaryRecordCellModel: Hashable {
+	struct Info: Hashable {
+		let value: String?
+		let unit: String
+	}
+
+	// MARK: - Properties
 	let id: String
 	let time: String
 	let glucoseInfo: Info
 	let mealInfo: Info
 	let fastInsulinInfo: Info
 	let longInsulinInfo: Info
-	
-	struct Info: Hashable {
-		let value: String?
-		let unit: String
-	}
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init(_ record: Record, user: User) {
 		self.id = record.objectId
-//		if let date = record.recordDate {
-//			self.time = date.stringRepresentation(format: .hourMinute)
-//		} else {
-//			self.time = ""
-//		}
 		self.time = record.recordDate.stringRepresentation(format: .hourMinute)
-		
-		
+
 		self.glucoseInfo = Info(
 			value: record.glucoseLevel?.convertToString() ?? "∅",
 			unit: GlucoseLevelUnits.mmolL.description

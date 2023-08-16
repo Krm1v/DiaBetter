@@ -8,10 +8,10 @@
 import UIKit
 
 final class GradientedButton: UIButton {
-	//MARK: - Properties
+	// MARK: - Properties
 	var lineWidth: CGFloat = Constants.lineWidth { didSet { setNeedsLayout() } }
 	var cornerRadius: CGFloat = Constants.cornerRadius { didSet { setNeedsLayout() } }
-	
+
 	let borderLayer: CAGradientLayer = {
 		let borderLayer = CAGradientLayer()
 		borderLayer.type = .axial
@@ -21,19 +21,19 @@ final class GradientedButton: UIButton {
 		borderLayer.endPoint = CGPoint(x: 1, y: .zero)
 		return borderLayer
 	}()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect = .zero) {
 		super.init(frame: frame)
 		configure()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		configure()
 	}
-	
-	//MARK: - Methods
+
+	// MARK: - Methods
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		borderLayer.frame = bounds
@@ -47,15 +47,15 @@ final class GradientedButton: UIButton {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension GradientedButton {
 	func configure() {
 		layer.addSublayer(borderLayer)
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let lineWidth: CGFloat = 2
 	static let cornerRadius: CGFloat = 7
 }

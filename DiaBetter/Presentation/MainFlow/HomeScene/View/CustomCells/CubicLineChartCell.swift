@@ -10,34 +10,34 @@ import Combine
 import Charts
 
 final class CubicLineChartCell: BaseWidgetCell {
-	//MARK: - Properties
+	// MARK: - Properties
 	private let allFilters = WidgetFilterState.allCases
-	
-	//MARK: - UI Elements
+
+	// MARK: - UI Elements
 	private lazy var chartView = LineChartView()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 		configureChartView()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 		configureChartView()
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func configure(with model: GlucoseLevelPerPeriodWidgetModel) {
-		let entries = model.items.map { ChartDataEntry(x: $0.x, y: $0.y) }
+		let entries = model.items.map { ChartDataEntry(x: $0.xValue, y: $0.yValue) }
 		segmentedControl.selectedSegmentIndex = model.filter.rawValue
 		setData(entries)
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension CubicLineChartCell {
 	func setupUI() {
 	   titleLabel.text = Localization.glucose
@@ -48,7 +48,7 @@ private extension CubicLineChartCell {
 										  animated: false)
 	   }
    }
-	
+
 	func configureChartView() {
 		chartView.delegate = self
 		chartView.backgroundColor = Colors.darkNavyBlue.color
@@ -60,7 +60,7 @@ private extension CubicLineChartCell {
 		chartView.legend.enabled = false
 		chartView.clipDataToContentEnabled = false
 		chartView.setScaleMinima(Constants.minimumScale, scaleY: .zero)
-		
+
 		let xAxis = chartView.xAxis
 		xAxis.valueFormatter = ChartsDateFormatter(format: .day)
 		xAxis.labelPosition = .top
@@ -74,7 +74,7 @@ private extension CubicLineChartCell {
 		xAxis.granularity = Constants.defaultGranularity
 		xAxis.axisLineColor = Colors.customDarkenPink.color
 		xAxis.setLabelCount(Constants.defaultxAxisLabelCount, force: true)
-		
+
 		let yAxis = chartView.leftAxis
 		yAxis.labelFont = FontFamily.Montserrat.regular.font(size: Constants.defaultFontSize)
 		yAxis.labelTextColor = .white
@@ -84,7 +84,7 @@ private extension CubicLineChartCell {
 		yAxis.axisMaximum = Constants.yAxisMax
 		yAxis.setLabelCount(Constants.defaultyAxisLabelCount, force: false)
 	}
-	
+
 	func setData(_ entries: [ChartDataEntry]) {
 		let glucoseSet = LineChartDataSet(entries: entries)
 		glucoseSet.colors = [Colors.customPink.color]
@@ -106,15 +106,19 @@ private extension CubicLineChartCell {
 	}
 }
 
-//MARK: - Extension ChartViewDelegate
+// MARK: - Extension ChartViewDelegate
 extension CubicLineChartCell: ChartViewDelegate {
-	func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+	func chartValueSelected(
+		_ chartView: ChartViewBase,
+		entry: ChartDataEntry,
+		highlight: Highlight
+	) {
 		debugPrint(entry)
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let defaultAnimationDuration: TimeInterval = 1
 	static let minimumScale: 		   	 Double = 8
 	static let defaultxAxisLabelCount: 	 Int = 4
@@ -123,10 +127,10 @@ fileprivate enum Constants {
 	static let yAxisMax: 			   	 Double = 32
 	static let defaultyAxisLabelCount: 	 Int = 6
 	static let defaultFontSize: 	   	 CGFloat = 12
-	static let defaultCornerRadius:    	 CGFloat = 12
+	static let defaultCornerRadius: 	 CGFloat = 12
 	static let defaultMinInset: 	   	 CGFloat = 8
 	static let defaultLineWidth: 	   	 CGFloat = 1.8
-	static let defaultCircleRadius:    	 CGFloat = 4
-	static let defaultCubicIntensity:  	 CGFloat = 0.05
+	static let defaultCircleRadius: 	 CGFloat = 4
+	static let defaultCubicIntensity: 	 CGFloat = 0.05
 	static let defaultFillAlpha: 	   	 CGFloat = 1
 }

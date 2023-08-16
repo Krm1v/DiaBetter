@@ -11,7 +11,7 @@ enum ReminderDayTime: Hashable {
 	case morning
 	case day
 	case evening
-	
+
 	var emoji: String {
 		switch self {
 		case .morning: return "☕️"
@@ -19,7 +19,7 @@ enum ReminderDayTime: Hashable {
 		case .evening: return "🛌"
 		}
 	}
-	
+
 	var title: String {
 		switch self {
 		case .morning: return Localization.morning
@@ -32,7 +32,7 @@ enum ReminderDayTime: Hashable {
 enum NotificationsSections: Int, Hashable, CaseIterable {
 	case enabler
 	case main
-	
+
 	var title: String {
 		switch self {
 		case .enabler: return Localization.enableOrDisableNotifications

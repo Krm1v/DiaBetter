@@ -15,11 +15,11 @@ enum ResetPasswordActions {
 }
 
 final class ResetPasswordSceneView: BaseView {
-	//MARK: - Properties
+	// MARK: - Properties
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
 	private let actionSubject = PassthroughSubject<ResetPasswordActions, Never>()
-	
-	//MARK: - UIElements
+
+	// MARK: - UIElements
 	private lazy var resetPasswordButton = buildGradientButton(with: Localization.restorePassword,
 															   fontSize: Constants.basicFontSize)
 	private lazy var backToLoginButton = buildBackButton(with: Localization.backToLogin)
@@ -31,14 +31,14 @@ final class ResetPasswordSceneView: BaseView {
 												 alignment: .fill,
 												 distribution: .fillProportionally,
 												 spacing: Constants.basicStackViewSpacing)
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 		bindActions()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
@@ -46,7 +46,7 @@ final class ResetPasswordSceneView: BaseView {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension ResetPasswordSceneView {
 	func setupUI() {
 		backgroundColor = .black
@@ -57,7 +57,7 @@ private extension ResetPasswordSceneView {
 		descriptionLabel.numberOfLines = .zero
 		descriptionLabel.textAlignment = .center
 	}
-	
+
 	func addSubs() {
 		addSubview(vStackView, constraints: [
 			vStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,
@@ -68,22 +68,22 @@ private extension ResetPasswordSceneView {
 												 constant: -Constants.baseEdgeInsets),
 			vStackView.centerXAnchor.constraint(equalTo: centerXAnchor)
 		])
-		
+
 		[
 			descriptionLabel,
 			emailTextField,
 			resetPasswordButton,
 			backToLoginButton
 		].forEach { vStackView.addArrangedSubview($0) }
-		
+
 		[
 			resetPasswordButton,
 			backToLoginButton,
 			emailTextField
 		].forEach { $0.heightAnchor.constraint(equalToConstant: Constants.basicElementsHeight).isActive = true }
 	}
-	
-	//MARK: - Actions
+
+	// MARK: - Actions
 	func bindActions() {
 		emailTextField.textPublisher
 			.replaceNil(with: "")
@@ -91,13 +91,13 @@ private extension ResetPasswordSceneView {
 				actionSubject.send(.emailTextFieldChanged($0))
 			}
 			.store(in: &cancellables)
-		
+
 		resetPasswordButton.tapPublisher
 			.sink { [unowned self] in
 				actionSubject.send(.resetPasswordButtonTapped)
 			}
 			.store(in: &cancellables)
-		
+
 		backToLoginButton.tapPublisher
 			.sink { [unowned self] in
 				actionSubject.send(.backToLoginSceneButtonTapped)
@@ -106,8 +106,8 @@ private extension ResetPasswordSceneView {
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let basicFontSize: CGFloat = 13
 	static let baseEdgeInsets: CGFloat = 16
 	static let baseMinimumScaleFactor: CGFloat = 0.5
@@ -116,7 +116,7 @@ fileprivate enum Constants {
 	static let basicStackViewSpacing: CGFloat = 20
 }
 
-//MARK: - SwiftUI Preview
+// MARK: - SwiftUI Preview
 #if DEBUG
 import SwiftUI
 struct ResetPasswordScenePreview: PreviewProvider {

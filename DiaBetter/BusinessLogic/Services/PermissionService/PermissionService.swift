@@ -5,25 +5,24 @@
 //  Created by Владислав Баранкевич on 23.03.2023.
 //
 
-import UIKit
 import Combine
 import PhotosUI
 import UserNotifications
 
 protocol PermissionService {
 	var photoPermissonPublisher: AnyPublisher<PHAuthorizationStatus, Never> { get }
-	
+
 	func askForPhotoPermissions()
 	func askForNotificationsPermissions() -> Future<Bool, Error>
 }
 
 final class PermissionServiceImpl: PermissionService {
-	//MARK: - Piblishers
+	// MARK: - Piblishers
 	private(set) lazy var photoPermissonPublisher = photoPermissionSubject.eraseToAnyPublisher()
 	private let photoPermissionSubject = PassthroughSubject<PHAuthorizationStatus, Never>()
 	private let userNotificationCenter = UNUserNotificationCenter.current()
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func askForPhotoPermissions() {
 		PHPhotoLibrary.requestAuthorization(for: .readWrite) { [unowned self] status in
 			DispatchQueue.main.async { [unowned self] in
@@ -31,14 +30,16 @@ final class PermissionServiceImpl: PermissionService {
 			}
 		}
 	}
-	
+
 	func askForNotificationsPermissions() -> Future<Bool, Error> {
 		return Future<Bool, Error> { [weak self] promise in
-			guard let self = self else { return }
+			guard let self = self else {
+				return
+			}
 			self.userNotificationCenter.requestAuthorization(options: [.alert, .sound]) { granted, error in
 				if let error = error {
 					promise(.failure(error))
-					NetworkLogger.error(error.localizedDescription, shouldLogContext: true)
+					Logger.error(error.localizedDescription, shouldLogContext: true)
 				} else {
 					promise(.success(granted))
 					self.userNotificationCenter.getNotificationSettings { (settings) in
@@ -47,7 +48,9 @@ final class PermissionServiceImpl: PermissionService {
 							debugPrint("Authorized")
 						default: debugPrint("Unauthorized")
 						}
-						guard settings.authorizationStatus == .authorized else { return }
+						guard settings.authorizationStatus == .authorized else {
+							return
+						}
 					}
 				}
 			}
@@ -55,7 +58,7 @@ final class PermissionServiceImpl: PermissionService {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension PermissionServiceImpl {
 	func checkAuthorizationStatus(for status: PHAuthorizationStatus) {
 		switch status {
@@ -74,4 +77,3 @@ private extension PermissionServiceImpl {
 		}
 	}
 }
-

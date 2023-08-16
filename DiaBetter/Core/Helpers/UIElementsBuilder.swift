@@ -9,17 +9,17 @@ import UIKit
 
 protocol UIElementsBuilder {}
 
-//MARK: - Extension UIElementBuilder
+// MARK: - Extension UIElementBuilder
 extension UIElementsBuilder {
-	//MARK: - Views
+	// MARK: - Views
 	func buildView(with color: UIColor = .clear) -> UIView {
 		let view = UIView()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.backgroundColor = color
 		return view
 	}
-	
-	//MARK: - Buttons
+
+	// MARK: - Buttons
 	func buildGradientButton(with text: String, fontSize: CGFloat) -> GradientedButton {
 		let button = GradientedButton(type: .system)
 		button.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +28,7 @@ extension UIElementsBuilder {
 		button.titleLabel?.font = FontFamily.Montserrat.semiBold.font(size: fontSize)
 		return button
 	}
-	
+
 	func buildBackButton(with title: String) -> UIButton {
 		let button = UIButton(type: .system)
 		button.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +40,7 @@ extension UIElementsBuilder {
 		button.titleLabel?.font = FontFamily.Montserrat.semiBold.font(size: Constants.basicButtonTitleFontSize)
 		return button
 	}
-	
+
 	func buildSystemButton(with title: String, fontSize: CGFloat) -> UIButton {
 		let button = UIButton(type: .system)
 		button.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +50,7 @@ extension UIElementsBuilder {
 		button.titleLabel?.font = FontFamily.Montserrat.semiBold.font(size: fontSize)
 		return button
 	}
-	
+
 	func buildDeleteButton() -> GradientFilledButton {
 		let button = GradientFilledButton(type: .system)
 		button.translatesAutoresizingMaskIntoConstraints = false
@@ -59,16 +59,18 @@ extension UIElementsBuilder {
 		button.titleLabel?.font = FontFamily.Montserrat.semiBold.font(size: 13)
 		return button
 	}
-	
+
 	func buildNavBarButton() -> UIBarButtonItem {
 		let button = UIBarButtonItem()
 		return button
 	}
-	
-	//MARK: - TextFields
-	func buildSystemTextField(with placeholder: String = "",
-							  keyBoardType: UIKeyboardType = .default,
-							  capitalization: UITextAutocapitalizationType = .words) -> UITextField {
+
+	// MARK: - TextFields
+	func buildSystemTextField(
+		with placeholder: String = "",
+		keyBoardType: UIKeyboardType = .default,
+		capitalization: UITextAutocapitalizationType = .words
+	) -> UITextField {
 		let textField = UITextField()
 		textField.placeholder = placeholder
 		textField.keyboardType = keyBoardType
@@ -77,11 +79,13 @@ extension UIElementsBuilder {
 		textField.autocapitalizationType = capitalization
 		return textField
 	}
-	
-	//MARK: - Labels
-	func buildFieldTitleLabel(with text: String = "",
-							  fontSize: CGFloat = Constants.basicLabelFontSize,
-							  textAllignment: NSTextAlignment = .natural) -> UILabel {
+
+	// MARK: - Labels
+	func buildFieldTitleLabel(
+		with text: String = "",
+		fontSize: CGFloat = Constants.basicLabelFontSize,
+		textAllignment: NSTextAlignment = .natural
+	) -> UILabel {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textColor = .white
@@ -92,7 +96,7 @@ extension UIElementsBuilder {
 		label.minimumScaleFactor = Constants.labelTextMinScaleFactor
 		return label
 	}
-	
+
 	func buildUserInfoLabel(with text: String = "") -> UILabel {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
@@ -104,8 +108,11 @@ extension UIElementsBuilder {
 		label.minimumScaleFactor = Constants.labelTextMinScaleFactor
 		return label
 	}
-	
-	func buildTitleLabel(with text: String = "", fontSize: CGFloat = Constants.basicTitleFontSize) -> UILabel {
+
+	func buildTitleLabel(
+		with text: String = "",
+		fontSize: CGFloat = Constants.basicTitleFontSize
+	) -> UILabel {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textColor = Colors.customPink.color
@@ -115,12 +122,14 @@ extension UIElementsBuilder {
 		label.minimumScaleFactor = Constants.labelTextMinScaleFactor
 		return label
 	}
-	
-	//MARK: - StackViews
-	func buildStackView(axis: NSLayoutConstraint.Axis = .vertical,
-						alignment: UIStackView.Alignment = .fill,
-						distribution: UIStackView.Distribution = .fill,
-						spacing: CGFloat = .zero) -> UIStackView {
+
+	// MARK: - StackViews
+	func buildStackView(
+		axis: NSLayoutConstraint.Axis = .vertical,
+		alignment: UIStackView.Alignment = .fill,
+		distribution: UIStackView.Distribution = .fill,
+		spacing: CGFloat = .zero
+	) -> UIStackView {
 		let stack = UIStackView()
 		stack.translatesAutoresizingMaskIntoConstraints = false
 		stack.setup(axis: axis,
@@ -131,8 +140,8 @@ extension UIElementsBuilder {
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let basicButtonTitleFontSize: CGFloat = 13
 	static let basicLabelFontSize: CGFloat = 17
 	static let labelTextMinScaleFactor: CGFloat = 0.5

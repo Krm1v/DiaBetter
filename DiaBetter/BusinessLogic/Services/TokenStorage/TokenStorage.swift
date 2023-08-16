@@ -10,40 +10,40 @@ import KeychainAccess
 
 protocol TokenStorage {
 	var token: Token? { get }
-	
+
 	func save(token: Token)
 	func clear()
 }
 
 final class TokenStorageImpl {
-	//MARK: - Properties
+	// MARK: - Properties
 	private let keychain: Keychain
 	var token: Token?
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init(keychain: Keychain) {
 		self.keychain = keychain
-		
+
 		if let tokenValue = keychain[Keys.token] {
 			self.token = Token(value: tokenValue)
 		}
 	}
 }
 
-//MARK: - Extension TokenStorageImpl
+// MARK: - Extension TokenStorageImpl
 extension TokenStorageImpl: TokenStorage {
 	func save(token: Token) {
 		self.token = token
 		keychain[Keys.token] = token.value
 	}
-	
+
 	func clear() {
 		self.token = nil
 		keychain[Keys.token] = nil
 	}
 }
 
-//MARK: - Keys
+// MARK: - Keys
 private extension TokenStorageImpl {
 	enum Keys: CaseIterable {
 		static let token = "secure_token_key"

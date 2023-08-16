@@ -8,23 +8,6 @@
 import Foundation
 
 struct UserResponseModel: Decodable {
-	let lastLogin: Int?
-	let userStatus: String?
-	let created: Int?
-	let accountType: String?
-	let diabetesType: String?
-	let ownerId: String?
-	let socialAccount: String?
-	let basalInsulin: String?
-	let name: String?
-	let	blUserLocale: String?
-	let userToken: String?
-	let updated: Int?
-	let fastActingInsulin: String
-	let objectId: String?
-	let email: String?
-	let userProfileImage: String?
-	
 	enum CodingKeys: String, CodingKey {
 		case lastLogin, userStatus, created, accountType
 		case ownerId
@@ -40,4 +23,21 @@ struct UserResponseModel: Decodable {
 		case email
 		case userProfileImage
 	}
+
+	let lastLogin: 		   Int?
+	let userStatus: 	   String?
+	let created: 		   Int?
+	let accountType: 	   String?
+	let diabetesType: 	   String?
+	let ownerId: 		   String?
+	let socialAccount: 	   String?
+	let basalInsulin: 	   String?
+	let name: 			   String?
+	let	blUserLocale: 	   String?
+	let userToken: 		   String?
+	let updated: 		   Int?
+	let fastActingInsulin: String
+	let objectId: 		   String?
+	let email: 			   String?
+	let userProfileImage:  String?
 }

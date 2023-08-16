@@ -13,15 +13,15 @@ protocol Requestable: AnyObject {
 }
 
 final class NetworkManager: Requestable {
-	//MARK: - Properties
+	// MARK: - Properties
 	private let session: URLSession
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init(session: URLSession = .shared ) {
 		self.session = session
 	}
-	
-	//MARK: - Methods
+
+	// MARK: - Methods
 	func request(request: URLRequest) -> AnyPublisher<Data, NetworkError> {
 		return session
 			.dataTaskPublisher(for: request)
@@ -29,7 +29,7 @@ final class NetworkManager: Requestable {
 				guard let self = self else {
 					return NetworkError.unexpectedError
 				}
-				NetworkLogger.error(String(describing: error))
+				Logger.error(String(describing: error))
 				return convertError(error as NSError)
 			}
 			.flatMap { [weak self] output -> AnyPublisher<Data, NetworkError> in
@@ -41,21 +41,21 @@ final class NetworkManager: Requestable {
 					return Fail(error: NetworkError.noResponse)
 						.eraseToAnyPublisher()
 				}
-				NetworkLogger.info(response.statusCode.description, shouldLogContext: true)
-				NetworkLogger.log(output)
+				Logger.info(response.statusCode.description, shouldLogContext: true)
+				Logger.log(output)
 				return self.handleError(output)
 			}
 			.eraseToAnyPublisher()
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension NetworkManager {
 	func handleError(_ output: URLSession.DataTaskPublisher.Output) -> AnyPublisher<Data, NetworkError> {
 		guard let httpResponse = output.response as? HTTPURLResponse else {
 			assert(false, "Response fail")
 		}
-		
+
 		switch httpResponse.statusCode {
 		case 200...399:
 			return Just(output.data)
@@ -72,7 +72,7 @@ private extension NetworkManager {
 				.eraseToAnyPublisher()
 		}
 	}
-	
+
 	func convertError(_ error: NSError) -> NetworkError {
 		switch error.code {
 		case NSURLErrorBadURL:
@@ -81,7 +81,7 @@ private extension NetworkManager {
 			return .timeOutError
 		case NSURLErrorCannotFindHost:
 			return .hostError
-		case NSURLErrorCannotFindHost:
+		case NSURLErrorCannotConnectToHost:
 			return .hostError
 		case NSURLErrorHTTPTooManyRedirects:
 			return .redirectError

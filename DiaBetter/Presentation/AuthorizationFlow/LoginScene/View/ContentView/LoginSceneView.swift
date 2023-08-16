@@ -18,11 +18,11 @@ enum LoginSceneViewActions {
 }
 
 final class LoginSceneView: BaseView {
-	//MARK: - Properties
+	// MARK: - Properties
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
 	private let actionSubject = PassthroughSubject<LoginSceneViewActions, Never>()
-	
-	//MARK: - UI Elements
+
+	// MARK: - UI Elements
 	private lazy var emailTextField = buildSystemTextField(with: Localization.enterYourEmail,
 														   keyBoardType: .emailAddress,
 														   capitalization: .none)
@@ -42,14 +42,14 @@ final class LoginSceneView: BaseView {
 												 spacing: Constants.basicStackViewSpacing)
 	private lazy var substrateView = buildView(with: Colors.darkNavyBlue.color)
 	lazy var videoContainer = buildView(with: .black)
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 		bindActions()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
@@ -57,16 +57,16 @@ final class LoginSceneView: BaseView {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension LoginSceneView {
-	//MARK: - UI and layout setup
+	// MARK: - UI and layout setup
 	func setupUI() {
 		backgroundColor = .black
 		setupLayout()
 		substrateView.layer.cornerRadius = Constants.substrateViewCornerRadius
 		substrateView.alpha = Constants.substrateViewAlpha
 	}
-	
+
 	func setupLayout() {
 		addSubview(videoContainer, constraints: [
 			videoContainer.topAnchor.constraint(equalTo: topAnchor),
@@ -75,7 +75,7 @@ private extension LoginSceneView {
 			videoContainer.bottomAnchor.constraint(equalTo: bottomAnchor),
 			videoContainer.centerXAnchor.constraint(equalTo: centerXAnchor)
 		])
-		
+
 		addSubview(titleLabel, constraints: [
 			titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,
 											constant: Constants.basicTopSpacing),
@@ -84,7 +84,7 @@ private extension LoginSceneView {
 			titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
 												 constant: -Constants.basicEdgeInsets)
 		])
-		
+
 		addSubview(substrateView, constraints: [
 			substrateView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
 											   constant: Constants.basicSpacing),
@@ -94,7 +94,7 @@ private extension LoginSceneView {
 													constant: -Constants.basicEdgeInsets),
 			substrateView.centerXAnchor.constraint(equalTo: centerXAnchor)
 		])
-		
+
 		substrateView.addSubview(vStackView, constraints: [
 			vStackView.topAnchor.constraint(equalTo: substrateView.topAnchor,
 											constant: Constants.vStackViewTopAnchor),
@@ -103,7 +103,7 @@ private extension LoginSceneView {
 			vStackView.trailingAnchor.constraint(equalTo: substrateView.trailingAnchor,
 												 constant: -Constants.basicEdgeInsets)
 		])
-		
+
 		[
 			emailLabel,
 			emailTextField,
@@ -112,14 +112,16 @@ private extension LoginSceneView {
 		].forEach { element in
 			vStackView.addArrangedSubview(element)
 		}
-		[emailTextField, passwordTextField].forEach { $0.heightAnchor.constraint(equalToConstant: Constants.basicHeight).isActive = true }
-		
+		[emailTextField, passwordTextField].forEach {
+			$0.heightAnchor.constraint(equalToConstant: Constants.basicHeight).isActive = true
+		}
+
 		addSubview(restorePasswordButton, constraints: [
 			restorePasswordButton.trailingAnchor.constraint(equalTo: vStackView.trailingAnchor),
 			restorePasswordButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor,
 													   constant: Constants.restoreButtonSpacing)
 		])
-		
+
 		addSubview(loginButton, constraints: [
 			loginButton.topAnchor.constraint(equalTo: restorePasswordButton.bottomAnchor,
 											 constant: Constants.loginButtonTopAnchor),
@@ -129,40 +131,40 @@ private extension LoginSceneView {
 			loginButton.bottomAnchor.constraint(equalTo: substrateView.bottomAnchor,
 												constant: -Constants.basicSpacing)
 		])
-		
+
 		addSubview(createAccountButton, constraints: [
 			createAccountButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor,
 														constant: -Constants.basicSpacing),
 			createAccountButton.centerXAnchor.constraint(equalTo: centerXAnchor)
 		])
 	}
-	
-	//MARK: - Action bindings
+
+	// MARK: - Action bindings
 	func bindActions() {
 		emailTextField.textPublisher
 			.replaceNil(with: "")
 			.sink { [unowned self] in
 				actionSubject.send(.emailChanged($0)) }
 			.store(in: &cancellables)
-		
+
 		passwordTextField.textField.textPublisher
 			.replaceNil(with: "")
 			.sink { [unowned self] in
 				actionSubject.send(.passwordChanged($0)) }
 			.store(in: &cancellables)
-		
+
 		loginButton.tapPublisher
 			.sink { [unowned self] in
 				actionSubject.send(.loginTapped)
 			}
 			.store(in: &cancellables)
-		
+
 		restorePasswordButton.tapPublisher
 			.sink { [unowned self] in
 				actionSubject.send(.restorePasswordTapped)
 			}
 			.store(in: &cancellables)
-		
+
 		createAccountButton.tapPublisher
 			.sink { [unowned self] in
 				actionSubject.send(.createAccountTapped)
@@ -171,8 +173,8 @@ private extension LoginSceneView {
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let titleText = Localization.appTitle
 	static let labelsMinScaleFactor: CGFloat = 0.5
 	static let basicButtonTitleFontSize: CGFloat = 13
@@ -190,7 +192,7 @@ fileprivate enum Constants {
 	static let loginButtonTopAnchor: CGFloat = 30
 }
 
-//MARK: - SwiftUI Preview
+// MARK: - SwiftUI Preview
 #if DEBUG
 import SwiftUI
 struct LoginScenePreview: PreviewProvider {

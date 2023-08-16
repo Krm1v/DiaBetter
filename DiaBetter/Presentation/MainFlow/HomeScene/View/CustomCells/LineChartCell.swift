@@ -14,28 +14,28 @@ enum LineChartCellAction {
 }
 
 final class LineChartCell: BaseWidgetCell {
-	//MARK: - Properties
+	// MARK: - Properties
 	private(set) lazy var lineChartCellPublisher = lineChartCellSubject.eraseToAnyPublisher()
 	private let lineChartCellSubject = PassthroughSubject<LineChartCellAction, Never>()
 	private let allStates = LineChartState.allCases
-	
-	//MARK: - UI Elements
+
+	// MARK: - UI Elements
 	private lazy var chartView = ScatterChartView()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 		configureChartView()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 		configureChartView()
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func configure(with model: LineChartCellModel) {
 		setupBindings()
 		let chartsEntries = model.items.map { $0.entry }
@@ -45,7 +45,7 @@ final class LineChartCell: BaseWidgetCell {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension LineChartCell {
 	func setupUI() {
 		substrateView.addSubview(chartView, withEdgeInsets: .all(.zero))
@@ -55,7 +55,7 @@ private extension LineChartCell {
 										   animated: false)
 		}
 	}
-	
+
 	func configureChartView() {
 		chartView.backgroundColor = Colors.darkNavyBlue.color
 		chartView.delegate = self
@@ -68,7 +68,7 @@ private extension LineChartCell {
 		chartView.rightAxis.enabled = false
 		chartView.clipDataToContentEnabled = false
 		chartView.setScaleMinima(Constants.minScale, scaleY: .zero)
-		
+
 		let xAxis = chartView.xAxis
 		xAxis.labelPosition = .top
 		xAxis.labelFont = FontFamily.Montserrat.regular.font(size: Constants.defaultMediumFontSize)
@@ -82,7 +82,7 @@ private extension LineChartCell {
 		xAxis.valueFormatter = ChartsDateFormatter(format: .dayTime)
 		xAxis.axisLineColor = Colors.customDarkenPink.color
 		xAxis.setLabelCount(Constants.labelCount, force: true)
-		
+
 		let leftAxis = chartView.leftAxis
 		leftAxis.labelPosition = .outsideChart
 		leftAxis.labelFont = FontFamily.Montserrat.regular.font(size: Constants.defaultLargeFontSize)
@@ -92,7 +92,7 @@ private extension LineChartCell {
 		leftAxis.axisMaximum = Constants.leftAxisMax
 		leftAxis.axisLineColor = Colors.customDarkenPink.color
 	}
-	
+
 	func setData(_ entries: [ChartDataEntry]) {
 		let dataSet = ScatterChartDataSet(entries: entries)
 		dataSet.setScatterShape(.circle)
@@ -108,7 +108,7 @@ private extension LineChartCell {
 		chartView.animate(xAxisDuration: Constants.defaultAnimationLenght,
 						  yAxisDuration: Constants.defaultAnimationLenght)
 	}
-	
+
 	func setupBindings() {
 		segmentedControl.selectedSegmentIndexPublisher
 			.compactMap { LineChartState(rawValue: $0) }
@@ -118,20 +118,24 @@ private extension LineChartCell {
 	}
 }
 
-//MARK: - Extension ChartViewDelegate
+// MARK: - Extension ChartViewDelegate
 extension LineChartCell: ChartViewDelegate {
-	func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+	func chartValueSelected(
+		_ chartView: ChartViewBase,
+		entry: ChartDataEntry,
+		highlight: Highlight
+	) {
 		debugPrint(entry)
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let labelCount: 	   		   Int = 3
 	static let defaultAnimationLenght: TimeInterval = 1
 	static let defaultGranularity: 	   Double = 86400
 	static let minScale: 			   Double = 10
-	static let leftAxisMin:			   Double = 2
+	static let leftAxisMin: 		   Double = 2
 	static let leftAxisMax: 		   Double = 32
 	static let defaultSmallFontSize:   CGFloat = 9
 	static let defaultMediumFontSize:  CGFloat = 10

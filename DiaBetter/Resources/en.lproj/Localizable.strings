@@ -6,6 +6,10 @@
   
 */
 
+// Screen titles
+"home" = "Home";
+"settings" = "Settings";
+
 // General
 "error" = "Error";
 "ok" = "OK";
@@ -20,9 +24,6 @@
 "password" = "Password";
 "confirm-password" = "Confirm password";
 "detail" = "Detail";
-
-"home" = "Home";
-"settings" = "Settings";
 "logout" = "Logout";
 "search" = "Search";
 "enter-your-email" = "Enter your email";
@@ -95,6 +96,11 @@
 "max" = "Max";
 "glucose-reminder-name" = "Don't forget to check your glucose level";
 "glucose-reminder-body" = "It's time to make a measurement of glucose level";
+"insulin-reminder-name" = "Don't forget to make an insulin injection";
+"insulin-reminder-body" = "Control your diabetes. It's really important to make injections in time";
+"meal-reminder-name" = "It's time to have some meal";
+"meal-reminder-body" = "Eat some snacks to keep your glucose level in balance";
+
 "visit-website" = "Visit website";
 "follow-instagram" = "Follow us on Instagram";
 "follow-twitter" = "Follow us on Twitter";
@@ -128,3 +134,7 @@
 "data-deleted-message" = "All data successfully deleted";
 "shared-file-name" = "Records";
 "sharing-title-text" = "Here is my diabetes diary data.";
+
+// EditRecord Scene
+"delete-record-title" = "Are you sure you want to delete this record?";
+"delete-record-message" = "This operation can't be aborted.";

@@ -8,28 +8,28 @@
 import UIKit
 
 final class MainTabBarViewController: UITabBarController {
-	//MARK: - Properties
+	// MARK: - Properties
 	private var viewModel: MainTabBarViewModel
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init(viewModel: MainTabBarViewModel, viewControllers: [UIViewController]) {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
 		self.viewControllers = viewControllers
 	}
-	
-	required init?(coder: NSCoder) {
+
+	@available(*, unavailable) required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
-	//MARK: - UIView lifecycle methods
+
+	// MARK: - UIView lifecycle methods
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		viewControllers?.enumerated().reversed().forEach({ [unowned self] (ind, _) in
 			selectedIndex = ind
 		})
 	}
-	
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		navigationController?.navigationBar.isHidden = true
@@ -37,7 +37,7 @@ final class MainTabBarViewController: UITabBarController {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension MainTabBarViewController {
 	func setupTabBarAppearance() {
 		let tabBarAppearance = UITabBarAppearance()

@@ -16,7 +16,7 @@ enum SettingsUnits {
 	enum GlucoseUnitsState: Int, CaseIterable, Codable {
 		case mmolL
 		case mgDl
-		
+
 		var title: String {
 			switch self {
 			case .mmolL: return "mmol/L"
@@ -30,7 +30,7 @@ enum SettingsUnits {
 		case breadUnits
 		case potion10g
 		case portion15g
-		
+
 		var title: String {
 			switch self {
 			case .grams: 	  return "Grams"
@@ -42,40 +42,39 @@ enum SettingsUnits {
 	}
 }
 
-
-//MARK: - Sections and items
+// MARK: - Sections and items
 enum UnitsSceneSections: Hashable {
 	case main(UnitsSectionModel?)
 	case glucoseTarget(UnitsSectionModel?)
 }
 
 extension UnitsSceneSections: RawRepresentable {
-	//MARK: - Typealiases
+	// MARK: - Typealiases
 	typealias RawValue = Int
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	var rawValue: RawValue {
 		switch self {
 		case .main: 		 return 0
 		case .glucoseTarget: return 1
 		}
 	}
-	
+
 	var title: String? {
 		switch self {
 		case .main(let model): 			return model?.title
 		case .glucoseTarget(let model): return model?.title
 		}
 	}
-	
+
 	var id: UUID? {
 		switch self {
 		case .main(let model): 			return model?.id
 		case .glucoseTarget(let model): return model?.id
 		}
 	}
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init?(rawValue: RawValue) {
 		switch rawValue {
 		case 0: self = .main(nil)
@@ -83,8 +82,8 @@ extension UnitsSceneSections: RawRepresentable {
 		default: return nil
 		}
 	}
-	
-	//MARK: - Methods
+
+	// MARK: - Methods
 	public static func == (lhs: UnitsSceneSections, rhs: UnitsSceneSections) -> Bool {
 		return lhs.id == rhs.id && lhs.title == rhs.title
 	}

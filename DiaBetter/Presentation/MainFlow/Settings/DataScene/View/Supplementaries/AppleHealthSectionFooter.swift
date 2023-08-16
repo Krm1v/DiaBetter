@@ -8,22 +8,22 @@
 import UIKit
 
 final class AppleHealthSectionFooter: UICollectionReusableView {
-	//MARK: - UI Elements
+	// MARK: - UI Elements
 	lazy var titleLabel = buildUserInfoLabel()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension AppleHealthSectionFooter {
 	func setupUI() {
 		addSubs()
@@ -31,14 +31,15 @@ private extension AppleHealthSectionFooter {
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
 		titleLabel.numberOfLines = .zero
 	}
-	
+
 	func addSubs() {
-		addSubview(titleLabel, withEdgeInsets: .init(top: .zero,
-													 left: 16,
-													 bottom: .zero,
-													 right: 16))
+		addSubview(titleLabel, withEdgeInsets: .init(
+			top: .zero,
+			left: 16,
+			bottom: .zero,
+			right: 16))
 	}
 }
 
-//MARK: - Extension UIElementsBuilder
+// MARK: - Extension UIElementsBuilder
 extension AppleHealthSectionFooter: UIElementsBuilder { }

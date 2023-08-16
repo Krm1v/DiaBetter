@@ -13,26 +13,26 @@ enum UserDataCellActions {
 }
 
 final class UserDataCell: BaseCollectionViewCell {
-	//MARK: - Properties
+	// MARK: - Properties
 	private(set) lazy var userDataCellEventsPublisher = userDataCellEventsSubject.eraseToAnyPublisher()
 	private let userDataCellEventsSubject = PassthroughSubject<UserDataCellActions, Never>()
-	
-	//MARK: - UI Elements
+
+	// MARK: - UI Elements
 	private lazy var titleLabel = buildFieldTitleLabel()
 	private lazy var userTextField = UITextField()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func configure(with model: UserDataSettingsModel) {
 		titleLabel.text = model.title
 		userTextField.text = model.textFieldValue
@@ -40,7 +40,7 @@ final class UserDataCell: BaseCollectionViewCell {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension UserDataCell {
 	func setupUI() {
 		titleLabel.textColor = .white
@@ -50,21 +50,24 @@ private extension UserDataCell {
 		userTextField.borderStyle = .none
 		userTextField.font = FontFamily.Montserrat.regular.font(size: Constants.userTextFieldDefaultFontSize)
 	}
-	
+
 	func addSubs() {
 		addSubview(titleLabel, constraints: [
-			titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-			titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
-												constant: Constants.basicSmallEdgeInset)
-		])
-		
+			titleLabel.centerYAnchor.constraint(
+				equalTo: centerYAnchor),
+
+			titleLabel.leadingAnchor.constraint(
+				equalTo: leadingAnchor,
+				constant: Constants.basicSmallEdgeInset)])
+
 		addSubview(userTextField, constraints: [
-			userTextField.trailingAnchor.constraint(equalTo: trailingAnchor,
-													constant: -Constants.basicSmallEdgeInset),
-			userTextField.centerYAnchor.constraint(equalTo: centerYAnchor)
-		])
+			userTextField.trailingAnchor.constraint(
+				equalTo: trailingAnchor,
+				constant: -Constants.basicSmallEdgeInset),
+
+			userTextField.centerYAnchor.constraint(equalTo: centerYAnchor)])
 	}
-	
+
 	func setupEvents() {
 		userTextField.textPublisher
 			.replaceNil(with: "")
@@ -74,12 +77,11 @@ private extension UserDataCell {
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let basicLargeEdgeInset: 		 CGFloat = 16
 	static let basicSmallEdgeInset: 		 CGFloat = 8
 	static let basicCornerRadius: 			 CGFloat = 20
 	static let userTextFieldDefaultFontSize: CGFloat = 15
-	static let titleLabelDefaultFontSize:	 CGFloat = 15
+	static let titleLabelDefaultFontSize: 	 CGFloat = 15
 }
-

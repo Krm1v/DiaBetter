@@ -9,21 +9,21 @@ import UIKit
 import Combine
 
 final class SettingsCoordinator: Coordinator {
-	//MARK: - Properties
+	// MARK: - Properties
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	private let didFinishSubject = PassthroughSubject<Void, Never>()
 	private(set) lazy var didFinishPublisher = didFinishSubject.eraseToAnyPublisher()
 	private let container: AppContainer
 	private var cancellables = Set<AnyCancellable>()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init(navigationController: UINavigationController, container: AppContainer) {
 		self.navigationController = navigationController
 		self.container = container
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func start() {
 		let module = SettingsSceneBuilder.build(container: container)
 		module.transitionPublisher
@@ -41,7 +41,7 @@ final class SettingsCoordinator: Coordinator {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension SettingsCoordinator {
 	func openUserSettings() {
 		let module = UserSceneModuleBuilder.build(container: container)
@@ -55,7 +55,7 @@ private extension SettingsCoordinator {
 			.store(in: &cancellables)
 		push(module.viewController)
 	}
-	
+
 	func openNotificationsSettings() {
 		let module = NotificationsSceneBuilder.build(container: container)
 		module.transitionPublisher
@@ -63,7 +63,7 @@ private extension SettingsCoordinator {
 			.store(in: &cancellables)
 		push(module.viewController)
 	}
-	
+
 	func openCreditsScene() {
 		let module = CreditsSceneBuilder.build(container: container)
 		module.transitionPublisher
@@ -71,7 +71,7 @@ private extension SettingsCoordinator {
 			.store(in: &cancellables)
 		push(module.viewController)
 	}
-	
+
 	func openDataScene() {
 		let module = DataSceneBuilder.build(container: container)
 		module.transitionPublisher
@@ -83,7 +83,7 @@ private extension SettingsCoordinator {
 			.store(in: &cancellables)
 		push(module.viewController)
 	}
-	
+
 	func openUnitsScene() {
 		let module = UnitsSceneBuilder.build(container: container)
 		module.transitionPublisher
@@ -91,7 +91,7 @@ private extension SettingsCoordinator {
 			.store(in: &cancellables)
 		push(module.viewController)
 	}
-	
+
 	func openBackupScene() {
 		let module = BackupSceneBuilder.build(container: container)
 		module.transitionPublisher

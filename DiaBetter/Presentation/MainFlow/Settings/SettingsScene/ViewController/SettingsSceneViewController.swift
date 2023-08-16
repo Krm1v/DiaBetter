@@ -10,27 +10,27 @@ import Combine
 import MessageUI
 
 final class SettingsSceneViewController: BaseViewController<SettingsSceneViewModel> {
-	//MARK: - Properties
+	// MARK: - Properties
 	private let contentView = SettingsSceneView()
-	
-	//MARK: - UIView lifecycle
+
+	// MARK: - UIView lifecycle
 	override func loadView() {
 		view = contentView
 	}
-	
+
 	override func viewDidLoad() {
 		setupActions()
 		super.viewDidLoad()
 	}
-	
-	//MARK: - Overriden methods
+
+	// MARK: - Overriden methods
 	override func setupNavBar() {
 		super.setupNavBar()
 		title = Localization.settings
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension SettingsSceneViewController {
 	func setupActions() {
 		contentView.actionPublisher
@@ -50,10 +50,10 @@ private extension SettingsSceneViewController {
 			}
 			.store(in: &cancellables)
 	}
-	
+
 	func sendEmail() {
 		let recipientEmail = "hellodiabetter@gmail.com"
-		let subject = "Send feedback"
+		let subject = Localization.sendFeedback
 		if MFMailComposeViewController.canSendMail() {
 			let mail = MFMailComposeViewController()
 			mail.mailComposeDelegate = self
@@ -66,9 +66,13 @@ private extension SettingsSceneViewController {
 	}
 }
 
-//MARK: - Extension MFMailComposeViewControllerDelegate
+// MARK: - Extension MFMailComposeViewControllerDelegate
 extension SettingsSceneViewController: MFMailComposeViewControllerDelegate {
-	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+	func mailComposeController(
+		_ controller: MFMailComposeViewController,
+		didFinishWith result: MFMailComposeResult,
+		error: Error?
+	) {
 		controller.dismiss(animated: true)
 	}
 }

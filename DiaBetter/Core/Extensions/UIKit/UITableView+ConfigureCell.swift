@@ -8,11 +8,13 @@
 import UIKit
 
 extension UITableView {
-	func configureCell<T: SelfConfiguringCell>(cellType: T.Type,
-											   indexPath: IndexPath) -> T {
+	func configureCell<T: SelfConfiguringCell>(
+		cellType: T.Type,
+		indexPath: IndexPath
+	) -> T {
 		guard let cell = dequeueReusableCell(withIdentifier: cellType.reuseID,
 											 for: indexPath) as? T else {
-			fatalError("Error \(cellType)")
+			assert(false, "Error \(cellType)")
 		}
 		return cell
 	}

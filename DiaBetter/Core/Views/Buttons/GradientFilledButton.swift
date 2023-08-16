@@ -8,10 +8,10 @@
 import UIKit
 
 final class GradientFilledButton: UIButton {
-	//MARK: - Properties
+	// MARK: - Properties
 	var primaryColor = UIColor.red
 	var secondaryColor = Colors.customPink.color
-	
+
 	lazy var gradientLayer: CAGradientLayer = {
 		let gradient = CAGradientLayer()
 		gradient.type = .axial
@@ -22,19 +22,19 @@ final class GradientFilledButton: UIButton {
 		layer.insertSublayer(gradient, at: 0)
 		return gradient
 	}()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		configure()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		configure()
 	}
-	
-	//MARK: - Methods
+
+	// MARK: - Methods
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		gradientLayer.frame = bounds
@@ -42,14 +42,14 @@ final class GradientFilledButton: UIButton {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension GradientFilledButton {
 	func configure() {
 		layer.addSublayer(gradientLayer)
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let cornerRadius: CGFloat = 7
 }

@@ -9,25 +9,25 @@ import UIKit
 import Combine
 
 final class UnitsSceneViewController: BaseViewController<UnitsSceneViewModel> {
-	//MARK: - Properties
+	// MARK: - Properties
 	private let contentView = UnitsSceneView()
-	
-	//MARK: - UIView lifecycle
+
+	// MARK: - UIView lifecycle
 	override func loadView() {
 		view = contentView
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupBindings()
 	}
-	
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		updateDiffableDatasourceSnapshot()
 	}
-	
-	//MARK: - Overriden methods
+
+	// MARK: - Overriden methods
 	override func setupNavBar() {
 		super.setupNavBar()
 		title = Localization.units
@@ -36,7 +36,7 @@ final class UnitsSceneViewController: BaseViewController<UnitsSceneViewModel> {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension UnitsSceneViewController {
 	func updateDiffableDatasourceSnapshot() {
 		viewModel.$sections
@@ -46,17 +46,20 @@ private extension UnitsSceneViewController {
 			}
 			.store(in: &cancellables)
 	}
-	
+
 	func setupBindings() {
 		contentView.actionPublisher
 			.sink { [unowned self] actions in
 				switch actions {
 				case .glucoseUnitsDidChanged(let state):
 					viewModel.glucoseUnit = state
+
 				case .saveButtonDidTapped:
 					viewModel.saveSettings()
+
 				case .carbsMenuDidTapped(let carbs):
 					viewModel.carbohydrates = carbs
+					
 				case .targetGlucoseValueDidChaged(let glucoseTargetValue, let object):
 					viewModel.glucoseTargetDidChanged(object, glucoseTargetValue)
 				}

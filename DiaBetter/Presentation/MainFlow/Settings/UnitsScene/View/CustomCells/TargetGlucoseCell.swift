@@ -13,7 +13,7 @@ enum TargetGlucoseCellActions {
 }
 
 final class TargetGlucoseCell: BaseCollectionViewCell {
-	//MARK: - UI Elements
+	// MARK: - UI Elements
 	private lazy var vStack = buildStackView(axis: .vertical,
 											 alignment: .fill,
 											 distribution: .fillEqually,
@@ -21,23 +21,23 @@ final class TargetGlucoseCell: BaseCollectionViewCell {
 	private lazy var titleLabel = buildFieldTitleLabel()
 	private lazy var glucoseValueLabel = buildFieldTitleLabel()
 	private lazy var stepper = UIStepper()
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
 	private let actionSubject = PassthroughSubject<TargetGlucoseCellActions, Never>()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func configure(_ model: TargetGlucoseCellModel) {
 		titleLabel.text = model.title
 		glucoseValueLabel.text = model.value
@@ -46,7 +46,7 @@ final class TargetGlucoseCell: BaseCollectionViewCell {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension TargetGlucoseCell {
 	func setupUI() {
 		[titleLabel, glucoseValueLabel].forEach { $0.font = FontFamily.Montserrat.regular.font(size: 15) }
@@ -57,23 +57,34 @@ private extension TargetGlucoseCell {
 		stepper.maximumValue = 22
 		setupLayout()
 	}
-	
+
 	func setupLayout() {
-		addSubview(vStack, constraints: [
-			vStack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
-			vStack.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
-			vStack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
-			vStack.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-		])
-		
+		addSubview(
+			vStack,
+			constraints: [
+				vStack.leadingAnchor.constraint(
+					equalTo: self.leadingAnchor,
+					constant: 8),
+
+				vStack.topAnchor.constraint(
+					equalTo: self.topAnchor,
+					constant: 8),
+
+				vStack.bottomAnchor.constraint(
+					equalTo: self.bottomAnchor,
+					constant: -8),
+
+				vStack.centerYAnchor.constraint(
+					equalTo: self.centerYAnchor)])
+
 		[titleLabel, glucoseValueLabel].forEach { vStack.addArrangedSubview($0) }
-		
+
 		addSubview(stepper, constraints: [
 			stepper.centerYAnchor.constraint(equalTo: self.centerYAnchor),
 			stepper.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8)
 		])
 	}
-	
+
 	func bindActions() {
 		stepper.valuePublisher
 			.sink { [unowned self] value in

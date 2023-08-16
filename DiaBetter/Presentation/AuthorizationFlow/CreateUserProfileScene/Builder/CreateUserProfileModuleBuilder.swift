@@ -20,5 +20,3 @@ final class CreateUserProfileBuilder {
 		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
 	}
 }
-
-

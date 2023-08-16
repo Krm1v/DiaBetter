@@ -78,6 +78,10 @@ internal enum Localization {
   internal static let delete = Localization.tr("Localizable", "delete", fallback: "Delete")
   /// Delete photo
   internal static let deletePhoto = Localization.tr("Localizable", "delete-photo", fallback: "Delete photo")
+  /// This operation can't be aborted.
+  internal static let deleteRecordMessage = Localization.tr("Localizable", "delete-record-message", fallback: "This operation can't be aborted.")
+  /// Are you sure you want to delete this record?
+  internal static let deleteRecordTitle = Localization.tr("Localizable", "delete-record-title", fallback: "Are you sure you want to delete this record?")
   /// This action can't be undo.
   internal static let deletionAllDataDescription = Localization.tr("Localizable", "deletion-all-data-description", fallback: "This action can't be undo.")
   /// Are you sure you want to delete all your data?
@@ -110,10 +114,7 @@ internal enum Localization {
   internal static let eraseAllData = Localization.tr("Localizable", "erase-all-data", fallback: "Erase all data")
   /// You can erase all of your data. This action can't be undo.
   internal static let eraseDataFooterText = Localization.tr("Localizable", "erase-data-footer-text", fallback: "You can erase all of your data. This action can't be undo.")
-  /// Localizable.strings
-  ///   MVVMSkeleton
-  /// 
-  ///   Created by Roman Savchenko on 12.12.2021.
+  /// Error
   internal static let error = Localization.tr("Localizable", "error", fallback: "Error")
   /// Evening
   internal static let evening = Localization.tr("Localizable", "evening", fallback: "Evening")
@@ -143,7 +144,10 @@ internal enum Localization {
   internal static let goToSettings = Localization.tr("Localizable", "go-to-settings", fallback: "Go to settings")
   /// Have meal
   internal static let haveMeal = Localization.tr("Localizable", "have meal", fallback: "Have meal")
-  /// Home
+  /// Localizable.strings
+  ///   MVVMSkeleton
+  /// 
+  ///   Created by Roman Savchenko on 12.12.2021.
   internal static let home = Localization.tr("Localizable", "home", fallback: "Home")
   /// How do you feel?
   internal static let howDoYouFeel = Localization.tr("Localizable", "how-do-you-feel", fallback: "How do you feel?")
@@ -153,6 +157,10 @@ internal enum Localization {
   internal static let insulin = Localization.tr("Localizable", "insulin", fallback: "Insulin")
   /// Insulin injection
   internal static let insulinInjection = Localization.tr("Localizable", "insulin-injection", fallback: "Insulin injection")
+  /// Control your diabetes. It's really important to make injections in time
+  internal static let insulinReminderBody = Localization.tr("Localizable", "insulin-reminder-body", fallback: "Control your diabetes. It's really important to make injections in time")
+  /// Don't forget to make an insulin injection
+  internal static let insulinReminderName = Localization.tr("Localizable", "insulin-reminder-name", fallback: "Don't forget to make an insulin injection")
   /// Insulin usage
   internal static let insulinUsage = Localization.tr("Localizable", "insulin-usage", fallback: "Insulin usage")
   /// Login
@@ -165,6 +173,10 @@ internal enum Localization {
   internal static let max = Localization.tr("Localizable", "max", fallback: "Max")
   /// Meal
   internal static let meal = Localization.tr("Localizable", "meal", fallback: "Meal")
+  /// Eat some snacks to keep your glucose level in balance
+  internal static let mealReminderBody = Localization.tr("Localizable", "meal-reminder-body", fallback: "Eat some snacks to keep your glucose level in balance")
+  /// It's time to have some meal
+  internal static let mealReminderName = Localization.tr("Localizable", "meal-reminder-name", fallback: "It's time to have some meal")
   /// Min
   internal static let min = Localization.tr("Localizable", "min", fallback: "Min")
   /// Morning

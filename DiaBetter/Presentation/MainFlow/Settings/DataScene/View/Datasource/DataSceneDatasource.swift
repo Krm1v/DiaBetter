@@ -29,10 +29,10 @@ enum DataSceneSections: Hashable {
 }
 
 extension DataSceneSections: RawRepresentable {
-	//MARK: - Typealiases
+	// MARK: - Typealiases
 	typealias RawValue = Int
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	var rawValue: RawValue {
 		switch self {
 		case .appleHealth: 	 return 0
@@ -40,7 +40,7 @@ extension DataSceneSections: RawRepresentable {
 		case .importSection: return 2
 		}
 	}
-	
+
 	var title: String? {
 		switch self {
 		case .appleHealth(let model):   return model?.title
@@ -48,7 +48,7 @@ extension DataSceneSections: RawRepresentable {
 		case .importSection(let model): return model?.title
 		}
 	}
-	
+
 	var id: UUID? {
 		switch self {
 		case .appleHealth(let model): 	return model?.id
@@ -56,8 +56,8 @@ extension DataSceneSections: RawRepresentable {
 		case .importSection(let model): return model?.id
 		}
 	}
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init?(rawValue: RawValue) {
 		switch rawValue {
 		case 0: self = .appleHealth(nil)
@@ -66,8 +66,8 @@ extension DataSceneSections: RawRepresentable {
 		default: return nil
 		}
 	}
-	
-	//MARK: - Methods
+
+	// MARK: - Methods
 	public static func == (lhs: DataSceneSections, rhs: DataSceneSections) -> Bool {
 		return lhs.id == rhs.id && lhs.title == rhs.title
 	}
@@ -81,5 +81,5 @@ enum DataSceneItems: Hashable {
 
 enum BackupListSectionItems: Hashable {
 	case backup
-	case ʼimportʼ
+	case importItem
 }

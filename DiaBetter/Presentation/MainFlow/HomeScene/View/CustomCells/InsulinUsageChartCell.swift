@@ -1,5 +1,6 @@
 //
-//  BubbleChartСell.swift
+//  InsulinUsageChartCell.swift
+//  DiaBetter
 //
 //  Created by Владислав Баранкевич on 15.05.2023.
 //
@@ -8,37 +9,37 @@ import UIKit
 import Charts
 
 final class InsulinUsageChartCell: BaseWidgetCell {
-	//MARK: - Properties
+	// MARK: - Properties
 	private var allFilters = WidgetFilterState.allCases
-	
-	//MARK: - UI Elements
+
+	// MARK: - UI Elements
 	private lazy var chartView = LineChartView()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 		configureChartView()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 		configureChartView()
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func configure(with model: InsulinUsageChartModel) {
-		let fastInsulinEntries = model.fastInsulin.map { ChartDataEntry(x: $0.x,
-																		y: $0.y) }
-		let basalInsulinEntries = model.basalInsulin.map { ChartDataEntry(x: $0.x,
-																		  y: $0.y) }
+		let fastInsulinEntries = model.fastInsulin.map { ChartDataEntry(x: $0.xValue,
+																		y: $0.yValue) }
+		let basalInsulinEntries = model.basalInsulin.map { ChartDataEntry(x: $0.xValue,
+																		  y: $0.yValue) }
 		segmentedControl.selectedSegmentIndex = model.filter.rawValue
 		setData(fastInsulinEntries, basalInsulinEntries)
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension InsulinUsageChartCell {
 	func setupUI() {
 		titleLabel.text = Localization.insulinUsage
@@ -49,7 +50,7 @@ private extension InsulinUsageChartCell {
 										   animated: false)
 		}
 	}
-	
+
 	func configureChartView() {
 		chartView.delegate = self
 		chartView.chartDescription.enabled = false
@@ -75,8 +76,11 @@ private extension InsulinUsageChartCell {
 		chartView.xAxis.setLabelCount(Constants.xAxisLabelCount, force: true)
 		chartView.setScaleMinima(Constants.minScale, scaleY: .zero)
 	}
-	
-	func setData(_ fastInsulinEntries: [ChartDataEntry], _ longInsulinEntries: [ChartDataEntry]) {
+
+	func setData(
+		_ fastInsulinEntries: [ChartDataEntry],
+		_ longInsulinEntries: [ChartDataEntry]
+	) {
 		let fastInsulinSet = LineChartDataSet(entries: fastInsulinEntries, label: Localization.fastActingInsulin)
 		fastInsulinSet.setColor(Colors.customLightBlue.color, alpha: Constants.defaultAlpha)
 		fastInsulinSet.mode = .horizontalBezier
@@ -87,7 +91,7 @@ private extension InsulinUsageChartCell {
 		basalInsulinSet.mode = .stepped
 		basalInsulinSet.setCircleColor(Colors.customLightYellow.color)
 		basalInsulinSet.circleHoleColor = Colors.customDarkenPink.color
-		
+
 		[fastInsulinSet, basalInsulinSet].forEach {
 			$0.drawIconsEnabled = false
 			$0.form = .circle
@@ -105,15 +109,19 @@ private extension InsulinUsageChartCell {
 	}
 }
 
-//MARK: - Extension ChartViewDelegate
+// MARK: - Extension ChartViewDelegate
 extension InsulinUsageChartCell: ChartViewDelegate {
-	func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+	func chartValueSelected(
+		_ chartView: ChartViewBase,
+		entry: ChartDataEntry,
+		highlight: Highlight
+	) {
 		debugPrint(entry)
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let basicCornerRadius: 	   CGFloat = 12
 	static let basicLegendOffset: 	   CGFloat = 10
 	static let basicMediumFontSize:    CGFloat = 10

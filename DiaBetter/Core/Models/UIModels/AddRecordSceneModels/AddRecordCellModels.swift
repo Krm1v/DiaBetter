@@ -16,7 +16,7 @@ struct GlucoseLevelOrMealCellModel: Hashable {
 		case glucose
 		case meal
 	}
-	
+
 	let title: String
 	let parameterTitle: String
 	let textfieldValue: String

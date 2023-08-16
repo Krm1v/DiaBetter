@@ -13,28 +13,28 @@ enum UserDataMenuCellActions {
 }
 
 final class UserDataMenuCell: BaseCollectionViewCell {
-	//MARK: - Properties
+	// MARK: - Properties
 	private(set) lazy var userDataMenuPublisher = userDataMenuSubject.eraseToAnyPublisher()
 	private let userDataMenuSubject = PassthroughSubject<UserDataMenuCellActions, Never>()
 	private var menuDatasource: [UserParametersProtocol] = []
-	
-	//MARK: - UI Elements
+
+	// MARK: - UI Elements
 	private lazy var titleLabel = buildFieldTitleLabel()
 	private lazy var userParameterButton = UIButton()
 	private var menu = UIMenu()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func configure(with model: UserDataMenuSettingsModel) {
 		debugPrint(model)
 		titleLabel.text = model.rowTitle
@@ -44,7 +44,7 @@ final class UserDataMenuCell: BaseCollectionViewCell {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension UserDataMenuCell {
 	func setupUI() {
 		titleLabel.textColor = .white
@@ -55,21 +55,25 @@ private extension UserDataMenuCell {
 		userParameterButton.showsMenuAsPrimaryAction = true
 		setupLayout()
 	}
-	
+
 	func setupLayout() {
 		addSubview(titleLabel, constraints: [
-			titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-			titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
-												constant: Constants.defaultEdgeInsets)
-		])
-		
+			titleLabel.centerYAnchor.constraint(
+				equalTo: centerYAnchor),
+
+			titleLabel.leadingAnchor.constraint(
+				equalTo: leadingAnchor,
+				constant: Constants.defaultEdgeInsets)])
+
 		addSubview(userParameterButton, constraints: [
-			userParameterButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-			userParameterButton.trailingAnchor.constraint(equalTo: trailingAnchor,
-														  constant: -Constants.defaultEdgeInsets)
-		])
+			userParameterButton.centerYAnchor.constraint(
+				equalTo: centerYAnchor),
+
+			userParameterButton.trailingAnchor.constraint(
+				equalTo: trailingAnchor,
+				constant: -Constants.defaultEdgeInsets)])
 	}
-	
+
 	func setupUIMenu() {
 		let menuItems = menuDatasource.map { item in
 			UIAction(title: item.title) { [unowned self] _ in
@@ -77,15 +81,15 @@ private extension UserDataMenuCell {
 				self.userDataMenuSubject.send(.menuDidTapped(item))
 			}
 		}
-		
+
 		menu = UIMenu(children: menuItems)
 		userParameterButton.menu = menu
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let titleLabelFontSize: 		  CGFloat = 15
-	static let defaultEdgeInsets:  		  CGFloat = 8
+	static let defaultEdgeInsets: 		  CGFloat = 8
 	static let titleLabelDefaultFontSize: CGFloat = 15
 }

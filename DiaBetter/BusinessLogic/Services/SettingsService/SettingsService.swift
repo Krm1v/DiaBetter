@@ -11,14 +11,14 @@ import Combine
 protocol SettingsService: AnyObject {
 	var settings: AppSettingsModel { get set }
 	var settingsPublisher: AnyPublisher<AppSettingsModel, Never> { get }
-	
+
 	func save(settings: AppSettingsModel)
 	func fetch() -> AppSettingsModel?
 	func clear()
 }
 
 final class SettingsServiceImpl: SettingsService {
-	//MARK: - Properties
+	// MARK: - Properties
 	let userDefaults: UserDefaultsManager
 	let dataConverter: DataConverter
 	var settings: AppSettingsModel = AppSettingsModel() {
@@ -26,24 +26,28 @@ final class SettingsServiceImpl: SettingsService {
 			settingsSubject.value = settings
 		}
 	}
-	
+
 	private(set) lazy var settingsPublisher = settingsSubject.eraseToAnyPublisher()
 	private lazy var settingsSubject = CurrentValueSubject<AppSettingsModel, Never>(settings)
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init() {
 		self.userDefaults = UserDefaultsManagerImpl<AppSettingsModel>()
 		self.dataConverter = DataConverterImpl()
-		guard let settingsData = fetch() else { return }
+		guard let settingsData = fetch() else {
+			return
+		}
 		settings = settingsData
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func save(settings: AppSettingsModel) {
-		guard let data = dataConverter.seriallizeToData(object: settings) else { return }
+		guard let data = dataConverter.seriallizeToData(object: settings) else {
+			return
+		}
 		userDefaults.save(data, for: .appSettings)
 	}
-	
+
 	func fetch() -> AppSettingsModel? {
 		guard let value: Data = userDefaults.fetch(for: .appSettings) else {
 			return nil
@@ -53,7 +57,7 @@ final class SettingsServiceImpl: SettingsService {
 		}
 		return settings
 	}
-	
+
 	func clear() {
 		userDefaults.delete(.appSettings)
 	}

@@ -22,4 +22,3 @@ struct UserDataMenuSettingsModel: Hashable {
 	var labelValue: String
 	let source: UserParameters
 }
-

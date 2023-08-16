@@ -12,7 +12,7 @@ enum TextTypeColors {
 	case info
 	case alert
 	case largeTitle
-	
+
 	var color: UIColor {
 		switch self {
 		case .regular:    return UIColor.white

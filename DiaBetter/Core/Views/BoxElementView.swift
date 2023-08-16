@@ -8,7 +8,7 @@
 import UIKit
 
 final class BoxElementView: UIView {
-	//MARK: - UIElements
+	// MARK: - UIElements
 	private lazy var valueLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
@@ -18,7 +18,7 @@ final class BoxElementView: UIView {
 		label.minimumScaleFactor = 0.5
 		return label
 	}()
-	
+
 	private lazy var titleLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
@@ -28,58 +28,57 @@ final class BoxElementView: UIView {
 		label.minimumScaleFactor = 0.5
 		return label
 	}()
-	
+
 	private lazy var vStack = buildStackView(axis: .vertical,
 											 alignment: .center,
 											 distribution: .fillProportionally,
 											 spacing: .zero)
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func setValue(titleLabel text: String) {
 		titleLabel.text = text
 	}
-	
+
 	func setValue(valueLabel text: String) {
 		valueLabel.text = text
 	}
-	
+
 	func setInfo(_ info: DiaryRecordCellModel.Info) {
 		titleLabel.text = info.unit
 		valueLabel.text = info.value
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension BoxElementView {
 	func setupUI() {
 		self.backgroundColor = Colors.darkNavyBlue.color
 		self.rounded(12)
 		addSubs()
 	}
-	
+
 	func addSubs() {
 		addSubview(vStack, withEdgeInsets: .all(.zero))
 		[valueLabel, titleLabel].forEach { vStack.addArrangedSubview($0) }
 	}
 }
 
-//MARK: - Extension UIElementsBuilder
+// MARK: - Extension UIElementsBuilder
 extension BoxElementView: UIElementsBuilder { }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let largeFontSize: CGFloat = 17
 	static let regularFontSize: CGFloat = 13
 }
-

@@ -8,26 +8,28 @@
 import Foundation
 
 struct User: Codable {
-	//MARK: - Properties
-	var name: String?
-	var email: String?
-	var password: String?
-	var remoteId: String?
-	var diabetesType: String?
-	var basalInsulin: String?
+	// MARK: - Properties
+	var name: 			   String?
+	var email: 			   String?
+	var password: 		   String?
+	var remoteId: 		   String?
+	var diabetesType: 	   String?
+	var basalInsulin: 	   String?
 	var fastActingInsulin: String?
-	var userProfileImage: String?
-	var updated: Int?
-	
-	//MARK: - Init
-	init(name: String? = nil,
-		 email: String? = nil,
-		 password: String? = nil,
-		 remoteId: String? = nil,
-		 diabetesType: String? = nil,
-		 basalInsulin: String? = nil,
-		 fastActingInsulin: String? = nil,
-		 userProfileImage: String? = nil) {
+	var userProfileImage:  String?
+	var updated: 		   Int?
+
+	// MARK: - Init
+	init(
+		name: String? = nil,
+		email: String? = nil,
+		password: String? = nil,
+		remoteId: String? = nil,
+		diabetesType: String? = nil,
+		basalInsulin: String? = nil,
+		fastActingInsulin: String? = nil,
+		userProfileImage: String? = nil
+	) {
 		self.name = name
 		self.email = email
 		self.password = password
@@ -37,7 +39,7 @@ struct User: Codable {
 		self.fastActingInsulin = fastActingInsulin
 		self.userProfileImage = userProfileImage
 	}
-	
+
 	init(_ response: UserResponseModel) {
 		self.name = response.name
 		self.email = response.email

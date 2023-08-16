@@ -14,11 +14,11 @@ enum InsulinCellActions {
 }
 
 final class InsulinCell: BaseCollectionViewCell {
-	//MARK: - Properties
+	// MARK: - Properties
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
 	private let actionSubject = PassthroughSubject<InsulinCellActions, Never>()
-	
-	//MARK: - UI Elements
+
+	// MARK: - UI Elements
 	private lazy var titleLabel = buildTitleLabel(fontSize: Constants.titleLabelFontSize)
 	private lazy var fastInsulinParameterTitle = buildFieldTitleLabel(fontSize: Constants.parameterTitleFontSize)
 	private lazy var basalInsulinParameterTitle = buildFieldTitleLabel(fontSize: Constants.parameterTitleFontSize)
@@ -38,19 +38,19 @@ final class InsulinCell: BaseCollectionViewCell {
 											 alignment: .fill,
 											 distribution: .fillProportionally,
 											 spacing: Constants.stackViewLargeSpacing)
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func configure(with model: InsulinCellModel) {
 		titleLabel.text = model.title
 		fastInsulinParameterTitle.text = model.parameterTitleForFastInsulin
@@ -63,7 +63,7 @@ final class InsulinCell: BaseCollectionViewCell {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension InsulinCell {
 	func setupUI() {
 		setupLayout()
@@ -72,48 +72,65 @@ private extension InsulinCell {
 		fastInsulinTextfield.borderStyle = .none
 		basalInsulinTextfield.borderStyle = .none
 	}
-	
+
 	func setupLayout() {
 		addSubview(titleLabel, constraints: [
-			titleLabel.topAnchor.constraint(equalTo: topAnchor,
-											constant: Constants.smallEdgeInset),
-			titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
-												constant: Constants.smallEdgeInset)
+			titleLabel.topAnchor.constraint(
+				equalTo: topAnchor,
+				constant: Constants.smallEdgeInset),
+
+			titleLabel.leadingAnchor.constraint(
+				equalTo: leadingAnchor,
+				constant: Constants.smallEdgeInset)
 		])
+
 		addSubview(vStack, constraints: [
-			vStack.leadingAnchor.constraint(equalTo: leadingAnchor,
-											constant: Constants.largeEdgeInset),
-			vStack.trailingAnchor.constraint(equalTo: trailingAnchor,
-											 constant: -Constants.largeEdgeInset),
-			vStack.bottomAnchor.constraint(equalTo: bottomAnchor,
-										   constant: -Constants.smallEdgeInset)
+			vStack.leadingAnchor.constraint(
+				equalTo: leadingAnchor,
+				constant: Constants.largeEdgeInset),
+
+			vStack.trailingAnchor.constraint(
+				equalTo: trailingAnchor,
+				constant: -Constants.largeEdgeInset),
+
+			vStack.bottomAnchor.constraint(
+				equalTo: bottomAnchor,
+				constant: -Constants.smallEdgeInset)
 		])
+
 		[fastInsulinParameterTitle, fastInsulinTextfield, unitsLabelForFastInsulin].forEach {
 			hStackForFastInsulin.addArrangedSubview($0)
 		}
-		[basalInsulinParameterTitle, basalInsulinTextfield, unitsLabelForBasalInsulin].forEach { hStackForBasalInsulin.addArrangedSubview($0) }
+		[basalInsulinParameterTitle, basalInsulinTextfield, unitsLabelForBasalInsulin].forEach {
+			hStackForBasalInsulin.addArrangedSubview($0)
+		}
+
 		[hStackForFastInsulin, hStackForBasalInsulin].forEach { vStack.addArrangedSubview($0) }
 	}
-	
+
 	func setupBindings() {
 		fastInsulinTextfield.textPublisher
 			.sink { [unowned self] text in
-				guard let text = text else { return }
+				guard let text = text else {
+					return
+				}
 				self.actionSubject.send(.fastInsulinTextfieldDidChanged(text))
 			}
 			.store(in: &cancellables)
-		
+
 		basalInsulinTextfield.textPublisher
 			.sink { [unowned self] text in
-				guard let text = text else { return }
+				guard let text = text else {
+					return
+				}
 				self.actionSubject.send(.basalInsulinTextfieldDidChanged(text))
 			}
 			.store(in: &cancellables)
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let titleLabelFontSize: 	   CGFloat = 25
 	static let parameterTitleFontSize: CGFloat = 20
 	static let stackViewSmallSpacing:  CGFloat = 8

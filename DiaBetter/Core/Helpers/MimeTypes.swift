@@ -9,4 +9,5 @@ import Foundation
 
 enum MimeTypes {
 	static let json = "json"
+	static let jpeg = ".jpeg"
 }

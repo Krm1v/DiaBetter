@@ -8,8 +8,8 @@
 import UIKit
 import Combine
 
-class BaseWidgetCell: BaseCollectionViewCell {
-	//MARK: - UI Elements
+internal class BaseWidgetCell: BaseCollectionViewCell {
+	// MARK: - UI Elements
 	lazy var titleLabel = buildUserInfoLabel()
 	lazy var segmentedControl = UISegmentedControl()
 	lazy var hStack = buildStackView(axis: .horizontal,
@@ -17,20 +17,20 @@ class BaseWidgetCell: BaseCollectionViewCell {
 									 distribution: .fillProportionally,
 									 spacing: .zero)
 	lazy var substrateView = buildView(with: Colors.darkNavyBlue.color)
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension BaseWidgetCell {
 	func setupUI() {
 		setupLayout()
@@ -41,14 +41,14 @@ private extension BaseWidgetCell {
 		segmentedControl.backgroundColor = Colors.darkNavyBlue.color
 		segmentedControl.selectedSegmentTintColor = Colors.customPink.color
 	}
-	
+
 	func setupLayout() {
 		addSubview(substrateView, constraints: [
 			substrateView.leadingAnchor.constraint(equalTo: leadingAnchor),
 			substrateView.trailingAnchor.constraint(equalTo: trailingAnchor),
 			substrateView.bottomAnchor.constraint(equalTo: bottomAnchor)
 		])
-		
+
 		addSubview(hStack, constraints: [
 			hStack.topAnchor.constraint(equalTo: topAnchor),
 			hStack.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -56,15 +56,15 @@ private extension BaseWidgetCell {
 			hStack.bottomAnchor.constraint(equalTo: substrateView.topAnchor,
 										   constant: -Constants.basicInset)
 		])
-		
+
 		segmentedControl.widthAnchor.constraint(equalToConstant: self.frame.width / 3)
 			.isActive = true
 		[titleLabel, segmentedControl].forEach { hStack.addArranged($0) }
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let basicCornerRadius: CGFloat = 12
 	static let basicInset: 		  CGFloat = 8
 }

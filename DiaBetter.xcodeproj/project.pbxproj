@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -37,7 +37,7 @@
 		860AE91229E9C04D006CF2E1 /* UIApplication+OpenSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860AE91129E9C04D006CF2E1 /* UIApplication+OpenSettings.swift */; };
 		861656152A82A95B00D40AB7 /* CreateEmailURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861656142A82A95B00D40AB7 /* CreateEmailURL.swift */; };
 		8616564D2A866E4400D40AB7 /* APIErrorResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8616564C2A866E4400D40AB7 /* APIErrorResponseModel.swift */; };
-		861656502A86738200D40AB7 /* NetworkLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8616564F2A86738200D40AB7 /* NetworkLogger.swift */; };
+		861656502A86738200D40AB7 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8616564F2A86738200D40AB7 /* Logger.swift */; };
 		861FC9FE29F9A63F00743055 /* RecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861FC9FD29F9A63F00743055 /* RecordCell.swift */; };
 		861FCA0129F9A7E300743055 /* BoxElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861FCA0029F9A7E300743055 /* BoxElementView.swift */; };
 		861FCA0329F9B31E00743055 /* MealUnits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861FCA0229F9B31E00743055 /* MealUnits.swift */; };
@@ -299,7 +299,7 @@
 		860AE91129E9C04D006CF2E1 /* UIApplication+OpenSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+OpenSettings.swift"; sourceTree = "<group>"; };
 		861656142A82A95B00D40AB7 /* CreateEmailURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEmailURL.swift; sourceTree = "<group>"; };
 		8616564C2A866E4400D40AB7 /* APIErrorResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorResponseModel.swift; sourceTree = "<group>"; };
-		8616564F2A86738200D40AB7 /* NetworkLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLogger.swift; sourceTree = "<group>"; };
+		8616564F2A86738200D40AB7 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		861FC9FD29F9A63F00743055 /* RecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCell.swift; sourceTree = "<group>"; };
 		861FCA0029F9A7E300743055 /* BoxElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxElementView.swift; sourceTree = "<group>"; };
 		861FCA0229F9B31E00743055 /* MealUnits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealUnits.swift; sourceTree = "<group>"; };
@@ -1616,7 +1616,7 @@
 				86E4EC1A2A7D7B0E00F17EC9 /* QueryAssembler.swift */,
 				86900803299D45FE001B672E /* HTTPMethods.swift */,
 				863C7EBC29C10000008F93F0 /* MultipartData.swift */,
-				8616564F2A86738200D40AB7 /* NetworkLogger.swift */,
+				8616564F2A86738200D40AB7 /* Logger.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2290,6 +2290,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9B5345396307D8E2FCD16AC0 /* Build configuration list for PBXNativeTarget "DiaBetter" */;
 			buildPhases = (
+				8684C9732A8BBAEE00763356 /* Swiftlint */,
 				7A4586F69723094070316E89 /* Sources */,
 				D137C7D6EE13C2FC979C5FCD /* Resources */,
 				F0E09BF8275DBA66CF2493C4 /* Frameworks */,
@@ -2377,8 +2378,27 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		8684C9732A8BBAEE00763356 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nexport PATH\n\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		86B3728B29C4CDFB0095C229 /* Swiftgen */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2475,7 +2495,7 @@
 				FE76E20111DBDDA1A8CC5B1C /* Localization.swift in Sources */,
 				861FCA0B29F9E72000743055 /* DateFormats.swift in Sources */,
 				86A5D1DA2A40BA7D006E9424 /* CreditsSceneView.swift in Sources */,
-				861656502A86738200D40AB7 /* NetworkLogger.swift in Sources */,
+				861656502A86738200D40AB7 /* Logger.swift in Sources */,
 				8699F31629B0BEF800705347 /* ResetPasswordSceneViewController.swift in Sources */,
 				86E4EC1B2A7D7B0E00F17EC9 /* QueryAssembler.swift in Sources */,
 				8637ADD329B7A93900F14489 /* RecordsService.swift in Sources */,
@@ -2654,7 +2674,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = KV859BQR3J;
 				INFOPLIST_FILE = DiaBetter/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DiaBetter;
@@ -2665,7 +2685,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.chisw.vladyslavbarankevych.diabetterapp.releaseStg;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladbarankevych.diabetter.releaseStg;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -2867,7 +2887,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = KV859BQR3J;
 				INFOPLIST_FILE = DiaBetter/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DiaBetter;
@@ -2878,7 +2898,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.chisw.vladyslavbarankevych.diabetterapp.stg;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladbarankevych.diabetter.stg;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -2893,7 +2913,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = KV859BQR3J;
 				INFOPLIST_FILE = DiaBetter/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DiaBetter;
@@ -2904,7 +2924,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.chisw.vladyslavbarankevych.diabetterapp.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladbarankevych.diabetter.dev;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -2979,7 +2999,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = KV859BQR3J;
 				INFOPLIST_FILE = DiaBetter/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DiaBetter;
@@ -2990,7 +3010,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.chisw.vladyslavbarankevych.diabetterapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladbarankevych.diabetter;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -3139,7 +3159,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = KV859BQR3J;
 				INFOPLIST_FILE = DiaBetter/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DiaBetter;
@@ -3150,7 +3170,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.chisw.vladyslavbarankevych.diabetterapp.releaseDev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladbarankevych.diabetter.releaseDev;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -3165,7 +3185,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = KV859BQR3J;
 				INFOPLIST_FILE = DiaBetter/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DiaBetter;
@@ -3176,7 +3196,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.chisw.vladyslavbarankevych.diabetterapp.debug;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladbarankevych.diabetter.debug;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

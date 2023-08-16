@@ -30,15 +30,15 @@ struct MultipartBody {
 }
 
 struct MultipartDataItem {
+	 enum MultipartDataMimeType: String {
+		case pngImage = "image/png"
+		case jpegImage = "image/jpeg"
+		case plainText = "text/plain"
+		case defaultType = "file"
+	}
+
 	let data: Data
 	let attachmentKey: String
 	let fileName: String
 	var mimeType: MultipartDataMimeType = .defaultType
-}
-
-enum MultipartDataMimeType: String {
-	case pngImage = "image/png"
-	case jpegImage = "image/jpeg"
-	case plainText = "text/plain"
-	case defaultType = "file"
 }

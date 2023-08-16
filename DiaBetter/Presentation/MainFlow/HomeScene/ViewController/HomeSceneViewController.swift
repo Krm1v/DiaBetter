@@ -8,25 +8,25 @@
 import UIKit
 
 final class HomeSceneViewController: BaseViewController<HomeSceneViewModel> {
-	//MARK: - Properties
+	// MARK: - Properties
 	private let contentView = HomeSceneView()
-	
-	//MARK: - UIView lifecycle methods
+
+	// MARK: - UIView lifecycle methods
 	override func loadView() {
 		view = contentView
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupBindings()
 	}
-	
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		updateDiffableDatasourceSnapshot()
 	}
-	
-	//MARK: - Overriden methods
+
+	// MARK: - Overriden methods
 	override func setupNavBar() {
 		super.setupNavBar()
 		title = Localization.home
@@ -35,8 +35,8 @@ final class HomeSceneViewController: BaseViewController<HomeSceneViewModel> {
 	}
 }
 
-//MARK: - Private extension
-private extension HomeSceneViewController {	
+// MARK: - Private extension
+private extension HomeSceneViewController {
 	func updateDiffableDatasourceSnapshot() {
 		viewModel.$sections
 			.receive(on: DispatchQueue.main)
@@ -45,7 +45,7 @@ private extension HomeSceneViewController {
 			}
 			.store(in: &cancellables)
 	}
-	
+
 	func setupBindings() {
 		contentView.actionPublisher
 			.sink { [unowned self] action in

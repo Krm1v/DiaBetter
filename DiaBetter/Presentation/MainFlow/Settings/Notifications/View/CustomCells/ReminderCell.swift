@@ -13,7 +13,7 @@ enum ReminderCellAction {
 }
 
 final class ReminderCell: BaseTableViewCell {
-	//MARK: - UI Elements
+	// MARK: - UI Elements
 	private lazy var hStack = buildStackView(axis: .horizontal,
 											 alignment: .center,
 											 distribution: .fill,
@@ -22,25 +22,23 @@ final class ReminderCell: BaseTableViewCell {
 													   fontSize: Constants.defaultFontSize,
 													   textAllignment: .natural)
 	private lazy var datePicker = UIDatePicker()
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
 	private let actionSubject = PassthroughSubject<ReminderCellAction, Never>()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		setupUI()
-//		bindActions()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
-//		bindActions()
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func configure(_ model: ReminderCellModel) {
 		titleLabel.text = model.title
 		if let date = model.date {
@@ -50,7 +48,7 @@ final class ReminderCell: BaseTableViewCell {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension ReminderCell {
 	func setupUI() {
 		backgroundColor = Colors.darkNavyBlue.color
@@ -59,19 +57,25 @@ private extension ReminderCell {
 		datePicker.preferredDatePickerStyle = .compact
 		setupLayout()
 	}
-	
+
 	func setupLayout() {
-		contentView.addSubview(hStack, constraints: [
-			hStack.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-											constant: Constants.defaultEdgeInset),
-			hStack.trailingAnchor.constraint(equalTo: self.trailingAnchor,
-											 constant: -Constants.defaultEdgeInset),
-			hStack.heightAnchor.constraint(equalToConstant: self.frame.width / Constants.defaultStackHeightMultiplier)
-		])
-		
+		contentView.addSubview(
+			hStack,
+			constraints: [
+			hStack.leadingAnchor.constraint(
+				equalTo: self.leadingAnchor,
+				constant: Constants.defaultEdgeInset),
+
+			hStack.trailingAnchor.constraint(
+				equalTo: self.trailingAnchor,
+				constant: -Constants.defaultEdgeInset),
+
+			hStack.heightAnchor.constraint(
+				equalToConstant: self.frame.width / Constants.defaultStackHeightMultiplier)])
+
 		[titleLabel, datePicker].forEach { hStack.addArrangedSubview($0) }
 	}
-	
+
 	func bindActions() {
 		datePicker.datePublisher
 			.map { ReminderCellAction.datePickerValueDidChanged($0) }
@@ -80,9 +84,9 @@ private extension ReminderCell {
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
-	static let defaultFontSize:  			 CGFloat = 17
+// MARK: - Constants
+private enum Constants {
+	static let defaultFontSize: 			 CGFloat = 17
 	static let smallFontSize: 	 			 CGFloat = 13
 	static let defaultEdgeInset: 		 	 CGFloat = 16
 	static let defaultStackHeightMultiplier: CGFloat = 7

@@ -18,6 +18,6 @@ func createDateWithHoursAndMinutes(hours: Int, minutes: Int) -> Date {
 	dateComponents.day = currentComponents.day
 	dateComponents.hour = hours
 	dateComponents.minute = minutes
-	
+
 	return calendar.date(from: dateComponents) ?? Date()
 }

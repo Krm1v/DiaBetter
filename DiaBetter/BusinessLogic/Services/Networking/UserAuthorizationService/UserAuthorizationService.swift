@@ -14,23 +14,23 @@ protocol UserAuthorizationService {
 }
 
 final class UserAuthorizationServiceImpl<NetworkProvider: NetworkServiceProvider> where NetworkProvider.EndpointType == UserAuthorizationEndpoint {
-	//MARK: - Properties
+	// MARK: - Properties
 	private let networkProvider: NetworkProvider
 	private let tokenStorage: TokenStorage
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init(_ networkProvider: NetworkProvider, tokenStorage: TokenStorage) {
 		self.networkProvider = networkProvider
 		self.tokenStorage = tokenStorage
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 extension UserAuthorizationServiceImpl: UserAuthorizationService {
 	func userRegister(user: UserRequestModel) -> AnyPublisher<Void, NetworkError> {
 		networkProvider.execute(endpoint: .register(user: user))
 	}
-	
+
 	func loginUser(with credentials: Login) -> AnyPublisher<UserResponseModel, NetworkError> {
 		networkProvider.execute(endpoint: .login(credentials: credentials), decodeType: UserResponseModel.self)
 			.handleEvents(receiveOutput: { [weak self] response in

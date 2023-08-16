@@ -14,7 +14,7 @@ protocol BackupCellModelProtocol {
 
 struct BackupDateCellModel: BackupCellModelProtocol, Hashable {
 	typealias ListItem = BackupDateItems
-	
+
 	let title: String
 	let date: Date
 	var item: ListItem
@@ -22,7 +22,7 @@ struct BackupDateCellModel: BackupCellModelProtocol, Hashable {
 
 struct BackupShareCellModel: BackupCellModelProtocol, Hashable {
 	typealias ListItem = BackupPlainItems
-	
+
 	let title: String
 	let color: TextTypeColors
 	var item: ListItem
@@ -40,10 +40,10 @@ enum BackupSceneSections: Hashable {
 }
 
 extension BackupSceneSections: RawRepresentable {
-	//MARK: - Typealiases
+	// MARK: - Typealiases
 	typealias RawValue = Int
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	var rawValue: RawValue {
 		switch self {
 		case .backupDateSection: return 0
@@ -51,7 +51,7 @@ extension BackupSceneSections: RawRepresentable {
 		case .eraseDataSection:  return 2
 		}
 	}
-	
+
 	var title: String? {
 		switch self {
 		case .backupDateSection(let model): return model?.title
@@ -59,7 +59,7 @@ extension BackupSceneSections: RawRepresentable {
 		case .eraseDataSection(let model): 	return model?.title
 		}
 	}
-	
+
 	var id: UUID? {
 		switch self {
 		case .backupDateSection(let model): return model?.id
@@ -67,8 +67,8 @@ extension BackupSceneSections: RawRepresentable {
 		case .eraseDataSection(let model): 	return model?.id
 		}
 	}
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init?(rawValue: RawValue) {
 		switch rawValue {
 		case 0: self = .backupDateSection(nil)
@@ -77,8 +77,8 @@ extension BackupSceneSections: RawRepresentable {
 		default: return nil
 		}
 	}
-	
-	//MARK: - Methods
+
+	// MARK: - Methods
 	public static func == (lhs: BackupSceneSections, rhs: BackupSceneSections) -> Bool {
 		return lhs.id == rhs.id && lhs.title == rhs.title
 	}
@@ -99,6 +99,3 @@ enum BackupPlainItems: Hashable {
 	case shareData
 	case eraseAllData
 }
-
-
-

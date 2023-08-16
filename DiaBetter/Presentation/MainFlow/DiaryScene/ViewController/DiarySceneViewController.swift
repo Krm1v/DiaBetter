@@ -8,20 +8,20 @@
 import UIKit
 
 final class DiarySceneViewController: BaseViewController<DiarySceneViewModel> {
-	//MARK: - Properties
+	// MARK: - Properties
 	private let contentView = DiarySceneView()
-	
-	//MARK: - UIView lifecycle methods
+
+	// MARK: - UIView lifecycle methods
 	override func loadView() {
 		view = contentView
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupBindings()
 	}
-	
-	//MARK: - Overriden methods
+
+	// MARK: - Overriden methods
 	override func setupNavBar() {
 		super.setupNavBar()
 		title = Localization.diary
@@ -29,7 +29,7 @@ final class DiarySceneViewController: BaseViewController<DiarySceneViewModel> {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension DiarySceneViewController {
 	func setupBindings() {
 		viewModel.$sections
@@ -37,7 +37,7 @@ private extension DiarySceneViewController {
 				self.contentView.setupSnapshot(sections: sections)
 			}
 			.store(in: &cancellables)
-		
+
 		contentView.actionPublisher
 			.sink { [unowned self] action in
 				switch action {

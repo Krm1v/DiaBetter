@@ -21,7 +21,7 @@ protocol AppContainer: AnyObject {
 }
 
 final class AppContainerImpl: AppContainer {
-	//MARK: - Properties
+	// MARK: - Properties
 	let appConfiguration: AppConfiguration
 	let userService: UserService
 	let userNetworkService: UserNetworkService
@@ -31,32 +31,32 @@ final class AppContainerImpl: AppContainer {
 	let userNotificationManager: UserNotificationManager
 	let permissionService: PermissionService
 	let appSettingsService: SettingsService
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init() {
 		let appConfiguration = AppConfigurationImpl()
 		self.appConfiguration = appConfiguration
-		
+
 		let keychain = Keychain(service: appConfiguration.bundleId)
 		let tokenStorage = TokenStorageImpl(keychain: keychain)
-		
+
 		let tokenPlugin = TokenPlugin(tokenStorage: tokenStorage)
 		let contentTypePlugin = JSONContentTypePlugin()
-		
+
 		let networkManager = NetworkManager()
 		let userNetworkServiceProvider = NetworkServiceProviderImpl<UserEndpoint>(
 			baseURLStorage: appConfiguration,
 			networkManager: networkManager,
 			plugins: [tokenPlugin, contentTypePlugin],
 			encoder: JSONEncoder(),
-			decoder: JSONDecoder()
-		)
+			decoder: JSONDecoder())
+
 		let authorizationNetworkService = NetworkServiceProviderImpl<UserAuthorizationEndpoint>(
 			baseURLStorage: appConfiguration,
 			networkManager: networkManager,
 			encoder: JSONEncoder(),
-			decoder: JSONDecoder()
-		)
+			decoder: JSONDecoder())
+
 		self.userNetworkService = UserNetworkServiceImpl(userNetworkServiceProvider)
 		self.userAuthorizationService = UserAuthorizationServiceImpl(authorizationNetworkService,
 																	 tokenStorage: tokenStorage)
@@ -66,22 +66,23 @@ final class AppContainerImpl: AppContainer {
 			plugins: [tokenPlugin, contentTypePlugin],
 			encoder: JSONEncoder(),
 			decoder: JSONDecoder())
-		self.recordsNetworkService = RecordsNetworkServiceImpl(recordNetworkProvider)
 		
+		self.recordsNetworkService = RecordsNetworkServiceImpl(recordNetworkProvider)
+
 		let userService = UserServiceImpl(userNetworkService: userNetworkService,
 										  userAuthorizationService: userAuthorizationService,
 										  tokenStorage: tokenStorage)
 		self.userService = userService
-		
+
 		let recordService = RecordsServiceImpl(recordsNetworkService: recordsNetworkService,
 											   tokenStorage: tokenStorage)
 		self.recordsService = recordService
 		let userNotificationManager = UserNotificationManagerImpl()
 		self.userNotificationManager = userNotificationManager
-		
+
 		let permissionService = PermissionServiceImpl()
 		self.permissionService = permissionService
-		
+
 		let appSettingsService = SettingsServiceImpl()
 		self.appSettingsService = appSettingsService
 	}

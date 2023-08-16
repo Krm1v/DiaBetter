@@ -16,7 +16,7 @@ enum ReminderType: Hashable, Codable {
 struct Reminder: Codable {
 	var time: Date
 	var reminderType: ReminderType
-	var repeats: Bool
+	var repeats: Bool = true
 }
 
 struct Task: Identifiable, Codable {

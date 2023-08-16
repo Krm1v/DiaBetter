@@ -13,27 +13,27 @@ enum GlucoseUnitsCellActions {
 }
 
 final class GlucoseUnitsCell: BaseCollectionViewCell {
-	//MARK: - UI Elements
+	// MARK: - UI Elements
 	private lazy var titleLabel = buildFieldTitleLabel()
 	private lazy var segmentedControl = UISegmentedControl()
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
 	private let actionSubject = PassthroughSubject<GlucoseUnitsCellActions, Never>()
 	private let allUnits = SettingsUnits.GlucoseUnitsState.allCases
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func configure(_ model: GlucoseUnitsCellModel) {
 		titleLabel.text = model.title
 		segmentedControl.selectedSegmentIndex = model.currentUnit.rawValue
@@ -41,7 +41,7 @@ final class GlucoseUnitsCell: BaseCollectionViewCell {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension GlucoseUnitsCell {
 	func setupUI() {
 		backgroundColor = Colors.darkNavyBlue.color
@@ -55,20 +55,29 @@ private extension GlucoseUnitsCell {
 		}
 		setupLayout()
 	}
-	
+
 	func setupLayout() {
-		addSubview(titleLabel, constraints: [
-			titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-			titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8)
-		])
-		
-		addSubview(segmentedControl, constraints: [
-			segmentedControl.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-			segmentedControl.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
-			segmentedControl.widthAnchor.constraint(equalToConstant: self.frame.width / 3)
-		])
+		addSubview(
+			titleLabel,
+			constraints: [
+				titleLabel.centerYAnchor.constraint(
+					equalTo: self.centerYAnchor),
+				titleLabel.leadingAnchor.constraint(
+					equalTo: self.leadingAnchor,
+					constant: 8)])
+
+		addSubview(
+			segmentedControl,
+			constraints: [
+				segmentedControl.centerYAnchor.constraint(
+					equalTo: self.centerYAnchor),
+				segmentedControl.trailingAnchor.constraint(
+					equalTo: self.trailingAnchor,
+					constant: -8),
+				segmentedControl.widthAnchor.constraint(
+					equalToConstant: self.frame.width / 3)])
 	}
-	
+
 	func bindActions() {
 		segmentedControl.selectedSegmentIndexPublisher
 			.compactMap { SettingsUnits.GlucoseUnitsState(rawValue: $0) }

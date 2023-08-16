@@ -7,13 +7,13 @@
 
 import Foundation
 
-//MARK: - Sections
+// MARK: - Sections
 enum UserProfileSections: Int, Hashable {
 	case header
 	case list
 }
 
-//MARK: - Items
+// MARK: - Items
 enum UserSettings: Hashable {
 	case header(UserHeaderModel)
 	case plainWithTextfield(UserDataSettingsModel)
@@ -24,7 +24,7 @@ enum UserParameters: Hashable {
 	case diabetesType
 	case fastInsulin
 	case longInsulin
-	
+
 	var items: [UserParametersProtocol] {
 		switch self {
 		case .diabetesType:

@@ -8,14 +8,14 @@
 import Foundation
 
 struct UserProfilePictureDomainModel: Codable {
-	//MARK: - Properties
+	// MARK: - Properties
 	let fileURL: String
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init(fileURL: String) {
 		self.fileURL = fileURL
 	}
-	
+
 	init(_ response: UserProfilePictureResponse) {
 		self.fileURL = response.fileURL
 	}

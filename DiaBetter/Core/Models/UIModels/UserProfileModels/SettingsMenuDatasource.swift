@@ -18,7 +18,7 @@ enum UserTreatmentSettings: Hashable {
 		case gestational
 		case prediabetes
 		case other
-		
+
 		var title: String {
 			switch self {
 			case .type1:
@@ -50,7 +50,7 @@ enum UserTreatmentSettings: Hashable {
 		case u500
 		case fiasp
 		case other
-		
+
 		var title: String {
 			switch self {
 			case .actrapid:
@@ -111,7 +111,7 @@ enum UserTreatmentSettings: Hashable {
 		case toujeo
 		case tresiba
 		case other
-		
+
 		var title: String {
 			switch self {
 			case .basaglar:
@@ -168,4 +168,3 @@ enum UserTreatmentSettings: Hashable {
 		}
 	}
 }
-

@@ -7,29 +7,29 @@
 
 import UIKit
 
-class BaseFooterSupplementaryView: UICollectionReusableView {
-	//MARK: - UI Elements
+internal class BaseFooterSupplementaryView: UICollectionReusableView {
+	// MARK: - UI Elements
 	private lazy var titleLabel = buildUserInfoLabel()
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	var titleText: String? {
 		get { return titleLabel.text }
 		set { titleLabel.text = newValue }
 	}
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension BaseFooterSupplementaryView {
 	func setupUI() {
 		addSubs()
@@ -38,7 +38,7 @@ private extension BaseFooterSupplementaryView {
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
 		titleLabel.numberOfLines = .zero
 	}
-	
+
 	func addSubs() {
 		addSubview(titleLabel, withEdgeInsets: .init(top: .zero,
 													 left: 16,
@@ -47,6 +47,5 @@ private extension BaseFooterSupplementaryView {
 	}
 }
 
-//MARK: - Extension UIElementsBuilder
+// MARK: - Extension UIElementsBuilder
 extension BaseFooterSupplementaryView: UIElementsBuilder { }
-

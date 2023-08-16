@@ -13,26 +13,26 @@ enum BackupDateCellActions {
 }
 
 final class BackupDateCell: BaseCollectionViewCell {
-	//MARK: - UI Elements
+	// MARK: - UI Elements
 	private lazy var titleLabel = buildFieldTitleLabel(fontSize: 15)
 	private lazy var datePicker = UIDatePicker()
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
 	private let actionSubject = PassthroughSubject<BackupDateCellActions, Never>()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func configure(_ model: BackupDateCellModel) {
 		titleLabel.text = model.title
 		datePicker.date = model.date
@@ -40,7 +40,7 @@ final class BackupDateCell: BaseCollectionViewCell {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension BackupDateCell {
 	func setupUI() {
 		self.backgroundColor = Colors.darkNavyBlue.color
@@ -52,21 +52,29 @@ private extension BackupDateCell {
 		datePicker.maximumDate = .now
 		setupLayout()
 	}
-	
+
 	func setupLayout() {
-		addSubview(titleLabel, constraints: [
-			titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-												constant: 16),
-			titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-		])
-		
-		addSubview(datePicker, constraints: [
-			datePicker.trailingAnchor.constraint(equalTo: self.trailingAnchor,
-												 constant: -16),
-			datePicker.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-		])
+		addSubview(
+			titleLabel,
+			constraints: [
+				titleLabel.leadingAnchor.constraint(
+					equalTo: self.leadingAnchor,
+					constant: 16),
+
+				titleLabel.centerYAnchor.constraint(
+					equalTo: self.centerYAnchor)])
+
+		addSubview(
+			datePicker,
+			constraints: [
+				datePicker.trailingAnchor.constraint(
+					equalTo: self.trailingAnchor,
+					constant: -16),
+
+				datePicker.centerYAnchor.constraint(
+					equalTo: self.centerYAnchor)])
 	}
-	
+
 	func bindActions() {
 		datePicker.datePublisher
 			.map { BackupDateCellActions.datePickerValueDidChanged($0) }

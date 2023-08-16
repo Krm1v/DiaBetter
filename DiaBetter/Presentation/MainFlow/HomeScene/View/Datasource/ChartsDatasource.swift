@@ -7,7 +7,7 @@
 
 import Foundation
 
-//MARK: - Sections
+// MARK: - Sections
 enum ChartSection: Hashable {
 	case lineChart
 	case cubicLineChart
@@ -15,10 +15,10 @@ enum ChartSection: Hashable {
 }
 
 extension ChartSection: RawRepresentable {
-	//MARK: - Typealiases
+	// MARK: - Typealiases
 	typealias RawValue = Int
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	var rawValue: RawValue {
 		switch self {
 		case .lineChart: 	  return 0
@@ -26,8 +26,8 @@ extension ChartSection: RawRepresentable {
 		case .insulinUsage:   return 2
 		}
 	}
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init?(rawValue: RawValue) {
 		switch rawValue {
 		case 0: self = .lineChart
@@ -36,26 +36,26 @@ extension ChartSection: RawRepresentable {
 		default: return nil
 		}
 	}
-	
-	//MARK: - Methods
+
+	// MARK: - Methods
 	public static func == (lhs: ChartSection, rhs: ChartSection) -> Bool {
 		return lhs.rawValue == rhs.rawValue
 	}
 }
 
-//MARK: - Items
+// MARK: - Items
 enum ChartsItems: Hashable {
 	case lineChart(LineChartCellModel)
 	case cubicLineChart(GlucoseLevelPerPeriodWidgetModel)
 	case insulinUsage(InsulinUsageChartModel)
 }
 
-//MARK: - States
+// MARK: - States
 enum LineChartState: Int, CaseIterable {
 	case glucose
 	case insulin
 	case meal
-	
+
 	var title: String {
 		switch self {
 		case .glucose: return Localization.glucose
@@ -63,7 +63,7 @@ enum LineChartState: Int, CaseIterable {
 		case .meal:    return Localization.meal
 		}
 	}
-	
+
 	var imageName: String {
 		switch self {
 		case .glucose: return "drop.fill"
@@ -77,7 +77,7 @@ enum WidgetFilterState: Int, CaseIterable {
 	case day
 	case week
 	case month
-	
+
 	var title: String {
 		switch self {
 		case .day: 	 return "1d"

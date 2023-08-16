@@ -13,11 +13,11 @@ extension UIImageView {
 		self.kf.indicatorType = .activity
 		self.kf.setImage(with: url, placeholder: Assets.userImagePlaceholder.image, options: options)
 	}
-	
+
 	func setImage(_ data: Data) {
 		self.image = UIImage(data: data)
 	}
-	
+
 	func setImage(_ asset: ImageAsset) {
 		self.image = asset.image
 	}

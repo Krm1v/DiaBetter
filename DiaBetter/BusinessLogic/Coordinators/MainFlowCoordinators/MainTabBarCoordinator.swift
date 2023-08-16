@@ -8,12 +8,12 @@
 import UIKit
 import Combine
 
-fileprivate enum TabBarItems {
+private enum TabBarItems {
 	case home
 	case diary
 	case report
 	case settings
-	
+
 	var title: String {
 		switch self {
 		case .home: 	return Localization.home
@@ -22,7 +22,7 @@ fileprivate enum TabBarItems {
 		case .settings: return Localization.settings
 		}
 	}
-	
+
 	var image: UIImage? {
 		switch self {
 		case .home: 	return UIImage(systemName: "house")
@@ -31,7 +31,7 @@ fileprivate enum TabBarItems {
 		case .settings: return UIImage(systemName: "gear.circle")
 		}
 	}
-	
+
 	var selectedImage: UIImage? {
 		switch self {
 		case .home: 	return UIImage(systemName: "house.fill")
@@ -40,7 +40,7 @@ fileprivate enum TabBarItems {
 		case .settings: return UIImage(systemName: "gear.circle.fill")
 		}
 	}
-	
+
 	var tabBarItem: UITabBarItem {
 		return UITabBarItem(title: title,
 							image: image,
@@ -49,22 +49,24 @@ fileprivate enum TabBarItems {
 }
 
 final class MainTabBarCoordinator: Coordinator {
-	//MARK: - Properties
+	// MARK: - Properties
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	private(set) lazy var didFinishPublisher = didFinishSubject.eraseToAnyPublisher()
 	private let didFinishSubject = PassthroughSubject<Void, Never>()
 	private var cancellables = Set<AnyCancellable>()
 	private let container: AppContainer
-	
-	//MARK: - Init
-	init(navigationController: UINavigationController,
-		 container: AppContainer) {
+
+	// MARK: - Init
+	init(
+		navigationController: UINavigationController,
+		container: AppContainer
+	) {
 		self.navigationController = navigationController
 		self.container = container
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func start() {
 		setupHomeCoordinator()
 		setupReportCoordinator()
@@ -77,12 +79,15 @@ final class MainTabBarCoordinator: Coordinator {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension MainTabBarCoordinator {
 	func setupHomeCoordinator() {
 		let navigationController = UINavigationController()
 		navigationController.tabBarItem = TabBarItems.home.tabBarItem
-		let coordinator = HomeCoordinator(navigationController: navigationController, container: container)
+		let coordinator = HomeCoordinator(
+			navigationController: navigationController,
+			container: container)
+
 		childCoordinators.append(coordinator)
 		coordinator.didFinishPublisher
 			.sink { [unowned self] in
@@ -92,11 +97,14 @@ private extension MainTabBarCoordinator {
 			.store(in: &cancellables)
 		coordinator.start()
 	}
-	
+
 	func setupDiaryCoordinator() {
 		let navigationController = UINavigationController()
 		navigationController.tabBarItem = TabBarItems.diary.tabBarItem
-		let coordinator = DiaryCoordinator(navigationController: navigationController, container: container)
+		let coordinator = DiaryCoordinator(
+			navigationController: navigationController,
+			container: container)
+
 		childCoordinators.append(coordinator)
 		coordinator.didFinishPublisher
 			.sink { [unowned self] in
@@ -106,11 +114,14 @@ private extension MainTabBarCoordinator {
 			.store(in: &cancellables)
 		coordinator.start()
 	}
-	
+
 	func setupReportCoordinator() {
 		let navigationController = UINavigationController()
 		navigationController.tabBarItem = TabBarItems.report.tabBarItem
-		let coordinator = ReportCoordinator(navigationController: navigationController, container: container)
+		let coordinator = ReportCoordinator(
+			navigationController: navigationController,
+			container: container)
+
 		childCoordinators.append(coordinator)
 		coordinator.didFinishPublisher
 			.sink { [unowned self] in
@@ -120,11 +131,14 @@ private extension MainTabBarCoordinator {
 			.store(in: &cancellables)
 		coordinator.start()
 	}
-	
+
 	func setupSettingsCoordinator() {
 		let navigationController = UINavigationController()
 		navigationController.tabBarItem = TabBarItems.settings.tabBarItem
-		let coordinator = SettingsCoordinator(navigationController: navigationController, container: container)
+		let coordinator = SettingsCoordinator(
+			navigationController: navigationController,
+			container: container)
+		
 		childCoordinators.append(coordinator)
 		coordinator.didFinishPublisher
 			.sink { [unowned self] in

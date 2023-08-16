@@ -16,8 +16,8 @@ enum RecordsEndpoint: Endpoint {
 	case bulkDetele(id: String)
 	case bulkAddRecords(model: [RecordRequestModel])
 	case filterRecords(userId: String, startDate: Double, endDate: Double)
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	var path: String? {
 		switch self {
 		case .addRecord: 			   return "/data/Records"
@@ -40,69 +40,67 @@ enum RecordsEndpoint: Endpoint {
 		case .filterRecords:  return .get
 		}
 	}
-	
+
 	var queries: HTTPQueries {
 		switch self {
 		case .fetchRecords(let id):
 			let ownerId = QueryParameters(
 				key: .ownerId,
 				value: .equalToString(stringValue: id)).queryString
-			
+
 			let recordDate = QueryParameters(
 				key: .recordDate,
 				value: .equalToString(stringValue: "")).queryString
-			
+
 			return [
-				.ʼwhereʼ: ownerId,
+				.filter: ownerId,
 				.sort: recordDate
 			]
-			
+
 		case .bulkDetele(let id):
 			let ownerId = QueryParameters(
 				key: .ownerId,
 				value: .equalToString(stringValue: id)
 			).queryString
-			
-			return [.ʼwhereʼ: ownerId]
-			
+
+			return [.filter: ownerId]
+
 		case .filterRecords(let id, let startDate, let endDate):
 			let idFilter = QueryParameters(
 				key: .ownerId,
 				value: .equalToString(stringValue: id)
 			).queryString
-			
+
 			let dateFilter = QueryParameters(
 				key: .recordDate,
 				value: .dateRange(startDate: startDate, endDate: endDate)
 			).queryString
-			
+
 			return [
-				.ʼwhereʼ: "\(idFilter) and \(dateFilter)"
+				.filter: "\(idFilter) and \(dateFilter)"
 			]
-			
+
 		default: return [:]
 		}
 	}
-	
+
 	var headers: HTTPHeaders {
 		switch self {
 		case .addRecord, .updateRecord, .fetchRecords, .deleteRecord, .bulkDetele, .bulkAddRecords, .filterRecords:
 			return ["": ""]
 		}
 	}
-	
+
 	var body: RequestBody? {
 		switch self {
 		case .addRecord(model: let recordModel), .updateRecord(model: let recordModel, _):
 			return .encodable(recordModel)
-			
+
 		case .bulkAddRecords(model: let records):
 			return .encodable(records)
-			
+
 		case .deleteRecord, .fetchRecords, .bulkDetele, .filterRecords:
 			return nil
 		}
 	}
 }
-
-

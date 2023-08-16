@@ -8,30 +8,30 @@
 import UIKit
 
 final class CustomActivityIndicator: UIView {
-	//MARK: - Properties
+	// MARK: - Properties
 	static let tagValue = Constants.tagValue
 	private let spinningCircle = CAShapeLayer()
 	private let viewContainer = UIView()
-	
+
 	var isLoading: Bool = false {
 		didSet {
 			isLoading ? animate() : stopAnimation()
 		}
 	}
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		configure()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		configure()
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension CustomActivityIndicator {
 	func configure() {
 		tag = Constants.tagValue
@@ -49,15 +49,19 @@ private extension CustomActivityIndicator {
 		viewContainer.layer.addSublayer(spinningCircle)
 		viewContainer.translatesAutoresizingMaskIntoConstraints = false
 	}
-	
+
 	func animate() {
 		UIView.animate(withDuration: Constants.animationDuration,
 					   delay: .zero,
 					   options: .curveLinear) { [weak self] in
-			guard let self = self else { return }
+			guard let self = self else {
+				return
+			}
 			self.viewContainer.transform = CGAffineTransform(rotationAngle: .pi)
 		} completion: { [weak self] _ in
-			guard let self = self else { return }
+			guard let self = self else {
+				return
+			}
 			UIView.animate(withDuration: Constants.animationDuration,
 						   delay: .zero,
 						   options: .curveLinear) {
@@ -65,7 +69,7 @@ private extension CustomActivityIndicator {
 			} completion: { _ in self.animate() }
 		}
 	}
-	
+
 	func stopAnimation() {
 		UIView.performWithoutAnimation {
 			viewContainer.layer.removeAllAnimations()
@@ -73,11 +77,11 @@ private extension CustomActivityIndicator {
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let frameWidth: 		  CGFloat = 50
 	static let frameHeight: 	  CGFloat = 50
-	static let lineWidth:		  CGFloat = 10
+	static let lineWidth: 		  CGFloat = 10
 	static let strokeEnd: 		  CGFloat = 0.35
 	static let animationDuration: TimeInterval = 0.6
 	static let tagValue: Int = 	  1234123

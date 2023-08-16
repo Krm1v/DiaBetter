@@ -9,15 +9,15 @@ import UIKit
 import Combine
 
 final class ReportViewController: BaseViewController<ReportViewModel> {
-	//MARK: - Properties
+	// MARK: - Properties
 	private let contentView = ReportSceneView()
-	
-	//MARK: - UIView lifecycle methods
+
+	// MARK: - UIView lifecycle methods
 	override func loadView() {
 		view = contentView
 	}
-	
-	//MARK: - Overriden methods
+
+	// MARK: - Overriden methods
 	override func setupNavBar() {
 		super.setupNavBar()
 		title = Localization.report

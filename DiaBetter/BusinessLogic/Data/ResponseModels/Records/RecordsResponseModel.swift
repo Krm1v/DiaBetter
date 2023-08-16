@@ -8,20 +8,20 @@
 import Foundation
 
 struct RecordsResponseModel: Decodable {
-	let recordId: String
-	let meal: Decimal?
-	let longInsulin: Decimal?
-	let glucoseLevel: Decimal?
-	let created: Int?
-	let recordNote: String?
-	let fastInsulin: Decimal?
-	let objectID: String
-	let recordDate: Double
-	let ownerId: String
-	
 	enum CodingKeys: String, CodingKey {
 		case meal, longInsulin, glucoseLevel, created, recordDate, fastInsulin
 		case recordNote, ownerId, recordId
 		case objectID = "objectId"
 	}
+
+	let recordId: 	  String
+	let meal: 		  Decimal?
+	let longInsulin:  Decimal?
+	let glucoseLevel: Decimal?
+	let created: 	  Int?
+	let recordNote:   String?
+	let fastInsulin:  Decimal?
+	let objectID: 	  String
+	let recordDate:   Double
+	let ownerId: 	  String
 }

@@ -9,14 +9,14 @@ import UIKit
 import Charts
 
 final class ChartsDateFormatter: NSObject, AxisValueFormatter {
-	//MARK: - Properties
+	// MARK: - Properties
 	private let dateFormatter = DateFormatter()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init() {
 		super.init()
 	}
-	
+
 	convenience init(format: DateFormats) {
 		self.init()
 		self.dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
@@ -24,7 +24,7 @@ final class ChartsDateFormatter: NSObject, AxisValueFormatter {
 		self.dateFormatter.dateFormat = format.rawValue
 	}
 
-	//MARK: - Public methods
+	// MARK: - Public methods
 	public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
 		return dateFormatter.string(from: Date(timeIntervalSince1970: value))
 	}

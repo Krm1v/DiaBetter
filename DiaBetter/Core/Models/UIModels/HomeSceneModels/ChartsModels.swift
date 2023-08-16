@@ -8,8 +8,8 @@
 import Foundation
 
 struct LineChartItem: Hashable {
-	let x: Double
-	let y: Double
+	let xValue: Double
+	let yValue: Double
 }
 
 struct LineChartCellModel: Hashable {

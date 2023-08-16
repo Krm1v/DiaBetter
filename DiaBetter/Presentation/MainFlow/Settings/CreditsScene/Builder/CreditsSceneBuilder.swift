@@ -16,4 +16,3 @@ final class CreditsSceneBuilder {
 		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
 	}
 }
-

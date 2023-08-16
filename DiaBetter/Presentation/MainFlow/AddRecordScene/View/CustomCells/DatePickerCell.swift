@@ -13,33 +13,33 @@ enum DatePickerCellActions {
 }
 
 final class DatePickerCell: BaseCollectionViewCell {
-	//MARK: - Properties
+	// MARK: - Properties
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
 	private let actionSubject = PassthroughSubject<DatePickerCellActions, Never>()
-	
-	//MARK: - UI Elements
+
+	// MARK: - UI Elements
 	private lazy var titleLabel = buildTitleLabel(fontSize: Constants.titleLabelFontSize)
 	private lazy var datePicker = UIDatePicker()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func configure(model: DatePickerCellModel) {
 		titleLabel.text = model.title
 		setupBindings()
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension DatePickerCell {
 	func setupUI() {
 		setupLayout()
@@ -50,20 +50,26 @@ private extension DatePickerCell {
 		datePicker.tintColor = Colors.customPink.color
 		datePicker.maximumDate = .now
 	}
-	
+
 	func setupLayout() {
 		addSubview(titleLabel, constraints: [
-			titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-			titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
-												constant: Constants.smallEdgeInset)
+			titleLabel.centerYAnchor.constraint(
+				equalTo: centerYAnchor),
+
+			titleLabel.leadingAnchor.constraint(
+				equalTo: leadingAnchor,
+				constant: Constants.smallEdgeInset)
 		])
+
 		addSubview(datePicker, constraints: [
 			datePicker.centerYAnchor.constraint(equalTo: centerYAnchor),
-			datePicker.trailingAnchor.constraint(equalTo: trailingAnchor,
-												 constant: -Constants.smallEdgeInset)
+			
+			datePicker.trailingAnchor.constraint(
+				equalTo: trailingAnchor,
+				constant: -Constants.smallEdgeInset)
 		])
 	}
-	
+
 	func setupBindings() {
 		datePicker.datePublisher
 			.map { DatePickerCellActions.dateDidChanged($0) }
@@ -72,8 +78,8 @@ private extension DatePickerCell {
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let titleLabelFontSize:  CGFloat = 25
 	static let defaultCornerRadius: CGFloat = 12
 	static let smallEdgeInset: 		CGFloat = 8

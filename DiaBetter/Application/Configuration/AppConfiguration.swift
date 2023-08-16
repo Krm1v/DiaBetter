@@ -17,38 +17,38 @@ protocol AppConfiguration: BaseURLStorage {
 }
 
 final class AppConfigurationImpl: AppConfiguration {
-	//MARK: - Private properties
+	// MARK: - Private properties
 	private let apiKey: String
 	private let appId: String
 	private let apiURL: String
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	let bundleId: String
 	let environment: AppEnvironment
-	
+
 	lazy var baseURL: URL = {
 		guard let url = URL(string: apiURL) else {
 			assert(false, "Invalid URL")
 		}
 		let fullURL = url.appendingPathComponent(appId).appendingPathComponent(apiKey)
-		
+
 		return fullURL
 	}()
-    
-	//MARK: - Init
+
+	// MARK: - Init
     init(bundle: Bundle = .main) {
         guard
             let bundleId = bundle.bundleIdentifier,
             let infoDict = bundle.infoDictionary,
-            let environmentValue = infoDict[Key.Environment] as? String,
-			let apiKey = infoDict[Key.ApiKey] as? String,
-			let appId = infoDict[Key.AppId] as? String,
-			let apiURL = infoDict[Key.BaseUrl] as? String,
+            let environmentValue = infoDict[Keys.Environment] as? String,
+			let apiKey = infoDict[Keys.ApiKey] as? String,
+			let appId = infoDict[Keys.AppId] as? String,
+			let apiURL = infoDict[Keys.BaseUrl] as? String,
             let environment = AppEnvironment(rawValue: environmentValue)
         else {
 			assert(false, "Config file error")
         }
-        
+
         self.bundleId = bundleId
         self.environment = environment
 		self.apiKey = apiKey
@@ -62,8 +62,8 @@ final class AppConfigurationImpl: AppConfiguration {
     }
 }
 
-//MARK: - Fileprivate enum
-fileprivate enum Key {
+// MARK: - Fileprivate enum
+private enum Keys {
 	static let Environment: String = "APP_ENVIRONMENT"
 	static let ApiKey: String = "API_KEY"
 	static let AppId: String = "APP_ID"

@@ -8,6 +8,6 @@
 import Foundation
 
 struct APIErrorResponseModel: Decodable {
-	let code: Int
+	let code: 	 Int
 	let message: String
 }

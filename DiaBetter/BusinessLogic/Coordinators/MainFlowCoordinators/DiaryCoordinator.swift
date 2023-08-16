@@ -9,21 +9,21 @@ import UIKit
 import Combine
 
 final class DiaryCoordinator: Coordinator {
-	//MARK: - Properties
+	// MARK: - Properties
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	private let didFinishSubject = PassthroughSubject<Void, Never>()
 	private(set) lazy var didFinishPublisher = didFinishSubject.eraseToAnyPublisher()
 	private let container: AppContainer
 	private var cancellables = Set<AnyCancellable>()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init(navigationController: UINavigationController, container: AppContainer) {
 		self.navigationController = navigationController
 		self.container = container
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func start() {
 		let module = DiarySceneBuilder.build(container: container)
 		module.transitionPublisher
@@ -38,7 +38,7 @@ final class DiaryCoordinator: Coordinator {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension DiaryCoordinator {
 	func presentDetailScene(record: Record) {
 		let module = DiaryDetailSceneBuilder.build(container: container, record: record)

@@ -10,7 +10,7 @@ import Foundation
 enum GlucoseLevelUnits: String, Hashable {
 	case mmolL
 	case mgDl
-	
+
 	var description: String {
 		switch self {
 		case .mmolL: return "mmol/L"

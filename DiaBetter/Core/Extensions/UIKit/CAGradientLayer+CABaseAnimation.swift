@@ -8,16 +8,18 @@
 import UIKit
 
 extension CAGradientLayer {
-	func setColors(animation: CABasicAnimation,
-				   _ newColors: [CGColor],
-				   animated: Bool = true,
-				   duration: TimeInterval = 0,
-				   timingFuncName: CAMediaTimingFunctionName? = nil) {
+	func setColors(
+		animation: CABasicAnimation,
+		_ newColors: [CGColor],
+		animated: Bool = true,
+		duration: TimeInterval = 0,
+		timingFuncName: CAMediaTimingFunctionName? = nil
+	) {
 		if !animated {
 			self.colors = newColors
 			return
 		}
-		
+
 		animation.keyPath = "colors"
 		animation.fromValue = self.colors
 		animation.toValue = newColors

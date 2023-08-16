@@ -9,20 +9,20 @@ import UIKit
 import Combine
 
 final class CreateUserProfileViewController: BaseViewController<CreateUserProfileViewModel> {
-	//MARK: - Properties
+	// MARK: - Properties
 	private let contentView = CreateUserProfileView()
-	
-	//MARK: - UIView lifecycle methods
+
+	// MARK: - UIView lifecycle methods
 	override func loadView() {
 		view = contentView
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupActions()
 	}
-	
-	//MARK: - Overriden methods
+
+	// MARK: - Overriden methods
 	override func setupNavBar() {
 		super.setupNavBar()
 		navigationItem.hidesBackButton = true
@@ -30,7 +30,7 @@ final class CreateUserProfileViewController: BaseViewController<CreateUserProfil
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension CreateUserProfileViewController {
 	func setupActions() {
 		contentView.actionPublisher

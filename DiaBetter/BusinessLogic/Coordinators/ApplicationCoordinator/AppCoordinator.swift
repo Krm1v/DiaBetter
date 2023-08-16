@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 final class AppCoordinator: Coordinator {
-	//MARK: - Properties
+	// MARK: - Properties
 	var window: UIWindow
 	var navigationController: UINavigationController
 	let container: AppContainer
@@ -17,18 +17,19 @@ final class AppCoordinator: Coordinator {
 	private(set) lazy var didFinishPublisher = didFinishSubject.eraseToAnyPublisher()
 	private let didFinishSubject = PassthroughSubject<Void, Never>()
 	private var cancellables = Set<AnyCancellable>()
-	
-	//MARK: - Init
-	init(window: UIWindow,
-		 container: AppContainer,
-		 navigationController: UINavigationController = UINavigationController()
+
+	// MARK: - Init
+	init(
+		window: UIWindow,
+		container: AppContainer,
+		navigationController: UINavigationController = UINavigationController()
 	) {
 		self.window = window
 		self.container = container
 		self.navigationController = navigationController
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func start() {
 		self.window.rootViewController = navigationController
 		self.window.makeKeyAndVisible()
@@ -36,7 +37,7 @@ final class AppCoordinator: Coordinator {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension AppCoordinator {
 	func authFlow() {
 		let authCoordinator = AuthCoordinator(navigationController: navigationController,
@@ -50,7 +51,7 @@ private extension AppCoordinator {
 			.store(in: &cancellables)
 		authCoordinator.start()
 	}
-	
+
 	func mainFlow() {
 		let mainCoordinator = MainTabBarCoordinator(navigationController: navigationController,
 													container: container)

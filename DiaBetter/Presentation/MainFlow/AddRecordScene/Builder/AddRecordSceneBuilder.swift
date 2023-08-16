@@ -14,7 +14,9 @@ enum AddRecordSceneTransition: Transition {
 
 final class AddRecordSceneBuilder {
 	static func build(container: AppContainer) -> Module<AddRecordSceneTransition, UIViewController> {
-		let viewModel = AddRecordSceneViewModel(recordsService: container.recordsService, userService: container.userService)
+		let viewModel = AddRecordSceneViewModel(
+			recordsService: container.recordsService,
+			userService: container.userService)
 		let viewController = AddRecordSceneViewController(viewModel: viewModel)
 		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPiblisher)
 	}

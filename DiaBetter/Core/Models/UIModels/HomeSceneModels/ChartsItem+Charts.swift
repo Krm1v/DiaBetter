@@ -8,10 +8,10 @@
 import Charts
 
 struct ChartItem: Hashable {
-	let x: Double
-	let y: Double
-	
+	let xValue: Double
+	let yValue: Double
+
 	var entry: ChartDataEntry {
-		ChartDataEntry(x: x, y: y)
+		ChartDataEntry(x: xValue, y: yValue)
 	}
 }

@@ -14,19 +14,21 @@ protocol DataConverter {
 }
 
 final class DataConverterImpl {
-	//MARK: - Properties
+	// MARK: - Properties
 	private let encoder: JSONEncoder
 	private let decoder: JSONDecoder
-	
-	//MARK: - Init
-	init(encoder: JSONEncoder = JSONEncoder(),
-		 decoder: JSONDecoder = JSONDecoder()) {
+
+	// MARK: - Init
+	init(
+		encoder: JSONEncoder = JSONEncoder(),
+		decoder: JSONDecoder = JSONDecoder()
+	) {
 		self.encoder = encoder
 		self.decoder = decoder
 	}
 }
 
-//MARK: - Extension DataConverter
+// MARK: - Extension DataConverter
 extension DataConverterImpl: DataConverter {
 	func seriallizeToData<T: Encodable>(object: T) -> Data? {
 		var encodedObject: Data?
@@ -37,22 +39,26 @@ extension DataConverterImpl: DataConverter {
 		}
 		return encodedObject
 	}
-	
+
 	func deseriallizeFromData<T: Decodable>(data: Data?) -> T? {
 		var decodedObject: T?
 		do {
-			guard let data = data else { return nil }
+			guard let data = data else {
+				return nil
+			}
 			decodedObject = try decoder.decode(T.self, from: data)
 		} catch let error {
 			debugPrint(error.localizedDescription)
 		}
 		return decodedObject
 	}
-	
+
 	func deseriallizeFromData<T: Decodable>(data: Data?) -> [T?] {
 		var decodedObject: [T?] = []
 		do {
-			guard let data = data else { return [nil] }
+			guard let data = data else {
+				return [nil]
+			}
 			decodedObject = try decoder.decode([T].self, from: data)
 		} catch let error {
 			debugPrint(error.localizedDescription)

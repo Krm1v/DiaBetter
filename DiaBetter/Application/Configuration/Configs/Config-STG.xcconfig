@@ -10,5 +10,5 @@
 
 APP_ENVIRONMENT = stg
 APP_NAME = DiaBetter STG
-APP_BUNDLE_ID = com.chisw.vladyslavbarankevych.diabetterapp.stg
+APP_BUNDLE_ID = com.vladbarankevych.diabetter.stg
 

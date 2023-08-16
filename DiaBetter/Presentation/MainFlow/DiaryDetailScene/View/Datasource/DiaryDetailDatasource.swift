@@ -8,15 +8,15 @@
 import Foundation
 
 struct DiaryDetailModel {
-	//MARK: - Properties
+	// MARK: - Properties
 	let date: Date
 	let glucose: String
 	let meal: String
 	let fastInsulin: String
 	let longInsulin: String
 	let note: String
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init(_ record: Record) {
 		self.date = record.recordDate
 		self.glucose = record.glucoseLevel?.convertToString() ?? "∅"

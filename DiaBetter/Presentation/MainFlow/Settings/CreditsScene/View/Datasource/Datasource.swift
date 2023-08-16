@@ -27,7 +27,7 @@ enum CreditsListCellItems: Hashable {
 	case linkedIn
 	case termsAndConditions
 	case privacyPolicy
-	
+
 	var link: String {
 		switch self {
 		case .website: 	 	 	  return "https://chisw.com"

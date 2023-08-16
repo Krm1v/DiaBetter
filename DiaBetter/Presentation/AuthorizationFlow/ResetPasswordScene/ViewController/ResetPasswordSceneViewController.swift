@@ -9,20 +9,20 @@ import UIKit
 import Combine
 
 final class ResetPasswordSceneViewController: BaseViewController<ResetPasswordSceneViewModel> {
-	//MARK: - Properties
+	// MARK: - Properties
 	private let contentView = ResetPasswordSceneView()
-	
-	//MARK: - UIView lifecycle methods
+
+	// MARK: - UIView lifecycle methods
 	override func loadView() {
 		view = contentView
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupBindings()
 	}
-	
-	//MARK: - Overriden methods
+
+	// MARK: - Overriden methods
 	override func setupNavBar() {
 		super.setupNavBar()
 		title = Localization.restorePassword
@@ -30,7 +30,7 @@ final class ResetPasswordSceneViewController: BaseViewController<ResetPasswordSc
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension ResetPasswordSceneViewController {
 	func setupBindings() {
 		contentView.actionPublisher

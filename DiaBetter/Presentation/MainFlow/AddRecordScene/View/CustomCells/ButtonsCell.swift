@@ -14,25 +14,26 @@ enum ButtonsCellActions {
 }
 
 final class ButtonsCell: BaseCollectionViewCell {
-	//MARK: - Properties
+	// MARK: - Properties
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
 	private let actionSubject = PassthroughSubject<ButtonsCellActions, Never>()
-	
-	//MARK: - UI Elements
-	private lazy var saveButton = buildGradientButton(with: Localization.save, fontSize: Constants.defaultButtonFontSize)
+
+	// MARK: - UI Elements
+	private lazy var saveButton = buildGradientButton(with: Localization.save,
+													  fontSize: Constants.defaultButtonFontSize)
 	private lazy var closeButton = buildBackButton(with: Localization.close)
 	private lazy var vStackForButtons = buildStackView(axis: .vertical,
 													   alignment: .fill,
 													   distribution: .fillEqually,
 													   spacing: Constants.defaultStackViewSpacing)
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 		setupBindings()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
@@ -40,13 +41,13 @@ final class ButtonsCell: BaseCollectionViewCell {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension ButtonsCell {
 	func setupUI() {
 		backgroundColor = .clear
 		setupLayout()
 	}
-	
+
 	func setupLayout() {
 		addSubview(vStackForButtons, constraints: [
 			vStackForButtons.topAnchor.constraint(equalTo: topAnchor),
@@ -58,13 +59,13 @@ private extension ButtonsCell {
 			vStackForButtons.addArrangedSubview($0)
 		}
 	}
-	
+
 	func setupBindings() {
 		saveButton.tapPublisher
 			.map { ButtonsCellActions.saveButtonDidTapped }
 			.subscribe(actionSubject)
 			.store(in: &cancellables)
-		
+
 		closeButton.tapPublisher
 			.map { ButtonsCellActions.closeButtonDidTapped }
 			.subscribe(actionSubject)
@@ -72,8 +73,8 @@ private extension ButtonsCell {
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let defaultButtonFontSize: 	CGFloat = 13
 	static let defaultStackViewSpacing: CGFloat = 16
 }

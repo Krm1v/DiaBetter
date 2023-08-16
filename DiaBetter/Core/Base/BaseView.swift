@@ -9,10 +9,10 @@ import UIKit
 import Combine
 import CombineCocoa
 
-class BaseView: UIView {
-	//MARK: - Properties
+internal class BaseView: UIView {
+	// MARK: - Properties
     var cancellables = Set<AnyCancellable>()
 }
 
-//MARK: - Extension UIElementsBuilder
+// MARK: - Extension UIElementsBuilder
 extension BaseView: UIElementsBuilder { }

@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 final class ReportViewModel: BaseViewModel {
-	//MARK: - Properties
+	// MARK: - Properties
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<ReportTransition, Never>()
 }

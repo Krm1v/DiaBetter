@@ -8,16 +8,16 @@
 import Foundation
 
 struct Record: Codable, Hashable {
-	let recordId: String
-	let meal: Decimal?
-	let fastInsulin: Decimal?
+	let recordId: 	  String
+	let meal: 		  Decimal?
+	let fastInsulin:  Decimal?
 	let glucoseLevel: Decimal?
-	let longInsulin: Decimal?
-	let objectId: String
-	let recordDate: Date
-	let recordNote: String?
-	let userId: String
-	
+	let longInsulin:  Decimal?
+	let objectId: 	  String
+	let recordDate:   Date
+	let recordNote:   String?
+	let userId: 	  String
+
 	init(
 		recordId: String = UUID().uuidString,
 		meal: Decimal? = nil,
@@ -39,7 +39,7 @@ struct Record: Codable, Hashable {
 		self.recordNote = recordNote
 		self.userId = userId
 	}
-	
+
 	init(_ response: RecordsResponseModel) {
 		self.recordId = response.recordId
 		self.meal = response.meal

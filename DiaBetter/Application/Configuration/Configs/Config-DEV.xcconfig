@@ -10,7 +10,7 @@
 
 APP_ENVIRONMENT = dev
 APP_NAME = DiaBetter DEV
-APP_BUNDLE_ID = com.chisw.vladyslavbarankevych.diabetterapp.dev
+APP_BUNDLE_ID = com.vladbarankevych.diabetter.dev
 BASE_URL = https:/$()/api.backendless.com
 APP_ID = 578AC521-F18E-1B13-FF6E-EF12A242D000
 API_KEY = 28512E56-9154-4D83-A1C4-E5F85D3EDA78

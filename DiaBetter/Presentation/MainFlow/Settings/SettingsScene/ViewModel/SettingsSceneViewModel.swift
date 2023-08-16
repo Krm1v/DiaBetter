@@ -9,11 +9,11 @@ import Foundation
 import Combine
 
 final class SettingsSceneViewModel: BaseViewModel {
-	//MARK: - Properties
+	// MARK: - Properties
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<SettingsTransition, Never>()
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func openDetailSettingsScreen(_ object: Settings) {
 		switch object {
 		case .user: 		 transitionSubject.send(.userScene)

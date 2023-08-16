@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 final class RecordCell: BaseCollectionViewCell {
-	//MARK: - UI Elements
+	// MARK: - UI Elements
 	private lazy var hStack = buildStackView(axis: .horizontal,
 											 alignment: .fill,
 											 distribution: .fillEqually,
@@ -19,19 +19,19 @@ final class RecordCell: BaseCollectionViewCell {
 	private lazy var mealBox = BoxElementView()
 	private lazy var fastInsulinBox = BoxElementView()
 	private lazy var longInsulinBox = BoxElementView()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func configure(with model: DiaryRecordCellModel) {
 		timeLabel.text = model.time
 		glucoseBox.setInfo(model.glucoseInfo)
@@ -41,7 +41,7 @@ final class RecordCell: BaseCollectionViewCell {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension RecordCell {
 	func setupUI() {
 		self.backgroundColor = .black
@@ -49,7 +49,7 @@ private extension RecordCell {
 		timeLabel.textAlignment = .center
 		setupLayout()
 	}
-	
+
 	func setupLayout() {
 		addSubview(hStack, withEdgeInsets: .all(Constants.defaultEdgeInsets))
 		[
@@ -63,8 +63,8 @@ private extension RecordCell {
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let defaultStackViewSpacing: CGFloat = 8
 	static let defaultEdgeInsets: 	    CGFloat = 8
 }

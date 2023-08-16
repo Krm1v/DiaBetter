@@ -15,29 +15,29 @@ enum CreditsSceneActions {
 final class CreditsSceneView: BaseView {
 	typealias CreditsSceneDatasource = UICollectionViewDiffableDataSource<CreditsSceneSections, CreditsSceneItems>
 	typealias CreditsSceneSnapshot = NSDiffableDataSourceSnapshot<CreditsSceneSections, CreditsSceneItems>
-	
-	//MARK: - UI Elements
+
+	// MARK: - UI Elements
 	private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeLayout())
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	private var datasource: CreditsSceneDatasource?
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
 	private let actionSubject = PassthroughSubject<CreditsSceneActions, Never>()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 		setupBindings()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 		setupBindings()
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func setupSnapshot(sections: [SectionModel<CreditsSceneSections, CreditsSceneItems>]) {
 		var snapshot = CreditsSceneSnapshot()
 		for section in sections {
@@ -48,44 +48,54 @@ final class CreditsSceneView: BaseView {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension CreditsSceneView {
 	func setupUI() {
 		setupLayout()
 		setupCollectionView()
 	}
-	
+
 	func setupLayout() {
 		addSubview(collectionView, withEdgeInsets: .all(.zero))
 	}
-	
+
 	func setupCollectionView() {
-		collectionView.register(AppInfoCell.self,
-								forCellWithReuseIdentifier: AppInfoCell.reuseID)
-		collectionView.register(CreditsListCell.self,
-								forCellWithReuseIdentifier: CreditsListCell.reuseID)
+		collectionView.register(
+			AppInfoCell.self,
+			forCellWithReuseIdentifier: AppInfoCell.reuseID)
+
+		collectionView.register(
+			CreditsListCell.self,
+			forCellWithReuseIdentifier: CreditsListCell.reuseID)
+
 		setupDatasource()
 	}
-	
+
 	func setupDatasource() {
-		datasource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
-			switch item {
-			case .appInfoItem(let model):
-				let cell = collectionView.configureCell(cellType: AppInfoCell.self,
-														indexPath: indexPath)
-				cell.configure(model)
-				return cell
-				
-			case .listItem(let model):
-				let cell = collectionView.configureCell(cellType: CreditsListCell.self,
-														indexPath: indexPath)
-				cell.configure(model)
-				return cell
-			}
-		})
+		datasource = UICollectionViewDiffableDataSource(
+			collectionView: collectionView,
+			cellProvider: { collectionView, indexPath, item -> UICollectionViewCell? in
+				switch item {
+				case .appInfoItem(let model):
+					let cell = collectionView.configureCell(
+						cellType: AppInfoCell.self,
+						indexPath: indexPath)
+
+					cell.configure(model)
+					return cell
+
+				case .listItem(let model):
+					let cell = collectionView.configureCell(
+						cellType: CreditsListCell.self,
+						indexPath: indexPath)
+
+					cell.configure(model)
+					return cell
+				}
+			})
 	}
-	
-	//MARK: - Layout
+
+	// MARK: - Layout
 	func makeLayout() -> UICollectionViewLayout {
 		let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
 			guard let self = self else {
@@ -108,38 +118,55 @@ private extension CreditsSceneView {
 		layout.configuration = configuration
 		return layout
 	}
-	
+
 	func makeHeaderSection() -> NSCollectionLayoutSection {
-		let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-											  heightDimension: .fractionalHeight(1.0))
+		let itemSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(1.0),
+			heightDimension: .fractionalHeight(1.0))
+
 		let item = NSCollectionLayoutItem(layoutSize: itemSize)
-		item.contentInsets = NSDirectionalEdgeInsets(top: .zero,
-													 leading: Constants.defaultEdgeInset,
-													 bottom: .zero,
-													 trailing: Constants.defaultEdgeInset)
-		let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-											   heightDimension: .fractionalWidth(0.5))
-		let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
-													 subitem: item,
-													 count: 1)
+
+		item.contentInsets = NSDirectionalEdgeInsets(
+			top: .zero,
+			leading: Constants.defaultEdgeInset,
+			bottom: .zero,
+			trailing: Constants.defaultEdgeInset)
+
+		let groupSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(1.0),
+			heightDimension: .fractionalWidth(0.5))
+
+		let group = NSCollectionLayoutGroup.vertical(
+			layoutSize: groupSize,
+			subitem: item,
+			count: 1)
+
 		let section = NSCollectionLayoutSection(group: group)
 		return section
 	}
-	
+
 	func makeListSection(with layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
 		var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
 		configuration.backgroundColor = .black
-		
-		let section = NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
-		section.contentInsets = NSDirectionalEdgeInsets(top: Constants.defaultEdgeInset,
-														leading: Constants.defaultEdgeInset,
-														bottom: .zero,
-														trailing: Constants.defaultEdgeInset)
+
+		let section = NSCollectionLayoutSection.list(
+			using: configuration,
+			layoutEnvironment: layoutEnvironment)
+
+		section.contentInsets = NSDirectionalEdgeInsets(
+			top: Constants.defaultEdgeInset,
+			leading: Constants.defaultEdgeInset,
+			bottom: .zero,
+			trailing: Constants.defaultEdgeInset)
+
 		return section
 	}
-	
+
 	func getObject(with indexPath: IndexPath) -> CreditsListCellModel? {
-		guard let object = datasource?.itemIdentifier(for: indexPath) else { return nil }
+		guard let object = datasource?.itemIdentifier(for: indexPath) else {
+			return nil
+		}
+
 		var model: CreditsListCellModel?
 		switch object {
 		case .listItem(let listModel):
@@ -148,18 +175,20 @@ private extension CreditsSceneView {
 		}
 		return model
 	}
-	
+
 	func setupBindings() {
 		collectionView.didSelectItemPublisher
 			.sink { [unowned self] indexPath in
-				guard let object = getObject(with: indexPath) else { return }
+				guard let object = getObject(with: indexPath) else {
+					return
+				}
 				actionSubject.send(.cellDidTapped(object))
 			}
 			.store(in: &cancellables)
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let defaultEdgeInset: CGFloat = 16
 }

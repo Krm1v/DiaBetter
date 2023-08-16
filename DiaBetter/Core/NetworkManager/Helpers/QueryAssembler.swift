@@ -9,7 +9,7 @@ import Foundation
 
 enum Queries: String, Hashable {
 	case sort = "sortBy"
-	case ʼwhereʼ = "where"
+	case filter = "where"
 	case overwrite = "overwrite"
 }
 
@@ -28,7 +28,7 @@ enum QueryParametersValues: Hashable {
 struct QueryParameters: Hashable {
 	let key: QueryParametersKeys
 	var value: QueryParametersValues
-	
+
 	var queryString: String {
 		switch value {
 		case .equalToString(let stringValue):

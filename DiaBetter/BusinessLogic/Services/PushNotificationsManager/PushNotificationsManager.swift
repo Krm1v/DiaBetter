@@ -16,19 +16,21 @@ protocol UserNotificationManager: AnyObject {
 }
 
 final class UserNotificationManagerImpl: NSObject {
-	//MARK: - Properties
+	// MARK: - Properties
 	private let userNotificationCenter = UNUserNotificationCenter.current()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init() {
 		super.init()
 		userNotificationCenter.delegate = self
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func scheduleNotification(task: Task) -> Future<Void, Error> {
 		return Future<Void, Error> { [weak self] promise in
-			guard let self = self else { return }
+			guard let self = self else {
+				return
+			}
 			let content = UNMutableNotificationContent()
 			content.title = task.name
 			content.body = task.body
@@ -49,30 +51,34 @@ final class UserNotificationManagerImpl: NSObject {
 			self.notificationDidSet(with: task.id)
 		}
 	}
-	
+
 	func cancelNotification(with identifier: String) -> Future<Void, Error> {
 		return Future<Void, Error> { [weak self] promise in
-			guard let self = self else { return }
+			guard let self = self else {
+				return
+			}
 			self.userNotificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
 			promise(.success(()))
 		}
 	}
-	
+
 	func cancelAllNotifications() -> Future<Void, Error> {
 		return Future<Void, Error> { [weak self] promise in
-			guard let self = self else { return }
+			guard let self = self else {
+				return
+			}
 			self.userNotificationCenter.removeAllPendingNotificationRequests()
 			promise(.success(()))
 		}
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension UserNotificationManagerImpl {
 	func notificationDidSet(with identifier: String) {
 		userNotificationCenter.getPendingNotificationRequests { notificationRequests in
 			let isNotificationSet = notificationRequests.contains { $0.identifier == identifier }
-			
+
 			if isNotificationSet {
 				debugPrint("Notification setup")
 			} else {
@@ -82,15 +88,19 @@ private extension UserNotificationManagerImpl {
 	}
 }
 
-//MARK: - Extension UserNotificationManager
+// MARK: - Extension UserNotificationManager
 extension UserNotificationManagerImpl: UserNotificationManager { }
 
-//MARK: - Extension UNUserNotificationCenterDelegate
+// MARK: - Extension UNUserNotificationCenterDelegate
 extension UserNotificationManagerImpl: UNUserNotificationCenterDelegate {
-	func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+	func userNotificationCenter(
+		_ center: UNUserNotificationCenter,
+		willPresent notification: UNNotification,
+		withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+	) {
 		completionHandler([.list, .banner, .sound])
 	}
-	
+
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 		debugPrint("Notification received")
 	}
