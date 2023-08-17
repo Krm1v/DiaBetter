@@ -51,7 +51,7 @@ private extension SwitcherCell {
 		selectionStyle = .none
 		switcher.onTintColor = Colors.customPink.color
 		setupLayout()
-		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
+		titleLabel.font = FontFamily.SFProRounded.regular.font(size: 15)
 	}
 
 	func setupLayout() {

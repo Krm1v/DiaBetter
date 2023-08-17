@@ -87,7 +87,7 @@ enum RecordsEndpoint: Endpoint {
 	var headers: HTTPHeaders {
 		switch self {
 		case .addRecord, .updateRecord, .fetchRecords, .deleteRecord, .bulkDetele, .bulkAddRecords, .filterRecords:
-			return ["": ""]
+			return ["Content-Type": "application/json"]
 		}
 	}
 

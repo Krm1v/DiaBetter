@@ -49,7 +49,7 @@ final class TargetGlucoseCell: BaseCollectionViewCell {
 // MARK: - Private extension
 private extension TargetGlucoseCell {
 	func setupUI() {
-		[titleLabel, glucoseValueLabel].forEach { $0.font = FontFamily.Montserrat.regular.font(size: 15) }
+		[titleLabel, glucoseValueLabel].forEach { $0.font = FontFamily.SFProRounded.regular.font(size: 15) }
 		backgroundColor = Colors.darkNavyBlue.color
 		rounded(12)
 		stepper.backgroundColor = Colors.darkNavyBlue.color

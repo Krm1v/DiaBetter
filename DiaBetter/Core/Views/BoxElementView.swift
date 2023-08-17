@@ -12,7 +12,7 @@ final class BoxElementView: UIView {
 	private lazy var valueLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = FontFamily.Montserrat.semiBold.font(size: 17)
+		label.font = FontFamily.SFProRounded.semibold.font(size: 17)
 		label.textAlignment = .natural
 		label.textColor = .white
 		label.minimumScaleFactor = 0.5
@@ -24,7 +24,7 @@ final class BoxElementView: UIView {
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textAlignment = .natural
 		label.textColor = .systemGray
-		label.font = FontFamily.Montserrat.regular.font(size: 13)
+		label.font = FontFamily.SFProRounded.regular.font(size: 13)
 		label.minimumScaleFactor = 0.5
 		return label
 	}()

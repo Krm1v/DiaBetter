@@ -104,12 +104,12 @@ internal class BaseViewController<VM: ViewModel>: UIViewController {
 
 		navigationController?.navigationBar.largeTitleTextAttributes = [
 			NSAttributedString.Key.foregroundColor: Colors.customPink.color,
-			NSAttributedString.Key.font: FontFamily.Montserrat.bold.font(size: Constants.largeFontSize)
+			NSAttributedString.Key.font: FontFamily.SFProRounded.bold.font(size: Constants.largeFontSize)
 		]
 
 		navigationController?.navigationBar.titleTextAttributes = [
 			NSAttributedString.Key.foregroundColor: Colors.customPink.color,
-			NSAttributedString.Key.font: FontFamily.Montserrat.bold.font(size: Constants.regularFontSize)
+			NSAttributedString.Key.font: FontFamily.SFProRounded.bold.font(size: Constants.regularFontSize)
 		]
 
 		let appearance = UINavigationBarAppearance()

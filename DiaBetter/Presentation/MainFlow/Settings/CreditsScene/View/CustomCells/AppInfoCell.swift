@@ -41,7 +41,7 @@ final class AppInfoCell: BaseCollectionViewCell {
 private extension AppInfoCell {
 	func setupUI() {
 		self.rounded(12)
-		buildVersionLabel.font = FontFamily.Montserrat.regular.font(size: 13)
+		buildVersionLabel.font = FontFamily.SFProRounded.regular.font(size: 13)
 		appIconImageView.rounded(12)
 		setupLayout()
 	}

@@ -45,7 +45,7 @@ private extension BackupDateCell {
 	func setupUI() {
 		self.backgroundColor = Colors.darkNavyBlue.color
 		self.rounded(12)
-		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
+		titleLabel.font = FontFamily.SFProRounded.regular.font(size: 15)
 		datePicker.datePickerMode = .date
 		datePicker.preferredDatePickerStyle = .compact
 		datePicker.tintColor = Colors.customPink.color

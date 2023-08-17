@@ -64,7 +64,7 @@ private extension CubicLineChartCell {
 		let xAxis = chartView.xAxis
 		xAxis.valueFormatter = ChartsDateFormatter(format: .day)
 		xAxis.labelPosition = .top
-		xAxis.labelFont = FontFamily.Montserrat.regular.font(size: Constants.defaultFontSize)
+		xAxis.labelFont = FontFamily.SFProRounded.regular.font(size: Constants.defaultFontSize)
 		xAxis.labelTextColor = .white
 		xAxis.avoidFirstLastClippingEnabled = true
 		xAxis.drawAxisLineEnabled = true
@@ -76,7 +76,7 @@ private extension CubicLineChartCell {
 		xAxis.setLabelCount(Constants.defaultxAxisLabelCount, force: true)
 
 		let yAxis = chartView.leftAxis
-		yAxis.labelFont = FontFamily.Montserrat.regular.font(size: Constants.defaultFontSize)
+		yAxis.labelFont = FontFamily.SFProRounded.regular.font(size: Constants.defaultFontSize)
 		yAxis.labelTextColor = .white
 		yAxis.axisLineColor = .white
 		yAxis.labelPosition = .outsideChart

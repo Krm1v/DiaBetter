@@ -49,8 +49,8 @@ private extension UserDataMenuCell {
 	func setupUI() {
 		titleLabel.textColor = .white
 		self.backgroundColor = Colors.darkNavyBlue.color
-		titleLabel.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelDefaultFontSize)
-		userParameterButton.titleLabel?.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelFontSize)
+		titleLabel.font = FontFamily.SFProRounded.regular.font(size: Constants.titleLabelDefaultFontSize)
+		userParameterButton.titleLabel?.font = FontFamily.SFProRounded.regular.font(size: Constants.titleLabelFontSize)
 		userParameterButton.tintColor = .white
 		userParameterButton.showsMenuAsPrimaryAction = true
 		setupLayout()

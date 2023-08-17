@@ -46,7 +46,7 @@ private extension GlucoseUnitsCell {
 	func setupUI() {
 		backgroundColor = Colors.darkNavyBlue.color
 		rounded(12)
-		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
+		titleLabel.font = FontFamily.SFProRounded.regular.font(size: 15)
 		segmentedControl.selectedSegmentTintColor = Colors.customPink.color
 		for unit in allUnits {
 			segmentedControl.insertSegment(withTitle: unit.title,

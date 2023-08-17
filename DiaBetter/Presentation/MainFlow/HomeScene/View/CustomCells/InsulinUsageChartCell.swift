@@ -60,9 +60,9 @@ private extension InsulinUsageChartCell {
 		chartView.legend.verticalAlignment = .top
 		chartView.legend.orientation = .horizontal
 		chartView.legend.drawInside = false
-		chartView.legend.font = FontFamily.Montserrat.regular.font(size: Constants.basicMediumFontSize)
+		chartView.legend.font = FontFamily.SFProRounded.regular.font(size: Constants.basicMediumFontSize)
 		chartView.legend.yOffset = Constants.basicLegendOffset
-		chartView.leftAxis.labelFont = FontFamily.Montserrat.regular.font(size: Constants.basicMediumFontSize)
+		chartView.leftAxis.labelFont = FontFamily.SFProRounded.regular.font(size: Constants.basicMediumFontSize)
 		chartView.leftAxis.spaceTop = Constants.basicLeftAxisSpacing
 		chartView.leftAxis.spaceBottom = Constants.basicLeftAxisSpacing
 		chartView.leftAxis.axisMinimum = Constants.leftAxisMin
@@ -71,7 +71,7 @@ private extension InsulinUsageChartCell {
 		chartView.xAxis.labelPosition = .top
 		chartView.xAxis.granularityEnabled = true
 		chartView.xAxis.granularity = Constants.basicXAxisGranularity
-		chartView.xAxis.labelFont = FontFamily.Montserrat.regular.font(size: Constants.basicMediumFontSize)
+		chartView.xAxis.labelFont = FontFamily.SFProRounded.regular.font(size: Constants.basicMediumFontSize)
 		chartView.xAxis.valueFormatter = ChartsDateFormatter(format: .day)
 		chartView.xAxis.setLabelCount(Constants.xAxisLabelCount, force: true)
 		chartView.setScaleMinima(Constants.minScale, scaleY: .zero)
@@ -99,7 +99,7 @@ private extension InsulinUsageChartCell {
 		}
 		let dataSets: [LineChartDataSet] = [fastInsulinSet, basalInsulinSet]
 		let data = LineChartData(dataSets: dataSets)
-		data.setValueFont(FontFamily.Montserrat.regular.font(size: Constants.basicMinFontSize))
+		data.setValueFont(FontFamily.SFProRounded.regular.font(size: Constants.basicMinFontSize))
 		data.setValueTextColor(.white)
 		data.setDrawValues(true)
 		chartView.data = data

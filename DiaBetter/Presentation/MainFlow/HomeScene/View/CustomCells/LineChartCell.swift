@@ -71,7 +71,7 @@ private extension LineChartCell {
 
 		let xAxis = chartView.xAxis
 		xAxis.labelPosition = .top
-		xAxis.labelFont = FontFamily.Montserrat.regular.font(size: Constants.defaultMediumFontSize)
+		xAxis.labelFont = FontFamily.SFProRounded.regular.font(size: Constants.defaultMediumFontSize)
 		xAxis.labelTextColor = .white
 		xAxis.avoidFirstLastClippingEnabled = true
 		xAxis.drawAxisLineEnabled = true
@@ -85,7 +85,7 @@ private extension LineChartCell {
 
 		let leftAxis = chartView.leftAxis
 		leftAxis.labelPosition = .outsideChart
-		leftAxis.labelFont = FontFamily.Montserrat.regular.font(size: Constants.defaultLargeFontSize)
+		leftAxis.labelFont = FontFamily.SFProRounded.regular.font(size: Constants.defaultLargeFontSize)
 		leftAxis.drawGridLinesEnabled = true
 		leftAxis.granularityEnabled = true
 		leftAxis.axisMinimum = Constants.leftAxisMin
@@ -101,7 +101,7 @@ private extension LineChartCell {
 		dataSet.valueTextColor = .white
 		dataSet.drawValuesEnabled = false
 		let data = ScatterChartData(dataSet: dataSet)
-		data.setValueFont(FontFamily.Montserrat.regular.font(size: Constants.defaultSmallFontSize))
+		data.setValueFont(FontFamily.SFProRounded.regular.font(size: Constants.defaultSmallFontSize))
 		data.setDrawValues(true)
 		chartView.moveViewToX(data.xMax)
 		chartView.data = data

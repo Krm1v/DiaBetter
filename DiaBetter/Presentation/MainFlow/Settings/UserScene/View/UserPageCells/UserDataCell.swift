@@ -46,9 +46,9 @@ private extension UserDataCell {
 		titleLabel.textColor = .white
 		self.backgroundColor = Colors.darkNavyBlue.color
 		addSubs()
-		titleLabel.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelDefaultFontSize)
+		titleLabel.font = FontFamily.SFProRounded.regular.font(size: Constants.titleLabelDefaultFontSize)
 		userTextField.borderStyle = .none
-		userTextField.font = FontFamily.Montserrat.regular.font(size: Constants.userTextFieldDefaultFontSize)
+		userTextField.font = FontFamily.SFProRounded.regular.font(size: Constants.userTextFieldDefaultFontSize)
 	}
 
 	func addSubs() {

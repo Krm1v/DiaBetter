@@ -33,7 +33,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 												 container: appContainer)
 			UIBarButtonItem.appearance().setTitleTextAttributes(
 				[
-					.font: FontFamily.Montserrat.regular.font(size: 15)
+					.font: FontFamily.SFProRounded.regular.font(size: 15)
 				],
 				for: .normal)
 			self.appCoordinator?.start()
