@@ -41,8 +41,13 @@ extension Endpoint {
 			return nil
 		}
 		completedURL = completedURL.appendingPathComponent(path)
-		guard var components = URLComponents(url: completedURL,
-											 resolvingAgainstBaseURL: true) else { return nil }
+
+		guard var components = URLComponents(
+			url: completedURL,
+			resolvingAgainstBaseURL: true) else {
+			return nil
+		}
+		
 		components.queryItems = queries.map { item in
 			URLQueryItem(name: item.key.rawValue, value: item.value)
 		}
@@ -51,12 +56,15 @@ extension Endpoint {
 		}
 		var urlRequest = URLRequest(url: urlForRequest)
 		urlRequest.httpMethod = httpMethod.rawValue
+
 		plugins.forEach {
 			$0.modify(&urlRequest)
 		}
+
 		headers.forEach { (key: String, value: String) in
 			urlRequest.addValue(value, forHTTPHeaderField: key)
 		}
+
 		if let body = body {
 			switch body {
 			case let .rawData(data):
