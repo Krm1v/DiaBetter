@@ -38,7 +38,7 @@ private extension CreditsListCell {
 		backgroundColor = Colors.darkNavyBlue.color
 		rounded(12)
 		setupLayout()
-		titleLabel.font = FontFamily.SFProRounded.regular.font(size: 15)
+		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
 		chevronImage.image = UIImage(
 			systemName: "chevron.right")?
 			.withTintColor(.white, renderingMode: .alwaysOriginal)

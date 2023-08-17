@@ -28,7 +28,7 @@ private extension AppleHealthSectionFooter {
 	func setupUI() {
 		addSubs()
 		titleLabel.textColor = .systemGray
-		titleLabel.font = FontFamily.SFProRounded.regular.font(size: 15)
+		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
 		titleLabel.numberOfLines = .zero
 	}
 

@@ -88,7 +88,7 @@ private extension HeaderCell {
 		emailLabel.textColor = .white
 		editButton.setTitleColor(Colors.customPink.color, for: .normal)
 		editButton.setTitle(Localization.edit, for: .normal)
-		editButton.titleLabel?.font = FontFamily.SFProRounded.regular.font(size: Constants.editButtonFontSize)
+		editButton.titleLabel?.font = FontFamily.Montserrat.regular.font(size: Constants.editButtonFontSize)
 	}
 
 	func updateImage(model: UserHeaderModel) {

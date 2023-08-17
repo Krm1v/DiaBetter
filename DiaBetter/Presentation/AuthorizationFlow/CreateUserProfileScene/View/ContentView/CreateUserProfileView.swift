@@ -62,7 +62,7 @@ private extension CreateUserProfileView {
 		descriptionLabel.numberOfLines = .zero
 		descriptionLabel.textAlignment = .center
 		descriptionLabel.minimumScaleFactor = Constants.minScaleFactor
-		descriptionLabel.font = FontFamily.SFProRounded.regular.font(size: Constants.descriptionLabelFontSize)
+		descriptionLabel.font = FontFamily.Montserrat.regular.font(size: Constants.descriptionLabelFontSize)
 	}
 
 	func setupLayout() {

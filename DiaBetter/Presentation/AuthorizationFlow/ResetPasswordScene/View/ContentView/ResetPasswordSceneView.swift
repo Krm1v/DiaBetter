@@ -53,7 +53,7 @@ private extension ResetPasswordSceneView {
 		addSubs()
 		descriptionLabel.textColor = .white
 		descriptionLabel.minimumScaleFactor = Constants.baseMinimumScaleFactor
-		descriptionLabel.font = FontFamily.SFProRounded.semibold.font(size: Constants.basicFontSize)
+		descriptionLabel.font = FontFamily.Montserrat.semiBold.font(size: Constants.basicFontSize)
 		descriptionLabel.numberOfLines = .zero
 		descriptionLabel.textAlignment = .center
 	}

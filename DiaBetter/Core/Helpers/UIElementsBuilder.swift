@@ -25,7 +25,7 @@ extension UIElementsBuilder {
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.setTitle(text, for: .normal)
 		button.setTitleColor(Colors.customPink.color, for: .normal)
-		button.titleLabel?.font = FontFamily.SFProRounded.semibold.font(size: fontSize)
+		button.titleLabel?.font = FontFamily.Montserrat.semiBold.font(size: fontSize)
 		return button
 	}
 
@@ -37,7 +37,7 @@ extension UIElementsBuilder {
 		button.layer.cornerRadius = Constants.basicCornerRadius
 		button.layer.borderWidth = Constants.basicBorderWidth
 		button.layer.borderColor = Colors.customDarkenPink.color.cgColor
-		button.titleLabel?.font = FontFamily.SFProRounded.semibold.font(size: Constants.basicButtonTitleFontSize)
+		button.titleLabel?.font = FontFamily.Montserrat.semiBold.font(size: Constants.basicButtonTitleFontSize)
 		return button
 	}
 
@@ -47,7 +47,7 @@ extension UIElementsBuilder {
 		button.setTitle(title, for: .normal)
 		button.setTitleColor(.white, for: .normal)
 		button.backgroundColor = .clear
-		button.titleLabel?.font = FontFamily.SFProRounded.semibold.font(size: fontSize)
+		button.titleLabel?.font = FontFamily.Montserrat.semiBold.font(size: fontSize)
 		return button
 	}
 
@@ -56,7 +56,7 @@ extension UIElementsBuilder {
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.setTitle(Localization.delete, for: .normal)
 		button.setTitleColor(.white, for: .normal)
-		button.titleLabel?.font = FontFamily.SFProRounded.semibold.font(size: 13)
+		button.titleLabel?.font = FontFamily.Montserrat.semiBold.font(size: 13)
 		return button
 	}
 
@@ -89,7 +89,7 @@ extension UIElementsBuilder {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textColor = .white
-		label.font = FontFamily.SFProRounded.regular.font(size: fontSize)
+		label.font = FontFamily.Montserrat.regular.font(size: fontSize)
 		label.text = text + ":"
 		label.textAlignment = textAllignment
 		label.adjustsFontSizeToFitWidth = true
@@ -101,7 +101,7 @@ extension UIElementsBuilder {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textColor = .systemGray
-		label.font = FontFamily.SFProRounded.semibold.font(size: Constants.basicLabelFontSize)
+		label.font = FontFamily.Montserrat.semiBold.font(size: Constants.basicLabelFontSize)
 		label.text = text
 		label.textAlignment = .natural
 		label.adjustsFontSizeToFitWidth = true
@@ -116,7 +116,7 @@ extension UIElementsBuilder {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textColor = Colors.customPink.color
-		label.font = FontFamily.SFProRounded.bold.font(size: fontSize)
+		label.font = FontFamily.Montserrat.bold.font(size: fontSize)
 		label.text = text
 		label.textAlignment = .center
 		label.minimumScaleFactor = Constants.labelTextMinScaleFactor

@@ -14,7 +14,7 @@ final class NoteTextView: UIView {
 		let textView = UITextView()
 		textView.translatesAutoresizingMaskIntoConstraints = false
 		textView.isScrollEnabled = false
-		textView.font = FontFamily.SFProRounded.regular.font(size: Constants.basicFontSize)
+		textView.font = FontFamily.Montserrat.regular.font(size: Constants.basicFontSize)
 		textView.textAlignment = .left
 		textView.textColor = .white
 		textView.backgroundColor = Colors.darkNavyBlue.color
@@ -24,7 +24,7 @@ final class NoteTextView: UIView {
 	private(set) lazy var charactersCountLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = FontFamily.SFProRounded.regular.font(size: Constants.basicFontSize)
+		label.font = FontFamily.Montserrat.regular.font(size: Constants.basicFontSize)
 		label.textColor = .systemGray
 		label.text = Constants.maxCharacters.description
 		return label
@@ -33,7 +33,7 @@ final class NoteTextView: UIView {
 	private(set) var fakePlaceholder: UILabel = {
 		let label = UILabel()
 		label.text = Localization.howDoYouFeel
-		label.font = FontFamily.SFProRounded.regular.font(size: Constants.basicFontSize)
+		label.font = FontFamily.Montserrat.regular.font(size: Constants.basicFontSize)
 		label.textColor = .tertiaryLabel
 		label.sizeToFit()
 		return label

@@ -36,7 +36,7 @@ private extension TableViewCustomCell {
 			left: Constants.defaultEdgeInset,
 			bottom: .zero,
 			right: Constants.defaultEdgeInset)
-		textLabel?.font = FontFamily.SFProRounded.regular.font(size: Constants.defaultFontSize)
+		textLabel?.font = FontFamily.Montserrat.regular.font(size: Constants.defaultFontSize)
 	}
 }
 

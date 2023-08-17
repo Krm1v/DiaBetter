@@ -41,19 +41,7 @@ internal enum FontFamily {
     internal static let thinItalic = FontConvertible(name: "Montserrat-ThinItalic", family: "Montserrat", path: "Montserrat-ThinItalic.ttf")
     internal static let all: [FontConvertible] = [black, blackItalic, bold, boldItalic, extraBold, extraBoldItalic, extraLight, extraLightItalic, italic, light, lightItalic, medium, mediumItalic, regular, semiBold, semiBoldItalic, thin, thinItalic]
   }
-  internal enum SFProRounded {
-    internal static let black = FontConvertible(name: "SFProRounded-Black", family: "SF Pro Rounded", path: "SF-Pro-Rounded-Black.otf")
-    internal static let bold = FontConvertible(name: "SFProRounded-Bold", family: "SF Pro Rounded", path: "SF-Pro-Rounded-Bold.otf")
-    internal static let heavy = FontConvertible(name: "SFProRounded-Heavy", family: "SF Pro Rounded", path: "SF-Pro-Rounded-Heavy.otf")
-    internal static let light = FontConvertible(name: "SFProRounded-Light", family: "SF Pro Rounded", path: "SF-Pro-Rounded-Light.otf")
-    internal static let medium = FontConvertible(name: "SFProRounded-Medium", family: "SF Pro Rounded", path: "SF-Pro-Rounded-Medium.otf")
-    internal static let regular = FontConvertible(name: "SFProRounded-Regular", family: "SF Pro Rounded", path: "SF-Pro-Rounded-Regular.otf")
-    internal static let semibold = FontConvertible(name: "SFProRounded-Semibold", family: "SF Pro Rounded", path: "SF-Pro-Rounded-Semibold.otf")
-    internal static let thin = FontConvertible(name: "SFProRounded-Thin", family: "SF Pro Rounded", path: "SF-Pro-Rounded-Thin.otf")
-    internal static let ultralight = FontConvertible(name: "SFProRounded-Ultralight", family: "SF Pro Rounded", path: "SF-Pro-Rounded-Ultralight.otf")
-    internal static let all: [FontConvertible] = [black, bold, heavy, light, medium, regular, semibold, thin, ultralight]
-  }
-  internal static let allCustomFonts: [FontConvertible] = [Montserrat.all, SFProRounded.all].flatMap { $0 }
+  internal static let allCustomFonts: [FontConvertible] = [Montserrat.all].flatMap { $0 }
   internal static func registerAllCustomFonts() {
     allCustomFonts.forEach { $0.register() }
   }
