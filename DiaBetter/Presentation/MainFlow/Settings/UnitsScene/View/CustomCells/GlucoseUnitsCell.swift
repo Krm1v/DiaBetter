@@ -49,9 +49,10 @@ private extension GlucoseUnitsCell {
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
 		segmentedControl.selectedSegmentTintColor = Colors.customPink.color
 		for unit in allUnits {
-			segmentedControl.insertSegment(withTitle: unit.title,
-										   at: unit.rawValue,
-										   animated: false)
+			segmentedControl.insertSegment(
+				withTitle: unit.title,
+				at: unit.rawValue,
+				animated: false)
 		}
 		setupLayout()
 	}
@@ -64,7 +65,7 @@ private extension GlucoseUnitsCell {
 					equalTo: self.centerYAnchor),
 				titleLabel.leadingAnchor.constraint(
 					equalTo: self.leadingAnchor,
-					constant: 8)])
+					constant: 16)])
 
 		addSubview(
 			segmentedControl,
@@ -73,7 +74,7 @@ private extension GlucoseUnitsCell {
 					equalTo: self.centerYAnchor),
 				segmentedControl.trailingAnchor.constraint(
 					equalTo: self.trailingAnchor,
-					constant: -8),
+					constant: -16),
 				segmentedControl.widthAnchor.constraint(
 					equalToConstant: self.frame.width / 3)])
 	}

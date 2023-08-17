@@ -232,7 +232,7 @@ private extension UserSceneView {
 
 	// MARK: - Setup Collection
 	func setupCollection() {
-		collectionView.backgroundColor = .black
+		collectionView.backgroundColor = .clear
 		collectionView.register(
 			UserDataCell.self,
 			forCellWithReuseIdentifier: UserDataCell.reuseID)

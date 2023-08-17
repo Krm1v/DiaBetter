@@ -38,6 +38,7 @@ final class NotificationsSceneViewController: BaseViewController<NotificationsSc
 // MARK: - Private extension
 private extension NotificationsSceneViewController {
 	func updateDiffableDatasourceSnapshot() {
+
 		viewModel.$sections
 			.receive(on: DispatchQueue.main)
 			.sink { [unowned self] sections in
@@ -83,16 +84,16 @@ private extension NotificationsSceneViewController {
 		let goToSettingsAction = UIAlertAction(
 			title: Localization.goToSettings,
 			style: .default) { _ in
-			UIApplication.shared.openSettings()
-		}
+				UIApplication.shared.openSettings()
+			}
 		let cancelAction = UIAlertAction(
 			title: Localization.cancel,
 			style: .cancel) { [weak self] _ in
-			guard let self = self else {
-				return
+				guard let self = self else {
+					return
+				}
+				self.viewModel.disableNotificationSwitch()
 			}
-			self.viewModel.disableNotificationSwitch()
-		}
 		alertController.addAction(goToSettingsAction)
 		alertController.addAction(cancelAction)
 		present(alertController, animated: true)

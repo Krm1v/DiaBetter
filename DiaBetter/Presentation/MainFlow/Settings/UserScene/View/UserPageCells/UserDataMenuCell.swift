@@ -90,6 +90,6 @@ private extension UserDataMenuCell {
 // MARK: - Constants
 private enum Constants {
 	static let titleLabelFontSize: 		  CGFloat = 15
-	static let defaultEdgeInsets: 		  CGFloat = 8
+	static let defaultEdgeInsets: 		  CGFloat = 16
 	static let titleLabelDefaultFontSize: CGFloat = 15
 }

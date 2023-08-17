@@ -62,14 +62,14 @@ private extension CarbsUnitsCell {
 				equalTo: self.centerYAnchor),
 			titleLabel.leadingAnchor.constraint(
 				equalTo: self.leadingAnchor,
-				constant: 8)])
+				constant: 16)])
 
 		addSubview(menuButton, constraints: [
 			menuButton.centerYAnchor.constraint(
 				equalTo: self.centerYAnchor),
 			menuButton.trailingAnchor.constraint(
 				equalTo: self.trailingAnchor,
-				constant: -8)])
+				constant: -16)])
 	}
 
 	func setupUIMenu() {

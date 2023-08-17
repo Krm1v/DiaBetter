@@ -58,12 +58,12 @@ private extension UserDataCell {
 
 			titleLabel.leadingAnchor.constraint(
 				equalTo: leadingAnchor,
-				constant: Constants.basicSmallEdgeInset)])
+				constant: Constants.basicLargeEdgeInset)])
 
 		addSubview(userTextField, constraints: [
 			userTextField.trailingAnchor.constraint(
 				equalTo: trailingAnchor,
-				constant: -Constants.basicSmallEdgeInset),
+				constant: -Constants.basicLargeEdgeInset),
 
 			userTextField.centerYAnchor.constraint(equalTo: centerYAnchor)])
 	}
@@ -80,7 +80,6 @@ private extension UserDataCell {
 // MARK: - Constants
 private enum Constants {
 	static let basicLargeEdgeInset: 		 CGFloat = 16
-	static let basicSmallEdgeInset: 		 CGFloat = 8
 	static let basicCornerRadius: 			 CGFloat = 20
 	static let userTextFieldDefaultFontSize: CGFloat = 15
 	static let titleLabelDefaultFontSize: 	 CGFloat = 15

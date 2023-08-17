@@ -64,7 +64,7 @@ private extension TargetGlucoseCell {
 			constraints: [
 				vStack.leadingAnchor.constraint(
 					equalTo: self.leadingAnchor,
-					constant: 8),
+					constant: 16),
 
 				vStack.topAnchor.constraint(
 					equalTo: self.topAnchor,
@@ -81,7 +81,7 @@ private extension TargetGlucoseCell {
 
 		addSubview(stepper, constraints: [
 			stepper.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-			stepper.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8)
+			stepper.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16)
 		])
 	}
 

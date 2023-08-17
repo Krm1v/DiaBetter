@@ -77,10 +77,8 @@ private extension HeaderCell {
 			emailLabel.topAnchor.constraint(equalTo: editButton.bottomAnchor),
 			emailLabel.centerXAnchor.constraint(equalTo: centerXAnchor)])
 
-		self.rounded(Constants.basicCornerRadius)
 		self.layer.masksToBounds = true
 		self.clipsToBounds = true
-		self.backgroundColor = Colors.darkNavyBlue.color
 		userImage.layer.masksToBounds = false
 		userImage.clipsToBounds = true
 		userImage.image = Assets.userImagePlaceholder.image
@@ -114,7 +112,7 @@ private extension HeaderCell {
 
 // MARK: - Constants
 private enum Constants {
-	static let basicBorderWidth: CGFloat = 1.0
+	static let basicBorderWidth: 	CGFloat = 1.0
 	static let basicCornerRadius: 	CGFloat = 12
 	static let basicImageViewBound: CGFloat = 86
 	static let basicEdgeInsets: 	CGFloat = 16

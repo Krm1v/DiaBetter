@@ -90,7 +90,7 @@ private extension AddRecordSceneViewController {
 		let contentInsets = UIEdgeInsets(
 			top: .zero,
 			left: .zero,
-			bottom: keyboardSize.height + keyboardSize.height / 4,
+			bottom: keyboardSize.height + keyboardSize.height / 1.5,
 			right: .zero)
 		contentView.changeScrollViewInsets(insets: contentInsets)
 	}
