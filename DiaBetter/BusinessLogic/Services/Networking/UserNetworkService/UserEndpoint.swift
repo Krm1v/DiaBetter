@@ -59,8 +59,7 @@ enum UserEndpoint: Endpoint {
 
 	var headers: HTTPHeaders {
 		switch self {
-		case .delete, .update, .fetchUser, .restorePassword, .logout, .uploadPhoto, .deletePhoto:
-			return ["Content-Type": "application/json"]
+		default: return [:]
 		}
 	}
 
