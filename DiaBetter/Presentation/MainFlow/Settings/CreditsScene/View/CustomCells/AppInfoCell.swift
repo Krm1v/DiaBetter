@@ -43,6 +43,8 @@ private extension AppInfoCell {
 		self.rounded(12)
 		buildVersionLabel.font = FontFamily.Montserrat.regular.font(size: 13)
 		appIconImageView.rounded(12)
+		appIconImageView.layer.borderColor = UIColor.white.cgColor
+		appIconImageView.layer.borderWidth = 1
 		setupLayout()
 	}
 

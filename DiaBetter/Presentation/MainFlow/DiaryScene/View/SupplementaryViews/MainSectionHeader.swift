@@ -10,6 +10,7 @@ import UIKit
 final class MainSectionHeader: UICollectionReusableView {
 	// MARK: - UI Elements
 	lazy var titleLabel = buildUserInfoLabel()
+	lazy private var bluredView = UIVisualEffectView()
 
 	// MARK: - Init
 	override init(frame: CGRect) {
@@ -28,9 +29,12 @@ private extension MainSectionHeader {
 	func setupUI() {
 		addSubs()
 		titleLabel.textColor = .white
+		self.backgroundColor = .clear
+		bluredView.effect = UIBlurEffect(style: .dark)
 	}
 
 	func addSubs() {
+		addSubview(bluredView, withEdgeInsets: .all(.zero))
 		addSubview(titleLabel, withEdgeInsets: .init(top: .zero,
 													 left: 16,
 													 bottom: .zero,

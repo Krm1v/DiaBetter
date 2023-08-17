@@ -27,8 +27,6 @@ final class DiarySceneView: BaseView {
 		frame: self.bounds,
 		collectionViewLayout: makeCollectionViewLayout())
 
-	private lazy var filterButton = buildNavBarButton()
-
 	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -136,6 +134,8 @@ private extension DiarySceneView {
 			elementKind: UICollectionView.elementKindSectionHeader,
 			alignment: .topLeading)
 
+		sectionHeader.pinToVisibleBounds = true
+
 		return sectionHeader
 	}
 
@@ -156,6 +156,10 @@ private extension DiarySceneView {
 			}
 		})
 		datasource?.supplementaryViewProvider = { [weak self] (collectionView, kind, indexPath) in
+			guard let self = self else {
+				return UICollectionReusableView()
+			}
+
 			guard kind == UICollectionView.elementKindSectionHeader else {
 				return nil
 			}
@@ -164,12 +168,12 @@ private extension DiarySceneView {
 				withReuseIdentifier: MainSectionHeader.reuseId,
 				for: indexPath) as? MainSectionHeader
 
-			let section = self?.datasource?.snapshot().sectionIdentifiers[indexPath.section]
+			let section = self.datasource?.snapshot().sectionIdentifiers[indexPath.section]
 			if section?.title == nil {
 				return nil
 			}
 			sectionHeader?.titleLabel.text = section?.title
-
+			
 			return sectionHeader
 		}
 	}
