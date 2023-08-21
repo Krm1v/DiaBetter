@@ -68,7 +68,12 @@ private extension HomeSceneView {
 	}
 
 	func setupLayout() {
-		addSubview(collectionView, withEdgeInsets: .all(.zero))
+		addSubview(collectionView, constraints: [
+			collectionView.topAnchor.constraint(equalTo: self.topAnchor),
+			collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+			collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+			collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+		])
 	}
 
 	func setupCollection() {

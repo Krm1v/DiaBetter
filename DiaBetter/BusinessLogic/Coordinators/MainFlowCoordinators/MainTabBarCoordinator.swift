@@ -14,7 +14,7 @@ private enum TabBarItems {
 	case report
 	case settings
 
-	var title: String {
+	var title: String? {
 		switch self {
 		case .home: 	return Localization.home
 		case .diary: 	return Localization.diary
@@ -25,19 +25,19 @@ private enum TabBarItems {
 
 	var image: UIImage? {
 		switch self {
-		case .home: 	return UIImage(systemName: "house")
-		case .diary: 	return UIImage(systemName: "book.closed")
-		case .report: 	return UIImage(systemName: "drop")
-		case .settings: return UIImage(systemName: "gear.circle")
+		case .home:		return Assets.home.image.resize(targetSize: CGSize(width: 28, height: 28))
+		case .diary: 	return Assets.diary.image.resize(targetSize: CGSize(width: 28, height: 28))
+		case .report: 	return Assets.drop.image.resize(targetSize: CGSize(width: 28, height: 28))
+		case .settings: return Assets.settings.image.resize(targetSize: CGSize(width: 28, height: 28))
 		}
 	}
 
 	var selectedImage: UIImage? {
 		switch self {
-		case .home: 	return UIImage(systemName: "house.fill")
-		case .diary: 	return UIImage(systemName: "book.closed.fill")
-		case .report: 	return UIImage(systemName: "drop.fill")
-		case .settings: return UIImage(systemName: "gear.circle.fill")
+		case .home: 	return Assets.homeFilled.image.resize(targetSize: CGSize(width: 28, height: 28))
+		case .diary: 	return Assets.diarySelected.image.resize(targetSize: CGSize(width: 28, height: 28))
+		case .report: 	return Assets.dropFilled.image.resize(targetSize: CGSize(width: 28, height: 28))
+		case .settings: return Assets.settingsFilled.image.resize(targetSize: CGSize(width: 28, height: 28))
 		}
 	}
 
@@ -147,5 +147,14 @@ private extension MainTabBarCoordinator {
 			}
 			.store(in: &cancellables)
 		coordinator.start()
+	}
+}
+
+extension UIImage {
+
+	func resize(targetSize: CGSize) -> UIImage {
+		return UIGraphicsImageRenderer(size:targetSize).image { _ in
+			self.draw(in: CGRect(origin: .zero, size: targetSize))
+		}
 	}
 }

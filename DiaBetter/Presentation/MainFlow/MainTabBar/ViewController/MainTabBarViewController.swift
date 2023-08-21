@@ -7,9 +7,26 @@
 
 import UIKit
 
-final class MainTabBarViewController: UITabBarController {
+final class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate {
+
+	private enum Tag: Int {
+		case home = 0
+		case report = 1
+		case diary = 2
+		case settings = 3
+	}
+
 	// MARK: - Properties
 	private var viewModel: MainTabBarViewModel
+	private let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+
+	private var bounceAnimation: CAKeyframeAnimation = {
+		let bounceAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
+		bounceAnimation.values = [1.0, 1.4, 0.9, 1.02, 1.0]
+		bounceAnimation.duration = TimeInterval(0.3)
+		bounceAnimation.calculationMode = CAAnimationCalculationMode.cubic
+		return bounceAnimation
+	}()
 
 	// MARK: - Init
 	init(viewModel: MainTabBarViewModel, viewControllers: [UIViewController]) {
@@ -22,33 +39,34 @@ final class MainTabBarViewController: UITabBarController {
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	// MARK: - Overriden methods
+	override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+		impactFeedbackGenerator.prepare()
+		impactFeedbackGenerator.impactOccurred()
+
+		guard
+			let idx = tabBar.items?.firstIndex(of: item), tabBar.subviews.count > idx + 1,
+			let imageView = tabBar.subviews[idx + 1].subviews.dropFirst().compactMap({ $0 as? UIImageView }).first
+		else {
+			return
+		}
+		imageView.layer.add(bounceAnimation, forKey: nil)
+	}
+
 	// MARK: - UIView lifecycle methods
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		setValue(MainTabBar(frame: tabBar.frame), forKey: "tabBar")
 		viewControllers?.enumerated().reversed().forEach({ [unowned self] (ind, _) in
 			selectedIndex = ind
 		})
+		tabBar.backgroundImage = UIImage()
+		tabBar.shadowImage = UIImage()
+		self.delegate = self
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		navigationController?.navigationBar.isHidden = true
-		setupTabBarAppearance()
-	}
-}
-
-// MARK: - Private extension
-private extension MainTabBarViewController {
-	func setupTabBarAppearance() {
-		let tabBarAppearance = UITabBarAppearance()
-		tabBarAppearance.backgroundColor = .black
-		tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: Colors.customPink.color]
-		tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: Colors.customDarkenPink.color]
-		tabBarAppearance.stackedLayoutAppearance.normal.iconColor = Colors.customDarkenPink.color
-		tabBarAppearance.stackedLayoutAppearance.selected.iconColor = Colors.customPink.color
-		tabBar.standardAppearance = tabBarAppearance
-		if #available(iOS 15.0, *) {
-			tabBar.scrollEdgeAppearance = tabBarAppearance
-		}
 	}
 }
