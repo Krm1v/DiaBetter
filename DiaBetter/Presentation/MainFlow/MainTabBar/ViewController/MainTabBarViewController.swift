@@ -7,15 +7,7 @@
 
 import UIKit
 
-final class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate {
-
-	private enum Tag: Int {
-		case home = 0
-		case report = 1
-		case diary = 2
-		case settings = 3
-	}
-
+final class MainTabBarViewController: UITabBarController {
 	// MARK: - Properties
 	private var viewModel: MainTabBarViewModel
 	private let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
@@ -62,7 +54,6 @@ final class MainTabBarViewController: UITabBarController, UITabBarControllerDele
 		})
 		tabBar.backgroundImage = UIImage()
 		tabBar.shadowImage = UIImage()
-		self.delegate = self
 	}
 
 	override func viewWillAppear(_ animated: Bool) {

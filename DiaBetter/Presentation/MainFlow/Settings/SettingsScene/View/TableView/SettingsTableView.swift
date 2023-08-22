@@ -91,6 +91,7 @@ private extension SettingsTableView {
 			TableViewCustomCell.self,
 			forCellReuseIdentifier: TableViewCustomCell.reuseID)
 		backgroundColor = .black
+		separatorStyle = .none
 		setupDiffableDatasource()
 		reloadDiffableDatasourceData()
 	}

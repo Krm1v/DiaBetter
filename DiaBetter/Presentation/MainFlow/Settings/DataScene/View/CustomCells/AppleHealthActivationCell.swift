@@ -36,7 +36,7 @@ final class AppleHealthActivationCell: BaseCollectionViewCell {
 // MARK: - Private extension
 private extension AppleHealthActivationCell {
 	func setupUI() {
-		self.backgroundColor = Colors.darkNavyBlue.color
+		self.backgroundColor = .black
 		rounded(12)
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
 		healthSwitch.onTintColor = Colors.customPink.color

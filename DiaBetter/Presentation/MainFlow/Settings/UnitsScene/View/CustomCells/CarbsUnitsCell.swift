@@ -46,7 +46,7 @@ final class CarbsUnitsCell: BaseCollectionViewCell {
 // MARK: - Private extension
 private extension CarbsUnitsCell {
 	func setupUI() {
-		backgroundColor = Colors.darkNavyBlue.color
+		self.backgroundColor = .black
 		rounded(12)
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
 		menuButton.titleLabel?.font = FontFamily.Montserrat.regular.font(size: 15)

@@ -43,7 +43,7 @@ final class BackupDateCell: BaseCollectionViewCell {
 // MARK: - Private extension
 private extension BackupDateCell {
 	func setupUI() {
-		self.backgroundColor = Colors.darkNavyBlue.color
+		self.backgroundColor = .black
 		self.rounded(12)
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
 		datePicker.datePickerMode = .date

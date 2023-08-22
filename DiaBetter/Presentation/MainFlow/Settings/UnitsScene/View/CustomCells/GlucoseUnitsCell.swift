@@ -44,7 +44,7 @@ final class GlucoseUnitsCell: BaseCollectionViewCell {
 // MARK: - Private extension
 private extension GlucoseUnitsCell {
 	func setupUI() {
-		backgroundColor = Colors.darkNavyBlue.color
+		self.backgroundColor = .black
 		rounded(12)
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
 		segmentedControl.selectedSegmentTintColor = Colors.customPink.color

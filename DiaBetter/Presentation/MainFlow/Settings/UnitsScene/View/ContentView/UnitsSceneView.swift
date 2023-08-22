@@ -195,6 +195,7 @@ private extension UnitsSceneView {
 		with layoutEnvironment: NSCollectionLayoutEnvironment
 	) -> NSCollectionLayoutSection {
 		var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+		configuration.showsSeparators = false
 		configuration.backgroundColor = .black
 		let section = NSCollectionLayoutSection.list(
 			using: configuration,

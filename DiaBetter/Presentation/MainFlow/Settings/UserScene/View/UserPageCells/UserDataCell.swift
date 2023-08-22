@@ -44,7 +44,7 @@ final class UserDataCell: BaseCollectionViewCell {
 private extension UserDataCell {
 	func setupUI() {
 		titleLabel.textColor = .white
-		self.backgroundColor = Colors.darkNavyBlue.color
+		self.backgroundColor = .black
 		addSubs()
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelDefaultFontSize)
 		userTextField.borderStyle = .none

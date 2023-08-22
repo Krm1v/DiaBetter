@@ -51,7 +51,7 @@ final class ReminderCell: BaseTableViewCell {
 // MARK: - Private extension
 private extension ReminderCell {
 	func setupUI() {
-		backgroundColor = Colors.darkNavyBlue.color
+		backgroundColor = .black
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: Constants.smallFontSize)
 		datePicker.datePickerMode = .time
 		datePicker.preferredDatePickerStyle = .compact

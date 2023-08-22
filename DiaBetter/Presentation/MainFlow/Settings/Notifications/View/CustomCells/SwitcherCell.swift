@@ -47,7 +47,7 @@ final class SwitcherCell: BaseTableViewCell {
 // MARK: - Private extension
 private extension SwitcherCell {
 	func setupUI() {
-		backgroundColor = Colors.darkNavyBlue.color
+		backgroundColor = .black
 		selectionStyle = .none
 		switcher.onTintColor = Colors.customPink.color
 		setupLayout()

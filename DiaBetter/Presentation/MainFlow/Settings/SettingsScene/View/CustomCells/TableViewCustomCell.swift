@@ -29,7 +29,8 @@ final class TableViewCustomCell: UITableViewCell {
 // MARK: - Private extension
 private extension TableViewCustomCell {
 	func setupCell() {
-		backgroundColor = Colors.darkNavyBlue.color
+//		backgroundColor = Colors.darkNavyBlue.color
+		backgroundColor = .black
 		selectionStyle = .none
 		separatorInset = UIEdgeInsets(
 			top: .zero,

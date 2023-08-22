@@ -50,7 +50,7 @@ final class TargetGlucoseCell: BaseCollectionViewCell {
 private extension TargetGlucoseCell {
 	func setupUI() {
 		[titleLabel, glucoseValueLabel].forEach { $0.font = FontFamily.Montserrat.regular.font(size: 15) }
-		backgroundColor = Colors.darkNavyBlue.color
+		self.backgroundColor = .black
 		rounded(12)
 		stepper.backgroundColor = Colors.darkNavyBlue.color
 		stepper.minimumValue = 2

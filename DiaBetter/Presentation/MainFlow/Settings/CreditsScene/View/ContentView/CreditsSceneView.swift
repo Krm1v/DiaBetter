@@ -148,6 +148,7 @@ private extension CreditsSceneView {
 	func makeListSection(with layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
 		var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
 		configuration.backgroundColor = .black
+		configuration.showsSeparators = false
 
 		let section = NSCollectionLayoutSection.list(
 			using: configuration,

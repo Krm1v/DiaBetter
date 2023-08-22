@@ -151,7 +151,7 @@ private extension DataSceneView {
 	) -> NSCollectionLayoutSection {
 		var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
 		configuration.backgroundColor = .black
-
+		configuration.showsSeparators = false
 		let section = NSCollectionLayoutSection.list(
 			using: configuration,
 			layoutEnvironment: layoutEnvironment)

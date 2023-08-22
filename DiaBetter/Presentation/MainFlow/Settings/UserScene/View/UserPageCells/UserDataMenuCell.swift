@@ -48,7 +48,7 @@ final class UserDataMenuCell: BaseCollectionViewCell {
 private extension UserDataMenuCell {
 	func setupUI() {
 		titleLabel.textColor = .white
-		self.backgroundColor = Colors.darkNavyBlue.color
+		self.backgroundColor = .black
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelDefaultFontSize)
 		userParameterButton.titleLabel?.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelFontSize)
 		userParameterButton.tintColor = .white

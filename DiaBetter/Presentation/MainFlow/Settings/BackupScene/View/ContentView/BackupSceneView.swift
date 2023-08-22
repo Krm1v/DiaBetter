@@ -158,6 +158,7 @@ private extension BackupSceneView {
 	) -> NSCollectionLayoutSection {
 		var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
 		configuration.backgroundColor = .black
+		configuration.showsSeparators = false
 
 		let section = NSCollectionLayoutSection.list(
 			using: configuration,

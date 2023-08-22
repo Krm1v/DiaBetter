@@ -25,19 +25,19 @@ private enum TabBarItems {
 
 	var image: UIImage? {
 		switch self {
-		case .home:		return Assets.home.image.resize(targetSize: CGSize(width: 28, height: 28))
-		case .diary: 	return Assets.diary.image.resize(targetSize: CGSize(width: 28, height: 28))
-		case .report: 	return Assets.drop.image.resize(targetSize: CGSize(width: 28, height: 28))
-		case .settings: return Assets.settings.image.resize(targetSize: CGSize(width: 28, height: 28))
+		case .home:		return Assets.home.image.resize(targetSize: CGSize(width: 24, height: 24))
+		case .diary: 	return Assets.diary.image.resize(targetSize: CGSize(width: 24, height: 24))
+		case .report: 	return Assets.drop.image.resize(targetSize: CGSize(width: 24, height: 24))
+		case .settings: return Assets.settings.image.resize(targetSize: CGSize(width: 24, height: 24))
 		}
 	}
 
 	var selectedImage: UIImage? {
 		switch self {
-		case .home: 	return Assets.homeFilled.image.resize(targetSize: CGSize(width: 28, height: 28))
-		case .diary: 	return Assets.diarySelected.image.resize(targetSize: CGSize(width: 28, height: 28))
-		case .report: 	return Assets.dropFilled.image.resize(targetSize: CGSize(width: 28, height: 28))
-		case .settings: return Assets.settingsFilled.image.resize(targetSize: CGSize(width: 28, height: 28))
+		case .home: 	return Assets.homeFilled.image.resize(targetSize: CGSize(width: 24, height: 24))
+		case .diary: 	return Assets.diarySelected.image.resize(targetSize: CGSize(width: 24, height: 24))
+		case .report: 	return Assets.dropFilled.image.resize(targetSize: CGSize(width: 24, height: 24))
+		case .settings: return Assets.settingsFilled.image.resize(targetSize: CGSize(width: 24, height: 24))
 		}
 	}
 

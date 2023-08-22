@@ -35,7 +35,7 @@ final class CreditsListCell: BaseCollectionViewCell {
 // MARK: - Private extension
 private extension CreditsListCell {
 	func setupUI() {
-		backgroundColor = Colors.darkNavyBlue.color
+		self.backgroundColor = .black
 		rounded(12)
 		setupLayout()
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)

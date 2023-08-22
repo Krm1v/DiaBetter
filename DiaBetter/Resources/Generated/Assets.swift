@@ -28,7 +28,6 @@ internal enum Assets {
   internal static let dropFilled = ImageAsset(name: "drop_filled")
   internal static let heart = ImageAsset(name: "heart")
   internal static let home = ImageAsset(name: "home")
-  internal static let homeIcon = ImageAsset(name: "homeIcon")
   internal static let homeFilled = ImageAsset(name: "home_filled")
   internal static let settings = ImageAsset(name: "settings")
   internal static let settingsFilled = ImageAsset(name: "settings_filled")

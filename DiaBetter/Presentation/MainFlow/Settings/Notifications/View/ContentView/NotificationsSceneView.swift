@@ -65,6 +65,7 @@ final class NotificationsSceneView: BaseView {
 private extension NotificationsSceneView {
 	func setupUI() {
 		backgroundColor = .black
+		tableView.separatorStyle = .none
 		setupLayout()
 	}
 

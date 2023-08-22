@@ -32,7 +32,7 @@ final class BackupPlainCell: BaseCollectionViewCell {
 // MARK: - Private extension
 private extension BackupPlainCell {
 	func setupUI() {
-		self.backgroundColor = Colors.darkNavyBlue.color
+		self.backgroundColor = .black
 		rounded(12)
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
 		setupLayout()

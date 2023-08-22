@@ -30,7 +30,5 @@ private extension MainTabBar {
 		self.layer.masksToBounds = true
 		self.isTranslucent = true
 		self.barStyle = .black
-		self.layer.cornerRadius = 12
-		self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 	}
 }
