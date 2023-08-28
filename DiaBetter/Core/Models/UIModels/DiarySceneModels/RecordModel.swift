@@ -14,7 +14,7 @@ struct DiaryRecordCellModel: Hashable {
 	}
 
 	// MARK: - Properties
-	let id: String
+	let recordId: String
 	let time: String
 	let glucoseInfo: Info
 	let mealInfo: Info
@@ -23,7 +23,7 @@ struct DiaryRecordCellModel: Hashable {
 
 	// MARK: - Init
 	init(_ record: Record, user: User) {
-		self.id = record.objectId
+		self.recordId = record.objectId
 		self.time = record.recordDate.stringRepresentation(format: .hourMinute)
 
 		self.glucoseInfo = Info(

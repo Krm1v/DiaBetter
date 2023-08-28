@@ -8,11 +8,6 @@
 import Foundation
 import Combine
 
-enum RecordServiceErrors: Error {
-	case missingRemoteId
-	case failToConvert
-}
-
 protocol RecordsService {
 	var records: [Record] { get set }
 	var recordsPublisher: AnyPublisher<[Record], Never> { get }
@@ -26,6 +21,7 @@ protocol RecordsService {
 	func deleteAllRecords(id: String) -> AnyPublisher<Void, Error>
 	func uploadAllRecords(records: [Record]) -> AnyPublisher<[String], Error>
 	func filterRecordsByDate(userId: String, startDate: Date, endDate: Date) -> AnyPublisher<[Record], Error>
+	func fetchPaginatedRecords(userId: String, pageSize: Int, offset: Int) -> AnyPublisher<[Record], Error>
 }
 
 final class RecordsServiceImpl {
@@ -148,6 +144,20 @@ final class RecordsServiceImpl {
 		.mapError { $0 as Error }
 		.map { $0.map(Record.init) }
 		.eraseToAnyPublisher()
+	}
+
+	func fetchPaginatedRecords(
+		userId: String,
+		pageSize: Int,
+		offset: Int
+	) -> AnyPublisher<[Record], Error> {
+		recordsNetworkService.fetchPaginatedRecords(
+			userId: userId,
+			pageSize: String(pageSize),
+			offset: String(offset))
+			.mapError { $0 as Error }
+			.map { $0.map(Record.init) }
+			.eraseToAnyPublisher()
 	}
 }
 

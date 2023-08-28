@@ -30,12 +30,12 @@ extension DiarySceneSection: RawRepresentable {
 		}
 	}
 
-	var id: UUID? {
-		switch self {
-		case .main(let model):
-			return model?.id
-		}
-	}
+//	var id: UUID? {
+//		switch self {
+//		case .main(let model):
+//			return model?.id
+//		}
+//	}
 
 	// MARK: - Init
 	init?(rawValue: RawValue) {
@@ -47,7 +47,7 @@ extension DiarySceneSection: RawRepresentable {
 
 	// MARK: - Methods
 	public static func == (lhs: DiarySceneSection, rhs: DiarySceneSection) -> Bool {
-		return lhs.id == rhs.id && lhs.title == rhs.title
+		return lhs.title == rhs.title
 	}
 }
 

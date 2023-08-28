@@ -41,8 +41,9 @@ final class NetworkManager: Requestable {
 					return Fail(error: NetworkError.noResponse)
 						.eraseToAnyPublisher()
 				}
-				Logger.info(response.statusCode.description, shouldLogContext: true)
-				Logger.log(output)
+				Logger.info(response.statusCode.description)
+//				Logger.log(output)
+				Logger.info(response.url!.absoluteString)
 				return self.handleError(output)
 			}
 			.eraseToAnyPublisher()

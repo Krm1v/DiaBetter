@@ -16,6 +16,7 @@ enum RecordsEndpoint: Endpoint {
 	case bulkDetele(id: String)
 	case bulkAddRecords(model: [RecordRequestModel])
 	case filterRecords(userId: String, startDate: Double, endDate: Double)
+	case fetchPaginatedRecords(userId: String, pageSize: String, offset: String)
 
 	// MARK: - Properties
 	var path: String? {
@@ -23,6 +24,7 @@ enum RecordsEndpoint: Endpoint {
 		case .addRecord: 			   return "/data/Records"
 		case .updateRecord(_, let id): return "/data/Records/\(id)"
 		case .fetchRecords: 		   return "/data/Records"
+		case .fetchPaginatedRecords:   return "/data/Records"
 		case .deleteRecord(let id):    return "/data/Records/\(id)"
 		case .bulkDetele:			   return "/data/bulk/Records"
 		case .bulkAddRecords:		   return "/data/bulk/Records"
@@ -31,13 +33,14 @@ enum RecordsEndpoint: Endpoint {
 	}
 	var httpMethod: HTTPMethods {
 		switch self {
-		case .addRecord: 	  return .post
-		case .bulkAddRecords: return .post
-		case .updateRecord:   return .put
-		case .fetchRecords:   return .get
-		case .deleteRecord:   return .delete
-		case .bulkDetele:     return .delete
-		case .filterRecords:  return .get
+		case .addRecord: 	  		 return .post
+		case .bulkAddRecords: 		 return .post
+		case .updateRecord:   		 return .put
+		case .fetchRecords:   		 return .get
+		case .fetchPaginatedRecords: return .get
+		case .deleteRecord:   		 return .delete
+		case .bulkDetele:     		 return .delete
+		case .filterRecords:  		 return .get
 		}
 	}
 
@@ -55,6 +58,22 @@ enum RecordsEndpoint: Endpoint {
 			return [
 				.filter: ownerId,
 				.sort: recordDate
+			]
+
+		case .fetchPaginatedRecords(let id, let pagesCount, let offset):
+			let ownerId = QueryParameters(
+				key: .ownerId,
+				value: .equalToString(stringValue: "\(id)")).queryString
+
+			let recordDate = QueryParameters(
+				key: .recordDate,
+				value: .equalToTildaString(stringValue: "")).queryString
+
+			return [
+				.pageSize: pagesCount,
+				.offset: offset,
+				.filter: ownerId,
+				.sort: "`\(recordDate)`desc"
 			]
 
 		case .bulkDetele(let id):
@@ -86,8 +105,7 @@ enum RecordsEndpoint: Endpoint {
 
 	var headers: HTTPHeaders {
 		switch self {
-		case .addRecord, .updateRecord, .fetchRecords, .deleteRecord, .bulkDetele, .bulkAddRecords, .filterRecords:
-			return [:]
+		default: return [:]
 		}
 	}
 
@@ -99,7 +117,7 @@ enum RecordsEndpoint: Endpoint {
 		case .bulkAddRecords(model: let records):
 			return .encodable(records)
 
-		case .deleteRecord, .fetchRecords, .bulkDetele, .filterRecords:
+		case .deleteRecord, .fetchRecords, .bulkDetele, .filterRecords, .fetchPaginatedRecords:
 			return nil
 		}
 	}

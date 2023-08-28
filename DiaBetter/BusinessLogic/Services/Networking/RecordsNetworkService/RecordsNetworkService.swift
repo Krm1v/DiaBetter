@@ -13,6 +13,7 @@ protocol RecordsNetworkService {
 	func uploadRecords(records: [RecordRequestModel]) -> AnyPublisher<[String], NetworkError>
 	func updateRecord(record: RecordRequestModel, id: String) -> AnyPublisher<RecordsResponseModel, NetworkError>
 	func fetchRecords(userId: String) -> AnyPublisher<[RecordsResponseModel], NetworkError>
+	func fetchPaginatedRecords(userId: String, pageSize: String, offset: String) -> AnyPublisher<[RecordsResponseModel], NetworkError>
 	func deleteRecord(id: String) -> AnyPublisher<Void, NetworkError>
 	func deleteAllRecords(userId: String) -> AnyPublisher<Void, NetworkError>
 	func filterRecordsByDate(
@@ -43,6 +44,14 @@ extension RecordsNetworkServiceImpl: RecordsNetworkService {
 
 	func fetchRecords(userId: String) -> AnyPublisher<[RecordsResponseModel], NetworkError> {
 		return networkProvider.execute(endpoint: .fetchRecords(userId: userId), decodeType: [RecordsResponseModel].self)
+	}
+
+	func fetchPaginatedRecords(
+		userId: String, pageSize: String, offset: String
+	) -> AnyPublisher<[RecordsResponseModel], NetworkError> {
+		return networkProvider.execute(
+			endpoint: .fetchPaginatedRecords(userId: userId, pageSize: pageSize, offset: offset),
+			decodeType: [RecordsResponseModel].self)
 	}
 
 	func deleteRecord(id: String) -> AnyPublisher<Void, NetworkError> {

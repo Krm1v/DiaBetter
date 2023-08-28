@@ -10,6 +10,7 @@ import Combine
 
 enum DiarySceneViewActions {
 	case didSelectItem(DiarySceneItem)
+	case didReachedBottom
 }
 
 final class DiarySceneView: BaseView {
@@ -182,6 +183,11 @@ private extension DiarySceneView {
 		collectionView.didSelectItemPublisher
 			.compactMap { [unowned self] in datasource?.itemIdentifier(for: $0) }
 			.map { DiarySceneViewActions.didSelectItem($0) }
+			.subscribe(actionSubject)
+			.store(in: &cancellables)
+
+		collectionView.reachedBottomPublisher()
+			.map { DiarySceneViewActions.didReachedBottom }
 			.subscribe(actionSubject)
 			.store(in: &cancellables)
 	}

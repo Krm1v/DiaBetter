@@ -43,6 +43,8 @@ private extension DiarySceneViewController {
 				switch action {
 				case .didSelectItem(let item):
 					viewModel.didSelectItem(item)
+				case .didReachedBottom:
+					viewModel.loadItems()
 				}
 			}
 			.store(in: &cancellables)
