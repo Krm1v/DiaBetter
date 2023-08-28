@@ -42,8 +42,6 @@ final class NetworkManager: Requestable {
 						.eraseToAnyPublisher()
 				}
 				Logger.info(response.statusCode.description)
-//				Logger.log(output)
-				Logger.info(response.url!.absoluteString)
 				return self.handleError(output)
 			}
 			.eraseToAnyPublisher()

@@ -11,6 +11,7 @@ import Foundation
 enum UserProfileSections: Int, Hashable {
 	case header
 	case list
+	case logout
 }
 
 // MARK: - Items
@@ -18,6 +19,7 @@ enum UserSettings: Hashable {
 	case header(UserHeaderModel)
 	case plainWithTextfield(UserDataSettingsModel)
 	case plainWithLabel(UserDataMenuSettingsModel)
+	case plainWithButton(LogoutButtonModel)
 }
 
 enum UserParameters: Hashable {

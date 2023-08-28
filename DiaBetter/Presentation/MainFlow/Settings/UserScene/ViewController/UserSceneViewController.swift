@@ -33,6 +33,7 @@ final class UserSceneViewController: BaseViewController<UserSceneViewModel> {
 		super.setupNavBar()
 		title = Localization.userProfile
 		navigationItem.largeTitleDisplayMode = .never
+		contentView.setupSaveButton(for: self)
 	}
 }
 
@@ -73,6 +74,9 @@ private extension UserSceneViewController {
 					case .longInsulin:
 						self.viewModel.userBasalInsulin = setting.labelValue
 					}
+
+				case .saveButtonDidTapped:
+					viewModel.saveUserProfileData()
 				}
 			}
 			.store(in: &cancellables)

@@ -19,9 +19,9 @@ final class UserSceneViewModel: BaseViewModel {
 	private let userService: UserService
 
 	// MARK: - Published properties
-	@Published private(set) var userImage: Data?
 	@Published private var userImageResource: ImageResource?
 	@Published var sections: [UserSection] = []
+	@Published private(set) var userImage: Data?
 	@Published var userName = ""
 	@Published var userDiabetesType = ""
 	@Published var userFastInsulin = ""
@@ -37,14 +37,6 @@ final class UserSceneViewModel: BaseViewModel {
 	override func onViewDidLoad() {
 		fetchUser()
 		showPlaceholderDatasource()
-	}
-
-	override func onViewWillDisappear() {
-		guard let user = updatedUser() else {
-			return
-		}
-		updateUser(user)
-		isLoadingSubject.send(false)
 	}
 
 	// MARK: - Public methods
@@ -194,6 +186,13 @@ final class UserSceneViewModel: BaseViewModel {
 			.store(in: &cancellables)
 	}
 
+	func saveUserProfileData() {
+		guard let user = updatedUser() else {
+			return
+		}
+		updateUser(user)
+	}
+
 	func updateUser(_ user: User) {
 		isLoadingSubject.send(true)
 		userService.updateUser(user: user)
@@ -203,13 +202,13 @@ final class UserSceneViewModel: BaseViewModel {
 				guard let self = self else {
 					return
 				}
-
 				switch completion {
 				case .finished:
 					self.isLoadingSubject.send(false)
 					Logger.info("Finished")
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
+					self.isLoadingSubject.send(false)
 					errorSubject.send(error)
 				}
 			} receiveValue: { [weak self] _ in
@@ -256,22 +255,12 @@ final class UserSceneViewModel: BaseViewModel {
 		sections = [userHeaderSection, userDataSection]
 	}
 
-	func updatedUser() -> User? {
-		guard var user = userService.user else {
-			return nil
-		}
-		user.basalInsulin = userBasalInsulin
-		user.name = userName
-		user.diabetesType = userDiabetesType
-		user.fastActingInsulin = userFastInsulin
-		return user
-	}
-
 	func clearImageCache() {
 		KingfisherManager.shared.cache.clearCache()
 	}
 }
 
+// MARK: - Private extension
 private extension UserSceneViewModel {
 	func updateDatasource() {
 		getImageResource()
@@ -307,15 +296,32 @@ private extension UserSceneViewModel {
 				labelValue: user.basalInsulin ?? "",
 				source: .longInsulin)
 		]
+
 		var userDataSection = UserSection(
 			section: .list,
 			items: [])
+
+		let logoutButtonModel = LogoutButtonModel(buttonTitle: Localization.logout)
+		let logoutSection = UserSection(
+			section: .logout,
+			items: [.plainWithButton(logoutButtonModel)])
 
 		userDataSection.items.append(.plainWithTextfield(userName))
 		_ = userSettings.map { item in
 			userDataSection.items.append(.plainWithLabel(item))
 		}
-		sections = [userHeaderSection, userDataSection]
+		sections = [userHeaderSection, userDataSection, logoutSection]
+	}
+
+	func updatedUser() -> User? {
+		guard var user = userService.user else {
+			return nil
+		}
+		user.basalInsulin = userBasalInsulin
+		user.name = userName
+		user.diabetesType = userDiabetesType
+		user.fastActingInsulin = userFastInsulin
+		return user
 	}
 }
 

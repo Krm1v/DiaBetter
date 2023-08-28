@@ -13,6 +13,7 @@ enum UserSceneViewActions {
 	case editButtonTapped
 	case userDataTextfieldDidChanged(String)
 	case popoverListDidTapped(UserDataMenuSettingsModel)
+	case saveButtonDidTapped
 }
 
 final class UserSceneView: BaseView {
@@ -26,23 +27,22 @@ final class UserSceneView: BaseView {
 	private var diffableDatasource: UserDatasource?
 
 	// MARK: - UI Elements
-	private lazy var logoutButton = buildGradientButton(with: Localization.logout,
-														fontSize: Constants.basicFontSize)
 	private lazy var collectionView = UICollectionView(frame: .zero,
 													   collectionViewLayout: makeLayout())
+	private lazy var saveButton = buildNavBarButton()
 
 	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
+		bindActions()
 		setupCollection()
-		actionsBinding()
 		setupUI()
 	}
 
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
+		bindActions()
 		setupCollection()
-		actionsBinding()
 		setupUI()
 	}
 
@@ -55,6 +55,12 @@ final class UserSceneView: BaseView {
 		}
 		diffableDatasource?.apply(snapshot)
 	}
+
+	func setupSaveButton(for controller: UIViewController) {
+		saveButton.style = .plain
+		saveButton.title = Localization.save
+		controller.navigationItem.rightBarButtonItem = saveButton
+	}
 }
 
 // MARK: - Private extension
@@ -63,30 +69,15 @@ private extension UserSceneView {
 	func setupUI() {
 		backgroundColor = .black
 		addSubs()
+		collectionView.delaysContentTouches = false
 	}
 
 	func addSubs() {
-		addSubview(logoutButton, constraints: [
-			logoutButton.bottomAnchor.constraint(
-				equalTo: safeAreaLayoutGuide.bottomAnchor,
-				constant: -Constants.basicBottomInset),
-
-			logoutButton.leadingAnchor.constraint(
-				equalTo: leadingAnchor,
-				constant: Constants.defaultEdgeInsets),
-
-			logoutButton.trailingAnchor.constraint(
-				equalTo: trailingAnchor,
-				constant: -Constants.defaultEdgeInsets),
-
-			logoutButton.heightAnchor.constraint(
-				equalToConstant: Constants.basicHeight)])
-
 		addSubview(collectionView, constraints: [
 			collectionView.topAnchor.constraint(equalTo: topAnchor),
 			collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
 			collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-			collectionView.bottomAnchor.constraint(equalTo: logoutButton.topAnchor)])
+			collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)])
 	}
 
 	// MARK: - Layout
@@ -103,6 +94,8 @@ private extension UserSceneView {
 				return self.makeHeaderSection()
 			case .list:
 				return self.makeListSection(with: layoutEnvironment)
+			case .logout:
+				return makeLogoutSection()
 			}
 		}
 		let configuration = UICollectionViewCompositionalLayoutConfiguration()
@@ -134,6 +127,7 @@ private extension UserSceneView {
 			count: 1)
 
 		let section = NSCollectionLayoutSection(group: group)
+
 		return section
 	}
 
@@ -150,6 +144,28 @@ private extension UserSceneView {
 			leading: Constants.defaultEdgeInsets,
 			bottom: .zero,
 			trailing: Constants.defaultEdgeInsets)
+		return section
+	}
+
+	func makeLogoutSection() -> NSCollectionLayoutSection {
+		let itemSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(Constants.basicLayoutFractionalWidth),
+			heightDimension: .fractionalHeight(Constants.basicLayoutFractionalWidth))
+		let item = NSCollectionLayoutItem(layoutSize: itemSize)
+		let groupSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(Constants.basicLayoutFractionalWidth),
+			heightDimension: .fractionalWidth(Constants.basicLayoutFractionalWidth / 8))
+		let group = NSCollectionLayoutGroup.vertical(
+			layoutSize: groupSize,
+			subitem: item,
+			count: 1)
+		let section = NSCollectionLayoutSection(group: group)
+		section.contentInsets = NSDirectionalEdgeInsets(
+			top: 20,
+			leading: .zero,
+			bottom: .zero,
+			trailing: .zero)
+
 		return section
 	}
 
@@ -214,6 +230,16 @@ private extension UserSceneView {
 					}
 					.store(in: &cell.cancellables)
 				return cell
+
+			case .plainWithButton(let model):
+				let cell = collectionView.configureCell(cellType: LogoutButtonCell.self, indexPath: indexPath)
+				cell.configure(model)
+				cell.actionPublisher
+					.map { _ in UserSceneViewActions.logoutButtonTapped }
+					.subscribe(actionSubject)
+					.store(in: &cancellables)
+
+				return cell
 			}
 		})
 	}
@@ -246,15 +272,17 @@ private extension UserSceneView {
 			UserDataMenuCell.self,
 			forCellWithReuseIdentifier: UserDataMenuCell.reuseID)
 
+		collectionView.register(
+			LogoutButtonCell.self,
+			forCellWithReuseIdentifier: LogoutButtonCell.reuseID)
+
 		setupDiffableDatasource()
 	}
 
-	// MARK: - Actions
-	func actionsBinding() {
-		logoutButton.tapPublisher
-			.sink { [unowned self] in
-				actionSubject.send(.logoutButtonTapped)
-			}
+	func bindActions() {
+		saveButton.tapPublisher
+			.map { UserSceneViewActions.saveButtonDidTapped }
+			.subscribe(actionSubject)
 			.store(in: &cancellables)
 	}
 }

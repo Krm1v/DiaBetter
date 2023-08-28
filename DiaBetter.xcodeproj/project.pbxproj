@@ -117,6 +117,8 @@
 		866FCCE329E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FCCE229E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift */; };
 		866FCCE729E8170A00D7FCC5 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FCCE629E8170A00D7FCC5 /* Token.swift */; };
 		866FCCEA29E835C800D7FCC5 /* UserProfilePictureDomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FCCE929E835C800D7FCC5 /* UserProfilePictureDomainModel.swift */; };
+		8679A19E2A9CC5A100885A5D /* LogoutButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8679A19D2A9CC5A100885A5D /* LogoutButtonCell.swift */; };
+		8679A1A02A9CC7E500885A5D /* LogoutButtonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8679A19F2A9CC7E500885A5D /* LogoutButtonModel.swift */; };
 		868FC8DABB7F9E307A73FD0D /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A3F26E42FA42232CBD936F /* AuthCoordinator.swift */; };
 		868FD8AA2A49B25300EAF87D /* AppSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FD8A92A49B25300EAF87D /* AppSettingsModel.swift */; };
 		868FD8AC2A4ED85900EAF87D /* UnitsSceneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FD8AB2A4ED85800EAF87D /* UnitsSceneModel.swift */; };
@@ -379,6 +381,8 @@
 		866FCCE229E6C46E00D7FCC5 /* AVPlayer+isPlaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+isPlaying.swift"; sourceTree = "<group>"; };
 		866FCCE629E8170A00D7FCC5 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		866FCCE929E835C800D7FCC5 /* UserProfilePictureDomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilePictureDomainModel.swift; sourceTree = "<group>"; };
+		8679A19D2A9CC5A100885A5D /* LogoutButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutButtonCell.swift; sourceTree = "<group>"; };
+		8679A19F2A9CC7E500885A5D /* LogoutButtonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutButtonModel.swift; sourceTree = "<group>"; };
 		868FD8A92A49B25300EAF87D /* AppSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsModel.swift; sourceTree = "<group>"; };
 		868FD8AB2A4ED85800EAF87D /* UnitsSceneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitsSceneModel.swift; sourceTree = "<group>"; };
 		868FD8B02A570A4000EAF87D /* DataSceneBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSceneBuilder.swift; sourceTree = "<group>"; };
@@ -1320,6 +1324,7 @@
 				8637ADF129BB7A0300F14489 /* HeaderCell.swift */,
 				8637F2B229BBB10F00941919 /* UserDataCell.swift */,
 				8640820329DB761400B848B7 /* UserDataMenuCell.swift */,
+				8679A19D2A9CC5A100885A5D /* LogoutButtonCell.swift */,
 			);
 			path = UserPageCells;
 			sourceTree = "<group>";
@@ -1499,6 +1504,7 @@
 			children = (
 				864081FF29DB723500B848B7 /* SettingsMenuDatasource.swift */,
 				86B3CB382A2536F700D7AAC6 /* UserSceneModels.swift */,
+				8679A19F2A9CC7E500885A5D /* LogoutButtonModel.swift */,
 			);
 			path = UserProfileModels;
 			sourceTree = "<group>";
@@ -2541,6 +2547,7 @@
 				86900815299D4D76001B672E /* UserSceneViewModel.swift in Sources */,
 				868FD8B12A570A4000EAF87D /* DataSceneBuilder.swift in Sources */,
 				860AE91229E9C04D006CF2E1 /* UIApplication+OpenSettings.swift in Sources */,
+				8679A19E2A9CC5A100885A5D /* LogoutButtonCell.swift in Sources */,
 				869BF7082A66E239000BD030 /* BackupSceneBuilder.swift in Sources */,
 				86900808299D4867001B672E /* UserEndpoint.swift in Sources */,
 				8616564D2A866E4400D40AB7 /* APIErrorResponseModel.swift in Sources */,
@@ -2626,6 +2633,7 @@
 				8696B74B2A30DA520094162D /* NotePresentationView.swift in Sources */,
 				86B3729229C9DE320095C229 /* UserUpdateRequestModel.swift in Sources */,
 				86D0A74B29A3871B00980996 /* DiarySceneView.swift in Sources */,
+				8679A1A02A9CC7E500885A5D /* LogoutButtonModel.swift in Sources */,
 				866E21AB2A3884D000468486 /* NotificationsSceneViewController.swift in Sources */,
 				9C1BC8295DFBA3BD9DAF0D80 /* UIView+Constraints.swift in Sources */,
 				86A5D2012A435D8F006E9424 /* UnitsSceneViewModel.swift in Sources */,
