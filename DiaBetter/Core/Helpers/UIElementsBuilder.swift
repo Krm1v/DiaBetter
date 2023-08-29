@@ -110,7 +110,7 @@ extension UIElementsBuilder {
 	}
 
 	func buildTitleLabel(
-		with text: String = "",
+		with text: String = Localization.appTitle,
 		fontSize: CGFloat = Constants.basicTitleFontSize
 	) -> UILabel {
 		let label = UILabel()

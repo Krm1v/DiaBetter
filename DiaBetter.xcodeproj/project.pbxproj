@@ -52,6 +52,10 @@
 		862FF7052A2BE71B001BE802 /* DiaryDetailSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FF7042A2BE71B001BE802 /* DiaryDetailSceneView.swift */; };
 		862FF7092A2BE7C6001BE802 /* DiaryDetailSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FF7082A2BE7C6001BE802 /* DiaryDetailSceneViewController.swift */; };
 		862FF70C2A2BE7DB001BE802 /* DiaryDetailSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FF70B2A2BE7DB001BE802 /* DiaryDetailSceneViewModel.swift */; };
+		8631D8E42A9E148600AD4613 /* SplashScreenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8631D8E32A9E148600AD4613 /* SplashScreenBuilder.swift */; };
+		8631D8E82A9E14A000AD4613 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8631D8E72A9E14A000AD4613 /* SplashScreenView.swift */; };
+		8631D8EC2A9E14B700AD4613 /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8631D8EB2A9E14B700AD4613 /* SplashScreenViewController.swift */; };
+		8631D8EF2A9E14C900AD4613 /* SplashScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8631D8EE2A9E14C900AD4613 /* SplashScreenViewModel.swift */; };
 		8634B76929A8F96F00870B66 /* LoginSceneModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634B76829A8F96F00870B66 /* LoginSceneModuleBuilder.swift */; };
 		8634B76C29A8F98600870B66 /* LoginSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634B76B29A8F98600870B66 /* LoginSceneViewModel.swift */; };
 		8634B76E29A8F99300870B66 /* LoginSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8634B76D29A8F99300870B66 /* LoginSceneViewController.swift */; };
@@ -122,6 +126,7 @@
 		8679A1A32A9CF04400885A5D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 8679A1A22A9CF04400885A5D /* Lottie */; };
 		8679A1A52A9CF1C600885A5D /* ActionCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8679A1A42A9CF1C600885A5D /* ActionCompletedView.swift */; };
 		8679A1A92A9CFC7500885A5D /* actionDone.json in Resources */ = {isa = PBXBuildFile; fileRef = 8679A1A82A9CFC7500885A5D /* actionDone.json */; };
+		86826A812A9E32F800F7A69B /* waves.json in Resources */ = {isa = PBXBuildFile; fileRef = 86826A802A9E32F800F7A69B /* waves.json */; };
 		868FC8DABB7F9E307A73FD0D /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A3F26E42FA42232CBD936F /* AuthCoordinator.swift */; };
 		868FD8AA2A49B25300EAF87D /* AppSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FD8A92A49B25300EAF87D /* AppSettingsModel.swift */; };
 		868FD8AC2A4ED85900EAF87D /* UnitsSceneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FD8AB2A4ED85800EAF87D /* UnitsSceneModel.swift */; };
@@ -321,6 +326,10 @@
 		862FF7042A2BE71B001BE802 /* DiaryDetailSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailSceneView.swift; sourceTree = "<group>"; };
 		862FF7082A2BE7C6001BE802 /* DiaryDetailSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailSceneViewController.swift; sourceTree = "<group>"; };
 		862FF70B2A2BE7DB001BE802 /* DiaryDetailSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailSceneViewModel.swift; sourceTree = "<group>"; };
+		8631D8E32A9E148600AD4613 /* SplashScreenBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenBuilder.swift; sourceTree = "<group>"; };
+		8631D8E72A9E14A000AD4613 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
+		8631D8EB2A9E14B700AD4613 /* SplashScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
+		8631D8EE2A9E14C900AD4613 /* SplashScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewModel.swift; sourceTree = "<group>"; };
 		8634B76829A8F96F00870B66 /* LoginSceneModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSceneModuleBuilder.swift; sourceTree = "<group>"; };
 		8634B76B29A8F98600870B66 /* LoginSceneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSceneViewModel.swift; sourceTree = "<group>"; };
 		8634B76D29A8F99300870B66 /* LoginSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginSceneViewController.swift; sourceTree = "<group>"; };
@@ -389,6 +398,7 @@
 		8679A19F2A9CC7E500885A5D /* LogoutButtonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutButtonModel.swift; sourceTree = "<group>"; };
 		8679A1A42A9CF1C600885A5D /* ActionCompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionCompletedView.swift; sourceTree = "<group>"; };
 		8679A1A82A9CFC7500885A5D /* actionDone.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = actionDone.json; sourceTree = "<group>"; };
+		86826A802A9E32F800F7A69B /* waves.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = waves.json; sourceTree = "<group>"; };
 		868FD8A92A49B25300EAF87D /* AppSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsModel.swift; sourceTree = "<group>"; };
 		868FD8AB2A4ED85800EAF87D /* UnitsSceneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitsSceneModel.swift; sourceTree = "<group>"; };
 		868FD8B02A570A4000EAF87D /* DataSceneBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSceneBuilder.swift; sourceTree = "<group>"; };
@@ -1180,6 +1190,57 @@
 			isa = PBXGroup;
 			children = (
 				862FF70B2A2BE7DB001BE802 /* DiaryDetailSceneViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		8631D8E52A9E148900AD4613 /* SplashScreen */ = {
+			isa = PBXGroup;
+			children = (
+				8631D8E62A9E149400AD4613 /* Builder */,
+				8631D8E92A9E14A300AD4613 /* View */,
+				8631D8ED2A9E14BB00AD4613 /* Controller */,
+				8631D8F02A9E14CC00AD4613 /* ViewModel */,
+			);
+			path = SplashScreen;
+			sourceTree = "<group>";
+		};
+		8631D8E62A9E149400AD4613 /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				8631D8E32A9E148600AD4613 /* SplashScreenBuilder.swift */,
+			);
+			path = Builder;
+			sourceTree = "<group>";
+		};
+		8631D8E92A9E14A300AD4613 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8631D8EA2A9E14A800AD4613 /* ContentView */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8631D8EA2A9E14A800AD4613 /* ContentView */ = {
+			isa = PBXGroup;
+			children = (
+				8631D8E72A9E14A000AD4613 /* SplashScreenView.swift */,
+			);
+			path = ContentView;
+			sourceTree = "<group>";
+		};
+		8631D8ED2A9E14BB00AD4613 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				8631D8EB2A9E14B700AD4613 /* SplashScreenViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		8631D8F02A9E14CC00AD4613 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				8631D8EE2A9E14C900AD4613 /* SplashScreenViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -2248,6 +2309,7 @@
 			isa = PBXGroup;
 			children = (
 				8679A1A82A9CFC7500885A5D /* actionDone.json */,
+				86826A802A9E32F800F7A69B /* waves.json */,
 			);
 			path = LottieAnimations;
 			sourceTree = "<group>";
@@ -2282,6 +2344,7 @@
 		A76AD54D9D1282A1B7BD335E /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				8631D8E52A9E148900AD4613 /* SplashScreen */,
 				8634B77C29ABE26700870B66 /* AuthorizationFlow */,
 				8634B77D29AC0A1600870B66 /* MainFlow */,
 			);
@@ -2468,6 +2531,7 @@
 				11E25E7DB9668386D343FC0E /* Montserrat-LightItalic.ttf in Resources */,
 				02D4815B742C0EFCF9EC5F6B /* Montserrat-Medium.ttf in Resources */,
 				2C5EA8F0E2AF8D372BE8377D /* Montserrat-MediumItalic.ttf in Resources */,
+				86826A812A9E32F800F7A69B /* waves.json in Resources */,
 				A8005C6912B4E589150FDCAF /* Montserrat-Regular.ttf in Resources */,
 				6D7BC40539EE887694D7C227 /* Montserrat-SemiBold.ttf in Resources */,
 				9F3E462C5D968986A1E3E4B1 /* Montserrat-SemiBoldItalic.ttf in Resources */,
@@ -2531,6 +2595,7 @@
 				8634B77429ABE1FF00870B66 /* CreateUserProfileModuleBuilder.swift in Sources */,
 				ED1EF3530396C5E26B347865 /* AppConfiguration.swift in Sources */,
 				DADB49D021B24B407D7FDD2D /* AppContainer.swift in Sources */,
+				8631D8EC2A9E14B700AD4613 /* SplashScreenViewController.swift in Sources */,
 				86D0A73E299FA23900980996 /* UserSceneViewController.swift in Sources */,
 				8699F32A29B2986D00705347 /* SettingsTableView.swift in Sources */,
 				861FCA0729F9C9E300743055 /* Decimal+String.swift in Sources */,
@@ -2633,6 +2698,7 @@
 				8616564D2A866E4400D40AB7 /* APIErrorResponseModel.swift in Sources */,
 				86A518AB2A44930A00267A60 /* SettingsService.swift in Sources */,
 				8699F33129B2D9F300705347 /* SettingsTableViewDiffableDataSource.swift in Sources */,
+				8631D8E82A9E14A000AD4613 /* SplashScreenView.swift in Sources */,
 				869007F8299D4552001B672E /* NetworkManager.swift in Sources */,
 				86B3CB3E2A265F2500D7AAC6 /* RegularExpressions.swift in Sources */,
 				8699F33C29B3D77700705347 /* HomeSceneViewController.swift in Sources */,
@@ -2663,6 +2729,7 @@
 				863E85832A0B9C890006E1D2 /* CubicLineChartCell.swift in Sources */,
 				861FCA1029FA82D200743055 /* RecordModel.swift in Sources */,
 				863C7EBD29C10000008F93F0 /* MultipartData.swift in Sources */,
+				8631D8E42A9E148600AD4613 /* SplashScreenBuilder.swift in Sources */,
 				86B3729829CB43590095C229 /* ImageResource.swift in Sources */,
 				8634B76E29A8F99300870B66 /* LoginSceneViewController.swift in Sources */,
 				862FF70C2A2BE7DB001BE802 /* DiaryDetailSceneViewModel.swift in Sources */,
@@ -2702,6 +2769,7 @@
 				8637ADCE29B7981600F14489 /* RecordsNetworkService.swift in Sources */,
 				863C7EC129C20912008F93F0 /* UserProfilePictureResponse.swift in Sources */,
 				8640820429DB761400B848B7 /* UserDataMenuCell.swift in Sources */,
+				8631D8EF2A9E14C900AD4613 /* SplashScreenViewModel.swift in Sources */,
 				8637ADDD29BA17B100F14489 /* ReportViewModel.swift in Sources */,
 				8699F33E29B3D78100705347 /* HomeSceneViewModel.swift in Sources */,
 				8696B7462A3088390094162D /* GradientFilledButton.swift in Sources */,

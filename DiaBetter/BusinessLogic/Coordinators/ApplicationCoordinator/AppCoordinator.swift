@@ -8,6 +8,11 @@
 import UIKit
 import Combine
 
+enum UserAuthorizationStatus: Int, CaseIterable {
+	case authorized
+	case unauthorized
+}
+
 final class AppCoordinator: Coordinator {
 	// MARK: - Properties
 	var window: UIWindow
@@ -33,12 +38,29 @@ final class AppCoordinator: Coordinator {
 	func start() {
 		self.window.rootViewController = navigationController
 		self.window.makeKeyAndVisible()
-		container.userService.isAuthorized ? mainFlow() : authFlow()
+//		container.userService.isAuthorized ? mainFlow() : authFlow()
+		splashScreen()
 	}
 }
 
 // MARK: - Private extension
 private extension AppCoordinator {
+	func splashScreen() {
+		let module = SplashScreenBuilder.build(container: container)
+		module.transitionPublisher
+			.sink { [unowned self] transition in
+				switch transition {
+				case .didFinish(let status):
+					switch status {
+					case .authorized: 	mainFlow()
+					case .unauthorized: authFlow()
+					}
+				}
+			}
+			.store(in: &cancellables)
+		setRoot(module.viewController)
+	}
+
 	func authFlow() {
 		let authCoordinator = AuthCoordinator(navigationController: navigationController,
 											  container: container)
