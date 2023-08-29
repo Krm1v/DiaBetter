@@ -65,9 +65,10 @@ final class BackupSceneViewModel: BaseViewModel {
 				switch completion {
 				case .finished:
 					Logger.info("Finished")
-					isLoadingSubject.send(false)
+					self.isLoadingSubject.send(false)
 					infoSubject.send((Localization.done, Localization.dataDeletedMessage))
 				case .failure(let error):
+					isLoadingSubject.send(false)
 					Logger.error(error.localizedDescription)
 				}
 			} receiveValue: { _ in }

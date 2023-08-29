@@ -119,6 +119,9 @@
 		866FCCEA29E835C800D7FCC5 /* UserProfilePictureDomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866FCCE929E835C800D7FCC5 /* UserProfilePictureDomainModel.swift */; };
 		8679A19E2A9CC5A100885A5D /* LogoutButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8679A19D2A9CC5A100885A5D /* LogoutButtonCell.swift */; };
 		8679A1A02A9CC7E500885A5D /* LogoutButtonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8679A19F2A9CC7E500885A5D /* LogoutButtonModel.swift */; };
+		8679A1A32A9CF04400885A5D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 8679A1A22A9CF04400885A5D /* Lottie */; };
+		8679A1A52A9CF1C600885A5D /* ActionCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8679A1A42A9CF1C600885A5D /* ActionCompletedView.swift */; };
+		8679A1A92A9CFC7500885A5D /* actionDone.json in Resources */ = {isa = PBXBuildFile; fileRef = 8679A1A82A9CFC7500885A5D /* actionDone.json */; };
 		868FC8DABB7F9E307A73FD0D /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A3F26E42FA42232CBD936F /* AuthCoordinator.swift */; };
 		868FD8AA2A49B25300EAF87D /* AppSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FD8A92A49B25300EAF87D /* AppSettingsModel.swift */; };
 		868FD8AC2A4ED85900EAF87D /* UnitsSceneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FD8AB2A4ED85800EAF87D /* UnitsSceneModel.swift */; };
@@ -236,6 +239,7 @@
 		86D0A75229A656CE00980996 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A75129A656CE00980996 /* User.swift */; };
 		86D0A75529A65FD400980996 /* UserNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A75429A65FD400980996 /* UserNetworkService.swift */; };
 		86E4EC1B2A7D7B0E00F17EC9 /* QueryAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E4EC1A2A7D7B0E00F17EC9 /* QueryAssembler.swift */; };
+		86E6BBCA2A9E01DE0010FC4E /* UserNameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E6BBC92A9E01DD0010FC4E /* UserNameTextField.swift */; };
 		86E73DBD2A12BC4100D34B96 /* InsulinUsageChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E73DBC2A12BC4100D34B96 /* InsulinUsageChartCell.swift */; };
 		86E73DC12A13A54500D34B96 /* ChartsDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E73DC02A13A54500D34B96 /* ChartsDateFormatter.swift */; };
 		86E73DC72A1D4EA800D34B96 /* ChartsItem+Charts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E73DC62A1D4EA700D34B96 /* ChartsItem+Charts.swift */; };
@@ -383,6 +387,8 @@
 		866FCCE929E835C800D7FCC5 /* UserProfilePictureDomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilePictureDomainModel.swift; sourceTree = "<group>"; };
 		8679A19D2A9CC5A100885A5D /* LogoutButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutButtonCell.swift; sourceTree = "<group>"; };
 		8679A19F2A9CC7E500885A5D /* LogoutButtonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutButtonModel.swift; sourceTree = "<group>"; };
+		8679A1A42A9CF1C600885A5D /* ActionCompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionCompletedView.swift; sourceTree = "<group>"; };
+		8679A1A82A9CFC7500885A5D /* actionDone.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = actionDone.json; sourceTree = "<group>"; };
 		868FD8A92A49B25300EAF87D /* AppSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsModel.swift; sourceTree = "<group>"; };
 		868FD8AB2A4ED85800EAF87D /* UnitsSceneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitsSceneModel.swift; sourceTree = "<group>"; };
 		868FD8B02A570A4000EAF87D /* DataSceneBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSceneBuilder.swift; sourceTree = "<group>"; };
@@ -498,6 +504,7 @@
 		86D0A75129A656CE00980996 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		86D0A75429A65FD400980996 /* UserNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNetworkService.swift; sourceTree = "<group>"; };
 		86E4EC1A2A7D7B0E00F17EC9 /* QueryAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryAssembler.swift; sourceTree = "<group>"; };
+		86E6BBC92A9E01DD0010FC4E /* UserNameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameTextField.swift; sourceTree = "<group>"; };
 		86E73DBC2A12BC4100D34B96 /* InsulinUsageChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsulinUsageChartCell.swift; sourceTree = "<group>"; };
 		86E73DC02A13A54500D34B96 /* ChartsDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsDateFormatter.swift; sourceTree = "<group>"; };
 		86E73DC62A1D4EA700D34B96 /* ChartsItem+Charts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChartsItem+Charts.swift"; sourceTree = "<group>"; };
@@ -540,6 +547,7 @@
 				105E90158DE73E06EA17D3EF /* CombineCocoa in Frameworks */,
 				1B52E2073ECE4659CB9EDADB /* KeyboardLayoutGuide in Frameworks */,
 				6975F8BB4F7B80CCCEDB49B8 /* KeychainAccess in Frameworks */,
+				8679A1A32A9CF04400885A5D /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,6 +592,7 @@
 		2B0DBBDCF0111D3E510BCBB6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				86E6BBCE2A9E06860010FC4E /* LottieAnimations */,
 				866FCCE129E0AE2A00D7FCC5 /* Videos */,
 				3522B1CCEAB64AD93D412F06 /* Fonts */,
 				24CFFF6C8BE3B765084F4BC2 /* Generated */,
@@ -2171,6 +2180,78 @@
 			path = LocalDataModels;
 			sourceTree = "<group>";
 		};
+		86E6BBC52A9D1B2A0010FC4E /* UIView */ = {
+			isa = PBXGroup;
+			children = (
+				6A4C9ADE6866519B9ECE23E0 /* UIView+Constraints.swift */,
+				F70F9FDBCE897E3B0BF3C056 /* UIView+Ext.swift */,
+			);
+			path = UIView;
+			sourceTree = "<group>";
+		};
+		86E6BBC62A9D1B380010FC4E /* UIImage */ = {
+			isa = PBXGroup;
+			children = (
+				86B3729529CB42920095C229 /* UIImage+URL.swift */,
+				860AE90F29E9BAE0006CF2E1 /* UIImageView+SetImage.swift */,
+			);
+			path = UIImage;
+			sourceTree = "<group>";
+		};
+		86E6BBC72A9D1B430010FC4E /* UICollectionView+Cell */ = {
+			isa = PBXGroup;
+			children = (
+				866C141A29EEAEA00029D770 /* UICollectionView+ConfigureCell.swift */,
+				86B3CB342A252F9800D7AAC6 /* UICollectionViewCell+ReuseID.swift */,
+				86B3CB362A25312700D7AAC6 /* UICollectionReusableView+ReuseID.swift */,
+			);
+			path = "UICollectionView+Cell";
+			sourceTree = "<group>";
+		};
+		86E6BBC82A9D1B530010FC4E /* UITableView+Cell */ = {
+			isa = PBXGroup;
+			children = (
+				866E21B92A38906F00468486 /* UITableViewCell+SelfConfiguringCell.swift */,
+				866E21BB2A38924800468486 /* UITableView+ConfigureCell.swift */,
+			);
+			path = "UITableView+Cell";
+			sourceTree = "<group>";
+		};
+		86E6BBCB2A9E063A0010FC4E /* TextFields */ = {
+			isa = PBXGroup;
+			children = (
+				862905AB2A03DA3300B729C0 /* PasswordTextField.swift */,
+				86E6BBC92A9E01DD0010FC4E /* UserNameTextField.swift */,
+			);
+			path = TextFields;
+			sourceTree = "<group>";
+		};
+		86E6BBCC2A9E06470010FC4E /* ActivityIndicators */ = {
+			isa = PBXGroup;
+			children = (
+				86023DA02A2A681900D8B161 /* CustomActivityIndicator.swift */,
+				8679A1A42A9CF1C600885A5D /* ActionCompletedView.swift */,
+			);
+			path = ActivityIndicators;
+			sourceTree = "<group>";
+		};
+		86E6BBCD2A9E066F0010FC4E /* TextViews */ = {
+			isa = PBXGroup;
+			children = (
+				86AE57F929F01E4100A50F05 /* NoteTextView.swift */,
+				8696B74A2A30DA520094162D /* NotePresentationView.swift */,
+			);
+			path = TextViews;
+			sourceTree = "<group>";
+		};
+		86E6BBCE2A9E06860010FC4E /* LottieAnimations */ = {
+			isa = PBXGroup;
+			children = (
+				8679A1A82A9CFC7500885A5D /* actionDone.json */,
+			);
+			path = LottieAnimations;
+			sourceTree = "<group>";
+		};
 		86E73DC82A1D4EBE00D34B96 /* HomeSceneModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -2234,13 +2315,12 @@
 			children = (
 				34520C26878407F59DDCF83D /* AxisScrollView.swift */,
 				8696B7472A3088580094162D /* Buttons */,
-				86AE57F929F01E4100A50F05 /* NoteTextView.swift */,
+				86E6BBCD2A9E066F0010FC4E /* TextViews */,
 				86AE57FD29F05D4F00A50F05 /* SwiftUICanvas.swift */,
 				861FCA0029F9A7E300743055 /* BoxElementView.swift */,
-				862905AB2A03DA3300B729C0 /* PasswordTextField.swift */,
-				86023DA02A2A681900D8B161 /* CustomActivityIndicator.swift */,
+				86E6BBCB2A9E063A0010FC4E /* TextFields */,
+				86E6BBCC2A9E06470010FC4E /* ActivityIndicators */,
 				8696B7412A2FCEBB0094162D /* RecordPresentationView.swift */,
-				8696B74A2A30DA520094162D /* NotePresentationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2282,16 +2362,11 @@
 				86A5D1F02A41C56C006E9424 /* UIApplication */,
 				13A4E5AF74A37DE81C07C228 /* UIEdgeInsets+Ext.swift */,
 				564B98D649A4EE17EA4076C0 /* UIStackView+Ext.swift */,
-				6A4C9ADE6866519B9ECE23E0 /* UIView+Constraints.swift */,
-				F70F9FDBCE897E3B0BF3C056 /* UIView+Ext.swift */,
-				86B3729529CB42920095C229 /* UIImage+URL.swift */,
-				860AE90F29E9BAE0006CF2E1 /* UIImageView+SetImage.swift */,
-				866C141A29EEAEA00029D770 /* UICollectionView+ConfigureCell.swift */,
-				86B3CB342A252F9800D7AAC6 /* UICollectionViewCell+ReuseID.swift */,
-				86B3CB362A25312700D7AAC6 /* UICollectionReusableView+ReuseID.swift */,
+				86E6BBC52A9D1B2A0010FC4E /* UIView */,
+				86E6BBC62A9D1B380010FC4E /* UIImage */,
+				86E6BBC72A9D1B430010FC4E /* UICollectionView+Cell */,
 				8696B7482A30AF100094162D /* CAGradientLayer+CABaseAnimation.swift */,
-				866E21B92A38906F00468486 /* UITableViewCell+SelfConfiguringCell.swift */,
-				866E21BB2A38924800468486 /* UITableView+ConfigureCell.swift */,
+				86E6BBC82A9D1B530010FC4E /* UITableView+Cell */,
 				861656142A82A95B00D40AB7 /* CreateEmailURL.swift */,
 			);
 			path = UIKit;
@@ -2332,6 +2407,7 @@
 				BCB654C70AA9AA5849B80E8C /* KeychainAccess */,
 				86B3729C29CC776B0095C229 /* Kingfisher */,
 				863E857C2A0ABCF70006E1D2 /* Charts */,
+				8679A1A22A9CF04400885A5D /* Lottie */,
 			);
 			productName = DiaBetter;
 			productReference = 9DA2D5186E71959703DD1462 /* DiaBetter.app */;
@@ -2361,6 +2437,7 @@
 				22C6FA9BBA5F6D6E624F4081 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				86B3729B29CC776B0095C229 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				863E857B2A0ABCF70006E1D2 /* XCRemoteSwiftPackageReference "Charts" */,
+				8679A1A12A9CF04300885A5D /* XCRemoteSwiftPackageReference "lottie-spm" */,
 			);
 			projectDirPath = "";
 			projectRoot = "";
@@ -2394,6 +2471,7 @@
 				A8005C6912B4E589150FDCAF /* Montserrat-Regular.ttf in Resources */,
 				6D7BC40539EE887694D7C227 /* Montserrat-SemiBold.ttf in Resources */,
 				9F3E462C5D968986A1E3E4B1 /* Montserrat-SemiBoldItalic.ttf in Resources */,
+				8679A1A92A9CFC7500885A5D /* actionDone.json in Resources */,
 				86665AB029E0922200745331 /* loginBackground.mp4 in Resources */,
 				4CFCDA31261934515489738F /* Montserrat-Thin.ttf in Resources */,
 				876F342B3AB00CAA5E18648F /* Montserrat-ThinItalic.ttf in Resources */,
@@ -2496,6 +2574,7 @@
 				8637ADBE29B7609700F14489 /* AddRecordSceneBuilder.swift in Sources */,
 				C37DE041F430700A105F9CC9 /* AxisScrollView.swift in Sources */,
 				861FCA0329F9B31E00743055 /* MealUnits.swift in Sources */,
+				8679A1A52A9CF1C600885A5D /* ActionCompletedView.swift in Sources */,
 				86665AA029E0778D00745331 /* TokenPlugin.swift in Sources */,
 				866E21BE2A38949C00468486 /* NotificationsDatasource.swift in Sources */,
 				866E21B22A38853300468486 /* NotificationsSceneViewModel.swift in Sources */,
@@ -2546,6 +2625,7 @@
 				8699F32829B2853700705347 /* SettingsSceneViewModel.swift in Sources */,
 				86900815299D4D76001B672E /* UserSceneViewModel.swift in Sources */,
 				868FD8B12A570A4000EAF87D /* DataSceneBuilder.swift in Sources */,
+				86E6BBCA2A9E01DE0010FC4E /* UserNameTextField.swift in Sources */,
 				860AE91229E9C04D006CF2E1 /* UIApplication+OpenSettings.swift in Sources */,
 				8679A19E2A9CC5A100885A5D /* LogoutButtonCell.swift in Sources */,
 				869BF7082A66E239000BD030 /* BackupSceneBuilder.swift in Sources */,
@@ -3298,6 +3378,14 @@
 				minimumVersion = 4.1.0;
 			};
 		};
+		8679A1A12A9CF04300885A5D /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		86B3729B29CC776B0095C229 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -3323,6 +3411,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 863E857B2A0ABCF70006E1D2 /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = Charts;
+		};
+		8679A1A22A9CF04400885A5D /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8679A1A12A9CF04300885A5D /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
 		};
 		86B3729C29CC776B0095C229 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;

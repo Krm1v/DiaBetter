@@ -44,7 +44,6 @@ private extension DatePickerCell {
 	func setupUI() {
 		setupLayout()
 		self.rounded(Constants.defaultCornerRadius)
-		self.backgroundColor = Colors.darkNavyBlue.color
 		datePicker.datePickerMode = .dateAndTime
 		datePicker.preferredDatePickerStyle = .compact
 		datePicker.tintColor = Colors.customPink.color

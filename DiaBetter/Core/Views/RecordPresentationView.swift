@@ -73,7 +73,6 @@ final class RecordPresentationView: UIView {
 private extension RecordPresentationView {
 	func setupUI() {
 		self.rounded(Constants.defaultCornerRadius)
-		self.backgroundColor = Colors.darkNavyBlue.color
 		setupLayout()
 		setupBindings()
 	}

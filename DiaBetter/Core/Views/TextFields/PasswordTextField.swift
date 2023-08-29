@@ -35,6 +35,7 @@ final class PasswordTextField: UIView {
 	}
 
 	private var isPasswordVisible = false
+	private let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
 
 	// MARK: - Init
 	override init(frame: CGRect) {
@@ -71,6 +72,8 @@ private extension PasswordTextField {
 
 	func toggle() {
 		textField.isSecureTextEntry.toggle()
+		impactFeedbackGenerator.prepare()
+		impactFeedbackGenerator.impactOccurred()
 		if textField.isSecureTextEntry {
 			trailingButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
 		} else {

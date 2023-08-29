@@ -43,14 +43,23 @@ final class DiaryDetailSceneViewModel: BaseViewModel {
 				switch completion {
 				case .finished:
 					Logger.info("Record updated")
-					self.isLoadingSubject.send(false)
-					self.transitionSubject.send(.backToDiary)
+					self.isCompletedSubject.send(true)
+					DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+						self.isCompletedSubject.send(false)
+						self.transitionSubject.send(.backToDiary)
+					}
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
 					self.errorSubject.send(error)
 					self.isLoadingSubject.send(false)
 				}
-			} receiveValue: { _ in }
+			} receiveValue: { [weak self] _ in
+				guard let self = self else {
+					return
+				}
+				self.isLoadingSubject.send(false)
+
+			}
 			.store(in: &cancellables)
 	}
 
@@ -66,14 +75,22 @@ final class DiaryDetailSceneViewModel: BaseViewModel {
 				switch completion {
 				case .finished:
 					Logger.info("Record deleted")
-					self.isLoadingSubject.send(false)
-					self.transitionSubject.send(.backToDiary)
+					isCompletedSubject.send(true)
+					DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+						self.isCompletedSubject.send(false)
+						self.transitionSubject.send(.backToDiary)
+					}
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
 					self.errorSubject.send(error)
 					self.isLoadingSubject.send(false)
 				}
-			} receiveValue: { }
+			} receiveValue: { [weak self] in
+				guard let self = self else {
+					return
+				}
+				self.isLoadingSubject.send(false)
+			}
 			.store(in: &cancellables)
 	}
 

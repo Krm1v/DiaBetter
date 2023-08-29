@@ -41,7 +41,7 @@ extension UIElementsBuilder {
 		return button
 	}
 
-	func buildSystemButton(with title: String, fontSize: CGFloat) -> UIButton {
+	func buildSystemButton(with title: String = "", fontSize: CGFloat = 17) -> UIButton {
 		let button = UIButton(type: .system)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.setTitle(title, for: .normal)

@@ -19,7 +19,7 @@ final class UserDataCell: BaseCollectionViewCell {
 
 	// MARK: - UI Elements
 	private lazy var titleLabel = buildFieldTitleLabel()
-	private lazy var userTextField = UITextField()
+	private lazy var userTextField = UserNameTextField()
 
 	// MARK: - Init
 	override init(frame: CGRect) {
@@ -47,7 +47,6 @@ private extension UserDataCell {
 		self.backgroundColor = .black
 		addSubs()
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelDefaultFontSize)
-		userTextField.borderStyle = .none
 		userTextField.font = FontFamily.Montserrat.regular.font(size: Constants.userTextFieldDefaultFontSize)
 	}
 

@@ -22,10 +22,13 @@ final class UserSceneViewModel: BaseViewModel {
 	@Published private var userImageResource: ImageResource?
 	@Published var sections: [UserSection] = []
 	@Published private(set) var userImage: Data?
-	@Published var userName = ""
+	@Published var userName = "" {
+		didSet { userDidUpdated = true }
+	}
 	@Published var userDiabetesType = ""
 	@Published var userFastInsulin = ""
 	@Published var userBasalInsulin = ""
+	@Published var userDidUpdated = false
 
 	// MARK: - Init
 	init(userService: UserService, permissionService: PermissionService) {
@@ -96,6 +99,7 @@ final class UserSceneViewModel: BaseViewModel {
 				userDiabetesType = user.diabetesType ?? ""
 				userFastInsulin = user.fastActingInsulin ?? ""
 				userBasalInsulin = user.basalInsulin ?? ""
+				userDidUpdated = false
 				self.updateDatasource()
 			}
 			.store(in: &cancellables)
@@ -205,6 +209,9 @@ final class UserSceneViewModel: BaseViewModel {
 				switch completion {
 				case .finished:
 					self.isLoadingSubject.send(false)
+					DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+						self.isCompletedSubject.send(false)
+					}
 					Logger.info("Finished")
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
@@ -216,43 +223,9 @@ final class UserSceneViewModel: BaseViewModel {
 					return
 				}
 				self.updateDatasource()
+				self.isCompletedSubject.send(true)
 			}
 			.store(in: &cancellables)
-	}
-
-	func showPlaceholderDatasource() {
-		let userHeaderModel = UserHeaderModel(
-			email: Constants.loadingTitle,
-			image: .asset(Assets.userImagePlaceholder))
-
-		let userHeaderSection = UserSection(
-			section: .header,
-			items: [
-				.header(userHeaderModel)])
-
-		let userSettings = [
-			UserDataSettingsModel(
-				title: Localization.name,
-				textFieldValue: Constants.loadingTitle),
-
-			UserDataSettingsModel(
-				title: Localization.diabetsType,
-				textFieldValue: Constants.loadingTitle),
-
-			UserDataSettingsModel(
-				title: Localization.fastActingInsulin,
-				textFieldValue: Constants.loadingTitle),
-
-			UserDataSettingsModel(
-				title: Localization.basalInsulin,
-				textFieldValue: Constants.loadingTitle)]
-
-		var userDataSection = UserSection(
-			section: .list,
-			items: [])
-
-		userDataSection.items = userSettings.map { .plainWithTextfield($0) }
-		sections = [userHeaderSection, userDataSection]
 	}
 
 	func clearImageCache() {
@@ -311,6 +284,42 @@ private extension UserSceneViewModel {
 			userDataSection.items.append(.plainWithLabel(item))
 		}
 		sections = [userHeaderSection, userDataSection, logoutSection]
+	}
+
+	// MARK: - Fake datasource
+	func showPlaceholderDatasource() {
+		let userHeaderModel = UserHeaderModel(
+			email: Constants.loadingTitle,
+			image: .asset(Assets.userImagePlaceholder))
+
+		let userHeaderSection = UserSection(
+			section: .header,
+			items: [
+				.header(userHeaderModel)])
+
+		let userSettings = [
+			UserDataSettingsModel(
+				title: Localization.name,
+				textFieldValue: Constants.loadingTitle),
+
+			UserDataSettingsModel(
+				title: Localization.diabetsType,
+				textFieldValue: Constants.loadingTitle),
+
+			UserDataSettingsModel(
+				title: Localization.fastActingInsulin,
+				textFieldValue: Constants.loadingTitle),
+
+			UserDataSettingsModel(
+				title: Localization.basalInsulin,
+				textFieldValue: Constants.loadingTitle)]
+
+		var userDataSection = UserSection(
+			section: .list,
+			items: [])
+
+		userDataSection.items = userSettings.map { .plainWithTextfield($0) }
+		sections = [userHeaderSection, userDataSection]
 	}
 
 	func updatedUser() -> User? {

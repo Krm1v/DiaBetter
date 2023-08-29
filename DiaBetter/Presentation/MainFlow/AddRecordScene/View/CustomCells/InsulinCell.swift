@@ -66,9 +66,11 @@ private extension InsulinCell {
 	func setupUI() {
 		setupLayout()
 		self.rounded(Constants.defaultCornerRadius)
-		self.backgroundColor = Colors.darkNavyBlue.color
-		fastInsulinTextfield.borderStyle = .none
-		basalInsulinTextfield.borderStyle = .none
+		[fastInsulinTextfield, basalInsulinTextfield].forEach { field in
+			field.borderStyle = .none
+			field.backgroundColor = .clear
+		}
+
 	}
 
 	func setupLayout() {

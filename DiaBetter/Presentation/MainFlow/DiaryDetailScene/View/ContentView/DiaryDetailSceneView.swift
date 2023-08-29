@@ -41,10 +41,9 @@ final class DiaryDetailSceneView: BaseView {
 	private lazy var mealView = RecordPresentationView()
 	private lazy var fastInsulinView = RecordPresentationView()
 	private lazy var basalInsulinView = RecordPresentationView()
-	private lazy var saveButton = buildGradientButton(with: Localization.save,
-													  fontSize: Constants.defaultButtonFontSize)
-	private lazy var cancelButton = buildBackButton(with: Localization.cancel)
-	private lazy var deleteButton = buildDeleteButton()
+	private lazy var saveButton = buildSystemButton(with: Localization.save)
+	private lazy var cancelButton = buildSystemButton(with: Localization.cancel)
+	private lazy var deleteButton = buildSystemButton(with: Localization.delete)
 	private lazy var editButton = buildNavBarButton()
 	private lazy var noteView = NotePresentationView()
 	private lazy var datePicker = UIDatePicker()
@@ -125,20 +124,6 @@ final class DiaryDetailSceneView: BaseView {
 		editButton.isEnabled = false
 		datePicker.isEnabled = true
 	}
-
-	func animateDeleteButton(_ animation: CABasicAnimation) {
-		colorSet.append(firstColorSet)
-		colorSet.append(secondColorSet)
-		colorSet.append(thirdColorSet)
-		deleteButton.gradientLayer.colors = colorSet[colorIndex]
-		updateColorIndex()
-		deleteButton.gradientLayer.setColors(
-			animation: animation,
-			colorSet[colorIndex],
-			animated: true,
-			duration: Constants.deleteButtonAnimationDuration,
-			timingFuncName: .linear)
-	}
 }
 
 // MARK: - Private extension
@@ -152,6 +137,8 @@ private extension DiaryDetailSceneView {
 		datePicker.maximumDate = .now
 		datePicker.datePickerMode = .dateAndTime
 		datePicker.tintColor = Colors.customPink.color
+		saveButton.setTitleColor(Colors.customPink.color, for: .normal)
+		deleteButton.setTitleColor(Colors.customRed.color, for: .normal)
 	}
 
 	func setupLayout() {
@@ -187,7 +174,7 @@ private extension DiaryDetailSceneView {
 		[viewStack, buttonsStack].forEach { vStack.addArrangedSubview($0) }
 
 		[datePicker, glucoseView, mealView, fastInsulinView, basalInsulinView].forEach {
-			$0.heightAnchor.constraint(equalToConstant: 50).isActive = true
+			$0.heightAnchor.constraint(equalToConstant: 44).isActive = true
 			viewStack.addArrangedSubview($0) }
 
 		noteView.heightAnchor.constraint(equalToConstant: 160).isActive = true
@@ -195,7 +182,7 @@ private extension DiaryDetailSceneView {
 		viewStack.addArrangedSubview(noteView)
 
 		[saveButton, cancelButton, deleteButton].forEach {
-			$0.heightAnchor.constraint(equalToConstant: 50).isActive = true
+			$0.heightAnchor.constraint(equalToConstant: 44).isActive = true
 			buttonsStack.addArrangedSubview($0) }
 	}
 

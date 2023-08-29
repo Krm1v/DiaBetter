@@ -72,7 +72,6 @@ final class NotePresentationView: UIView {
 private extension NotePresentationView {
 	func setupUI() {
 		self.rounded(Constants.defaultCornerRadius)
-		self.backgroundColor = Colors.darkNavyBlue.color
 		setupLayout()
 		setupBindings()
 	}

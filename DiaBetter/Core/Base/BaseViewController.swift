@@ -11,6 +11,7 @@ import CombineCocoa
 
 internal class BaseViewController<VM: ViewModel>: UIViewController {
 	// MARK: - Properties
+	private let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
 	var viewModel: VM
 	var cancellables = Set<AnyCancellable>()
 
@@ -35,11 +36,19 @@ internal class BaseViewController<VM: ViewModel>: UIViewController {
 			}
 			.store(in: &cancellables)
 
+		viewModel.isCompletedPublisher
+			.sink { [weak self] isCompleted in
+				isCompleted ? self?.showCompletedView() : self?.hideCompletedView()
+			}
+			.store(in: &cancellables)
+
 		viewModel.errorPublisher
 			.sink { [weak self] error in
 				guard let self = self else {
 					return
 				}
+				notificationFeedbackGenerator.prepare()
+				notificationFeedbackGenerator.notificationOccurred(.error)
 				self.presentAlert(title: Localization.error,
 								  message: error.localizedDescription,
 								  actionTitle: Localization.ok)
@@ -51,6 +60,8 @@ internal class BaseViewController<VM: ViewModel>: UIViewController {
 				guard let self = self else {
 					return
 				}
+				self.notificationFeedbackGenerator.prepare()
+				self.notificationFeedbackGenerator.notificationOccurred(.success)
 				self.presentAlert(title: title,
 								  message: info,
 								  actionTitle: Localization.ok)
@@ -94,6 +105,22 @@ internal class BaseViewController<VM: ViewModel>: UIViewController {
 	func hideLoadingView() {
 		let windowView = UIApplication.shared.windows.first(where: { $0.isKeyWindow })
 		windowView?.viewWithTag(CustomActivityIndicator.tagValue)?.removeFromSuperview()
+	}
+
+	func showCompletedView() {
+		let windowView = UIApplication.shared.windows.first(where: { $0.isKeyWindow })
+		if let completedView = windowView?.viewWithTag(ActionCompletedView.tagValue) as? ActionCompletedView {
+			completedView.isLoading = true
+		} else {
+			let completedView = ActionCompletedView(frame: UIScreen.main.bounds)
+			windowView?.addSubview(completedView)
+			completedView.isLoading = true
+		}
+	}
+
+	func hideCompletedView() {
+		let windowView = UIApplication.shared.windows.first(where: { $0.isKeyWindow })
+		windowView?.viewWithTag(ActionCompletedView.tagValue)?.removeFromSuperview()
 	}
 
 	func setupNavBar() {

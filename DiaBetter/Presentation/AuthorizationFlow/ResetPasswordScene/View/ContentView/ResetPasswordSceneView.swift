@@ -20,9 +20,9 @@ final class ResetPasswordSceneView: BaseView {
 	private let actionSubject = PassthroughSubject<ResetPasswordActions, Never>()
 
 	// MARK: - UIElements
-	private lazy var resetPasswordButton = buildGradientButton(with: Localization.restorePassword,
-															   fontSize: Constants.basicFontSize)
-	private lazy var backToLoginButton = buildBackButton(with: Localization.backToLogin)
+	private lazy var resetPasswordButton = buildSystemButton(with: Localization.restorePassword)
+
+	private lazy var backToLoginButton = buildSystemButton(with: Localization.backToLogin, fontSize: 17)
 	private lazy var emailTextField = buildSystemTextField(with: Localization.enterYourEmail,
 														   keyBoardType: .emailAddress,
 														   capitalization: .none)
@@ -56,6 +56,7 @@ private extension ResetPasswordSceneView {
 		descriptionLabel.font = FontFamily.Montserrat.semiBold.font(size: Constants.basicFontSize)
 		descriptionLabel.numberOfLines = .zero
 		descriptionLabel.textAlignment = .center
+		resetPasswordButton.setTitleColor(Colors.customPink.color, for: .normal)
 	}
 
 	func addSubs() {
@@ -108,12 +109,12 @@ private extension ResetPasswordSceneView {
 
 // MARK: - Constants
 private enum Constants {
-	static let basicFontSize: CGFloat = 13
-	static let baseEdgeInsets: CGFloat = 16
+	static let basicFontSize: 		   CGFloat = 13
+	static let baseEdgeInsets: 		   CGFloat = 16
 	static let baseMinimumScaleFactor: CGFloat = 0.5
-	static let basicElementsHeight: CGFloat = 50
-	static let basicTopEdgeInset: CGFloat = 50
-	static let basicStackViewSpacing: CGFloat = 20
+	static let basicElementsHeight:    CGFloat = 44
+	static let basicTopEdgeInset: 	   CGFloat = 50
+	static let basicStackViewSpacing:  CGFloat = 16
 }
 
 // MARK: - SwiftUI Preview

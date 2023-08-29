@@ -37,13 +37,20 @@ final class UnitsSceneViewModel: BaseViewModel {
 
 	// MARK: - Public methods
 	func saveSettings() {
-		appSettingsService.settings = AppSettingsModel(
-			notifications: appSettingsService.settings.notifications,
-			glucoseUnits: glucoseUnit,
-			carbohydrates: carbohydrates,
-			glucoseTarget: .init(min: minGlucoseTarget, max: maxGlucoseTarget))
+		isCompletedSubject.send(true)
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+			guard let self = self else {
+				return
+			}
+			appSettingsService.settings = AppSettingsModel(
+				notifications: appSettingsService.settings.notifications,
+				glucoseUnits: glucoseUnit,
+				carbohydrates: carbohydrates,
+				glucoseTarget: .init(min: minGlucoseTarget, max: maxGlucoseTarget))
 
-		appSettingsService.save(settings: appSettingsService.settings)
+			appSettingsService.save(settings: appSettingsService.settings)
+			self.isCompletedSubject.send(false)
+		}
 	}
 
 	func glucoseTargetDidChanged(

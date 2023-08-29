@@ -185,16 +185,29 @@ final class NotificationsSceneViewModel: BaseViewModel {
 		}
 
 		_ = tasks.map { task in
+			isLoadingSubject.send(true)
 			notificationManager.scheduleNotification(task: task)
 				.receive(on: DispatchQueue.main)
-				.sink { completion in
+				.sink { [weak self] completion in
+					guard let self = self else {
+						return
+					}
 					switch completion {
 					case .finished:
 						Logger.info("Notifications set up")
+						self.isCompletedSubject.send(true)
+						DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+							self.isCompletedSubject.send(false)
+						}
 					case .failure(let error):
 						Logger.error(error.localizedDescription)
 					}
-				} receiveValue: { _ in }
+				} receiveValue: { [weak self] _ in
+					guard let self = self else {
+						return
+					}
+					self.isLoadingSubject.send(false)
+				}
 				.store(in: &cancellables)
 		}
 	}

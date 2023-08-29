@@ -14,7 +14,7 @@ enum LogoutButtonCellActions {
 
 final class LogoutButtonCell: BaseCollectionViewCell {
 	// MARK: - UI Elements
-	private let logoutButton = UIButton(type: .system)
+	private lazy var logoutButton = buildSystemButton()
 
 	// MARK: - Properties
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
@@ -46,9 +46,7 @@ private extension LogoutButtonCell {
 			logoutButton.heightAnchor.constraint(equalToConstant: 44),
 			logoutButton.widthAnchor.constraint(equalToConstant: self.frame.width / 3)
 		])
-
-		logoutButton.tintColor = .white
-		logoutButton.titleLabel?.font = FontFamily.Montserrat.semiBold.font(size: 17)
+		logoutButton.setTitleColor(Colors.customPink.color, for: .normal)
 	}
 
 	func bindActions() {

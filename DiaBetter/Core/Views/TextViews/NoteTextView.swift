@@ -14,10 +14,10 @@ final class NoteTextView: UIView {
 		let textView = UITextView()
 		textView.translatesAutoresizingMaskIntoConstraints = false
 		textView.isScrollEnabled = false
+		textView.backgroundColor = .clear
 		textView.font = FontFamily.Montserrat.regular.font(size: Constants.basicFontSize)
 		textView.textAlignment = .left
 		textView.textColor = .white
-		textView.backgroundColor = Colors.darkNavyBlue.color
 		return textView
 	}()
 

@@ -44,7 +44,8 @@ private extension NoteCell {
 	func setupUI() {
 		setupLayout()
 		self.rounded(Constants.defaultCornerRadius)
-		self.backgroundColor = Colors.darkNavyBlue.color
+		self.layer.borderWidth = 1.0
+		self.layer.borderColor = UIColor.white.cgColor
 	}
 
 	func setupLayout() {

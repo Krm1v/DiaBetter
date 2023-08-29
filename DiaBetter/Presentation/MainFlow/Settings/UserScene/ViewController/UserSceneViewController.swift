@@ -21,6 +21,7 @@ final class UserSceneViewController: BaseViewController<UserSceneViewModel> {
 		setupActions()
 		super.viewDidLoad()
 		setupPermissions()
+		didUpdatedUser()
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -158,6 +159,18 @@ private extension UserSceneViewController {
 		alertController.addAction(goToSettingsAction)
 		alertController.addAction(cancelAction)
 		present(alertController, animated: true)
+	}
+
+	func didUpdatedUser() {
+		viewModel.$userDidUpdated
+			.sink { [weak self] didUpdated in
+				guard let self = self else {
+					return
+				}
+				debugPrint("Did updated: \(didUpdated)")
+				self.navigationItem.rightBarButtonItem?.isEnabled = didUpdated ? true : false
+			}
+			.store(in: &cancellables)
 	}
 }
 

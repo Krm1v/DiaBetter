@@ -16,11 +16,6 @@ final class CreateUserProfileViewModel: BaseViewModel {
 	private var isInputValid: Bool = false
 	@Published var email = ""
 	@Published var password = ""
-	@Published var name = ""
-	@Published var country = ""
-	@Published var diabetesType = ""
-	@Published var fastInsulin = ""
-	@Published var longInsulin = ""
 
 	// MARK: - Init
 	init(userService: UserService) {
@@ -56,16 +51,16 @@ final class CreateUserProfileViewModel: BaseViewModel {
 // MARK: - Private extension
 private extension CreateUserProfileViewModel {
 	func createUser() {
-		let user = User(name: name,
+		let user = User(name: nil,
 						email: email,
 						password: password,
-						diabetesType: diabetesType,
-						basalInsulin: longInsulin,
-						fastActingInsulin: fastInsulin,
+						diabetesType: nil,
+						basalInsulin: nil,
+						fastActingInsulin: nil,
 						userProfileImage: nil)
 		isLoadingSubject.send(true)
 		userService.createUser(user)
-			.subscribe(on: DispatchQueue.global(qos: .userInitiated))
+			.subscribe(on: DispatchQueue.global())
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
 				guard let self = self else {
@@ -74,11 +69,12 @@ private extension CreateUserProfileViewModel {
 				switch completion {
 				case .finished:
 					Logger.info("Finished")
-					self.authorizeUser()
 					self.isLoadingSubject.send(false)
+					self.authorizeUser()
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
 					self.errorSubject.send(error)
+					self.isLoadingSubject.send(false)
 				}
 			} receiveValue: { _ in }
 			.store(in: &cancellables)

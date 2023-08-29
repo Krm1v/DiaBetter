@@ -23,8 +23,7 @@ final class CreateUserProfileView: BaseView {
 
 	// MARK: - UI Elements
 	private let scrollView = AxisScrollView(axis: .vertical)
-	private lazy var createAccountButton = buildGradientButton(with: Localization.createAccount,
-															   fontSize: Constants.basicButtonTitleFontSize)
+	private lazy var createAccountButton = buildSystemButton(with: Localization.createAccount)
 	private lazy var emailLabel = buildFieldTitleLabel(with: Localization.email)
 	private lazy var passwordLabel = buildFieldTitleLabel(with: Localization.password)
 	private lazy var descriptionLabel = buildUserInfoLabel(with: Localization.passwordDescription)
@@ -32,7 +31,7 @@ final class CreateUserProfileView: BaseView {
 														   keyBoardType: .emailAddress,
 														   capitalization: .none)
 	private lazy var passwordTextField = PasswordTextField()
-	private lazy var backToLoginButton = buildBackButton(with: Localization.backToLogin)
+	private lazy var backToLoginButton = buildSystemButton(with: Localization.backToLogin)
 	private lazy var mainStackView = buildStackView(spacing: Constants.basicStackViewSpacing)
 	private lazy var buttonsStackView = buildStackView(distribution: .fillEqually,
 													   spacing: Constants.basicStackViewSpacing)
@@ -63,6 +62,7 @@ private extension CreateUserProfileView {
 		descriptionLabel.textAlignment = .center
 		descriptionLabel.minimumScaleFactor = Constants.minScaleFactor
 		descriptionLabel.font = FontFamily.Montserrat.regular.font(size: Constants.descriptionLabelFontSize)
+		createAccountButton.setTitleColor(Colors.customPink.color, for: .normal)
 	}
 
 	func setupLayout() {
@@ -93,12 +93,9 @@ private extension CreateUserProfileView {
 		}
 
 		scrollView.addSubview(buttonsStackView, constraints: [
-			buttonsStackView.leadingAnchor.constraint(equalTo: leadingAnchor,
-													  constant: Constants.basicEdgeInsets),
-			buttonsStackView.bottomAnchor.constraint(equalTo: keyboardLayoutGuide.topAnchor,
-													 constant: -Constants.basicInset),
-			buttonsStackView.trailingAnchor.constraint(equalTo: trailingAnchor,
-													   constant: -Constants.basicEdgeInsets)
+			buttonsStackView.topAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 20),
+			buttonsStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.basicEdgeInsets),
+			buttonsStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.basicEdgeInsets)
 		])
 
 		[
@@ -165,7 +162,7 @@ private enum Constants {
 	static let basicStackViewSpacing: 	 CGFloat = 8
 	static let underlyingViewMultiplier: CGFloat = 0.2
 	static let basicEdgeInsets: 		 CGFloat = 16
-	static let basicHeight: 			 CGFloat = 50
+	static let basicHeight: 			 CGFloat = 44
 	static let basicInset: 				 CGFloat = 20
 	static let basicTopInset: 			 CGFloat = 50
 	static let minScaleFactor: 			 CGFloat = 0.5

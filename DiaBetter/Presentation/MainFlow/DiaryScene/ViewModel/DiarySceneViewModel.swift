@@ -35,6 +35,8 @@ final class DiarySceneViewModel: BaseViewModel {
 
 	override func onViewDidDisappear() {
 		sections.removeAll()
+		records.removeAll()
+		pageOffsetValue = 0
 	}
 
 	// MARK: - Public methods

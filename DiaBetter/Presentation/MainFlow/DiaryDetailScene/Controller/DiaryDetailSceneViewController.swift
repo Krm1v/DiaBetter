@@ -10,7 +10,6 @@ import UIKit
 final class DiaryDetailSceneViewController: BaseViewController<DiaryDetailSceneViewModel> {
 	// MARK: - Properties
 	private let contentView = DiaryDetailSceneView()
-	private let animation = CABasicAnimation()
 
 	// MARK: - UIView lifecycle methods
 	override func loadView() {
@@ -20,18 +19,12 @@ final class DiaryDetailSceneViewController: BaseViewController<DiaryDetailSceneV
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		bindActions()
-		animation.delegate = self
 		contentView.configure(viewModel.setupDatasource())
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		contentView.isEditing = false
-	}
-
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		contentView.animateDeleteButton(animation)
 	}
 
 	// MARK: - Overriden methods
@@ -100,17 +93,9 @@ private extension DiaryDetailSceneViewController {
 			}
 			self.viewModel.deleteRecord()
 		}
+		
 		let cancelAction = UIAlertAction(title: Localization.cancel, style: .cancel)
 		alert.addAction(deleteAction); alert.addAction(cancelAction)
 		present(alert, animated: true)
-	}
-}
-
-// MARK: - Extension CAAnimationDelegate
-extension DiaryDetailSceneViewController: CAAnimationDelegate {
-	func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-		if flag {
-			contentView.animateDeleteButton(animation)
-		}
 	}
 }

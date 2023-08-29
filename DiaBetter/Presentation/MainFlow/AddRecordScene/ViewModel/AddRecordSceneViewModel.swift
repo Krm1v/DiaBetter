@@ -49,9 +49,9 @@ final class AddRecordSceneViewModel: BaseViewModel {
 			.map({ glucose, meal, fastInsulin, longInsulin in
 				guard
 					!(glucose?.convertToString().isEmpty ?? true) ||
-					!(meal?.convertToString().isEmpty ?? true) ||
-					!(fastInsulin?.convertToString().isEmpty ?? true) ||
-					!(longInsulin?.convertToString().isEmpty ?? true)
+						!(meal?.convertToString().isEmpty ?? true) ||
+						!(fastInsulin?.convertToString().isEmpty ?? true) ||
+						!(longInsulin?.convertToString().isEmpty ?? true)
 				else { return false }
 				return true
 			})
@@ -139,14 +139,22 @@ private extension AddRecordSceneViewModel {
 				switch completion {
 				case .finished:
 					Logger.info("Finished")
-					isLoadingSubject.send(false)
-					self.closeAddRecordScene()
+					self.isCompletedSubject.send(true)
+					DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+						self.isCompletedSubject.send(false)
+						self.closeAddRecordScene()
+					}
 				case .failure(let error):
 					Logger.error(error.localizedDescription)
 					isLoadingSubject.send(false)
 					errorSubject.send(error)
 				}
-			} receiveValue: { _ in }
+			} receiveValue: { [weak self] _ in
+				guard let self = self else {
+					return
+				}
+				self.isLoadingSubject.send(false)
+			}
 			.store(in: &cancellables)
 	}
 

@@ -51,8 +51,8 @@ private extension GlucoseLevelOrMealCell {
 	func setupUI() {
 		setupLayout()
 		self.rounded(Constants.defaultCornerRadius)
-		self.backgroundColor = Colors.darkNavyBlue.color
 		textField.borderStyle = .none
+		textField.backgroundColor = .clear
 	}
 
 	func setupLayout() {

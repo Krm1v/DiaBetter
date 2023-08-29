@@ -19,9 +19,8 @@ final class ButtonsCell: BaseCollectionViewCell {
 	private let actionSubject = PassthroughSubject<ButtonsCellActions, Never>()
 
 	// MARK: - UI Elements
-	private lazy var saveButton = buildGradientButton(with: Localization.save,
-													  fontSize: Constants.defaultButtonFontSize)
-	private lazy var closeButton = buildBackButton(with: Localization.close)
+	private lazy var saveButton = buildSystemButton(with: Localization.save)
+	private lazy var closeButton = buildSystemButton(with: Localization.close)
 	private lazy var vStackForButtons = buildStackView(axis: .vertical,
 													   alignment: .fill,
 													   distribution: .fillEqually,
@@ -46,6 +45,7 @@ private extension ButtonsCell {
 	func setupUI() {
 		backgroundColor = .clear
 		setupLayout()
+		saveButton.setTitleColor(Colors.customPink.color, for: .normal)
 	}
 
 	func setupLayout() {
