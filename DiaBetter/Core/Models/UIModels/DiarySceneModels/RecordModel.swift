@@ -16,23 +16,23 @@ struct DiaryRecordCellModel: Hashable {
 	// MARK: - Properties
 	let recordId: String
 	let time: String
-	let glucoseInfo: Info
-	let mealInfo: Info
+	var glucoseInfo: Info
+	var mealInfo: Info
 	let fastInsulinInfo: Info
 	let longInsulinInfo: Info
 
 	// MARK: - Init
-	init(_ record: Record, user: User) {
+	init(_ record: Record, user: User, settings: AppSettingsModel) {
 		self.recordId = record.objectId
 		self.time = record.recordDate.stringRepresentation(format: .hourMinute)
 
 		self.glucoseInfo = Info(
 			value: record.glucoseLevel?.convertToString() ?? "∅",
-			unit: GlucoseLevelUnits.mmolL.description
+			unit: settings.glucoseUnits.title
 		)
 		self.mealInfo = Info(
 			value: record.meal?.convertToString() ?? "∅",
-			unit: MealUnits.breadUnits.description
+			unit: settings.carbohydrates.title
 		)
 		self.fastInsulinInfo = Info(
 			value: record.fastInsulin?.convertToString() ?? "∅",

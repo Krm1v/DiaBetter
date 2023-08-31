@@ -39,7 +39,7 @@ final class CarbsUnitsCell: BaseCollectionViewCell {
 	func configure(_ model: CarbsUnitsCellModel) {
 		titleLabel.text = model.title
 		currentMenuItem = model.currentUnit
-		menuButton.setTitle(currentMenuItem?.title, for: .normal)
+		menuButton.setTitle(currentMenuItem?.description, for: .normal)
 	}
 }
 
@@ -74,8 +74,8 @@ private extension CarbsUnitsCell {
 
 	func setupUIMenu() {
 		let menuItems = menuContent.map { item in
-			UIAction(title: item.title) { [unowned self] _ in
-				self.menuButton.setTitle(item.title, for: .normal)
+			UIAction(title: item.description) { [unowned self] _ in
+				self.menuButton.setTitle(item.description, for: .normal)
 				actionSubject.send(.menuDidTapped(item))
 			}
 		}

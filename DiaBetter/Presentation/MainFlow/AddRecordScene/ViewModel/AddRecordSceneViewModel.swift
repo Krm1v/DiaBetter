@@ -73,13 +73,13 @@ private extension AddRecordSceneViewModel {
 		let glucose = GlucoseLevelOrMealCellModel(
 			title: Localization.glucose,
 			textfieldValue: Constants.textFieldDefaultPlaceholder,
-			unitsTitle: GlucoseLevelUnits.mmolL.description,
+			unitsTitle: SettingsUnits.GlucoseUnitsState.mmolL.title,
 			currentField: .glucose)
 
 		let meal = GlucoseLevelOrMealCellModel(
 			title: Localization.meal,
 			textfieldValue: Constants.textFieldDefaultPlaceholder,
-			unitsTitle: MealUnits.breadUnits.description,
+			unitsTitle: SettingsUnits.CarbsUnits.breadUnits.title,
 			currentField: .meal)
 
 		let insulin = InsulinCellModel(

@@ -28,15 +28,18 @@ enum SettingsUnits {
 	enum CarbsUnits: Int, CaseIterable, Codable {
 		case grams
 		case breadUnits
-		case potion10g
-		case portion15g
 
-		var title: String {
+		var description: String {
 			switch self {
 			case .grams: 	  return "Grams"
 			case .breadUnits: return "Bread units(12g)"
-			case .potion10g:  return "Carbs portion(10g)"
-			case .portion15g: return "Carbs portion(15g)"
+			}
+		}
+
+		var title: String {
+			switch self {
+			case .grams: 	  return "g."
+			case .breadUnits: return "BU"
 			}
 		}
 	}

@@ -17,7 +17,8 @@ protocol AppContainer: AnyObject {
 	var recordsNetworkService: RecordsNetworkService { get }
 	var userNotificationManager: UserNotificationManager { get }
 	var permissionService: PermissionService { get }
-	var appSettingsService: SettingsService { get }
+	var settingsService: SettingsService { get }
+	var unitsConvertManager: UnitsConvertManager { get }
 }
 
 final class AppContainerImpl: AppContainer {
@@ -30,19 +31,24 @@ final class AppContainerImpl: AppContainer {
 	let recordsNetworkService: RecordsNetworkService
 	let userNotificationManager: UserNotificationManager
 	let permissionService: PermissionService
-	let appSettingsService: SettingsService
+	let settingsService: SettingsService
+	let unitsConvertManager: UnitsConvertManager
 
 	// MARK: - Init
 	init() {
+		// MARK: - App configuration
 		let appConfiguration = AppConfigurationImpl()
 		self.appConfiguration = appConfiguration
 
+		// MARK: - Token
 		let keychain = Keychain(service: appConfiguration.bundleId)
 		let tokenStorage = TokenStorageImpl(keychain: keychain)
 
+		// MARK: - Plugins
 		let tokenPlugin = TokenPlugin(tokenStorage: tokenStorage)
 		let contentTypePlugin = JSONContentTypePlugin()
 
+		// MARK: - Network manager
 		let networkManager = NetworkManager()
 		let userNetworkServiceProvider = NetworkServiceProviderImpl<UserEndpoint>(
 			baseURLStorage: appConfiguration,
@@ -69,21 +75,31 @@ final class AppContainerImpl: AppContainer {
 		
 		self.recordsNetworkService = RecordsNetworkServiceImpl(recordNetworkProvider)
 
+		// MARK: - User service
 		let userService = UserServiceImpl(userNetworkService: userNetworkService,
 										  userAuthorizationService: userAuthorizationService,
 										  tokenStorage: tokenStorage)
 		self.userService = userService
 
+		// MARK: - Record service
 		let recordService = RecordsServiceImpl(recordsNetworkService: recordsNetworkService,
 											   tokenStorage: tokenStorage)
 		self.recordsService = recordService
+
+		// MARK: - Notification manager
 		let userNotificationManager = UserNotificationManagerImpl()
 		self.userNotificationManager = userNotificationManager
 
+		// MARK: - Permission service
 		let permissionService = PermissionServiceImpl()
 		self.permissionService = permissionService
 
-		let appSettingsService = SettingsServiceImpl()
-		self.appSettingsService = appSettingsService
+		// MARK: - App settings
+		let settingsService = SettingsServiceImpl()
+		self.settingsService = settingsService
+
+		// MARK: - Units convert manager
+		let unitsConvertManager = UnitsConvertManagerImpl(settingsService: settingsService)
+		self.unitsConvertManager = unitsConvertManager
 	}
 }

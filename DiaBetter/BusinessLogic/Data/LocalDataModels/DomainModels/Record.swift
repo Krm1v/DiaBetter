@@ -9,9 +9,9 @@ import Foundation
 
 struct Record: Codable, Hashable {
 	let recordId: 	  String
-	let meal: 		  Decimal?
+	var meal: 		  Decimal?
 	let fastInsulin:  Decimal?
-	let glucoseLevel: Decimal?
+	var glucoseLevel: Decimal?
 	let longInsulin:  Decimal?
 	let objectId: 	  String
 	let recordDate:   Date

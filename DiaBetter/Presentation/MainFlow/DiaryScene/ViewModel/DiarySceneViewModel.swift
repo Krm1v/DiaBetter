@@ -16,6 +16,8 @@ final class DiarySceneViewModel: BaseViewModel {
 	private let transitionSubject = PassthroughSubject<DiarySceneTransition, Never>()
 	private let recordService: RecordsService
 	private let userService: UserService
+	private let settingsService: SettingsService
+	private let unitsConvertManager: UnitsConvertManager
 	private var pageOffsetValue = 0
 
 	// MARK: - @Published properties
@@ -23,14 +25,21 @@ final class DiarySceneViewModel: BaseViewModel {
 	@Published var records: [Record] = []
 
 	// MARK: - Init
-	init(recordService: RecordsService, userService: UserService) {
+	init(
+		recordService: RecordsService,
+		userService: UserService,
+		settingsService: SettingsService,
+		unitsConvertManager: UnitsConvertManager
+	) {
 		self.recordService = recordService
 		self.userService = userService
+		self.settingsService = settingsService
+		self.unitsConvertManager = unitsConvertManager
 	}
 
 	// MARK: - Overriden methods
 	override func onViewWillAppear() {
-		fetchPaginatedRecords()
+		fetchRecordsPage()
 	}
 
 	override func onViewDidDisappear() {
@@ -51,44 +60,13 @@ final class DiarySceneViewModel: BaseViewModel {
 	}
 
 	func loadItems() {
-		fetchPaginatedRecords()
+		fetchRecordsPage()
 	}
 }
 
 // MARK: - Private extension
 private extension DiarySceneViewModel {
-	func fetchRecords() {
-		guard let userId = userService.user?.remoteId else {
-			return
-		}
-		isLoadingSubject.send(true)
-		recordService.fetchRecords(userId: userId)
-			.subscribe(on: DispatchQueue.global())
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] completion in
-				guard let self = self else {
-					return
-				}
-				switch completion {
-				case .finished:
-					isLoadingSubject.send(false)
-					Logger.info("Finished")
-					self.updateDatasource()
-				case .failure(let error):
-					isLoadingSubject.send(false)
-					Logger.error(error.localizedDescription)
-					self.errorSubject.send(error)
-				}
-			} receiveValue: { [weak self] records in
-				guard let self = self else {
-					return
-				}
-				self.records = records
-			}
-			.store(in: &self.cancellables)
-	}
-
-	func fetchPaginatedRecords() {
+	func fetchRecordsPage() {
 		guard let userId = userService.user?.remoteId else {
 			return
 		}
@@ -106,7 +84,7 @@ private extension DiarySceneViewModel {
 				}
 				switch completion {
 				case .finished:
-					Logger.info("Paginated records fetched")
+					Logger.info("Records page fetched")
 					self.isLoadingSubject.send(false)
 					self.pageOffsetValue += 20
 					self.updateDatasource()
@@ -128,14 +106,24 @@ private extension DiarySceneViewModel {
 		guard let user = userService.user else {
 			return
 		}
+		let modifiedRecords = unitsConvertManager.convertRecordUnits(records: records)
 
-		let orderedRecords = records.reduce(into: [DateRecord]()) { result, record in
+		let orderedRecords = modifiedRecords.reduce(into: [DateRecord]()) { result, record in
+
 			if let index = result.firstIndex(where: { $0.date.isSameDay(as: record.recordDate) }) {
-				result[index].records.append(DiaryRecordCellModel(record, user: user))
+				var model = DiaryRecordCellModel(record, user: user, settings: settingsService.settings)
+				model.glucoseInfo = .init(
+					value: record.glucoseLevel?.convertToString(),
+					unit: settingsService.settings.glucoseUnits.title)
+				
+				model.mealInfo = .init(
+					value: record.meal?.convertToString(),
+					unit: settingsService.settings.carbohydrates.title)
+				result[index].records.append(model)
 			} else {
 				result.append(
 					.init(date: record.recordDate,
-						  records: [DiaryRecordCellModel(record, user: user)])
+						  records: [DiaryRecordCellModel(record, user: user, settings: settingsService.settings)])
 				)
 			}
 		}
@@ -152,7 +140,6 @@ private extension DiarySceneViewModel {
 
 			return section
 		}
-
 	}
 }
 

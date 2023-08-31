@@ -41,7 +41,6 @@
 		861EC86E2A93FAF70066F748 /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861EC86D2A93FAF60066F748 /* MainTabBar.swift */; };
 		861FC9FE29F9A63F00743055 /* RecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861FC9FD29F9A63F00743055 /* RecordCell.swift */; };
 		861FCA0129F9A7E300743055 /* BoxElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861FCA0029F9A7E300743055 /* BoxElementView.swift */; };
-		861FCA0329F9B31E00743055 /* MealUnits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861FCA0229F9B31E00743055 /* MealUnits.swift */; };
 		861FCA0729F9C9E300743055 /* Decimal+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861FCA0629F9C9E300743055 /* Decimal+String.swift */; };
 		861FCA0B29F9E72000743055 /* DateFormats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861FCA0A29F9E72000743055 /* DateFormats.swift */; };
 		861FCA0D29FA63BB00743055 /* Date+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861FCA0C29FA63BB00743055 /* Date+String.swift */; };
@@ -127,6 +126,7 @@
 		8679A1A52A9CF1C600885A5D /* ActionCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8679A1A42A9CF1C600885A5D /* ActionCompletedView.swift */; };
 		8679A1A92A9CFC7500885A5D /* actionDone.json in Resources */ = {isa = PBXBuildFile; fileRef = 8679A1A82A9CFC7500885A5D /* actionDone.json */; };
 		86826A812A9E32F800F7A69B /* waves.json in Resources */ = {isa = PBXBuildFile; fileRef = 86826A802A9E32F800F7A69B /* waves.json */; };
+		86826A852AA0F2C500F7A69B /* UnitsConvertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86826A842AA0F2C500F7A69B /* UnitsConvertManager.swift */; };
 		868FC8DABB7F9E307A73FD0D /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A3F26E42FA42232CBD936F /* AuthCoordinator.swift */; };
 		868FD8AA2A49B25300EAF87D /* AppSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FD8A92A49B25300EAF87D /* AppSettingsModel.swift */; };
 		868FD8AC2A4ED85900EAF87D /* UnitsSceneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FD8AB2A4ED85800EAF87D /* UnitsSceneModel.swift */; };
@@ -217,7 +217,6 @@
 		86AE580429F1493D00A50F05 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE580329F1493D00A50F05 /* BaseCollectionViewCell.swift */; };
 		86AE580A29F9378500A50F05 /* Notification.Name+UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE580929F9378500A50F05 /* Notification.Name+UIResponder.swift */; };
 		86AE580D29F99B5200A50F05 /* DiarySceneDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE580C29F99B5100A50F05 /* DiarySceneDatasource.swift */; };
-		86AE580F29F99C8400A50F05 /* GlucoseLevelUnits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AE580E29F99C8400A50F05 /* GlucoseLevelUnits.swift */; };
 		86B3728D29C4F5A50095C229 /* CollectionViewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B3728C29C4F5A50095C229 /* CollectionViewProtocols.swift */; };
 		86B3729229C9DE320095C229 /* UserUpdateRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B3729129C9DE320095C229 /* UserUpdateRequestModel.swift */; };
 		86B3729429C9F1600095C229 /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B3729329C9F1600095C229 /* SectionModel.swift */; };
@@ -315,7 +314,6 @@
 		861EC86D2A93FAF60066F748 /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
 		861FC9FD29F9A63F00743055 /* RecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCell.swift; sourceTree = "<group>"; };
 		861FCA0029F9A7E300743055 /* BoxElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxElementView.swift; sourceTree = "<group>"; };
-		861FCA0229F9B31E00743055 /* MealUnits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealUnits.swift; sourceTree = "<group>"; };
 		861FCA0629F9C9E300743055 /* Decimal+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decimal+String.swift"; sourceTree = "<group>"; };
 		861FCA0A29F9E72000743055 /* DateFormats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormats.swift; sourceTree = "<group>"; };
 		861FCA0C29FA63BB00743055 /* Date+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+String.swift"; sourceTree = "<group>"; };
@@ -399,6 +397,7 @@
 		8679A1A42A9CF1C600885A5D /* ActionCompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionCompletedView.swift; sourceTree = "<group>"; };
 		8679A1A82A9CFC7500885A5D /* actionDone.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = actionDone.json; sourceTree = "<group>"; };
 		86826A802A9E32F800F7A69B /* waves.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = waves.json; sourceTree = "<group>"; };
+		86826A842AA0F2C500F7A69B /* UnitsConvertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitsConvertManager.swift; sourceTree = "<group>"; };
 		868FD8A92A49B25300EAF87D /* AppSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsModel.swift; sourceTree = "<group>"; };
 		868FD8AB2A4ED85800EAF87D /* UnitsSceneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitsSceneModel.swift; sourceTree = "<group>"; };
 		868FD8B02A570A4000EAF87D /* DataSceneBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSceneBuilder.swift; sourceTree = "<group>"; };
@@ -488,7 +487,6 @@
 		86AE580329F1493D00A50F05 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		86AE580929F9378500A50F05 /* Notification.Name+UIResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+UIResponder.swift"; sourceTree = "<group>"; };
 		86AE580C29F99B5100A50F05 /* DiarySceneDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySceneDatasource.swift; sourceTree = "<group>"; };
-		86AE580E29F99C8400A50F05 /* GlucoseLevelUnits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseLevelUnits.swift; sourceTree = "<group>"; };
 		86B3728C29C4F5A50095C229 /* CollectionViewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewProtocols.swift; sourceTree = "<group>"; };
 		86B3729129C9DE320095C229 /* UserUpdateRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdateRequestModel.swift; sourceTree = "<group>"; };
 		86B3729329C9F1600095C229 /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
@@ -678,6 +676,7 @@
 				869C9FCB2A3C95CB005C2361 /* TokenStorage */,
 				869C9FC42A3B2D97005C2361 /* PushNotificationsManager */,
 				86A518AC2A44930F00267A60 /* SettingsService */,
+				86826A862AA1336E00F7A69B /* UnitsConvertManager */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -909,7 +908,6 @@
 		861FCA2629FA847300743055 /* UIModels */ = {
 			isa = PBXGroup;
 			children = (
-				8678498F2A20BF8300D7B129 /* Units */,
 				8678498E2A20BF6000D7B129 /* UserProfileModels */,
 				86415D4D29FA8B5400219ACC /* DiarySceneModels */,
 				8678498D2A20BF4700D7B129 /* AddRecordSceneModels */,
@@ -1579,13 +1577,12 @@
 			path = UserProfileModels;
 			sourceTree = "<group>";
 		};
-		8678498F2A20BF8300D7B129 /* Units */ = {
+		86826A862AA1336E00F7A69B /* UnitsConvertManager */ = {
 			isa = PBXGroup;
 			children = (
-				861FCA0229F9B31E00743055 /* MealUnits.swift */,
-				86AE580E29F99C8400A50F05 /* GlucoseLevelUnits.swift */,
+				86826A842AA0F2C500F7A69B /* UnitsConvertManager.swift */,
 			);
-			path = Units;
+			path = UnitsConvertManager;
 			sourceTree = "<group>";
 		};
 		868FD8AD2A4ED85E00EAF87D /* UnitsSceneModels */ = {
@@ -2638,7 +2635,6 @@
 				8634B77729ABE23500870B66 /* CreateUserProfileView.swift in Sources */,
 				8637ADBE29B7609700F14489 /* AddRecordSceneBuilder.swift in Sources */,
 				C37DE041F430700A105F9CC9 /* AxisScrollView.swift in Sources */,
-				861FCA0329F9B31E00743055 /* MealUnits.swift in Sources */,
 				8679A1A52A9CF1C600885A5D /* ActionCompletedView.swift in Sources */,
 				86665AA029E0778D00745331 /* TokenPlugin.swift in Sources */,
 				866E21BE2A38949C00468486 /* NotificationsDatasource.swift in Sources */,
@@ -2671,6 +2667,7 @@
 				86E4EC1B2A7D7B0E00F17EC9 /* QueryAssembler.swift in Sources */,
 				8637ADD329B7A93900F14489 /* RecordsService.swift in Sources */,
 				869C9FC82A3B9502005C2361 /* NotificationsModels.swift in Sources */,
+				86826A852AA0F2C500F7A69B /* UnitsConvertManager.swift in Sources */,
 				12BB16AE5A908CCF13169B5F /* MainTabBarCoordinator.swift in Sources */,
 				86B3CB372A25312700D7AAC6 /* UICollectionReusableView+ReuseID.swift in Sources */,
 				863C451B2A8A5E880062F6CC /* MimeTypes.swift in Sources */,
@@ -2683,7 +2680,6 @@
 				CA31AE1F2B6517869FD7E948 /* MainTabBarViewController.swift in Sources */,
 				863C7EBF29C10183008F93F0 /* NSMutableData+AppendString.swift in Sources */,
 				86A5D20E2A439AC8006E9424 /* UnitsSectionHeader.swift in Sources */,
-				86AE580F29F99C8400A50F05 /* GlucoseLevelUnits.swift in Sources */,
 				86E73DC72A1D4EA800D34B96 /* ChartsItem+Charts.swift in Sources */,
 				8699F31129B0B9A600705347 /* DataConverter.swift in Sources */,
 				866C141329EEA4C20029D770 /* AddNewRecordView.swift in Sources */,

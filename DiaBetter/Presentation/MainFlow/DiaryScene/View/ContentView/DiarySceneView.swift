@@ -210,8 +210,11 @@ struct DiaryProvider: PreviewProvider {
 	static var previews: some View {
 		UIViewControllerPreview {
 			let container = AppContainerImpl()
-			let vm = DiarySceneViewModel(recordService: container.recordsService,
-										 userService: container.userService)
+			let vm = DiarySceneViewModel(
+				recordService: container.recordsService,
+				userService: container.userService,
+				settingsService: container.settingsService,
+				unitsConvertManager: container.unitsConvertManager)
 			let viewController = DiarySceneViewController(viewModel: vm)
 			return viewController
 		}
