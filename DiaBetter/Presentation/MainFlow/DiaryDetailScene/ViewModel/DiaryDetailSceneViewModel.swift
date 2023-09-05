@@ -13,6 +13,9 @@ final class DiaryDetailSceneViewModel: BaseViewModel {
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<DiaryDetailSceneTransition, Never>()
 	private let recordService: RecordsService
+	private let settingsService: SettingsService
+	private let unitsConvertManager: UnitsConvertManager
+	private var modifiedRecord: Record?
 	var record: Record
 
 	// MARK: - @Published properties
@@ -22,18 +25,60 @@ final class DiaryDetailSceneViewModel: BaseViewModel {
 	@Published var fastInsulin: Decimal?
 	@Published var longInsulin: Decimal?
 	@Published var note: String? = ""
+	@Published var diaryDetailModel: DiaryDetailModel?
 
 	// MARK: - Init
-	init(record: Record, recordService: RecordsService) {
+	init(
+		record: Record,
+		recordService: RecordsService,
+		settingsService: SettingsService,
+		unitsConvertManager: UnitsConvertManager
+	) {
 		self.record = record
+		self.modifiedRecord = record
 		self.recordService = recordService
+		self.settingsService = settingsService
+		self.unitsConvertManager = unitsConvertManager
 		super.init()
+	}
+
+	// MARK: - Overriden methods
+	override func onViewDidLoad() {
+		getCurrentSettings()
+	}
+
+	override func onViewWillAppear() {
+		setupInitialDateValue()
 	}
 
 	// MARK: - Public methods
 	func updateRecord() {
+		var record = updateRecordContent()
+		unitsConvertManager.setToDefaultValue(glucoseValue: record.glucoseLevel)
+			.combineLatest(unitsConvertManager.setToDefaultValue(carbs: record.meal))
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] (updatedGlucose, updatedCarbs) in
+				guard let self = self else {
+					return
+				}
+				record.glucoseLevel = updatedGlucose
+				record.meal = updatedCarbs
+				makeUpdateRecordRequest(record)
+			}
+			.store(in: &cancellables)
+	}
+
+	func deleteRecord() {
+		makeDeleteRecordRequest()
+	}
+}
+
+// MARK: - Private extension
+private extension DiaryDetailSceneViewModel {
+	// MARK: - Network requests
+	func makeUpdateRecordRequest(_ record: Record) {
 		isLoadingSubject.send(true)
-		recordService.updateRecord(record: updateRecordContent(), id: record.objectId)
+		recordService.updateRecord(record: record, id: record.objectId)
 			.subscribe(on: DispatchQueue.global())
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] completion in
@@ -63,7 +108,7 @@ final class DiaryDetailSceneViewModel: BaseViewModel {
 			.store(in: &cancellables)
 	}
 
-	func deleteRecord() {
+	func makeDeleteRecordRequest() {
 		isLoadingSubject.send(true)
 		recordService.deleteRecord(id: record.objectId)
 			.subscribe(on: DispatchQueue.global())
@@ -94,13 +139,15 @@ final class DiaryDetailSceneViewModel: BaseViewModel {
 			.store(in: &cancellables)
 	}
 
-	func setupDatasource() -> DiaryDetailModel {
-		return DiaryDetailModel(record)
+	// MARK: - Datasource
+	func updateDatasource() {
+		guard let modifiedRecord = modifiedRecord else {
+			return
+		}
+		diaryDetailModel = DiaryDetailModel(modifiedRecord)
 	}
-}
 
-// MARK: - Private extension
-private extension DiaryDetailSceneViewModel {
+	// MARK: - Helpers
 	func updateRecordContent() -> Record {
 		let record = Record(
 			meal: meal ?? self.record.meal,
@@ -112,5 +159,29 @@ private extension DiaryDetailSceneViewModel {
 			recordNote: note ?? record.recordNote,
 			userId: self.record.userId)
 		return record
+	}
+
+	func setupInitialDateValue() {
+		self.date = record.recordDate
+	}
+
+	func getCurrentSettings() {
+		settingsService.settingsPublisher
+			.receive(on: DispatchQueue.main)
+			.sink { [unowned self] _ in
+
+				if let glucose = record.glucoseLevel {
+					self.modifiedRecord?.glucoseLevel = unitsConvertManager.convertRecordUnits(
+						glucoseValue: glucose)
+				}
+
+				if let carbs = record.meal {
+					self.modifiedRecord?.meal = unitsConvertManager.convertRecordUnits(
+						carbs: carbs)
+				}
+
+				updateDatasource()
+			}
+			.store(in: &cancellables)
 	}
 }

@@ -64,6 +64,7 @@ final class UserServiceImpl {
 	func clear() {
 		tokenStorage.clear()
 		deleteFromDefaults(for: .dataUser)
+		deleteFromDefaults(for: .appSettings)
 		userSubject.send(user)
 	}
 

@@ -6,15 +6,19 @@
 //
 
 import Foundation
+import Combine
 
 protocol UnitsConvertManager: AnyObject {
-	func convertRecordUnits(records: [Record]) -> [Record]
-	func convertRecordUnits(record: Record) -> Record
+	func convertRecordUnits(glucoseValue: Decimal) -> Decimal
+	func convertRecordUnits(carbs: Decimal) -> Decimal
+	func setToDefaultValue(glucoseValue: Decimal?) -> AnyPublisher<Decimal?, Never>
+	func setToDefaultValue(carbs: Decimal?) -> AnyPublisher<Decimal?, Never>
 }
 
 final class UnitsConvertManagerImpl {
 	// MARK: - Properties
 	private var settingsService: SettingsService
+	private var cancellables = Set<AnyCancellable>()
 
 	// MARK: - Init
 	init(settingsService: SettingsService) {
@@ -24,85 +28,116 @@ final class UnitsConvertManagerImpl {
 
 // MARK: - Extension UnitsConverterManager
 extension UnitsConvertManagerImpl: UnitsConvertManager {
-	func convertRecordUnits(records: [Record]) -> [Record] {
-		let convertedGlucoseRecords = convertGlucoseUnits(records: records)
-		let convertedRecords = convertMealUnits(records: convertedGlucoseRecords)
-		return convertedRecords
+	func convertRecordUnits(glucoseValue: Decimal) -> Decimal {
+		return convertGlucoseUnits(glucoseValue: glucoseValue)
 	}
 
-	func convertRecordUnits(record: Record) -> Record {
-		let convertedGlucoseRecord = convertGlucoseUnits(record: record)
-		let convertedRecord = convertMealUnits(record: convertedGlucoseRecord)
-		return convertedRecord
+	func convertRecordUnits(carbs: Decimal) -> Decimal {
+		return convertCarbsUnits(carbs: carbs)
+	}
+
+	func setToDefaultValue(glucoseValue: Decimal?) -> AnyPublisher<Decimal?, Never> {
+		var updatedGlucose: Decimal?
+		return settingsService.settingsPublisher
+			.map { settings in
+				switch settings.glucoseUnits {
+				case .mmolL:
+					updatedGlucose = glucoseValue
+					return updatedGlucose
+				case .mgDl:
+					if let glucoseValue {
+						updatedGlucose = glucoseValue / 18
+					}
+					return updatedGlucose
+				}
+			}
+			.eraseToAnyPublisher()
+	}
+
+	func setToDefaultValue(carbs: Decimal?) -> AnyPublisher<Decimal?, Never> {
+		var updatedCarbs: Decimal?
+		return settingsService.settingsPublisher
+			.map { settings in
+				switch settings.carbohydrates {
+				case .breadUnits:
+					updatedCarbs = carbs
+					return updatedCarbs
+				case .grams:
+					if let carbs {
+						updatedCarbs = carbs / 12
+					}
+					return updatedCarbs
+				}
+			}
+			.eraseToAnyPublisher()
 	}
 }
 
 // MARK: - Private extension
 private extension UnitsConvertManagerImpl {
-	func convertGlucoseUnits(records: [Record]) -> [Record] {
-		var convertedRecords = [Record]()
-		switch settingsService.settings.glucoseUnits {
-		case .mmolL:
-			convertedRecords = records
-			return convertedRecords
-		case .mgDl:
-			convertedRecords = records.map { record in
-				var record = record
-				guard let glucoseValue = record.glucoseLevel else {
-					return record
+	func convertGlucoseUnits(glucoseValue: Decimal) -> Decimal {
+		var modifiedGlucoseValue = Decimal()
+		settingsService.settingsPublisher
+			.sink { settings in
+				switch settings.glucoseUnits {
+				case .mmolL:
+					modifiedGlucoseValue = glucoseValue
+				case .mgDl:
+					modifiedGlucoseValue = glucoseValue * Constants.mgDlConversionFactor
 				}
-				record.glucoseLevel = glucoseValue * Constants.mgDlConversionFactor
-				return record
 			}
-			return convertedRecords
-		}
+			.store(in: &cancellables)
+		return modifiedGlucoseValue
 	}
 
-	func convertMealUnits(records: [Record]) -> [Record] {
-		var convertedRecords = [Record]()
-		switch settingsService.settings.carbohydrates {
-		case .grams:
-			convertedRecords = records.map({ record in
-				var record = record
-				guard let mealValue = record.meal else {
-					return record
+	func convertCarbsUnits(carbs: Decimal) -> Decimal {
+		var modifiedMealValue = Decimal()
+		settingsService.settingsPublisher
+			.sink { setting in
+				switch setting.carbohydrates {
+				case .breadUnits:
+					modifiedMealValue = carbs
+				case .grams:
+					modifiedMealValue = carbs * Constants.gramsConversionFactor
 				}
-				record.meal = mealValue * Constants.gramsConversionFactor
-				return record
-			})
-			return convertedRecords
-		case .breadUnits:
-			convertedRecords = records
-			return convertedRecords
-		}
+			}
+			.store(in: &cancellables)
+		return modifiedMealValue
 	}
 
-	func convertGlucoseUnits(record: Record) -> Record {
-		var convertedRecord = record
-		switch settingsService.settings.glucoseUnits {
-		case .mmolL:
-			return convertedRecord
-		case .mgDl:
-			guard let glucoseValue = convertedRecord.glucoseLevel else {
-				return record
+	func setGlucoseLevelToDefault(glucose: Decimal) -> Decimal {
+		var defaultValue = Decimal()
+		settingsService.settingsPublisher
+			.receive(on: DispatchQueue.main)
+			.sink { appSettingsModel in
+
+				switch appSettingsModel.glucoseUnits {
+				case .mmolL:
+					defaultValue = glucose
+				case .mgDl:
+					let glucose = glucose / 18
+					defaultValue = glucose
+				}
 			}
-			convertedRecord.glucoseLevel = glucoseValue * Constants.mgDlConversionFactor
-			return convertedRecord
-		}
+			.store(in: &cancellables)
+		return defaultValue
 	}
 
-	func convertMealUnits(record: Record) -> Record {
-		var convertedRecord = record
-		switch settingsService.settings.carbohydrates {
-		case .breadUnits:
-			return convertedRecord
-		case .grams:
-			guard let mealValue = convertedRecord.meal else {
-				return record
+	func setCarbsLevelToDefault(carbs: Decimal) -> Decimal {
+		var defaultValue = Decimal()
+		settingsService.settingsPublisher
+			.receive(on: DispatchQueue.main)
+			.sink { appSettingsModel in
+				switch appSettingsModel.carbohydrates {
+				case .breadUnits:
+					defaultValue = carbs
+				case .grams:
+					let carbs = carbs / 18
+					defaultValue = carbs
+				}
 			}
-			convertedRecord.meal = mealValue * Constants.gramsConversionFactor
-			return convertedRecord
-		}
+			.store(in: &cancellables)
+		return defaultValue
 	}
 }
 

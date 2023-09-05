@@ -319,7 +319,13 @@ private extension UserSceneViewModel {
 			items: [])
 
 		userDataSection.items = userSettings.map { .plainWithTextfield($0) }
-		sections = [userHeaderSection, userDataSection]
+
+		let logoutButtonModel = LogoutButtonModel(buttonTitle: Localization.logout)
+		let logoutSection = UserSection(
+			section: .logout,
+			items: [.plainWithButton(logoutButtonModel)])
+
+		sections = [userHeaderSection, userDataSection, logoutSection]
 	}
 
 	func updatedUser() -> User? {

@@ -16,7 +16,10 @@ final class AddRecordSceneViewModel: BaseViewModel {
 	private let transitionSubject = PassthroughSubject<AddRecordSceneTransition, Never>()
 	private let recordsService: RecordsService
 	private let userService: UserService
+	private let settingsService: SettingsService
+	private let unitsConvertManager: UnitsConvertManager
 	private var isInputEmpty = false
+	private var currentSettings: AppSettingsModel?
 
 	// MARK: - @Publisher properties
 	@Published var glucoseLvl: Decimal?
@@ -28,15 +31,22 @@ final class AddRecordSceneViewModel: BaseViewModel {
 	@Published var sections: [Section] = []
 
 	// MARK: - Init
-	init(recordsService: RecordsService, userService: UserService) {
+	init(
+		recordsService: RecordsService,
+		userService: UserService,
+		settingsService: SettingsService,
+		unitsConvertManager: UnitsConvertManager
+	) {
 		self.recordsService = recordsService
 		self.userService = userService
+		self.settingsService = settingsService
+		self.unitsConvertManager = unitsConvertManager
 	}
 
 	// MARK: - Overriden methods
 	override func onViewDidLoad() {
+		getCurrentSettings()
 		checkValidation()
-		updateDatasource()
 	}
 
 	// MARK: - Public methods
@@ -59,27 +69,53 @@ final class AddRecordSceneViewModel: BaseViewModel {
 			.store(in: &cancellables)
 	}
 
+//	func saveRecord() {
+//		let error = NSError(domain: "",
+//							code: .zero,
+//							userInfo: [NSLocalizedDescriptionKey: Localization.addNewRecordErrorDescription])
+//		isInputEmpty ? addNewRecord() : errorSubject.send(error)
+//	}
+
 	func saveRecord() {
+		var record = setupNewRecord()
 		let error = NSError(domain: "",
 							code: .zero,
 							userInfo: [NSLocalizedDescriptionKey: Localization.addNewRecordErrorDescription])
-		isInputEmpty ? addNewRecord() : errorSubject.send(error)
+		guard var record = record else {
+			return
+		}
+		unitsConvertManager.setToDefaultValue(glucoseValue: record.glucoseLevel)
+			.combineLatest(unitsConvertManager.setToDefaultValue(carbs: record.meal))
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] (glucoseLvl, carbs) in
+				guard let self = self else {
+					return
+				}
+				record.glucoseLevel = glucoseLvl
+				record.meal = carbs
+				isInputEmpty ? addNewRecord(record: record) : errorSubject.send(error)
+			}
+			.store(in: &cancellables)
 	}
 }
 
 // MARK: - Private extension
 private extension AddRecordSceneViewModel {
 	func updateDatasource() {
+		guard let currentSettings = currentSettings else {
+			return
+		}
+
 		let glucose = GlucoseLevelOrMealCellModel(
 			title: Localization.glucose,
 			textfieldValue: Constants.textFieldDefaultPlaceholder,
-			unitsTitle: SettingsUnits.GlucoseUnitsState.mmolL.title,
+			unitsTitle: currentSettings.glucoseUnits.title,
 			currentField: .glucose)
 
 		let meal = GlucoseLevelOrMealCellModel(
 			title: Localization.meal,
 			textfieldValue: Constants.textFieldDefaultPlaceholder,
-			unitsTitle: SettingsUnits.CarbsUnits.breadUnits.title,
+			unitsTitle: currentSettings.carbohydrates.title,
 			currentField: .meal)
 
 		let insulin = InsulinCellModel(
@@ -125,10 +161,7 @@ private extension AddRecordSceneViewModel {
 	}
 
 	// MARK: - Network requests
-	func addNewRecord() {
-		guard let record = setupNewRecord() else {
-			return
-		}
+	func addNewRecord(record: Record) {
 		isLoadingSubject.send(true)
 		recordsService.addRecord(record: record)
 			.receive(on: DispatchQueue.main)
@@ -174,6 +207,19 @@ private extension AddRecordSceneViewModel {
 			userId: userId)
 
 		return record
+	}
+
+	func getCurrentSettings() {
+		settingsService.settingsPublisher
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] settings in
+				guard let self = self else {
+					return
+				}
+				self.currentSettings = settings
+				updateDatasource()
+			}
+			.store(in: &cancellables)
 	}
 }
 

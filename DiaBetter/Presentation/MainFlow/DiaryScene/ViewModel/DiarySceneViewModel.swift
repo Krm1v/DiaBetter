@@ -15,10 +15,12 @@ final class DiarySceneViewModel: BaseViewModel {
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<DiarySceneTransition, Never>()
 	private let recordService: RecordsService
+	private let unitsConvertManager: UnitsConvertManager
 	private let userService: UserService
 	private let settingsService: SettingsService
-	private let unitsConvertManager: UnitsConvertManager
 	private var pageOffsetValue = 0
+	private var currentSettings: AppSettingsModel?
+	private var modifiedRecords: [Record] = []
 
 	// MARK: - @Published properties
 	@Published var sections: [DiarySection] = []
@@ -38,6 +40,10 @@ final class DiarySceneViewModel: BaseViewModel {
 	}
 
 	// MARK: - Overriden methods
+	override func onViewDidLoad() {
+		getCurrentSettings()
+	}
+
 	override func onViewWillAppear() {
 		fetchRecordsPage()
 	}
@@ -52,10 +58,10 @@ final class DiarySceneViewModel: BaseViewModel {
 	func didSelectItem(_ item: DiarySceneItem) {
 		switch item {
 		case .record(let cellModel):
-			guard let model = records.first(where: { $0.objectId == cellModel.recordId }) else {
+			guard let record = records.first(where: { $0.objectId == cellModel.recordId }) else {
 				return
 			}
-			transitionSubject.send(.edit(model))
+			transitionSubject.send(.edit(record))
 		}
 	}
 
@@ -66,6 +72,7 @@ final class DiarySceneViewModel: BaseViewModel {
 
 // MARK: - Private extension
 private extension DiarySceneViewModel {
+	// MARK: - Network requests
 	func fetchRecordsPage() {
 		guard let userId = userService.user?.remoteId else {
 			return
@@ -76,49 +83,52 @@ private extension DiarySceneViewModel {
 			userId: userId,
 			pageSize: Constants.pageSizeValue,
 			offset: pageOffsetValue)
-			.subscribe(on: DispatchQueue.global())
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] completion in
-				guard let self = self else {
-					return
-				}
-				switch completion {
-				case .finished:
-					Logger.info("Records page fetched")
-					self.isLoadingSubject.send(false)
-					self.pageOffsetValue += 20
-					self.updateDatasource()
-				case .failure(let error):
-					Logger.error(error.localizedDescription)
-					self.errorSubject.send(error)
-					self.isLoadingSubject.send(false)
-				}
-			} receiveValue: { [weak self] records in
-				guard let self = self else {
-					return
-				}
-				self.records.append(contentsOf: records)
+		.subscribe(on: DispatchQueue.global())
+		.receive(on: DispatchQueue.main)
+		.sink { [weak self] completion in
+			guard let self = self else {
+				return
 			}
-			.store(in: &cancellables)
+			switch completion {
+			case .finished:
+				Logger.info("Records page fetched")
+				self.isLoadingSubject.send(false)
+				self.pageOffsetValue += 20
+				self.updateDatasource()
+			case .failure(let error):
+				Logger.error(error.localizedDescription)
+				self.errorSubject.send(error)
+				self.isLoadingSubject.send(false)
+			}
+		} receiveValue: { [weak self] records in
+			guard let self = self else {
+				return
+			}
+			self.records.append(contentsOf: records)
+		}
+		.store(in: &cancellables)
 	}
 
+	// MARK: - Datasource
 	func updateDatasource() {
-		guard let user = userService.user else {
+		guard
+			let user = userService.user,
+			let currentSettings = currentSettings
+		else {
 			return
 		}
-		let modifiedRecords = unitsConvertManager.convertRecordUnits(records: records)
 
 		let orderedRecords = modifiedRecords.reduce(into: [DateRecord]()) { result, record in
-
 			if let index = result.firstIndex(where: { $0.date.isSameDay(as: record.recordDate) }) {
-				var model = DiaryRecordCellModel(record, user: user, settings: settingsService.settings)
+
+				var model = DiaryRecordCellModel(record, user: user, settings: currentSettings)
 				model.glucoseInfo = .init(
 					value: record.glucoseLevel?.convertToString(),
-					unit: settingsService.settings.glucoseUnits.title)
+					unit: currentSettings.glucoseUnits.title)
 				
 				model.mealInfo = .init(
 					value: record.meal?.convertToString(),
-					unit: settingsService.settings.carbohydrates.title)
+					unit: currentSettings.carbohydrates.title)
 				result[index].records.append(model)
 			} else {
 				result.append(
@@ -140,6 +150,35 @@ private extension DiarySceneViewModel {
 
 			return section
 		}
+	}
+
+	// MARK: - Helpers
+	func getCurrentSettings() {
+		let combinedData = Publishers.CombineLatest(settingsService.settingsPublisher, $records)
+		combinedData
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] settings, records in
+				guard let self = self else {
+					return
+				}
+				self.currentSettings = settings
+				self.modifiedRecords = records.compactMap({ record in
+					var modifiedRecord = record
+
+					if let glucose = record.glucoseLevel {
+						modifiedRecord.glucoseLevel = self.unitsConvertManager.convertRecordUnits(
+							glucoseValue: glucose)
+					}
+
+					if let carbs = record.meal {
+						modifiedRecord.meal = self.unitsConvertManager.convertRecordUnits(
+							carbs: carbs)
+					}
+					return modifiedRecord
+				})
+				updateDatasource()
+			}
+			.store(in: &cancellables)
 	}
 }
 

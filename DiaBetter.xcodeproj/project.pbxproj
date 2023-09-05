@@ -242,6 +242,8 @@
 		86D0A74F29A520E200980996 /* NetworkServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A74E29A520E200980996 /* NetworkServiceProvider.swift */; };
 		86D0A75229A656CE00980996 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A75129A656CE00980996 /* User.swift */; };
 		86D0A75529A65FD400980996 /* UserNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D0A75429A65FD400980996 /* UserNetworkService.swift */; };
+		86DC64E22AA6011000C4DDEF /* NotificationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DC64E12AA6011000C4DDEF /* NotificationsModel.swift */; };
+		86DC64E42AA6012700C4DDEF /* GlucoseTargetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DC64E32AA6012700C4DDEF /* GlucoseTargetModel.swift */; };
 		86E4EC1B2A7D7B0E00F17EC9 /* QueryAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E4EC1A2A7D7B0E00F17EC9 /* QueryAssembler.swift */; };
 		86E6BBCA2A9E01DE0010FC4E /* UserNameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E6BBC92A9E01DD0010FC4E /* UserNameTextField.swift */; };
 		86E73DBD2A12BC4100D34B96 /* InsulinUsageChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E73DBC2A12BC4100D34B96 /* InsulinUsageChartCell.swift */; };
@@ -511,6 +513,8 @@
 		86D0A74E29A520E200980996 /* NetworkServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProvider.swift; sourceTree = "<group>"; };
 		86D0A75129A656CE00980996 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		86D0A75429A65FD400980996 /* UserNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNetworkService.swift; sourceTree = "<group>"; };
+		86DC64E12AA6011000C4DDEF /* NotificationsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsModel.swift; sourceTree = "<group>"; };
+		86DC64E32AA6012700C4DDEF /* GlucoseTargetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseTargetModel.swift; sourceTree = "<group>"; };
 		86E4EC1A2A7D7B0E00F17EC9 /* QueryAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryAssembler.swift; sourceTree = "<group>"; };
 		86E6BBC92A9E01DD0010FC4E /* UserNameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameTextField.swift; sourceTree = "<group>"; };
 		86E73DBC2A12BC4100D34B96 /* InsulinUsageChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsulinUsageChartCell.swift; sourceTree = "<group>"; };
@@ -740,7 +744,7 @@
 				86D0A75129A656CE00980996 /* User.swift */,
 				8637ADC729B78A4A00F14489 /* Record.swift */,
 				866FCCE929E835C800D7FCC5 /* UserProfilePictureDomainModel.swift */,
-				868FD8A92A49B25300EAF87D /* AppSettingsModel.swift */,
+				86DC64E02AA600FB00C4DDEF /* Settings */,
 			);
 			path = DomainModels;
 			sourceTree = "<group>";
@@ -2238,6 +2242,16 @@
 			path = LocalDataModels;
 			sourceTree = "<group>";
 		};
+		86DC64E02AA600FB00C4DDEF /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				868FD8A92A49B25300EAF87D /* AppSettingsModel.swift */,
+				86DC64E12AA6011000C4DDEF /* NotificationsModel.swift */,
+				86DC64E32AA6012700C4DDEF /* GlucoseTargetModel.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		86E6BBC52A9D1B2A0010FC4E /* UIView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2611,6 +2625,7 @@
 				86A5D1E72A40C149006E9424 /* AppInfoCell.swift in Sources */,
 				8637F2B529BBE45C00941919 /* UserSceneDatasource.swift in Sources */,
 				866FCCEA29E835C800D7FCC5 /* UserProfilePictureDomainModel.swift in Sources */,
+				86DC64E42AA6012700C4DDEF /* GlucoseTargetModel.swift in Sources */,
 				8699F30F29B0ABAE00705347 /* UserAuthorizationService.swift in Sources */,
 				8699F33729B3D75700705347 /* HomeSceneBuilder.swift in Sources */,
 				86415D4F29FA8B6B00219ACC /* RecordSectionModel.swift in Sources */,
@@ -2721,6 +2736,7 @@
 				86D0A74429A3847900980996 /* DiarySceneBuilder.swift in Sources */,
 				8637ADC829B78A4A00F14489 /* Record.swift in Sources */,
 				866406082A0A795B00B8F22B /* ChartsDatasource.swift in Sources */,
+				86DC64E22AA6011000C4DDEF /* NotificationsModel.swift in Sources */,
 				86415D5329FA904E00219ACC /* MainSectionHeader.swift in Sources */,
 				863E85832A0B9C890006E1D2 /* CubicLineChartCell.swift in Sources */,
 				861FCA1029FA82D200743055 /* RecordModel.swift in Sources */,

@@ -17,9 +17,20 @@ final class DiaryDetailSceneViewController: BaseViewController<DiaryDetailSceneV
 	}
 
 	override func viewDidLoad() {
-		super.viewDidLoad()
 		bindActions()
-		contentView.configure(viewModel.setupDatasource())
+		super.viewDidLoad()
+		viewModel.$diaryDetailModel
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] model in
+				guard
+					let self = self,
+					let model = model
+				else {
+					return
+				}
+				contentView.configure(model)
+			}
+			.store(in: &cancellables)
 	}
 
 	override func viewWillAppear(_ animated: Bool) {

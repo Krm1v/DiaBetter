@@ -64,8 +64,9 @@ final class AppContainerImpl: AppContainer {
 			decoder: JSONDecoder())
 
 		self.userNetworkService = UserNetworkServiceImpl(userNetworkServiceProvider)
-		self.userAuthorizationService = UserAuthorizationServiceImpl(authorizationNetworkService,
-																	 tokenStorage: tokenStorage)
+		self.userAuthorizationService = UserAuthorizationServiceImpl(
+			authorizationNetworkService,
+			tokenStorage: tokenStorage)
 		let recordNetworkProvider = NetworkServiceProviderImpl<RecordsEndpoint>(
 			baseURLStorage: appConfiguration,
 			networkManager: networkManager,
@@ -76,14 +77,16 @@ final class AppContainerImpl: AppContainer {
 		self.recordsNetworkService = RecordsNetworkServiceImpl(recordNetworkProvider)
 
 		// MARK: - User service
-		let userService = UserServiceImpl(userNetworkService: userNetworkService,
-										  userAuthorizationService: userAuthorizationService,
-										  tokenStorage: tokenStorage)
+		let userService = UserServiceImpl(
+			userNetworkService: userNetworkService,
+			userAuthorizationService: userAuthorizationService,
+			tokenStorage: tokenStorage)
 		self.userService = userService
 
 		// MARK: - Record service
-		let recordService = RecordsServiceImpl(recordsNetworkService: recordsNetworkService,
-											   tokenStorage: tokenStorage)
+		let recordService = RecordsServiceImpl(
+			recordsNetworkService: recordsNetworkService,
+			tokenStorage: tokenStorage)
 		self.recordsService = recordService
 
 		// MARK: - Notification manager
@@ -98,7 +101,7 @@ final class AppContainerImpl: AppContainer {
 		let settingsService = SettingsServiceImpl()
 		self.settingsService = settingsService
 
-		// MARK: - Units convert manager
+		// MARK: - Units converter
 		let unitsConvertManager = UnitsConvertManagerImpl(settingsService: settingsService)
 		self.unitsConvertManager = unitsConvertManager
 	}

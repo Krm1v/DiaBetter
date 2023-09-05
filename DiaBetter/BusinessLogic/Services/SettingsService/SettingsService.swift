@@ -19,8 +19,8 @@ protocol SettingsService: AnyObject {
 
 final class SettingsServiceImpl: SettingsService {
 	// MARK: - Properties
-	let userDefaults: UserDefaultsManager
-	let dataConverter: DataConverter
+	private let userDefaults: UserDefaultsManager
+	private let dataConverter: DataConverter
 	var settings: AppSettingsModel = AppSettingsModel() {
 		didSet {
 			settingsSubject.value = settings
@@ -37,7 +37,9 @@ final class SettingsServiceImpl: SettingsService {
 		guard let settingsData = fetch() else {
 			return
 		}
+
 		settings = settingsData
+		settingsSubject.send(settings)
 	}
 
 	// MARK: - Public methods
@@ -46,6 +48,7 @@ final class SettingsServiceImpl: SettingsService {
 			return
 		}
 		userDefaults.save(data, for: .appSettings)
+		settingsSubject.send(settings)
 	}
 
 	func fetch() -> AppSettingsModel? {

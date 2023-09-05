@@ -14,7 +14,7 @@ final class UnitsSceneViewModel: BaseViewModel {
 	// MARK: - Properties
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<UnitsSceneTransitions, Never>()
-	private let appSettingsService: SettingsService
+	private let settingsService: SettingsService
 	@Published var sections: [UnitsSection] = []
 	@Published var carbohydrates: SettingsUnits.CarbsUnits = .breadUnits
 	@Published var glucoseUnit: SettingsUnits.GlucoseUnitsState = .mmolL
@@ -22,8 +22,8 @@ final class UnitsSceneViewModel: BaseViewModel {
 	@Published var maxGlucoseTarget: Decimal = 22.0
 
 	// MARK: - Init
-	init(appSettingsService: SettingsService) {
-		self.appSettingsService = appSettingsService
+	init(settingsService: SettingsService) {
+		self.settingsService = settingsService
 	}
 
 	// MARK: - Overriden methods
@@ -42,13 +42,13 @@ final class UnitsSceneViewModel: BaseViewModel {
 			guard let self = self else {
 				return
 			}
-			appSettingsService.settings = AppSettingsModel(
-				notifications: appSettingsService.settings.notifications,
+			settingsService.settings = AppSettingsModel(
+				notifications: settingsService.settings.notifications,
 				glucoseUnits: glucoseUnit,
 				carbohydrates: carbohydrates,
 				glucoseTarget: .init(min: minGlucoseTarget, max: maxGlucoseTarget))
 
-			appSettingsService.save(settings: appSettingsService.settings)
+			settingsService.save(settings: settingsService.settings)
 			self.isCompletedSubject.send(false)
 		}
 	}
@@ -114,9 +114,9 @@ private extension UnitsSceneViewModel {
 	}
 	
 	func updateCurrentSettings() {
-		carbohydrates = appSettingsService.settings.carbohydrates
-		glucoseUnit = appSettingsService.settings.glucoseUnits
-		minGlucoseTarget = appSettingsService.settings.glucoseTarget.min
-		maxGlucoseTarget = appSettingsService.settings.glucoseTarget.max
+		carbohydrates = settingsService.settings.carbohydrates
+		glucoseUnit = settingsService.settings.glucoseUnits
+		minGlucoseTarget = settingsService.settings.glucoseTarget.min
+		maxGlucoseTarget = settingsService.settings.glucoseTarget.max
 	}
 }
