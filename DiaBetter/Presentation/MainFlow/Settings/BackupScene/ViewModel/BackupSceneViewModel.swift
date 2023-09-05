@@ -19,12 +19,15 @@ final class BackupSceneViewModel: BaseViewModel {
 	// MARK: - Properties
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<BackupSceneTransitions, Never>()
-	private var records: [Record] = []
 	private let userService: UserService
 	private let recordService: RecordsService
+	private let settingsService: SettingsService
+	private let unitsConvertManager: UnitsConvertManager
 	private let fileManager = FileManager.default
+	private let jsonEncoder = JSONEncoder()
 	private var fileName = ""
-
+	private var currentSettings: AppSettingsModel?
+	private var records: [Record] = []
 	var currentAction: BackupActions?
 
 	// MARK: - @Published properties
@@ -35,12 +38,23 @@ final class BackupSceneViewModel: BaseViewModel {
 	@Published var outputURL: URL?
 
 	// MARK: - Init
-	init(recordService: RecordsService, userService: UserService) {
+	init(
+		recordService: RecordsService,
+		userService: UserService,
+		settingsService: SettingsService,
+		unitsConvertManager: UnitsConvertManager
+	) {
 		self.recordService = recordService
 		self.userService = userService
+		self.settingsService = settingsService
+		self.unitsConvertManager = unitsConvertManager
 	}
 
 	// MARK: - Overriden methods
+	override func onViewDidLoad() {
+		getCurrentSettings()
+	}
+
 	override func onViewWillAppear() {
 		updateDatasource()
 	}
@@ -241,7 +255,6 @@ private extension BackupSceneViewModel {
 		setupFileURL()
 
 		do {
-			let jsonEncoder = JSONEncoder()
 			let jsonCodedData = try jsonEncoder.encode(records)
 			guard let prettyJSON = jsonCodedData.prettyPrintedJSONString else {
 				return
@@ -263,16 +276,24 @@ private extension BackupSceneViewModel {
 	func buildRecordsDictionary() -> [[String: Any]] {
 		var recordsResults: [[String: Any]] = []
 
-		recordsResults = self.records.map { record in
+		let modifiedRecords = modifyRecords()
+
+		recordsResults = modifiedRecords.map { record in
 			var recordsDictionary = [String: Any]()
 
 			recordsDictionary.updateValue(
 				record.recordDate.stringRepresentation(format: .dayMonthYearTime),
 				forKey: CSVFileDictionaryKeys.recordDate)
 
-			recordsDictionary.updateValue(
-				record.glucoseLevel?.convertToString() ?? "",
-				forKey: CSVFileDictionaryKeys.glucose)
+			if let glucose = record.glucoseLevel {
+				recordsDictionary.updateValue(
+					"\(glucose.convertToString()) \(currentSettings?.glucoseUnits.title ?? "")",
+					forKey: CSVFileDictionaryKeys.glucose)
+			} else {
+				recordsDictionary.updateValue(
+					"",
+					forKey: CSVFileDictionaryKeys.glucose)
+			}
 
 			recordsDictionary.updateValue(
 				record.fastInsulin?.convertToString() ?? "",
@@ -282,9 +303,15 @@ private extension BackupSceneViewModel {
 				record.longInsulin?.convertToString() ?? "",
 				forKey: CSVFileDictionaryKeys.longInsulin)
 
-			recordsDictionary.updateValue(
-				record.meal?.convertToString() ?? "",
-				forKey: CSVFileDictionaryKeys.meal)
+			if let carbs = record.meal {
+				recordsDictionary.updateValue(
+					"\(carbs.convertToString()) \(currentSettings?.carbohydrates.title ?? "")",
+					forKey: CSVFileDictionaryKeys.meal)
+			} else {
+				recordsDictionary.updateValue(
+					"",
+					forKey: CSVFileDictionaryKeys.meal)
+			}
 
 			recordsDictionary.updateValue(
 				record.recordNote ?? "",
@@ -329,7 +356,7 @@ private extension BackupSceneViewModel {
 				to: fileURL,
 				atomically: true,
 				encoding: .utf8)
-			
+
 			attachmentURL = fileURL
 		} catch {
 			assert(false, "Error occured")
@@ -372,6 +399,37 @@ private extension BackupSceneViewModel {
 		].forEach { csvString.append($0) }
 
 		return csvString
+	}
+
+	// MARK: - Helpers
+	func modifyRecords() -> [Record] {
+		let modifiedRecords = records.compactMap({ record in
+			var modifiedRecord = record
+
+			if let glucose = record.glucoseLevel {
+				modifiedRecord.glucoseLevel = self.unitsConvertManager.convertRecordUnits(
+					glucoseValue: glucose)
+			}
+
+			if let carbs = record.meal {
+				modifiedRecord.meal = self.unitsConvertManager.convertRecordUnits(
+					carbs: carbs)
+			}
+			return modifiedRecord
+		})
+		return modifiedRecords
+	}
+
+	func getCurrentSettings() {
+		settingsService.settingsPublisher
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] settings in
+				guard let self = self else {
+					return
+				}
+				self.currentSettings = settings
+			}
+			.store(in: &cancellables)
 	}
 }
 
