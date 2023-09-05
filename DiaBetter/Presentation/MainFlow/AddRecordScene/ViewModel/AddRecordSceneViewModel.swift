@@ -69,13 +69,6 @@ final class AddRecordSceneViewModel: BaseViewModel {
 			.store(in: &cancellables)
 	}
 
-//	func saveRecord() {
-//		let error = NSError(domain: "",
-//							code: .zero,
-//							userInfo: [NSLocalizedDescriptionKey: Localization.addNewRecordErrorDescription])
-//		isInputEmpty ? addNewRecord() : errorSubject.send(error)
-//	}
-
 	func saveRecord() {
 		var record = setupNewRecord()
 		let error = NSError(domain: "",
@@ -226,5 +219,5 @@ private extension AddRecordSceneViewModel {
 // MARK: - Constants
 private enum Constants {
 	static let textFieldDefaultPlaceholder = "000"
-	static let unitsDefaultPlaceholder = 	 "u."
+	static let unitsDefaultPlaceholder     = "u."
 }

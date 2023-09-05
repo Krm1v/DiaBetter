@@ -104,41 +104,6 @@ private extension UnitsConvertManagerImpl {
 			.store(in: &cancellables)
 		return modifiedMealValue
 	}
-
-	func setGlucoseLevelToDefault(glucose: Decimal) -> Decimal {
-		var defaultValue = Decimal()
-		settingsService.settingsPublisher
-			.receive(on: DispatchQueue.main)
-			.sink { appSettingsModel in
-
-				switch appSettingsModel.glucoseUnits {
-				case .mmolL:
-					defaultValue = glucose
-				case .mgDl:
-					let glucose = glucose / 18
-					defaultValue = glucose
-				}
-			}
-			.store(in: &cancellables)
-		return defaultValue
-	}
-
-	func setCarbsLevelToDefault(carbs: Decimal) -> Decimal {
-		var defaultValue = Decimal()
-		settingsService.settingsPublisher
-			.receive(on: DispatchQueue.main)
-			.sink { appSettingsModel in
-				switch appSettingsModel.carbohydrates {
-				case .breadUnits:
-					defaultValue = carbs
-				case .grams:
-					let carbs = carbs / 18
-					defaultValue = carbs
-				}
-			}
-			.store(in: &cancellables)
-		return defaultValue
-	}
 }
 
 // MARK: - Constants
