@@ -57,7 +57,6 @@ private extension LineChartCell {
 	}
 
 	func configureChartView() {
-		chartView.backgroundColor = Colors.darkNavyBlue.color
 		chartView.delegate = self
 		chartView.chartDescription.enabled = false
 		chartView.dragEnabled = true
@@ -65,7 +64,8 @@ private extension LineChartCell {
 		chartView.pinchZoomEnabled = false
 		chartView.highlightPerDragEnabled = true
 		chartView.legend.enabled = false
-		chartView.rightAxis.enabled = false
+		chartView.rightAxis.enabled = true
+		chartView.leftAxis.enabled = false
 		chartView.clipDataToContentEnabled = false
 		chartView.setScaleMinima(Constants.minScale, scaleY: .zero)
 
@@ -83,7 +83,7 @@ private extension LineChartCell {
 		xAxis.axisLineColor = Colors.customDarkenPink.color
 		xAxis.setLabelCount(Constants.labelCount, force: true)
 
-		let leftAxis = chartView.leftAxis
+		let leftAxis = chartView.rightAxis
 		leftAxis.labelPosition = .outsideChart
 		leftAxis.labelFont = FontFamily.Montserrat.regular.font(size: Constants.defaultLargeFontSize)
 		leftAxis.drawGridLinesEnabled = true

@@ -118,7 +118,7 @@ private extension HomeSceneView {
 
 		item.contentInsets = NSDirectionalEdgeInsets(
 			top: Constants.defaultEdgeInsets,
-			leading: Constants.defaultEdgeInsets,
+			leading: .zero,
 			bottom: .zero,
 			trailing: Constants.defaultEdgeInsets)
 

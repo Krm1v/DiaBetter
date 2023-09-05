@@ -16,7 +16,7 @@ internal class BaseWidgetCell: BaseCollectionViewCell {
 									 alignment: .fill,
 									 distribution: .fillProportionally,
 									 spacing: .zero)
-	lazy var substrateView = buildView(with: Colors.darkNavyBlue.color)
+	lazy var substrateView = buildView(with: .clear)
 
 	// MARK: - Init
 	override init(frame: CGRect) {
@@ -35,10 +35,8 @@ private extension BaseWidgetCell {
 	func setupUI() {
 		setupLayout()
 		substrateView.rounded(Constants.basicCornerRadius)
-		backgroundColor = .clear
 		titleLabel.textColor = .white
 		segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-		segmentedControl.backgroundColor = Colors.darkNavyBlue.color
 		segmentedControl.selectedSegmentTintColor = Colors.customPink.color
 	}
 
@@ -51,7 +49,8 @@ private extension BaseWidgetCell {
 
 		addSubview(hStack, constraints: [
 			hStack.topAnchor.constraint(equalTo: topAnchor),
-			hStack.leadingAnchor.constraint(equalTo: leadingAnchor),
+			hStack.leadingAnchor.constraint(equalTo: leadingAnchor,
+											constant: 16),
 			hStack.trailingAnchor.constraint(equalTo: trailingAnchor),
 			hStack.bottomAnchor.constraint(equalTo: substrateView.topAnchor,
 										   constant: -Constants.basicInset)

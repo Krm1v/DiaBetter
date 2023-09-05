@@ -67,7 +67,8 @@ private extension InsulinUsageChartCell {
 		chartView.leftAxis.spaceBottom = Constants.basicLeftAxisSpacing
 		chartView.leftAxis.axisMinimum = Constants.leftAxisMin
 		chartView.leftAxis.axisMaximum = Constants.leftAxisMax
-		chartView.rightAxis.enabled = false
+		chartView.rightAxis.enabled = true
+		chartView.leftAxis.enabled = false
 		chartView.xAxis.labelPosition = .top
 		chartView.xAxis.granularityEnabled = true
 		chartView.xAxis.granularity = Constants.basicXAxisGranularity

@@ -51,12 +51,12 @@ private extension CubicLineChartCell {
 
 	func configureChartView() {
 		chartView.delegate = self
-		chartView.backgroundColor = Colors.darkNavyBlue.color
 		chartView.dragEnabled = true
 		chartView.setScaleEnabled(false)
 		chartView.pinchZoomEnabled = false
 		chartView.highlightPerDragEnabled = true
-		chartView.rightAxis.enabled = false
+		chartView.rightAxis.enabled = true
+		chartView.leftAxis.enabled = false
 		chartView.legend.enabled = false
 		chartView.clipDataToContentEnabled = false
 		chartView.setScaleMinima(Constants.minimumScale, scaleY: .zero)
@@ -75,7 +75,7 @@ private extension CubicLineChartCell {
 		xAxis.axisLineColor = Colors.customDarkenPink.color
 		xAxis.setLabelCount(Constants.defaultxAxisLabelCount, force: true)
 
-		let yAxis = chartView.leftAxis
+		let yAxis = chartView.rightAxis
 		yAxis.labelFont = FontFamily.Montserrat.regular.font(size: Constants.defaultFontSize)
 		yAxis.labelTextColor = .white
 		yAxis.axisLineColor = .white
