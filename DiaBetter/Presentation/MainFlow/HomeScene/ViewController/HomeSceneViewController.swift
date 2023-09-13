@@ -52,8 +52,9 @@ private extension HomeSceneViewController {
 				switch action {
 				case .addRecordButtonTapped:
 					viewModel.openAddNewRecordScene()
-				case .didSelectLineChartState(let state):
-					viewModel.didSelectLineChartState(state)
+					
+				case .widgetModeDidChanged(let pickerContent):
+					viewModel.didSelectLineChartState(pickerContent)
 				}
 			}
 			.store(in: &cancellables)

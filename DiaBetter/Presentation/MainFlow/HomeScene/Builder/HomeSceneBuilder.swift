@@ -13,7 +13,11 @@ enum HomeSceneTransition: Transition {
 
 final class HomeSceneModuleBuilder {
 	static func build(container: AppContainer) -> Module<HomeSceneTransition, UIViewController> {
-		let viewModel = HomeSceneViewModel(recordService: container.recordsService, userService: container.userService)
+		let viewModel = HomeSceneViewModel(
+			recordService: container.recordsService,
+			userService: container.userService,
+			settingsService: container.settingsService,
+			unitsConvertManager: container.unitsConvertManager)
 		let viewController = HomeSceneViewController(viewModel: viewModel)
 		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
 	}

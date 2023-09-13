@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GlucoseTarget: Codable {
+struct GlucoseTarget: Codable, Equatable {
 	var min: Decimal
 	var max: Decimal
 }

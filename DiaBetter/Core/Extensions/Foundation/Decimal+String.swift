@@ -9,6 +9,11 @@ import Foundation
 
 extension Decimal {
 	func convertToString() -> String {
-		return self.description
+		let numberFormatter = NumberFormatter()
+		numberFormatter.minimumFractionDigits = 1
+		numberFormatter.maximumFractionDigits = 1
+		numberFormatter.decimalSeparator = "."
+
+		return numberFormatter.string(from: self as NSDecimalNumber) ?? ""
 	}
 }

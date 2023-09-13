@@ -30,13 +30,6 @@ extension DiarySceneSection: RawRepresentable {
 		}
 	}
 
-//	var id: UUID? {
-//		switch self {
-//		case .main(let model):
-//			return model?.id
-//		}
-//	}
-
 	// MARK: - Init
 	init?(rawValue: RawValue) {
 		switch rawValue {

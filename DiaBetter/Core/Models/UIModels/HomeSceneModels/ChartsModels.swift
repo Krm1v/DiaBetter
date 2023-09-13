@@ -12,8 +12,9 @@ struct LineChartItem: Hashable {
 	let yValue: Double
 }
 
-struct LineChartCellModel: Hashable {
-	let state: LineChartState
+struct LineChartCellModel: Hashable, Identifiable {
+	let id = UUID()
+	var state: LineChartState
 	let items: [ChartItem]
 }
 
