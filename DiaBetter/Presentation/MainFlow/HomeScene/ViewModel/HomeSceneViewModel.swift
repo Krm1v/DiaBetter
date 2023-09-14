@@ -95,7 +95,15 @@ private extension HomeSceneViewModel {
 			])
 
 		let lineChartSectionModel = HomeSectionModel(title: "Glucose timeline")
-		let lineChartModel = buildBarChartCellModel(sortedRecords)
+
+		sections = [
+			barChartSection,
+			averageGlucoseSection
+		]
+
+		guard let lineChartModel = buildLineChartWidgetData() else {
+			return
+		}
 		let lineChartSection = HomeSceneSection(
 			section: .lineChart(lineChartSectionModel),
 			items: [
@@ -139,35 +147,52 @@ private extension HomeSceneViewModel {
 	}
 
 	// MARK: - Setup charts model
-	func buildBarChartCellModel(_ sortedRecords: [Record]) -> LineChartCellModel {
+	func buildBarChartCellModel(_ sortedRecords: [Record]) -> BarChartCellModel {
 		let recordsSource = sortedRecords.filter { Date().isDateInRange($0.recordDate, .month, 1) }
 
 		switch lineChartState {
 		case .glucose:
-			let items: [ChartItem] = recordsSource.compactMap { record in
+			let items: [BarChartItem] = recordsSource.compactMap { record in
 				if let glucoseValue = record.glucoseLevel?.toDouble() {
-					return ChartItem(xValue: record.recordDate, yValue: glucoseValue)
+					return BarChartItem(
+						date: record.recordDate,
+						yValue: glucoseValue)
 				} else {
 					return nil
 				}
 			}
-			return LineChartCellModel(state: .glucose, items: items)
-			#warning("TODO: Remove forces")
+
+			return BarChartCellModel(
+				state: .glucose,
+				items: items,
+				treshold: currentSettings?.glucoseTarget.max.toDouble())
+
 		case .insulin:
-			let items = recordsSource.compactMap {
-				ChartItem(
-					xValue: $0.recordDate,
-					yValue: ($0.fastInsulin?.toDouble())!)
+			let items: [BarChartItem] = recordsSource.compactMap { record in
+				if let insulinValue = record.fastInsulin?.toDouble() {
+					return BarChartItem(
+						date: record.recordDate,
+						yValue: insulinValue)
+				} else {
+					return nil
+				}
 			}
-			return LineChartCellModel(state: .insulin, items: items)
+			return BarChartCellModel(state: .insulin, items: items, treshold: nil)
 
 		case .meal:
-			let items = recordsSource.compactMap {
-				ChartItem(
-					xValue: $0.recordDate,
-					yValue: ($0.meal?.toDouble())!)
+			let items: [BarChartItem] = recordsSource.compactMap { record in
+				if let carbs = record.meal?.toDouble() {
+					return BarChartItem(
+						date: record.recordDate,
+						yValue: carbs)
+				} else {
+					return nil
+				}
 			}
-			return LineChartCellModel(state: .meal, items: items)
+			return BarChartCellModel(
+				state: .meal,
+				items: items,
+				treshold: nil)
 		}
 	}
 
@@ -185,7 +210,9 @@ private extension HomeSceneViewModel {
 			recordsSource = filteredRecords.sorted { $0.recordDate < $1.recordDate }
 		}
 
-		let averageValue = findAverageValue(from: recordsSource, count: recordsSource.count)
+		let averageValue = findAverageValue(
+			from: recordsSource,
+			count: recordsSource.count)
 
 		guard let currentSettings = currentSettings else {
 			return nil
@@ -208,6 +235,22 @@ private extension HomeSceneViewModel {
 			model.dotColor = Colors.customPink.color
 		}
 		return model
+	}
+
+	func buildLineChartWidgetData() -> LineChartCellModel? {
+		let sortedRecords = records.sorted { $0.recordDate < $1.recordDate }
+		let recordsSource = sortedRecords.filter { Date().isDateInRange($0.recordDate, .month, 1) }
+
+		var items: [LineChartItem] = recordsSource.compactMap { record in
+			if let glucose = record.glucoseLevel?.toDouble() {
+				return LineChartItem(date: record.recordDate, yValue: glucose)
+			} else {
+				return nil
+			}
+		}
+		let sortedValues = items.sorted { $0.yValue > $1.yValue }
+
+		return LineChartCellModel(items: items)
 	}
 
 	// MARK: - Helpers

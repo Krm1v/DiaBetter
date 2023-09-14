@@ -7,15 +7,33 @@
 
 import Foundation
 
-struct LineChartItem: Hashable {
-	let xValue: Double
+struct BarChartItem: Hashable {
+	let date: Date
+	let yValue: Double
+}
+
+extension BarChartItem {
+	func isAbove(threshold: Double) -> Bool {
+		self.yValue > threshold
+	}
+}
+
+struct BarChartCellModel: Hashable, Identifiable {
+	let id = UUID()
+	var state: LineChartState
+	let items: [BarChartItem]
+	var treshold: Double?
+}
+
+struct LineChartItem: Hashable, Identifiable {
+	let id = UUID()
+	let date: Date
 	let yValue: Double
 }
 
 struct LineChartCellModel: Hashable, Identifiable {
 	let id = UUID()
-	var state: LineChartState
-	let items: [ChartItem]
+	let items: [LineChartItem]
 }
 
 struct GlucoseLevelPerPeriodWidgetModel: Hashable {

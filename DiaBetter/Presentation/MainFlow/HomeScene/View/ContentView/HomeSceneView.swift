@@ -265,7 +265,7 @@ private extension HomeSceneView {
 			case .barChart(let model):
 				cell.contentConfiguration = nil
 				cell.contentConfiguration = UIHostingConfiguration(content: {
-					var content = BarChart(model: model, pickerContent: model.state)
+					var content = BarChart(model: model, pickerState: model.state, treshold: model.treshold)
 					content.onReceive(content.chartActionPublisher) { [weak self] action in
 						guard let self = self else {
 							return

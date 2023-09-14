@@ -13,18 +13,17 @@ enum BarChartActions {
 	case segmentedDidPressed(LineChartState)
 }
 
-enum PickerContent: String, CaseIterable, Identifiable {
-	case glucose, carbs, insulin
-
-	var id: Self { self }
-}
-
 struct BarChart: View {
 	// MARK: - @State properties
-	@State var model: LineChartCellModel
-	@State private(set) var pickerContent: LineChartState
+	@State var model: BarChartCellModel
+	@State private(set) var pickerState: LineChartState
+	@State private(set) var treshold: Double?
+	@State private var belowColor: Color = .green
+	@State private var aboveColor: Color = .init(uiColor: Colors.customPink.color)
+	@State private var scrollWidth: CGFloat = UIScreen.main.bounds.width * 2
+	@State private var barWidth: CGFloat = 15.0
 
-	// MARK: - Publisher
+	// MARK: - Publishers
 	private(set) lazy var chartActionPublisher = chartActionSubject.eraseToAnyPublisher()
 	private let chartActionSubject = PassthroughSubject<BarChartActions, Never>()
 
@@ -32,30 +31,70 @@ struct BarChart: View {
 	var body: some View {
 		VStack {
 			picker
-			chart
+				.padding(.bottom, 8)
+			if pickerState == .glucose {
+
+				ScrollView(.horizontal) {
+					chart
+						.frame(width: scrollWidth)
+				}
+				.scrollIndicators(.hidden)
+			} else {
+				chart
+			}
 		}
 		.padding()
 	}
 
 	private var chart: some View {
-		Chart(model.items) { item in
+		Chart(model.items, id: \.date) { item in
 			BarMark(
-				x: .value("Date", "\(item.xValue.stringRepresentation(format: .dayTime))"),
-				y: .value("Value", "\(item.yValue)"))
+				x: .value("Date", item.date.stringRepresentation(format: .dayTime)),
+				y: .value("Value", item.yValue),
+				width: pickerState == .glucose ? .automatic : .fixed(barWidth)
+			)
+			.foregroundStyle(
+				item.isAbove(threshold: $treshold.wrappedValue ?? .zero) ? aboveColor.gradient : belowColor.gradient)
+			.cornerRadius(7)
+
+			if let treshold {
+				RuleMark(y: .value("Theshold", treshold))
+					.lineStyle(StrokeStyle(lineWidth: 2))
+					.foregroundStyle(.red)
+					.annotation(
+						position: .top,
+						alignment: .leading) {
+
+						Text("\(treshold, specifier: "%.0f")")
+							.font(.custom(FontFamily.Montserrat.regular, size: 13))
+							.foregroundColor(.primary)
+							.background {
+
+								ZStack {
+									RoundedRectangle(cornerRadius: 8)
+										.fill(.background)
+									RoundedRectangle(cornerRadius: 8)
+										.fill(.quaternary.opacity(0.7))
+								}
+								.padding(.horizontal, -8)
+								.padding(.vertical, -4)
+							}
+							.padding(.bottom, 4)
+					}
+			}
 		}
-		.foregroundColor(Color(uiColor: Colors.customPink.color))
-		.font(.custom(FontFamily.Montserrat.regular, size: 7))
-		.padding(.zero)
+		.chartYAxis(.visible)
+		.chartXAxis(.visible)
 	}
 
 	private var picker: some View {
-		Picker("PickerContent", selection: $pickerContent) {
+		Picker("PickerContent", selection: $pickerState) {
 			Text("Glucose").tag(LineChartState.glucose)
 			Text("Carbs").tag(LineChartState.meal)
 			Text("Insulin").tag(LineChartState.insulin)
 		}
 		.pickerStyle(.segmented)
-		.onChange(of: pickerContent) { newValue in
+		.onChange(of: pickerState) { newValue in
 			chartActionSubject.send(.segmentedDidPressed(newValue))
 		}
 		.padding(.zero)
@@ -65,6 +104,10 @@ struct BarChart: View {
 // MARK: - Preview
 struct Chart_Previews: PreviewProvider {
 	static var previews: some View {
-		BarChart(model: LineChartCellModel(state: .glucose, items: [ChartItem(xValue: Date(timeIntervalSince1970: 1688206800.0), yValue: 8.6)]), pickerContent: .glucose)
+		BarChart(
+			model: BarChartCellModel(
+				state: .glucose,
+				items: [BarChartItem(date: Date(), yValue: 8)]),
+			pickerState: .glucose)
 	}
 }

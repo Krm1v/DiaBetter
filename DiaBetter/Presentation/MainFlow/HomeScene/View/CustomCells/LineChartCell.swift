@@ -12,7 +12,7 @@ import Combine
 struct LineChartCell: View {
 	// MARK: - @State properties
 	@State var model: LineChartCellModel
-	@State private var scrollWidth: CGFloat = 1000
+	@State private var scrollWidth: CGFloat = UIScreen.main.bounds.width * 2
 
 	// MARK: - Publisher
 	private(set) lazy var chartActionPublisher = chartActionSubject.eraseToAnyPublisher()
@@ -27,11 +27,14 @@ struct LineChartCell: View {
 	}
 
 	private var chart: some View {
-		Chart(model.items) { item in
-			Plot {
+		Chart {
+			ForEach(model.items) { item in
 				LineMark(
-					x: .value("Date", "\(item.xValue.stringRepresentation(format: .day))"),
-					y: .value("Value", "\(item.yValue)"))
+					x: .value("Date", item.date.stringRepresentation(format: .dayTime)),
+					y: .value("Value", item.yValue)
+				)
+				.interpolationMethod(.cardinal)
+				.symbolSize(50)
 			}
 		}
 		.foregroundColor(Color(uiColor: Colors.customPink.color))
@@ -47,6 +50,8 @@ struct LineChartCell: View {
 // MARK: - Preview
 struct LineChart_Previews: PreviewProvider {
 	static var previews: some View {
-		BarChart(model: LineChartCellModel(state: .glucose, items: [ChartItem(xValue: Date(timeIntervalSince1970: 1688206800.0), yValue: 8.6)]), pickerContent: .glucose)
+		LineChartCell(model: LineChartCellModel(
+			items: [LineChartItem(date: Date(), yValue: 5)])
+		)
 	}
 }

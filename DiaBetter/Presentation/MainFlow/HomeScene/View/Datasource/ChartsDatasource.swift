@@ -61,7 +61,7 @@ extension ChartSection: RawRepresentable {
 
 // MARK: - Items
 enum ChartsItems: Hashable {
-	case barChart(LineChartCellModel)
+	case barChart(BarChartCellModel)
 	case averageGlucose(AverageGlucoseCellModel)
 	case lineChart(LineChartCellModel)
 }

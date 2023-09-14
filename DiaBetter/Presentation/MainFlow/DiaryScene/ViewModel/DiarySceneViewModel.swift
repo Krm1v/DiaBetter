@@ -129,6 +129,7 @@ private extension DiarySceneViewModel {
 				model.mealInfo = .init(
 					value: record.meal?.convertToString(),
 					unit: currentSettings.carbohydrates.title)
+
 				result[index].records.append(model)
 			} else {
 				result.append(
