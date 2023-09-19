@@ -69,6 +69,7 @@ struct AverageGlucoseCell: View {
 						Color.white,
 						lineWidth: 0.5)
 			)
+			.padding(.bottom, 16)
 	}
 }
 

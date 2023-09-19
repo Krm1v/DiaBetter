@@ -42,7 +42,7 @@ struct LineChartCell: View {
 			AxisMarks(preset: .automatic)
 		}
 		.chartYAxis(.visible)
-		.padding()
+		.padding(EdgeInsets(top: .zero, leading: .zero, bottom: .zero, trailing: 16))
 		.frame(width: scrollWidth)
 	}
 }

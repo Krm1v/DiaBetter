@@ -156,7 +156,8 @@ private extension HomeSceneView {
 			subitems: [item])
 
 		let section = NSCollectionLayoutSection(group: group)
-		let header = makeSectionHeader()
+		let header = makeSectionHeader(offset: .init(x: .zero, y: -16))
+
 		section.boundarySupplementaryItems = [header]
 
 		return section
@@ -190,7 +191,9 @@ private extension HomeSceneView {
 		return section
 	}
 
-	func makeSectionHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
+	func makeSectionHeader(
+		offset: CGPoint = .zero
+	) -> NSCollectionLayoutBoundarySupplementaryItem {
 		let headerSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
 			heightDimension: .fractionalWidth(0.08))
@@ -198,7 +201,8 @@ private extension HomeSceneView {
 		let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
 			layoutSize: headerSize,
 			elementKind: UICollectionView.elementKindSectionHeader,
-			alignment: .topLeading)
+			alignment: .topLeading,
+			absoluteOffset: offset)
 
 		return sectionHeader
 	}

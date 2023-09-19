@@ -18,7 +18,7 @@ struct BarChart: View {
 	@State var model: BarChartCellModel
 	@State private(set) var pickerState: LineChartState
 	@State private(set) var treshold: Double?
-	@State private var belowColor: Color = .green
+	@State private var belowColor: Color = Color(uiColor: Colors.customMint.color)
 	@State private var aboveColor: Color = .init(uiColor: Colors.customPink.color)
 	@State private var scrollWidth: CGFloat = UIScreen.main.bounds.width * 2
 	@State private var barWidth: CGFloat = 15.0
@@ -60,7 +60,7 @@ struct BarChart: View {
 			if let treshold {
 				RuleMark(y: .value("Theshold", treshold))
 					.lineStyle(StrokeStyle(lineWidth: 2))
-					.foregroundStyle(.red)
+					.foregroundStyle(Color(uiColor: Colors.customDarkenPink.color))
 					.annotation(
 						position: .top,
 						alignment: .leading) {

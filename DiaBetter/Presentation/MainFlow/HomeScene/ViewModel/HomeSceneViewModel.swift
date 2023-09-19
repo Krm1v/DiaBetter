@@ -222,13 +222,13 @@ private extension HomeSceneViewModel {
 			period: period,
 			glucoseValue: averageValue.convertToString(),
 			glucoseUnit: currentSettings.glucoseUnits.title,
-			dotColor: .green)
+			dotColor: Colors.customMint.color)
 
 		let target = currentSettings.glucoseTarget
 		let range = target.min...target.max
 
 		if range ~= averageValue {
-			model.dotColor = .green
+			model.dotColor = Colors.customMint.color
 		} else if averageValue < target.min {
 			model.dotColor = Colors.customLightBlue.color
 		} else {
