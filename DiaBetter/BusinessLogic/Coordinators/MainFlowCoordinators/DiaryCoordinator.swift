@@ -39,7 +39,7 @@ final class DiaryCoordinator: Coordinator {
 }
 
 // MARK: - Private extension
-private extension DiaryCoordinator {
+private extension DiaryCoordinator { 
 	func presentDetailScene(record: Record) {
 		let module = DiaryDetailSceneBuilder.build(container: container, record: record)
 		module.transitionPublisher

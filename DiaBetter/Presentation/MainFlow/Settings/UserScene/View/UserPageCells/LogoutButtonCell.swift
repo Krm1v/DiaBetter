@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 enum LogoutButtonCellActions {
-	case signOut
+	case didTapped
 }
 
 final class LogoutButtonCell: BaseCollectionViewCell {
@@ -32,7 +32,7 @@ final class LogoutButtonCell: BaseCollectionViewCell {
 	}
 
 	// MARK: - Public methods
-	func configure(_ model: LogoutButtonModel) {
+	func configure(_ model: UserProfileButtonModel) {
 		logoutButton.setTitle(model.buttonTitle, for: .normal)
 		bindActions()
 	}
@@ -51,7 +51,7 @@ private extension LogoutButtonCell {
 
 	func bindActions() {
 		logoutButton.tapPublisher
-			.map { LogoutButtonCellActions.signOut }
+			.map { LogoutButtonCellActions.didTapped }
 			.subscribe(actionSubject)
 			.store(in: &cancellables)
 	}

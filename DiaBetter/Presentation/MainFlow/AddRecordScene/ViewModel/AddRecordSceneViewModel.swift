@@ -70,7 +70,7 @@ final class AddRecordSceneViewModel: BaseViewModel {
 	}
 
 	func saveRecord() {
-		var record = setupNewRecord()
+        let record = setupNewRecord()
 		let error = NSError(domain: "",
 							code: .zero,
 							userInfo: [NSLocalizedDescriptionKey: Localization.addNewRecordErrorDescription])

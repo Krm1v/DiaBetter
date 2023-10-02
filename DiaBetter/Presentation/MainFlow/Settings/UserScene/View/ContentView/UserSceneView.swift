@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 enum UserSceneViewActions {
-	case logoutButtonTapped
+	case destrucriveButtonDidTapped(UserProfileButtonModel)
 	case editButtonTapped
 	case userDataTextfieldDidChanged(String)
 	case popoverListDidTapped(UserDataMenuSettingsModel)
@@ -219,7 +219,7 @@ private extension UserSceneView {
 						guard let self = self else {
 							return
 						}
-						guard var object = self.getObject(with: indexPath) else {
+						guard var object = self.getObject(with: indexPath) as? UserDataMenuSettingsModel else {
 							return
 						}
 						switch action {
@@ -234,8 +234,11 @@ private extension UserSceneView {
 			case .plainWithButton(let model):
 				let cell = collectionView.configureCell(cellType: LogoutButtonCell.self, indexPath: indexPath)
 				cell.configure(model)
+                guard let object = getObject(with: indexPath) as? UserProfileButtonModel else {
+                    return UICollectionViewCell()
+                }
 				cell.actionPublisher
-					.map { _ in UserSceneViewActions.logoutButtonTapped }
+					.map { _ in UserSceneViewActions.destrucriveButtonDidTapped(object) }
 					.subscribe(actionSubject)
 					.store(in: &cancellables)
 
@@ -244,14 +247,16 @@ private extension UserSceneView {
 		})
 	}
 
-	func getObject(with indexPath: IndexPath) -> UserDataMenuSettingsModel? {
+	func getObject(with indexPath: IndexPath) -> UserSceneDataModelProtocol? {
 		guard let object = diffableDatasource?.itemIdentifier(for: indexPath) else {
 			return nil
 		}
-		var model: UserDataMenuSettingsModel?
+		var model: UserSceneDataModelProtocol?
 		switch object {
 		case .plainWithLabel(let userDataMenuSettingsModel):
 			model = userDataMenuSettingsModel
+        case .plainWithButton(let buttonModel):
+            model = buttonModel
 		default: break
 		}
 		return model

@@ -57,8 +57,22 @@ private extension UserSceneViewController {
 					return
 				}
 				switch action {
-				case .logoutButtonTapped:
-					self.viewModel.logoutUser()
+				case .destrucriveButtonDidTapped(let buttonModel):
+                    switch buttonModel.buttonType {
+                    case .logout:
+                        self.viewModel.logout()
+                    case .deleteAccount:
+                        self.showAlert(
+                            alertTitle: Localization.deleteAccountAlert,
+                            alertMessage: Localization.deleteAccountAlertMessage,
+                            confirmActionTitle: Localization.yes
+                        ) { [weak self] in
+                            guard let self = self else {
+                                return
+                            }
+                            viewModel.deleteAccount()
+                        }
+                    }
 
 				case .editButtonTapped:
 					self.presentActionSheet()
@@ -91,7 +105,12 @@ private extension UserSceneViewController {
 				case .authorized:
 					presentImagePickerController()
 				case .denied, .limited, .notDetermined, .restricted:
-					showAccessDeniedAlert()
+                    showAlert(alertTitle: Localization.accessDenied, alertMessage: Localization.photoLibraryPermissionsMessage, confirmActionTitle: Localization.goToSettings) { [weak self] in
+                        guard let self = self else {
+                            return
+                        }
+                        UIApplication.shared.openSettings()
+                    }
 				@unknown default:
 					break
 				}
@@ -120,7 +139,7 @@ private extension UserSceneViewController {
 			guard let self = self else {
 				return
 			}
-			self.viewModel.deleteUserProfilePhoto()
+			self.viewModel.deleteImage()
 		}
 		let cancelAction = UIAlertAction(
 			title: Localization.cancel,
@@ -140,16 +159,21 @@ private extension UserSceneViewController {
 		present(picker, animated: true)
 	}
 
-	func showAccessDeniedAlert() {
+    func showAlert(
+        alertTitle: String,
+        alertMessage: String,
+        confirmActionTitle: String,
+        completion: @escaping () -> Void
+    ) {
 		let alertController = UIAlertController(
-			title: Localization.accessDenied,
-			message: Localization.photoLibraryPermissionsMessage,
+			title: alertTitle,
+			message: alertMessage,
 			preferredStyle: .alert)
 
 		let goToSettingsAction = UIAlertAction(
-			title: Localization.goToSettings,
+			title: confirmActionTitle,
 			style: .default) { _ in
-			UIApplication.shared.openSettings()
+                completion()
 		}
 
 		let cancelAction = UIAlertAction(
@@ -187,7 +211,7 @@ extension UserSceneViewController: UIImagePickerControllerDelegate & UINavigatio
 			return
 		}
 		viewModel.fetchImageData(from: dataImage)
-		viewModel.uploadUserProfileImage()
+		viewModel.uploadImage()
 		dismiss(animated: true)
 	}
 }

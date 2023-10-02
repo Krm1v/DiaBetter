@@ -138,3 +138,7 @@
 // EditRecord Scene
 "delete-record-title" = "Are you sure you want to delete this record?";
 "delete-record-message" = "This operation can't be aborted.";
+"delete-account" = "Delete account";
+"delete-account-alert" = "Are you sure you want to delete your account?";
+"delete-account-alert-message" = "This action can't be undo. This also will erase all your data";
+"yes" = "Yes";

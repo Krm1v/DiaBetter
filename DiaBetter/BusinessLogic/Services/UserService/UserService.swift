@@ -23,6 +23,7 @@ protocol UserService {
 	func fetchUser(id: String) -> AnyPublisher<User, Error>
 	func createUser(_ user: User) -> AnyPublisher<Void, Error>
 	func restorePassword(_ email: String) -> AnyPublisher<Void, Error>
+    func deleteUser(id: String) -> AnyPublisher<Void, Error>
 }
 
 final class UserServiceImpl {
@@ -191,6 +192,32 @@ final class UserServiceImpl {
 			.mapError { $0 as Error }
 			.eraseToAnyPublisher()
 	}
+    
+    func deleteUser(id: String) -> AnyPublisher<Void, Error> {
+        return userNetworkService.deleteUser(with: id)
+            .mapError { $0 as Error }
+            .map({ [weak self] _ in
+                guard let self = self else {
+                    return
+                }
+                self.logoutUser()
+                    .subscribe(on: DispatchQueue.global())
+                    .receive(on: DispatchQueue.main)
+                    .sink(receiveCompletion: { [weak self] completion in
+                        guard let self = self else {
+                            return
+                        }
+                        switch completion {
+                        case .finished:
+                            Logger.info("Logged out")
+                        case .failure(let error):
+                            Logger.error(error.localizedDescription)
+                        }
+                    }, receiveValue: { _ in })
+                    .store(in: &cancellables)
+            })
+            .eraseToAnyPublisher()
+    }
 }
 
 // MARK: - Extension UserService

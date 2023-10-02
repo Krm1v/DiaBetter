@@ -14,7 +14,10 @@ enum UserSceneTransition: Transition {
 
 final class UserSceneModuleBuilder {
 	static func build(container: AppContainer) -> Module<UserSceneTransition, UIViewController> {
-		let viewModel = UserSceneViewModel(userService: container.userService, permissionService: container.permissionService)
+        let viewModel = UserSceneViewModel(
+            userService: container.userService,
+            permissionService: container.permissionService,
+            recordsService: container.recordsService)
 		let viewController = UserSceneViewController(viewModel: viewModel)
 		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
 	}

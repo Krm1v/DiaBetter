@@ -179,7 +179,6 @@ private extension DiaryDetailSceneViewModel {
 					self.modifiedRecord?.meal = unitsConvertManager.convertRecordUnits(
 						carbs: carbs)
 				}
-
 				updateDatasource()
 			}
 			.store(in: &cancellables)

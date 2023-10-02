@@ -7,9 +7,13 @@
 
 import Foundation
 
+protocol UserSceneDataModelProtocol {
+    
+}
+
 struct UserHeaderModel: Hashable {
 	let email: String
-	let image: ImageResource?
+	let image: ImageResourceType?
 }
 
 struct UserDataSettingsModel: Hashable {
@@ -17,7 +21,7 @@ struct UserDataSettingsModel: Hashable {
 	let textFieldValue: String
 }
 
-struct UserDataMenuSettingsModel: Hashable {
+struct UserDataMenuSettingsModel: Hashable, UserSceneDataModelProtocol {
 	let rowTitle: String
 	var labelValue: String
 	let source: UserParameters

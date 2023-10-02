@@ -19,7 +19,7 @@ enum UserSettings: Hashable {
 	case header(UserHeaderModel)
 	case plainWithTextfield(UserDataSettingsModel)
 	case plainWithLabel(UserDataMenuSettingsModel)
-	case plainWithButton(LogoutButtonModel)
+	case plainWithButton(UserProfileButtonModel)
 }
 
 enum UserParameters: Hashable {

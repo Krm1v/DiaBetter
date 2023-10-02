@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum ImageResource: Hashable {
+enum ImageResourceType: Hashable {
 	case url(URL)
 	case data(Data)
 	case asset(ImageAsset)

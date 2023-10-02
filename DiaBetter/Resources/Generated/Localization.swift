@@ -76,6 +76,12 @@ internal enum Localization {
   internal static let day = Localization.tr("Localizable", "day", fallback: "Day")
   /// Delete
   internal static let delete = Localization.tr("Localizable", "delete", fallback: "Delete")
+  /// Delete account
+  internal static let deleteAccount = Localization.tr("Localizable", "delete-account", fallback: "Delete account")
+  /// Are you sure you want to delete your account?
+  internal static let deleteAccountAlert = Localization.tr("Localizable", "delete-account-alert", fallback: "Are you sure you want to delete your account?")
+  /// This action can't be undo. This also will erase all your data
+  internal static let deleteAccountAlertMessage = Localization.tr("Localizable", "delete-account-alert-message", fallback: "This action can't be undo. This also will erase all your data")
   /// Delete photo
   internal static let deletePhoto = Localization.tr("Localizable", "delete-photo", fallback: "Delete photo")
   /// This operation can't be aborted.
@@ -257,6 +263,8 @@ internal enum Localization {
   internal static let visitWebsite = Localization.tr("Localizable", "visit-website", fallback: "Visit website")
   /// Wrong data. This backup file doesn't belong to this account
   internal static let wrongBackupErrorDescription = Localization.tr("Localizable", "wrong-backup-error-description", fallback: "Wrong data. This backup file doesn't belong to this account")
+  /// Yes
+  internal static let yes = Localization.tr("Localizable", "yes", fallback: "Yes")
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

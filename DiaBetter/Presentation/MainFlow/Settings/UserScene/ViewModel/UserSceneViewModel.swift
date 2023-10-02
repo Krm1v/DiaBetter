@@ -17,9 +17,10 @@ final class UserSceneViewModel: BaseViewModel {
 	private(set) var permissionService: PermissionService
 	private let transitionSubject = PassthroughSubject<UserSceneTransition, Never>()
 	private let userService: UserService
+    private let recordsService: RecordsService
 
 	// MARK: - Published properties
-	@Published private var userImageResource: ImageResource?
+	@Published private var userImageResource: ImageResourceType?
 	@Published var sections: [UserSection] = []
 	@Published private(set) var userImage: Data?
 	@Published var userName = "" {
@@ -31,10 +32,14 @@ final class UserSceneViewModel: BaseViewModel {
 	@Published var userDidUpdated = false
 
 	// MARK: - Init
-	init(userService: UserService, permissionService: PermissionService) {
+    init(
+        userService: UserService,
+        permissionService: PermissionService,
+        recordsService: RecordsService
+    ) {
 		self.permissionService = permissionService
 		self.userService = userService
-		super.init()
+        self.recordsService = recordsService
 	}
 
 	override func onViewDidLoad() {
@@ -43,6 +48,23 @@ final class UserSceneViewModel: BaseViewModel {
 	}
 
 	// MARK: - Public methods
+    func deleteAccount() {
+        eraseAllDataRequest()
+    }
+    
+    func logout() {
+        logoutUserRequest()
+        self.transitionSubject.send(.success)
+    }
+    
+    func uploadImage() {
+        uploadUserProfileImage()
+    }
+    
+    func deleteImage() {
+        deleteUserProfilePhoto()
+    }
+    
 	// MARK: - User's profile picture helpers
 	func fetchImageData(from data: Data) {
 		userImage = data
@@ -69,163 +91,11 @@ final class UserSceneViewModel: BaseViewModel {
 		permissionService.askForPhotoPermissions()
 	}
 
-	// MARK: - Network requests
-	func fetchUser() {
-		guard let id = userService.user?.remoteId else {
-			return
-		}
-		isLoadingSubject.send(true)
-		userService.fetchUser(id: id)
-			.subscribe(on: DispatchQueue.global())
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] completion in
-				guard let self = self else {
-					return
-				}
-				switch completion {
-				case .finished:
-					Logger.info("Finished")
-					self.isLoadingSubject.send(false)
-				case .failure(let error):
-					Logger.error(error.localizedDescription)
-					self.isLoadingSubject.send(false)
-					errorSubject.send(error)
-				}
-			} receiveValue: { [weak self] user in
-				guard let self = self else {
-					return
-				}
-				userName = user.name ?? ""
-				userDiabetesType = user.diabetesType ?? ""
-				userFastInsulin = user.fastActingInsulin ?? ""
-				userBasalInsulin = user.basalInsulin ?? ""
-				userDidUpdated = false
-				self.updateDatasource()
-			}
-			.store(in: &cancellables)
-	}
-
-	func logoutUser() {
-		isLoadingSubject.send(true)
-		userService.logoutUser()
-			.subscribe(on: DispatchQueue.global())
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] completion in
-				guard let self = self else {
-					return
-				}
-				switch completion {
-				case .finished:
-					self.userService.clear()
-					self.isLoadingSubject.send(false)
-					self.transitionSubject.send(.success)
-					Logger.info("Finished")
-				case .failure(let error):
-					Logger.error(error.localizedDescription)
-					self.errorSubject.send(error)
-					self.isLoadingSubject.send(false)
-				}
-			} receiveValue: { _ in }
-			.store(in: &cancellables)
-	}
-
-	func uploadUserProfileImage() {
-		guard
-			let userImage = userImage,
-			var user = userService.user
-		else {
-			return
-		}
-		let uploadData = MultipartDataItem(
-			data: userImage,
-			attachmentKey: "",
-			fileName: Constants.basicUserProfileImageName)
-
-		userService.uploadUserProfilePhoto(data: uploadData)
-			.subscribe(on: DispatchQueue.global())
-			.receive(on: DispatchQueue.main)
-			.sink { completion in
-				switch completion {
-				case .finished:
-					Logger.info("Finished")
-					self.updateDatasource()
-				case .failure(let error):
-					Logger.error(error.localizedDescription)
-					self.errorSubject.send(error)
-				}
-			} receiveValue: { [weak self] response in
-				guard let self = self else {
-					return
-				}
-				self.clearImageCache()
-				user.userProfileImage = response.fileURL + "?\(UUID().uuidString)"
-				self.updateUser(user)
-			}
-			.store(in: &cancellables)
-	}
-
-	func deleteUserProfilePhoto() {
-		guard var user = userService.user else {
-			return
-		}
-		userService.deletePhoto(filename: Constants.basicUserProfileImageName + MimeTypes.jpeg)
-			.subscribe(on: DispatchQueue.global())
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] completion in
-				guard let self = self else {
-					return
-				}
-				switch completion {
-				case .finished:
-					Logger.info("Finished")
-					user.userProfileImage = ""
-					self.updateUser(user)
-					self.clearImageCache()
-					self.updateDatasource()
-				case .failure(let error):
-					Logger.error(error.localizedDescription)
-					self.errorSubject.send(error)
-				}
-			} receiveValue: { _ in }
-			.store(in: &cancellables)
-	}
-
 	func saveUserProfileData() {
 		guard let user = updatedUser() else {
 			return
 		}
 		updateUser(user)
-	}
-
-	func updateUser(_ user: User) {
-		isLoadingSubject.send(true)
-		userService.updateUser(user: user)
-			.subscribe(on: DispatchQueue.global())
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] completion in
-				guard let self = self else {
-					return
-				}
-				switch completion {
-				case .finished:
-					self.isLoadingSubject.send(false)
-					DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-						self.isCompletedSubject.send(false)
-					}
-					Logger.info("Finished")
-				case .failure(let error):
-					Logger.error(error.localizedDescription)
-					self.isLoadingSubject.send(false)
-					errorSubject.send(error)
-				}
-			} receiveValue: { [weak self] _ in
-				guard let self = self else {
-					return
-				}
-				self.updateDatasource()
-				self.isCompletedSubject.send(true)
-			}
-			.store(in: &cancellables)
 	}
 
 	func clearImageCache() {
@@ -235,6 +105,157 @@ final class UserSceneViewModel: BaseViewModel {
 
 // MARK: - Private extension
 private extension UserSceneViewModel {
+    // MARK: - Network requests
+    func fetchUser() {
+        guard let id = userService.user?.remoteId else {
+            return
+        }
+        isLoadingSubject.send(true)
+        userService.fetchUser(id: id)
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self = self else {
+                    return
+                }
+                switch completion {
+                case .finished:
+                    Logger.info("Finished")
+                    self.isLoadingSubject.send(false)
+                case .failure(let error):
+                    Logger.error(error.localizedDescription)
+                    self.isLoadingSubject.send(false)
+                    errorSubject.send(error)
+                }
+            } receiveValue: { [weak self] user in
+                guard let self = self else {
+                    return
+                }
+                userName = user.name ?? ""
+                userDiabetesType = user.diabetesType ?? ""
+                userFastInsulin = user.fastActingInsulin ?? ""
+                userBasalInsulin = user.basalInsulin ?? ""
+                userDidUpdated = false
+                self.updateDatasource()
+            }
+            .store(in: &cancellables)
+    }
+
+    func logoutUserRequest() {
+        isLoadingSubject.send(true)
+        userService.logoutUser()
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self = self else {
+                    return
+                }
+                switch completion {
+                case .finished:
+                    self.userService.clear()
+                    self.isLoadingSubject.send(false)
+                    Logger.info("Finished")
+                case .failure(let error):
+                    Logger.error(error.localizedDescription)
+                    self.errorSubject.send(error)
+                    self.isLoadingSubject.send(false)
+                }
+            } receiveValue: { _ in }
+            .store(in: &cancellables)
+    }
+
+    func uploadUserProfileImage() {
+        guard
+            let userImage = userImage,
+            var user = userService.user
+        else {
+            return
+        }
+        let uploadData = MultipartDataItem(
+            data: userImage,
+            attachmentKey: "",
+            fileName: Constants.basicUserProfileImageName)
+
+        userService.uploadUserProfilePhoto(data: uploadData)
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    Logger.info("Finished")
+                    self.updateDatasource()
+                case .failure(let error):
+                    Logger.error(error.localizedDescription)
+                    self.errorSubject.send(error)
+                }
+            } receiveValue: { [weak self] response in
+                guard let self = self else {
+                    return
+                }
+                self.clearImageCache()
+                user.userProfileImage = response.fileURL + "?\(UUID().uuidString)"
+                self.updateUser(user)
+            }
+            .store(in: &cancellables)
+    }
+
+    func deleteUserProfilePhoto() {
+        guard var user = userService.user else {
+            return
+        }
+        userService.deletePhoto(filename: Constants.basicUserProfileImageName + MimeTypes.jpeg)
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self = self else {
+                    return
+                }
+                switch completion {
+                case .finished:
+                    Logger.info("Finished")
+                    user.userProfileImage = ""
+                    self.updateUser(user)
+                    self.clearImageCache()
+                    self.updateDatasource()
+                case .failure(let error):
+                    Logger.error(error.localizedDescription)
+                    self.errorSubject.send(error)
+                }
+            } receiveValue: { _ in }
+            .store(in: &cancellables)
+    }
+    
+    func updateUser(_ user: User) {
+        isLoadingSubject.send(true)
+        userService.updateUser(user: user)
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self = self else {
+                    return
+                }
+                switch completion {
+                case .finished:
+                    self.isLoadingSubject.send(false)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        self.isCompletedSubject.send(false)
+                    }
+                    Logger.info("Finished")
+                case .failure(let error):
+                    Logger.error(error.localizedDescription)
+                    self.isLoadingSubject.send(false)
+                    errorSubject.send(error)
+                }
+            } receiveValue: { [weak self] _ in
+                guard let self = self else {
+                    return
+                }
+                self.updateDatasource()
+                self.isCompletedSubject.send(true)
+            }
+            .store(in: &cancellables)
+    }
+    
 	func updateDatasource() {
 		getImageResource()
 		guard let user = userService.user else {
@@ -274,10 +295,14 @@ private extension UserSceneViewModel {
 			section: .list,
 			items: [])
 
-		let logoutButtonModel = LogoutButtonModel(buttonTitle: Localization.logout)
+        let logoutButtonModel = UserProfileButtonModel(buttonTitle: Localization.logout, buttonType: .logout)
+        let deleteAccountButtonModel = UserProfileButtonModel(buttonTitle: Localization.deleteAccount, buttonType: .deleteAccount)
 		let logoutSection = UserSection(
 			section: .logout,
-			items: [.plainWithButton(logoutButtonModel)])
+            items: [
+                .plainWithButton(logoutButtonModel),
+                .plainWithButton(deleteAccountButtonModel)
+            ])
 
 		userDataSection.items.append(.plainWithTextfield(userName))
 		_ = userSettings.map { item in
@@ -320,10 +345,14 @@ private extension UserSceneViewModel {
 
 		userDataSection.items = userSettings.map { .plainWithTextfield($0) }
 
-		let logoutButtonModel = LogoutButtonModel(buttonTitle: Localization.logout)
+        let logoutButtonModel = UserProfileButtonModel(buttonTitle: Localization.logout, buttonType: .logout)
+        let deleteAccountButtonModel = UserProfileButtonModel(buttonTitle: Localization.deleteAccount, buttonType: .deleteAccount)
 		let logoutSection = UserSection(
 			section: .logout,
-			items: [.plainWithButton(logoutButtonModel)])
+			items: [
+                .plainWithButton(logoutButtonModel),
+                .plainWithButton(deleteAccountButtonModel)
+            ])
 
 		sections = [userHeaderSection, userDataSection, logoutSection]
 	}
@@ -338,6 +367,64 @@ private extension UserSceneViewModel {
 		user.fastActingInsulin = userFastInsulin
 		return user
 	}
+    
+    func deleteAccountRequest() {
+        guard let userId = userService.user?.remoteId else {
+            return
+        }
+        isLoadingSubject.send(true)
+        userService.deleteUser(id: userId)
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self = self else {
+                    return
+                }
+                switch completion {
+                case .finished:
+                    Logger.info("Account deleted")
+                    self.userService.clear()
+                    self.transitionSubject.send(.success)
+                case .failure(let error):
+                    errorSubject.send(error)
+                    Logger.error(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] _ in
+                guard let self = self else {
+                    return
+                }
+                isLoadingSubject.send(false)
+            }
+            .store(in: &cancellables)
+    }
+    
+    func eraseAllDataRequest() {
+        guard let userId = userService.user?.remoteId else {
+            return
+        }
+        isLoadingSubject.send(true)
+        recordsService.deleteAllRecords(id: userId)
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self = self else {
+                    return
+                }
+                switch completion {
+                case .finished:
+                    Logger.info("Records deleted")
+                    deleteAccountRequest()
+                case .failure(let error):
+                    Logger.error(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] _ in
+                guard let self = self else {
+                    return
+                }
+                isLoadingSubject.send(false)
+            }
+            .store(in: &cancellables)
+    }
 }
 
 // MARK: - Constants
