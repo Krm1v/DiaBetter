@@ -128,24 +128,6 @@ internal class BaseViewController<VM: ViewModel>: UIViewController {
 		navigationController?.navigationBar.prefersLargeTitles = true
 		navigationController?.interactivePopGestureRecognizer?.delegate = nil
 		navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-
-		navigationController?.navigationBar.largeTitleTextAttributes = [
-			NSAttributedString.Key.foregroundColor: Colors.customPink.color,
-			NSAttributedString.Key.font: FontFamily.Montserrat.bold.font(size: Constants.largeFontSize)
-		]
-
-		navigationController?.navigationBar.titleTextAttributes = [
-			NSAttributedString.Key.foregroundColor: Colors.customPink.color,
-			NSAttributedString.Key.font: FontFamily.Montserrat.bold.font(size: Constants.regularFontSize)
-		]
-
-		let appearance = UINavigationBarAppearance()
-		let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
-		buttonAppearance.normal.titleTextAttributes = [
-			.foregroundColor: Colors.customPink.color
-		]
-		appearance.buttonAppearance = buttonAppearance
-		UINavigationBar.appearance().tintColor = Colors.customPink.color
 	}
 
 	// MARK: - Deinit

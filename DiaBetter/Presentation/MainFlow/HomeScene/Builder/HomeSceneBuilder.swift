@@ -14,8 +14,8 @@ enum HomeSceneTransition: Transition {
 final class HomeSceneModuleBuilder {
 	static func build(container: AppContainer) -> Module<HomeSceneTransition, UIViewController> {
 		let viewModel = HomeSceneViewModel(
-			recordService: container.recordsService,
-			userService: container.userService,
+            userService: container.userService,
+            recordsService: container.recordsService,
 			settingsService: container.settingsService,
 			unitsConvertManager: container.unitsConvertManager)
 		let viewController = HomeSceneViewController(viewModel: viewModel)

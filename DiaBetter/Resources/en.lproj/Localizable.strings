@@ -142,3 +142,5 @@
 "delete-account-alert" = "Are you sure you want to delete your account?";
 "delete-account-alert-message" = "This action can't be undo. This also will erase all your data";
 "yes" = "Yes";
+"average-glucose" = "Average glucose";
+"glucose-timeline" = "Glucose timeline";

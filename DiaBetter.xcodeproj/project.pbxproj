@@ -32,6 +32,7 @@
 		83940A46BF53DCCBC541ACAD /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BC8882D4A3148879B4DB4 /* BaseViewModel.swift */; };
 		839AC6682F2EC36367C5E321 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70F9FDBCE897E3B0BF3C056 /* UIView+Ext.swift */; };
 		86023DA12A2A681900D8B161 /* CustomActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86023DA02A2A681900D8B161 /* CustomActivityIndicator.swift */; };
+		860432442AD047B100E2E0B5 /* ReportChartsDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860432432AD047B100E2E0B5 /* ReportChartsDatasource.swift */; };
 		860AE90E29E8B496006CF2E1 /* Videos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860AE90D29E8B496006CF2E1 /* Videos.swift */; };
 		860AE91029E9BAE0006CF2E1 /* UIImageView+SetImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860AE90F29E9BAE0006CF2E1 /* UIImageView+SetImage.swift */; };
 		860AE91229E9C04D006CF2E1 /* UIApplication+OpenSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860AE91129E9C04D006CF2E1 /* UIApplication+OpenSettings.swift */; };
@@ -47,6 +48,10 @@
 		861FCA1029FA82D200743055 /* RecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861FCA0F29FA82D200743055 /* RecordModel.swift */; };
 		861FCA2829FA84D100743055 /* AddRecordCellModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861FCA2729FA84D100743055 /* AddRecordCellModels.swift */; };
 		862905AC2A03DA3300B729C0 /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862905AB2A03DA3300B729C0 /* PasswordTextField.swift */; };
+		862BE3612AD585EE00769635 /* ChartsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862BE3602AD585EE00769635 /* ChartsViewModel.swift */; };
+		862BE3642AD5B96200769635 /* AreaChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862BE3632AD5B96200769635 /* AreaChart.swift */; };
+		862BE3672AD6C40600769635 /* InsulinBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862BE3662AD6C40600769635 /* InsulinBarChart.swift */; };
+		862BE3692AD7FEC000769635 /* EmptyWidgetStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862BE3682AD7FEC000769635 /* EmptyWidgetStateView.swift */; };
 		862FF7012A2BE6EB001BE802 /* DiaryDetailSceneBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FF7002A2BE6EB001BE802 /* DiaryDetailSceneBuilder.swift */; };
 		862FF7052A2BE71B001BE802 /* DiaryDetailSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FF7042A2BE71B001BE802 /* DiaryDetailSceneView.swift */; };
 		862FF7092A2BE7C6001BE802 /* DiaryDetailSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862FF7082A2BE7C6001BE802 /* DiaryDetailSceneViewController.swift */; };
@@ -100,7 +105,6 @@
 		86665A9E29E076D700745331 /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86665A9D29E076D700745331 /* TokenStorage.swift */; };
 		86665AA029E0778D00745331 /* TokenPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86665A9F29E0778D00745331 /* TokenPlugin.swift */; };
 		86665AA229E0793300745331 /* ContentTypePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86665AA129E0793300745331 /* ContentTypePlugin.swift */; };
-		86665AB029E0922200745331 /* loginBackground.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86665AAF29E0920300745331 /* loginBackground.mp4 */; };
 		866AB6A62AA8AC5C005A5B0A /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866AB6A52AA8AC5C005A5B0A /* BarChart.swift */; };
 		866C140F29EE9F0F0029D770 /* Date+Timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866C140E29EE9F0F0029D770 /* Date+Timestamp.swift */; };
 		866C141329EEA4C20029D770 /* AddNewRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866C141229EEA4C20029D770 /* AddNewRecordView.swift */; };
@@ -127,8 +131,11 @@
 		8679A1A32A9CF04400885A5D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 8679A1A22A9CF04400885A5D /* Lottie */; };
 		8679A1A52A9CF1C600885A5D /* ActionCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8679A1A42A9CF1C600885A5D /* ActionCompletedView.swift */; };
 		8679A1A92A9CFC7500885A5D /* actionDone.json in Resources */ = {isa = PBXBuildFile; fileRef = 8679A1A82A9CFC7500885A5D /* actionDone.json */; };
+		86801D952ADF096D0059B722 /* AverageGlucoseWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86801D942ADF096D0059B722 /* AverageGlucoseWidget.swift */; };
+		86801D972ADF17070059B722 /* MinMaxGlucoseValuesWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86801D962ADF17070059B722 /* MinMaxGlucoseValuesWidget.swift */; };
 		86826A812A9E32F800F7A69B /* waves.json in Resources */ = {isa = PBXBuildFile; fileRef = 86826A802A9E32F800F7A69B /* waves.json */; };
 		86826A852AA0F2C500F7A69B /* UnitsConvertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86826A842AA0F2C500F7A69B /* UnitsConvertManager.swift */; };
+		86846B8B2ADDF98100C49AF1 /* loginBackground.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86846B8A2ADDF98100C49AF1 /* loginBackground.mp4 */; };
 		868FC8DABB7F9E307A73FD0D /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A3F26E42FA42232CBD936F /* AuthCoordinator.swift */; };
 		868FD8AA2A49B25300EAF87D /* AppSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FD8A92A49B25300EAF87D /* AppSettingsModel.swift */; };
 		868FD8AC2A4ED85900EAF87D /* UnitsSceneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868FD8AB2A4ED85800EAF87D /* UnitsSceneModel.swift */; };
@@ -309,6 +316,7 @@
 		7EAD39D2B3CD094529718CB8 /* Montserrat-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-BlackItalic.ttf"; sourceTree = "<group>"; };
 		8426DEB881571E3462BCD3F9 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		86023DA02A2A681900D8B161 /* CustomActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomActivityIndicator.swift; sourceTree = "<group>"; };
+		860432432AD047B100E2E0B5 /* ReportChartsDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportChartsDatasource.swift; sourceTree = "<group>"; };
 		860AE90D29E8B496006CF2E1 /* Videos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Videos.swift; sourceTree = "<group>"; };
 		860AE90F29E9BAE0006CF2E1 /* UIImageView+SetImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+SetImage.swift"; sourceTree = "<group>"; };
 		860AE91129E9C04D006CF2E1 /* UIApplication+OpenSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+OpenSettings.swift"; sourceTree = "<group>"; };
@@ -324,6 +332,10 @@
 		861FCA0F29FA82D200743055 /* RecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordModel.swift; sourceTree = "<group>"; };
 		861FCA2729FA84D100743055 /* AddRecordCellModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecordCellModels.swift; sourceTree = "<group>"; };
 		862905AB2A03DA3300B729C0 /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
+		862BE3602AD585EE00769635 /* ChartsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsViewModel.swift; sourceTree = "<group>"; };
+		862BE3632AD5B96200769635 /* AreaChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaChart.swift; sourceTree = "<group>"; };
+		862BE3662AD6C40600769635 /* InsulinBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsulinBarChart.swift; sourceTree = "<group>"; };
+		862BE3682AD7FEC000769635 /* EmptyWidgetStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyWidgetStateView.swift; sourceTree = "<group>"; };
 		862FF7002A2BE6EB001BE802 /* DiaryDetailSceneBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailSceneBuilder.swift; sourceTree = "<group>"; };
 		862FF7042A2BE71B001BE802 /* DiaryDetailSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailSceneView.swift; sourceTree = "<group>"; };
 		862FF7082A2BE7C6001BE802 /* DiaryDetailSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailSceneViewController.swift; sourceTree = "<group>"; };
@@ -377,7 +389,6 @@
 		86665A9D29E076D700745331 /* TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStorage.swift; sourceTree = "<group>"; };
 		86665A9F29E0778D00745331 /* TokenPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenPlugin.swift; sourceTree = "<group>"; };
 		86665AA129E0793300745331 /* ContentTypePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTypePlugin.swift; sourceTree = "<group>"; };
-		86665AAF29E0920300745331 /* loginBackground.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = loginBackground.mp4; sourceTree = "<group>"; };
 		866AB6A52AA8AC5C005A5B0A /* BarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
 		866C140E29EE9F0F0029D770 /* Date+Timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Timestamp.swift"; sourceTree = "<group>"; };
 		866C141229EEA4C20029D770 /* AddNewRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewRecordView.swift; sourceTree = "<group>"; };
@@ -403,8 +414,11 @@
 		8679A19F2A9CC7E500885A5D /* UserProfileButtonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileButtonModel.swift; sourceTree = "<group>"; };
 		8679A1A42A9CF1C600885A5D /* ActionCompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionCompletedView.swift; sourceTree = "<group>"; };
 		8679A1A82A9CFC7500885A5D /* actionDone.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = actionDone.json; sourceTree = "<group>"; };
+		86801D942ADF096D0059B722 /* AverageGlucoseWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageGlucoseWidget.swift; sourceTree = "<group>"; };
+		86801D962ADF17070059B722 /* MinMaxGlucoseValuesWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinMaxGlucoseValuesWidget.swift; sourceTree = "<group>"; };
 		86826A802A9E32F800F7A69B /* waves.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = waves.json; sourceTree = "<group>"; };
 		86826A842AA0F2C500F7A69B /* UnitsConvertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitsConvertManager.swift; sourceTree = "<group>"; };
+		86846B8A2ADDF98100C49AF1 /* loginBackground.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = loginBackground.mp4; sourceTree = "<group>"; };
 		868FD8A92A49B25300EAF87D /* AppSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsModel.swift; sourceTree = "<group>"; };
 		868FD8AB2A4ED85800EAF87D /* UnitsSceneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitsSceneModel.swift; sourceTree = "<group>"; };
 		868FD8B02A570A4000EAF87D /* DataSceneBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSceneBuilder.swift; sourceTree = "<group>"; };
@@ -633,7 +647,7 @@
 			children = (
 				1EFBD68A4DC9A763194AC113 /* BaseView.swift */,
 				5161A459CA355E851D2019AD /* BaseViewController.swift */,
-				F48BC8882D4A3148879B4DB4 /* BaseViewModel.swift */,
+				862BE3622AD5916B00769635 /* ViewModels */,
 				8EBA49D36093D9210C72E8D7 /* Module.swift */,
 				86B3729329C9F1600095C229 /* SectionModel.swift */,
 				86AE580329F1493D00A50F05 /* BaseCollectionViewCell.swift */,
@@ -717,6 +731,14 @@
 				8699F30829ACE4CE00705347 /* MainFlowCoordinators */,
 			);
 			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		860432452AD047B500E2E0B5 /* Datasource */ = {
+			isa = PBXGroup;
+			children = (
+				860432432AD047B100E2E0B5 /* ReportChartsDatasource.swift */,
+			);
+			path = Datasource;
 			sourceTree = "<group>";
 		};
 		8616564E2A866E6600D40AB7 /* Error */ = {
@@ -806,6 +828,7 @@
 			isa = PBXGroup;
 			children = (
 				861FCA1929FA835C00743055 /* ContentView */,
+				860432452AD047B500E2E0B5 /* Datasource */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -814,6 +837,7 @@
 			isa = PBXGroup;
 			children = (
 				8637ADE029BA188A00F14489 /* ReportSceneView.swift */,
+				862BE3652AD6C3D800769635 /* ChartViews */,
 			);
 			path = ContentView;
 			sourceTree = "<group>";
@@ -1151,6 +1175,27 @@
 			path = String;
 			sourceTree = "<group>";
 		};
+		862BE3622AD5916B00769635 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F48BC8882D4A3148879B4DB4 /* BaseViewModel.swift */,
+				862BE3602AD585EE00769635 /* ChartsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		862BE3652AD6C3D800769635 /* ChartViews */ = {
+			isa = PBXGroup;
+			children = (
+				862BE3632AD5B96200769635 /* AreaChart.swift */,
+				862BE3662AD6C40600769635 /* InsulinBarChart.swift */,
+				862BE3682AD7FEC000769635 /* EmptyWidgetStateView.swift */,
+				86801D942ADF096D0059B722 /* AverageGlucoseWidget.swift */,
+				86801D962ADF17070059B722 /* MinMaxGlucoseValuesWidget.swift */,
+			);
+			path = ChartViews;
+			sourceTree = "<group>";
+		};
 		862FF7022A2BE6EE001BE802 /* DiaryDetailScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -1292,10 +1337,10 @@
 				E054F9DD0877D01EE11868F9 /* MainTabBar */,
 				8699F33829B3D75A00705347 /* HomeScene */,
 				8637ADBF29B7609A00F14489 /* AddRecordScene */,
+				8637ADDB29BA17A300F14489 /* ReportScene */,
 				86D0A74529A3847D00980996 /* DiaryScene */,
 				862FF7022A2BE6EE001BE802 /* DiaryDetailScene */,
 				8699F33529B3D70A00705347 /* Settings */,
-				8637ADDB29BA17A300F14489 /* ReportScene */,
 			);
 			path = MainFlow;
 			sourceTree = "<group>";
@@ -1563,7 +1608,7 @@
 		866FCCE129E0AE2A00D7FCC5 /* Videos */ = {
 			isa = PBXGroup;
 			children = (
-				86665AAF29E0920300745331 /* loginBackground.mp4 */,
+				86846B8A2ADDF98100C49AF1 /* loginBackground.mp4 */,
 			);
 			name = Videos;
 			path = ../Videos;
@@ -2542,6 +2587,7 @@
 				5CB380DAD0BD540F029561F6 /* Assets.xcassets in Resources */,
 				778BB85C19F55116EDAE3062 /* Colors.xcassets in Resources */,
 				8B485601070C3D54BBE0F133 /* Localizable.strings in Resources */,
+				86846B8B2ADDF98100C49AF1 /* loginBackground.mp4 in Resources */,
 				DA2AB43D1016418242C47422 /* Montserrat-Black.ttf in Resources */,
 				E572A6D3B8378F07ADA35545 /* Montserrat-BlackItalic.ttf in Resources */,
 				CB7ABB361F38489B684D0E8F /* Montserrat-Bold.ttf in Resources */,
@@ -2560,7 +2606,6 @@
 				6D7BC40539EE887694D7C227 /* Montserrat-SemiBold.ttf in Resources */,
 				9F3E462C5D968986A1E3E4B1 /* Montserrat-SemiBoldItalic.ttf in Resources */,
 				8679A1A92A9CFC7500885A5D /* actionDone.json in Resources */,
-				86665AB029E0922200745331 /* loginBackground.mp4 in Resources */,
 				4CFCDA31261934515489738F /* Montserrat-Thin.ttf in Resources */,
 				876F342B3AB00CAA5E18648F /* Montserrat-ThinItalic.ttf in Resources */,
 			);
@@ -2619,6 +2664,7 @@
 				8634B77429ABE1FF00870B66 /* CreateUserProfileModuleBuilder.swift in Sources */,
 				ED1EF3530396C5E26B347865 /* AppConfiguration.swift in Sources */,
 				DADB49D021B24B407D7FDD2D /* AppContainer.swift in Sources */,
+				862BE3612AD585EE00769635 /* ChartsViewModel.swift in Sources */,
 				8631D8EC2A9E14B700AD4613 /* SplashScreenViewController.swift in Sources */,
 				86D0A73E299FA23900980996 /* UserSceneViewController.swift in Sources */,
 				8699F32A29B2986D00705347 /* SettingsTableView.swift in Sources */,
@@ -2652,6 +2698,7 @@
 				86B3CB392A2536F700D7AAC6 /* UserSceneModels.swift in Sources */,
 				86D0A75229A656CE00980996 /* User.swift in Sources */,
 				8699F32429B284C300705347 /* SettingsSceneView.swift in Sources */,
+				862BE3672AD6C40600769635 /* InsulinBarChart.swift in Sources */,
 				86AE580029F0611300A50F05 /* DatePickerCell.swift in Sources */,
 				86665AA229E0793300745331 /* ContentTypePlugin.swift in Sources */,
 				861EC86E2A93FAF70066F748 /* MainTabBar.swift in Sources */,
@@ -2714,6 +2761,7 @@
 				8699F31129B0B9A600705347 /* DataConverter.swift in Sources */,
 				866C141329EEA4C20029D770 /* AddNewRecordView.swift in Sources */,
 				8699F32829B2853700705347 /* SettingsSceneViewModel.swift in Sources */,
+				862BE3642AD5B96200769635 /* AreaChart.swift in Sources */,
 				86900815299D4D76001B672E /* UserSceneViewModel.swift in Sources */,
 				868FD8B12A570A4000EAF87D /* DataSceneBuilder.swift in Sources */,
 				86E6BBCA2A9E01DE0010FC4E /* UserNameTextField.swift in Sources */,
@@ -2721,6 +2769,7 @@
 				8679A19E2A9CC5A100885A5D /* LogoutButtonCell.swift in Sources */,
 				869BF7082A66E239000BD030 /* BackupSceneBuilder.swift in Sources */,
 				86900808299D4867001B672E /* UserEndpoint.swift in Sources */,
+				86801D952ADF096D0059B722 /* AverageGlucoseWidget.swift in Sources */,
 				8616564D2A866E4400D40AB7 /* APIErrorResponseModel.swift in Sources */,
 				86A518AB2A44930A00267A60 /* SettingsService.swift in Sources */,
 				8699F33129B2D9F300705347 /* SettingsTableViewDiffableDataSource.swift in Sources */,
@@ -2743,6 +2792,7 @@
 				86B3729A29CC6E500095C229 /* ImageAsset+Hashable.swift in Sources */,
 				86D0A74929A3868C00980996 /* DiarySceneViewController.swift in Sources */,
 				869BF7052A66B4B7000BD030 /* AppleHealthSectionFooter.swift in Sources */,
+				860432442AD047B100E2E0B5 /* ReportChartsDatasource.swift in Sources */,
 				86D0A740299FA28E00980996 /* UserSceneView.swift in Sources */,
 				86D0A75529A65FD400980996 /* UserNetworkService.swift in Sources */,
 				863FED712A360BB0004B48FF /* DiaryDetailDatasource.swift in Sources */,
@@ -2791,6 +2841,7 @@
 				8634B77229A9131600870B66 /* GradientedButton.swift in Sources */,
 				86A5D2042A436BA8006E9424 /* UnitsDatasource.swift in Sources */,
 				86A5D1EF2A40EF73006E9424 /* UIApplication+AppIcon.swift in Sources */,
+				86801D972ADF17070059B722 /* MinMaxGlucoseValuesWidget.swift in Sources */,
 				8634B77929ABE24000870B66 /* CreateUserProfileViewController.swift in Sources */,
 				86E73DCA2A1D4F1A00D34B96 /* ChartsModels.swift in Sources */,
 				8637ADCE29B7981600F14489 /* RecordsNetworkService.swift in Sources */,
@@ -2804,6 +2855,7 @@
 				8637ADDF29BA180000F14489 /* ReportViewController.swift in Sources */,
 				866E21C12A38A49400468486 /* NotificationsDiffableDatasource.swift in Sources */,
 				86A5D1ED2A40CF77006E9424 /* CreditsListCell.swift in Sources */,
+				862BE3692AD7FEC000769635 /* EmptyWidgetStateView.swift in Sources */,
 				866E21AE2A38851400468486 /* NotificationsSceneView.swift in Sources */,
 				86A5D20A2A437E6A006E9424 /* CarbsUnitsCell.swift in Sources */,
 				8696B74B2A30DA520094162D /* NotePresentationView.swift in Sources */,

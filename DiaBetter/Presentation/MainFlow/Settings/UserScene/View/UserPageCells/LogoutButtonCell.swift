@@ -43,8 +43,7 @@ private extension LogoutButtonCell {
 	func setupUI() {
 		addSubview(logoutButton, constraints: [
 			logoutButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-			logoutButton.heightAnchor.constraint(equalToConstant: 44),
-			logoutButton.widthAnchor.constraint(equalToConstant: self.frame.width / 3)
+			logoutButton.heightAnchor.constraint(equalToConstant: 44)
 		])
 		logoutButton.setTitleColor(Colors.customPink.color, for: .normal)
 	}

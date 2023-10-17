@@ -16,9 +16,9 @@ protocol UserService {
 	func clear()
 	func save(user: User)
 	func loginUser(with credentials: Login) -> AnyPublisher<User, Error>
-	func uploadUserProfilePhoto(data: MultipartDataItem) -> AnyPublisher<UserProfilePictureDomainModel, Error>
+    func uploadUserProfilePhoto(data: MultipartDataItem, userId: String) -> AnyPublisher<UserProfilePictureDomainModel, Error>
 	func logoutUser() -> AnyPublisher<Void, Error>
-	func deletePhoto(filename: String) -> AnyPublisher<Void, Error>
+    func deletePhoto(filename: String, userId: String) -> AnyPublisher<Void, Error>
 	func updateUser(user: User) -> AnyPublisher<User, Error>
 	func fetchUser(id: String) -> AnyPublisher<User, Error>
 	func createUser(_ user: User) -> AnyPublisher<Void, Error>
@@ -107,8 +107,8 @@ final class UserServiceImpl {
 			.eraseToAnyPublisher()
 	}
 
-	func uploadUserProfilePhoto(data: MultipartDataItem) -> AnyPublisher<UserProfilePictureDomainModel, Error> {
-		return userNetworkService.uploadUserProfilePhoto(data: data)
+    func uploadUserProfilePhoto(data: MultipartDataItem, userId: String) -> AnyPublisher<UserProfilePictureDomainModel, Error> {
+		return userNetworkService.uploadUserProfilePhoto(data: data, userId: userId)
 			.mapError { $0 as Error }
 			.map { response in
 				return UserProfilePictureDomainModel(response)
@@ -129,8 +129,8 @@ final class UserServiceImpl {
 			.eraseToAnyPublisher()
 	}
 
-	func deletePhoto(filename: String) -> AnyPublisher<Void, Error> {
-		return userNetworkService.deletePhoto(filename: filename)
+    func deletePhoto(filename: String, userId: String) -> AnyPublisher<Void, Error> {
+		return userNetworkService.deletePhoto(filename: filename, userId: userId)
 			.mapError { $0 as Error }
 			.eraseToAnyPublisher()
 	}

@@ -26,6 +26,8 @@ internal enum Localization {
   internal static let appleHealthConnect = Localization.tr("Localizable", "apple-health-connect", fallback: "Apple Health connect")
   /// Turn on to let DiaBetter connect with Apple Health to write and read data
   internal static let appleHealthFooterDescription = Localization.tr("Localizable", "apple-health-footer-description", fallback: "Turn on to let DiaBetter connect with Apple Health to write and read data")
+  /// Average glucose
+  internal static let averageGlucose = Localization.tr("Localizable", "average-glucose", fallback: "Average glucose")
   /// Back to login
   internal static let backToLogin = Localization.tr("Localizable", "back-to-login", fallback: "Back to login")
   /// Backup
@@ -144,6 +146,8 @@ internal enum Localization {
   internal static let glucoseReminderBody = Localization.tr("Localizable", "glucose-reminder-body", fallback: "It's time to make a measurement of glucose level")
   /// Don't forget to check your glucose level
   internal static let glucoseReminderName = Localization.tr("Localizable", "glucose-reminder-name", fallback: "Don't forget to check your glucose level")
+  /// Glucose timeline
+  internal static let glucoseTimeline = Localization.tr("Localizable", "glucose-timeline", fallback: "Glucose timeline")
   /// Glucose units
   internal static let glucoseUnits = Localization.tr("Localizable", "glucose-units", fallback: "Glucose units")
   /// Go to settings

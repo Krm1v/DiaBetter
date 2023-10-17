@@ -17,9 +17,8 @@ final class SplashScreenViewModel: BaseViewModel {
 	private let transitionSubject = PassthroughSubject<SplashScreenTransitions, Never>()
 
 	// MARK: - Init
-	init(userService: UserService) {
+    init(userService: UserService) {
 		self.userService = userService
-		super.init()
 	}
 
 	// MARK: - Overriden methods
@@ -33,11 +32,11 @@ private extension SplashScreenViewModel {
 	func checkAuthorization() {
 		switch userService.isAuthorized {
 		case true:
-			DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-				self.transitionSubject.send(.didFinish(status: .authorized))
+			DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.transitionSubject.send(.didFinish(status: .authorized))
 			}
 		case false:
-			DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+			DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
 				self.transitionSubject.send(.didFinish(status: .unauthorized))
 			}
 		}

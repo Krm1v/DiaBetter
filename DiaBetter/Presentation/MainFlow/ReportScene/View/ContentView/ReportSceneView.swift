@@ -5,36 +5,79 @@
 //  Created by Владислав Баранкевич on 09.03.2023.
 //
 
-import UIKit
+import SwiftUI
 import Combine
+import Charts
 
-final class ReportSceneView: BaseView {
-	// MARK: - UI Elements
-	private lazy var mockLabel = buildTitleLabel(with: "This screen is in progress now.", fontSize: 17)
-
-	// MARK: - Init
-	override init(frame: CGRect) {
-		super.init(frame: frame)
-		setupUI()
-	}
-
-	required init?(coder: NSCoder) {
-		super.init(coder: coder)
-		setupUI()
-	}
+struct ReportSceneView: View {
+    
+    @State var reportScenePropsModel: ReportSceneProps
+    @State var treshold: Double?
+    
+    var body: some View {
+        NavigationView {
+            
+            ScrollView {
+                VStack {
+                    createHeader(with: "Today's glucose")
+                    AreaChart(
+                        glucoseData: reportScenePropsModel.areaChartModel,
+                        treshold: treshold)
+                    .padding(.bottom)
+                    
+                    createHeader(with: "Glucose trends")
+            
+                    HStack {
+                        if reportScenePropsModel.averageGlucoseChartModel.glucoseValue.isEmpty {
+                            smallEmptyStateView
+                        } else {
+                            AverageGlucoseWidget(
+                                model: reportScenePropsModel.averageGlucoseChartModel)
+                            .frame(height: UIScreen.main.bounds.width / 5)
+                        }
+                        
+                        if reportScenePropsModel.minMaxGlucoseValueChartModel.minValue.isEmpty, reportScenePropsModel.minMaxGlucoseValueChartModel.maxValue.isEmpty {
+                            smallEmptyStateView
+                        } else {
+                            MinMaxGlucoseValuesWidget(
+                                model: reportScenePropsModel.minMaxGlucoseValueChartModel)
+                            .frame(height: UIScreen.main.bounds.width / 5)
+                        }
+                    }
+                    .padding(.bottom)
+                    
+                    createHeader(with: "Insulin")
+                    InsulinBarChart(
+                        insulinData: reportScenePropsModel.insulinBarChartModel)
+                }
+            }
+            .scrollIndicators(.hidden)
+            .navigationBarTitleDisplayMode(.large)
+            .navigationTitle(Localization.report)
+            .padding()
+        }
+    }
+    
+    private var smallEmptyStateView: EmptyWidgetStateView? {
+        return EmptyWidgetStateView(textMessage: "No data available")
+            .frame(height: UIScreen.main.bounds.width / 5) as? EmptyWidgetStateView
+    }
+    
+    func createHeader(with title: String) -> some View {
+        HStack {
+            Text(title)
+                .font(.custom(FontFamily.Montserrat.semiBold, size: 20))
+            
+            Spacer()
+        }
+    }
 }
 
-// MARK: - Private extension
-private extension ReportSceneView {
-	func setupUI() {
-		backgroundColor = .black
-		setupLayout()
-	}
-
-	func setupLayout() {
-		addSubview(mockLabel, constraints: [
-			mockLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-			mockLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
-		])
-	}
+struct ReportScenePreview: PreviewProvider {
+    static var previews: some View {
+        ReportSceneView(
+            reportScenePropsModel: .init(areaChartModel: .init(),
+                                         insulinBarChartModel: .init(),
+                                         averageGlucoseChartModel: .init(glucoseValue: "", glucoseUnit: ""), minMaxGlucoseValueChartModel: .init(minValue: "", maxValue: "")))
+    }
 }

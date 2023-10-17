@@ -14,8 +14,8 @@ enum UserEndpoint: Endpoint {
 	case fetchUser(id: String)
 	case restorePassword(userEmail: String)
 	case logout
-	case uploadPhoto(data: MultipartDataItem)
-	case deletePhoto(filename: String)
+    case uploadPhoto(data: MultipartDataItem, userId: String)
+    case deletePhoto(filename: String, userId: String)
 
 	// MARK: - Properties
 	var path: String? {
@@ -30,10 +30,10 @@ enum UserEndpoint: Endpoint {
 			return "/users/restorepassword/\(email)"
 		case .logout:
 			return "/users/logout"
-		case .uploadPhoto:
-			return "/files/Photos"
-		case .deletePhoto(let filename):
-			return "/files/Photos/\(filename)"
+		case .uploadPhoto(let data, let userId):
+            return "/files/images/users/\(userId)/\(data.fileName)"
+        case .deletePhoto(let filename, let userId):
+			return "/files/images/users/\(userId)/\(filename).jpeg"
 		}
 	}
 	var httpMethod: HTTPMethods {
@@ -69,7 +69,7 @@ enum UserEndpoint: Endpoint {
 			return .encodable(user)
 		case .delete, .restorePassword, .fetchUser, .logout, .deletePhoto:
 			return nil
-		case let .uploadPhoto(data):
+		case let .uploadPhoto(data, _):
 			return .multipartData([data])
 		}
 	}

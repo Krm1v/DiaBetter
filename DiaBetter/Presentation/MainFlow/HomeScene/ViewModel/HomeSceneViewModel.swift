@@ -8,44 +8,36 @@
 import Foundation
 import Combine
 
-final class HomeSceneViewModel: BaseViewModel {
+final class HomeSceneViewModel: ChartsViewModel {
 	typealias HomeSceneSection = SectionModel<ChartSection, ChartsItems>
 
 	// MARK: - Properties
-	private let recordService: RecordsService
-	private let userService: UserService
-	private let settingsService: SettingsService
-	private let unitsConvertManager: UnitsConvertManager
 	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
 	private let transitionSubject = PassthroughSubject<HomeSceneTransition, Never>()
 	private var lineChartState: LineChartState = .glucose
 	private var dateFilterState: WidgetFilterState = .day
-	private var currentSettings: AppSettingsModel?
-	private var modifiedRecords: [Record] = []
+    private var currentRecords: [Record] = []
 
 	@Published var sections: [HomeSceneSection] = []
-	@Published var records: [Record] = []
 
 	// MARK: - Init
-	init(
-		recordService: RecordsService,
-		userService: UserService,
-		settingsService: SettingsService,
-		unitsConvertManager: UnitsConvertManager
-	) {
-		self.recordService = recordService
-		self.userService = userService
-		self.settingsService = settingsService
-		self.unitsConvertManager = unitsConvertManager
+    init(
+        userService: UserService,
+        recordsService: RecordsService,
+        settingsService: SettingsService,
+        unitsConvertManager: UnitsConvertManager
+    ) {
+        super.init(
+            recordsService: recordsService,
+            userService: userService,
+            settingsService: settingsService,
+            unitsConvertManager: unitsConvertManager)
 	}
 
 	// MARK: - Overriden methods
 	override func onViewDidLoad() {
-		getCurrentSettings()
-	}
-
-	override func onViewWillAppear() {
-		fetchRecords()
+        super.onViewDidLoad()
+        getCurrentRecords()
 	}
 
 	// MARK: - Public methods
@@ -55,22 +47,21 @@ final class HomeSceneViewModel: BaseViewModel {
 
 	func didSelectLineChartState(_ state: LineChartState) {
 		self.lineChartState = state
-		updateDatasource()
+        updateDatasource(with: currentRecords)
 	}
 
 	func didSelectChartFilterState(_ filterState: WidgetFilterState) {
 		self.dateFilterState = filterState
-		updateDatasource()
+		updateDatasource(with: currentRecords)
 	}
 }
 
 // MARK: - Private extension
 private extension HomeSceneViewModel {
 	// MARK: - Datasource
-	func updateDatasource() {
-		let sortedRecords = modifiedRecords.sorted { $0.recordDate < $1.recordDate }
-
-		let barChartModel = buildBarChartCellModel(sortedRecords)
+    func updateDatasource(with records: [Record]) {
+        let modifiedRecords = modifiedRecords.sorted { $0.recordDate < $1.recordDate }
+		let barChartModel = buildBarChartCellModel(modifiedRecords)
 		let barChartSection = HomeSceneSection(
 			section: .barChart(nil),
 			items: [
@@ -85,7 +76,7 @@ private extension HomeSceneViewModel {
 			return
 		}
 
-		let averageGlucoseSectionModel = HomeSectionModel(title: "Average glucose")
+        let averageGlucoseSectionModel = HomeSectionModel(title: Localization.averageGlucose)
 		let averageGlucoseSection = HomeSceneSection(
 			section: .averageGlucose(averageGlucoseSectionModel),
 			items: [
@@ -94,7 +85,7 @@ private extension HomeSceneViewModel {
 				.averageGlucose(threeMonthGlucose)
 			])
 
-		let lineChartSectionModel = HomeSectionModel(title: "Glucose timeline")
+        let lineChartSectionModel = HomeSectionModel(title: Localization.glucoseTimeline)
 
 		sections = [
 			barChartSection,
@@ -115,35 +106,6 @@ private extension HomeSceneViewModel {
 			averageGlucoseSection,
 			lineChartSection
 		]
-	}
-
-	// MARK: - Network requests
-	func fetchRecords() {
-		guard let userId = userService.user?.remoteId else {
-			return
-		}
-		recordService.fetchRecords(userId: userId)
-			.subscribe(on: DispatchQueue.global())
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] completion in
-				guard let self = self else {
-					return
-				}
-				switch completion {
-				case .finished:
-					Logger.info("Finished")
-					self.updateDatasource()
-				case .failure(let error):
-					Logger.error(error.localizedDescription)
-					errorSubject.send(error)
-				}
-			} receiveValue: { [weak self] records in
-				guard let self = self else {
-					return
-				}
-				self.records = records
-			}
-			.store(in: &cancellables)
 	}
 
 	// MARK: - Setup charts model
@@ -241,47 +203,18 @@ private extension HomeSceneViewModel {
 		let sortedRecords = records.sorted { $0.recordDate < $1.recordDate }
 		let recordsSource = sortedRecords.filter { Date().isDateInRange($0.recordDate, .month, 1) }
 
-		var items: [LineChartItem] = recordsSource.compactMap { record in
+        let items: [LineChartItem] = recordsSource.compactMap { record in
 			if let glucose = record.glucoseLevel?.toDouble() {
 				return LineChartItem(date: record.recordDate, yValue: glucose)
 			} else {
 				return nil
 			}
 		}
-		let sortedValues = items.sorted { $0.yValue > $1.yValue }
 
 		return LineChartCellModel(items: items)
 	}
 
 	// MARK: - Helpers
-	func getCurrentSettings() {
-		let combinedData = Publishers.CombineLatest(settingsService.settingsPublisher, $records)
-		combinedData
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] settings, records in
-				guard let self = self else {
-					return
-				}
-				self.currentSettings = settings
-				self.modifiedRecords = records.compactMap({ record in
-					var modifiedRecord = record
-
-					if let glucose = record.glucoseLevel {
-						modifiedRecord.glucoseLevel = self.unitsConvertManager.convertRecordUnits(
-							glucoseValue: glucose)
-					}
-
-					if let carbs = record.meal {
-						modifiedRecord.meal = self.unitsConvertManager.convertRecordUnits(
-							carbs: carbs)
-					}
-					return modifiedRecord
-				})
-				updateDatasource()
-			}
-			.store(in: &cancellables)
-	}
-
 	func findAverageValue(from records: [Record], count: Int) -> Decimal {
 		let summaryValue = records.reduce(Decimal.zero) { partialResult, record in
 			guard let glucose = record.glucoseLevel else {
@@ -293,4 +226,17 @@ private extension HomeSceneViewModel {
 		let averageValue = summaryValue / Decimal(count)
 		return averageValue
 	}
+    
+    func getCurrentRecords() {
+        $modifiedRecords
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] modifiedRecords in
+                guard let self = self else {
+                    return
+                }
+                self.updateDatasource(with: modifiedRecords)
+                self.currentRecords = modifiedRecords
+            }
+            .store(in: &cancellables)
+    }
 }

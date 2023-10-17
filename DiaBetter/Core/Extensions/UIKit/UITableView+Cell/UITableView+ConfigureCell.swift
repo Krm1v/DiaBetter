@@ -14,7 +14,7 @@ extension UITableView {
 	) -> T {
 		guard let cell = dequeueReusableCell(withIdentifier: cellType.reuseID,
 											 for: indexPath) as? T else {
-			assert(false, "Error \(cellType)")
+			fatalError("Cell config error")
 		}
 		return cell
 	}

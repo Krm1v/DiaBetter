@@ -13,7 +13,7 @@ enum SplashScreenTransitions: Transition {
 
 final class SplashScreenBuilder {
 	static func build(container: AppContainer) -> Module<SplashScreenTransitions, UIViewController> {
-		let viewModel = SplashScreenViewModel(userService: container.userService)
+        let viewModel = SplashScreenViewModel(userService: container.userService)
 		let viewController = SplashScreenViewController(viewModel: viewModel)
 		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
 	}

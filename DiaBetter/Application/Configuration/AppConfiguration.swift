@@ -28,7 +28,7 @@ final class AppConfigurationImpl: AppConfiguration {
 
 	lazy var baseURL: URL = {
 		guard let url = URL(string: apiURL) else {
-			assert(false, "Invalid URL")
+            fatalError("BaseURL error")
 		}
 		let fullURL = url.appendingPathComponent(appId).appendingPathComponent(apiKey)
 
@@ -46,7 +46,7 @@ final class AppConfigurationImpl: AppConfiguration {
 			let apiURL = infoDict[Keys.BaseUrl] as? String,
             let environment = AppEnvironment(rawValue: environmentValue)
         else {
-			assert(false, "Config file error")
+			fatalError("AppConfiguration init error")
         }
 
         self.bundleId = bundleId

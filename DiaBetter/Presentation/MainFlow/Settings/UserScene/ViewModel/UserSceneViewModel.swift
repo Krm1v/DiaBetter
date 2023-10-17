@@ -54,7 +54,6 @@ final class UserSceneViewModel: BaseViewModel {
     
     func logout() {
         logoutUserRequest()
-        self.transitionSubject.send(.success)
     }
     
     func uploadImage() {
@@ -154,6 +153,7 @@ private extension UserSceneViewModel {
                 case .finished:
                     self.userService.clear()
                     self.isLoadingSubject.send(false)
+                    self.transitionSubject.send(.success)
                     Logger.info("Finished")
                 case .failure(let error):
                     Logger.error(error.localizedDescription)
@@ -167,16 +167,17 @@ private extension UserSceneViewModel {
     func uploadUserProfileImage() {
         guard
             let userImage = userImage,
-            var user = userService.user
+            var user = userService.user,
+            let userId = user.remoteId
         else {
             return
         }
         let uploadData = MultipartDataItem(
             data: userImage,
             attachmentKey: "",
-            fileName: Constants.basicUserProfileImageName)
+            fileName: Constants.basicUserProfileImageName + MimeTypes.jpeg)
 
-        userService.uploadUserProfilePhoto(data: uploadData)
+        userService.uploadUserProfilePhoto(data: uploadData, userId: userId)
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .sink { completion in
@@ -200,10 +201,13 @@ private extension UserSceneViewModel {
     }
 
     func deleteUserProfilePhoto() {
-        guard var user = userService.user else {
+        guard 
+            var user = userService.user,
+            let userId = user.remoteId
+        else {
             return
         }
-        userService.deletePhoto(filename: Constants.basicUserProfileImageName + MimeTypes.jpeg)
+        userService.deletePhoto(filename: Constants.basicUserProfileImageName, userId: userId)
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in

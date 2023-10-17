@@ -35,7 +35,11 @@ extension Endpoint {
 	var baseURL: URL? { return nil }
 
 	// MARK: - Methods
-	func buildRequest(baseURL: URL, encoder: JSONEncoder, plugins: [NetworkPlugin]) -> URLRequest? {
+	func buildRequest(
+        baseURL: URL,
+        encoder: JSONEncoder,
+        plugins: [NetworkPlugin]
+    ) -> URLRequest? {
 		var completedURL = self.baseURL ?? baseURL
 		guard let path = path else {
 			return nil

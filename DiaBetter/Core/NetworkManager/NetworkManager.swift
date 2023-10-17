@@ -52,7 +52,8 @@ final class NetworkManager: Requestable {
 private extension NetworkManager {
 	func handleError(_ output: URLSession.DataTaskPublisher.Output) -> AnyPublisher<Data, NetworkError> {
 		guard let httpResponse = output.response as? HTTPURLResponse else {
-			assert(false, "Response fail")
+            return Fail(error: NSError(domain: "Missing Feed URL", code: -10001, userInfo: nil) as! NetworkError)
+                .eraseToAnyPublisher()
 		}
 
 		switch httpResponse.statusCode {

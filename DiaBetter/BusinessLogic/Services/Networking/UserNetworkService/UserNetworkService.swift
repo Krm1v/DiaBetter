@@ -13,8 +13,8 @@ protocol UserNetworkService {
 	func deleteUser(with id: String) -> AnyPublisher<Void, NetworkError>
 	func restorePassword(for email: String) -> AnyPublisher<Void, NetworkError>
 	func logoutUser() -> AnyPublisher<Void, NetworkError>
-	func deletePhoto(filename: String) -> AnyPublisher<Void, NetworkError>
-	func uploadUserProfilePhoto(data: MultipartDataItem) -> AnyPublisher<UserProfilePictureResponse, NetworkError>
+    func deletePhoto(filename: String, userId: String) -> AnyPublisher<Void, NetworkError>
+    func uploadUserProfilePhoto(data: MultipartDataItem, userId: String) -> AnyPublisher<UserProfilePictureResponse, NetworkError>
 	func fetchUser(withId id: String) -> AnyPublisher<UserResponseModel, NetworkError>
 }
 
@@ -46,12 +46,12 @@ extension UserNetworkServiceImpl: UserNetworkService {
 		networkProvider.execute(endpoint: .logout)
 	}
 
-	func deletePhoto(filename: String) -> AnyPublisher<Void, NetworkError> {
-		networkProvider.execute(endpoint: .deletePhoto(filename: filename))
+    func deletePhoto(filename: String, userId: String) -> AnyPublisher<Void, NetworkError> {
+		networkProvider.execute(endpoint: .deletePhoto(filename: filename, userId: userId))
 	}
 
-	func uploadUserProfilePhoto(data: MultipartDataItem) -> AnyPublisher<UserProfilePictureResponse, NetworkError> {
-		networkProvider.execute(endpoint: .uploadPhoto(data: data), decodeType: UserProfilePictureResponse.self)
+    func uploadUserProfilePhoto(data: MultipartDataItem, userId: String) -> AnyPublisher<UserProfilePictureResponse, NetworkError> {
+		networkProvider.execute(endpoint: .uploadPhoto(data: data, userId: userId), decodeType: UserProfilePictureResponse.self)
 	}
 
 	func fetchUser(withId id: String) -> AnyPublisher<UserResponseModel, NetworkError> {

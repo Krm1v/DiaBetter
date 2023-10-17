@@ -63,7 +63,9 @@ extension RecordsNetworkServiceImpl: RecordsNetworkService {
 	}
 
 	func uploadRecords(records: [RecordRequestModel]) -> AnyPublisher<[String], NetworkError> {
-		return networkProvider.execute(endpoint: .bulkAddRecords(model: records), decodeType: [String].self)
+		return networkProvider.execute(
+            endpoint: .bulkAddRecords(model: records),
+            decodeType: [String].self)
 	}
 
 	func filterRecordsByDate(

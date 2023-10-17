@@ -58,29 +58,29 @@ struct BarChart: View {
 			.cornerRadius(7)
 
 			if let treshold {
-				RuleMark(y: .value("Theshold", treshold))
-					.lineStyle(StrokeStyle(lineWidth: 2))
-					.foregroundStyle(Color(uiColor: Colors.customDarkenPink.color))
-					.annotation(
-						position: .top,
-						alignment: .leading) {
+                RuleMark(y: .value("Theshold", treshold))
+                    .lineStyle(StrokeStyle(lineWidth: 2))
+                    .foregroundStyle(Color(uiColor: Colors.customDarkenPink.color))
+                    .annotation(
+                        position: .top,
+                        alignment: .topLeading) {
 
-						Text("\(treshold, specifier: "%.0f")")
-							.font(.custom(FontFamily.Montserrat.regular, size: 13))
-							.foregroundColor(.primary)
-							.background {
+                        Text("\(treshold, specifier: "%.0f")")
+                            .font(.custom(FontFamily.Montserrat.regular, size: 13))
+                            .foregroundColor(.primary)
+                            .background {
 
-								ZStack {
-									RoundedRectangle(cornerRadius: 8)
-										.fill(.background)
-									RoundedRectangle(cornerRadius: 8)
-										.fill(.quaternary.opacity(0.7))
-								}
-								.padding(.horizontal, -8)
-								.padding(.vertical, -4)
-							}
-							.padding(.bottom, 4)
-					}
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(.background)
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(.quaternary.opacity(0.7))
+                                }
+                                .padding(.horizontal, -8)
+                                .padding(.vertical, -4)
+                            }
+                            .padding(.bottom, 4)
+                    }
 			}
 		}
 		.chartYAxis(.visible)
