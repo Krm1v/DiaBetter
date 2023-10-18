@@ -416,6 +416,7 @@
 		8679A1A82A9CFC7500885A5D /* actionDone.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = actionDone.json; sourceTree = "<group>"; };
 		86801D942ADF096D0059B722 /* AverageGlucoseWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageGlucoseWidget.swift; sourceTree = "<group>"; };
 		86801D962ADF17070059B722 /* MinMaxGlucoseValuesWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinMaxGlucoseValuesWidget.swift; sourceTree = "<group>"; };
+		86801D982ADF2FFF0059B722 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		86826A802A9E32F800F7A69B /* waves.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = waves.json; sourceTree = "<group>"; };
 		86826A842AA0F2C500F7A69B /* UnitsConvertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitsConvertManager.swift; sourceTree = "<group>"; };
 		86846B8A2ADDF98100C49AF1 /* loginBackground.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = loginBackground.mp4; sourceTree = "<group>"; };
@@ -2562,6 +2563,7 @@
 			knownRegions = (
 				Base,
 				en,
+				uk,
 			);
 			mainGroup = 8AEB1C009827F8409A8145EA;
 			packageReferences = (
@@ -2918,6 +2920,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D77DD7A5AA5D2A7305D9C199 /* en */,
+				86801D982ADF2FFF0059B722 /* uk */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -2956,6 +2959,7 @@
 			baseConfigurationReference = DC2FAAACFCF40B0A47C63C4D /* Config-STG.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -3023,6 +3027,7 @@
 			baseConfigurationReference = DC2FAAACFCF40B0A47C63C4D /* Config-STG.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -3083,6 +3088,7 @@
 			baseConfigurationReference = BEEDB77CA59C87959C486275 /* Config-DEV.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -3195,6 +3201,7 @@
 			baseConfigurationReference = 932D03B1673A39BBA2B9CCD8 /* Config-PROD.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -3281,6 +3288,7 @@
 			baseConfigurationReference = BEEDB77CA59C87959C486275 /* Config-DEV.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -3348,6 +3356,7 @@
 			baseConfigurationReference = 932D03B1673A39BBA2B9CCD8 /* Config-PROD.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

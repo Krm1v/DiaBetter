@@ -54,7 +54,7 @@ struct ReportSceneView: View {
             .scrollIndicators(.hidden)
             .navigationBarTitleDisplayMode(.large)
             .navigationTitle(Localization.report)
-            .padding()
+            .padding([.leading, .trailing])
         }
     }
     

@@ -1,0 +1,145 @@
+/* 
+  Localizable.strings
+  MVVMSkeleton
+
+  Created by Roman Savchenko on 12.12.2021.
+  
+*/
+
+// Screen titles
+"home" = "Дім";
+"settings" = "Налаштування";
+
+// General
+"error" = "Помилка";
+"ok" = "Добре";
+"done" = "Готово";
+"cancel" = "Відміна";
+"choose-option" = "Оберіть опцію";
+"sign-up" = "Реєстрація";
+"sign-in" = "Вхід";
+"skip" = "Пропустити";
+"name" = "Імʼя";
+"email" = "Електронна пошта";
+"password" = "Пароль";
+"confirm-password" = "Підтвердіть пароль";
+"detail" = "Детально";
+"logout" = "Вихід";
+"search" = "Пошук";
+"enter-your-email" = "Введіть адресу електронної пошти";
+"enter-your-password" = "Введіть пароль";
+"login" = "Вхід";
+"restore-password" = "Скинути пароль";
+"create-account" = "Створити обліковий запис";
+"country" = "Країна";
+"diabets-type" = "Тип діабету";
+"fast-acting-insulin" = "Болюсний інсулін";
+"basal-insulin" = "Базальний інсулін";
+"enter-your-name" = "Введіть своє імʼя";
+"enter-your-country" = "Вкажіть свою країну";
+"back-to-login" = "Повернутись до екрану входу";
+"edit" = "Редагувати";
+"user-profile" = "Профіль користувача";
+"change-photo" = "Змінити фотографію";
+"delete-photo" = "Видалити фотографію";
+"delete" = "Видалити";
+"report" = "Звіт";
+"general" = "Загальні";
+"customization" = "Персоналізація";
+"about" = "Про застосунок";
+"user" = "Користувач";
+"notifications" = "Нагадування";
+"data" = "Дані";
+"units" = "Одиниці вимірювань";
+"app-icon" = "Іконка застосунку";
+"credits" = "Контакти";
+"rate-the-app" = "Оцінити застосунок";
+"send-feedback" = "Надіслати фідбек";
+"show-onboarding" = "Показати онбордінг";
+"diary" = "Щоденник";
+"add-new-record" = "Додати новий запис";
+"close" = "Закрити";
+"save" = "Зберегти";
+"glucose" = "Глюкоза";
+"meal" = "Вуглеводи";
+"insulin" = "Інсулін";
+"notes" = "Нотатки";
+"access-denied" = "Відмовлено в доступі";
+"photoLibraryPermissionsMessage" = "Ви маєте надати доступ застосунку до фото медіатеки щоб мати змогу вибрати фото для профілю користувача.";
+"go-to-settings" = "Перейти в налаштування";
+"how-do-you-feel" = "Як Ви себе почуваєте?";
+"date" = "Дата";
+"password-description" = "Пароль має містити мінімум 8 символів, одну велику літеру, одну цифру та один спеціальний символ.";
+"insulin-usage" = "Використання інсуліну";
+"glucose-level" = "Рівень глюкози";
+"app-title" = "DiaBetter";
+"reset-password-title" = "Пароль було успішно скинуто";
+"reset-password-message" = "Ваш новий пароль було надіслано на Вашу електронну пошту.";
+"reset-password-description" = "Введіть Вашу електронну адресу, яка була використана для реєстрації і новий пароль буде надіслано негайно.";
+"login-validation-error-description" = "Невірна адреса електронної пошти або пароль. Перевірте Ваші дані для входу і спробуйте, будь ласка, ще раз.";
+"create-account-validation-error-description" = "Введіть адресу електронної пошти або пароль у вірному форматі.";
+"add-new-record-error-description" = "Ваші дані пусті. Заповніть як мінімум одне поле, окрім поле з нотатками.";
+"notification-access-denied-message" = "DiaBetter потребує доступу до пуш повідомлень. Будь ласка, увімкніть повідомлення в системних налаштуваннях.";
+"check-glucose-level" = "Перевірити рівень глюкози";
+"insulin-injection" = "Інʼєкція інсуліну";
+"have meal" = "Прийняти вуглеводи";
+"morning" = "Ранок";
+"day" = "День";
+"evening" = "Вечір";
+"enable-or-disable-notifications" = "Увімкнути чи вимкнути нагадування";
+"choose-reminders" = "Оберіть потрібні Вам нагадування";
+"target-glucose" = "Цільовий рівень глюкози";
+"glucose-units" = "Одиниці вимірювання глюкози";
+"carbohydrates" = "Вуглеводи";
+"min" = "Мін";
+"max" = "Макс";
+"glucose-reminder-name" = "Не забудьте перевірити поточний рівень глюкози";
+"glucose-reminder-body" = "Саме час виміряти рівень глюкози в крові!";
+"insulin-reminder-name" = "Не забудьте зробити інʼєкцію інсуліну";
+"insulin-reminder-body" = "Контролюйте свій діабет. Дуже важливо робити інʼєкції інсуліну вчасно.";
+"meal-reminder-name" = "Саме час вжити трошки вуглеводів!";
+"meal-reminder-body" = "Зробіть легкий перекус щоб тримати Ваш рівень глюкози в нормі.";
+
+"visit-website" = "Відвідати вебсайт";
+"follow-instagram" = "Стежте за нами в Instagram";
+"follow-twitter" = "Стежте за нами в Twitter";
+"follow-fb" = "Стежте за нами в Facebook";
+"follow-linkedIn" = "Стежте за нами в LinkedIn";
+"terms-and-conditions" = "Умови і положення";
+"privacy-policy" = "Політика конфіденційності";
+
+//Backup scene
+"backup" = "Резервне копіювання";
+"start-date" = "Початкова дата";
+"end-date" = "Кінцева дата";
+"backup-all-data" = "Зробити резервну копію всіх даних";
+"pick-date-range-footer-text" = "Оберіть часовий діапазон в якому Ви хочете зробити резервне копіювання, або оберіть всі дані.";
+"create-backup" = "Створити резервну копію";
+"share-data" = "Поширити дані";
+"backup-or-share-footer-text" = "Зробіть резервну копію даних на пристрої чи поділіться даними зі своїм лікарем.";
+"erase-all-data" = "Стерти всі дані";
+"erase-data-footer-text" = "Ви можете стерти всі свої дані. Ця операція не може бути скасована.";
+"apple-health-connect" = "Зʼєднатись з Apple Health";
+"apple-health-footer-description" = "Увімкніть, щоб дозволити DiaBetter зʼєднатись з програмою Здоровʼя для обміну даними.";
+
+"import" = "Імпорт";
+"wrong-backup-error-description" = "Невірні дані. Ця резервна копія не належить цьому обліковому запису.";
+"backup-data-in-range" = "Зробити резервну копію даних у вибраному часовому діапазоні";
+"share-data-in-range" = "Поширити дані в часовому діапазоні";
+"share-all-data" = "Поширити всі дані";
+"deletion-all-data-warning" = "Ви дійсно впевнені, що хочете видалити всі дані?";
+"deletion-all-data-description" = "Ця операція не може бути скасована.";
+"records-email-subject" = "Дані записів";
+"data-deleted-message" = "Всі Ваші дані успішно видалено";
+"shared-file-name" = "Записи";
+"sharing-title-text" = "Це мої записи із щоденнику діабету.";
+
+// EditRecord Scene
+"delete-record-title" = "Ви впевнені, що хочете видалити цей запис?";
+"delete-record-message" = "Ця операція не може бути скасована.";
+"delete-account" = "Видалити обліковий запис";
+"delete-account-alert" = "Ви впевнені, що хочете видалити Ваш обліковий запис?";
+"delete-account-alert-message" = "Ця операція не може бути скасована. Це також видалить всі Ваші дані.";
+"yes" = "Так";
+"average-glucose" = "Середній рівень глюкози";
+"glucose-timeline" = "Динаміка змін рівня глюкози";
