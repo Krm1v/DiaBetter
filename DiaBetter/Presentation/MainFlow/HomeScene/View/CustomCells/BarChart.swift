@@ -89,9 +89,9 @@ struct BarChart: View {
 
 	private var picker: some View {
 		Picker("PickerContent", selection: $pickerState) {
-			Text("Glucose").tag(LineChartState.glucose)
-			Text("Carbs").tag(LineChartState.meal)
-			Text("Insulin").tag(LineChartState.insulin)
+            Text(LineChartState.glucose.title).tag(LineChartState.glucose)
+            Text(LineChartState.meal.title).tag(LineChartState.meal)
+            Text(LineChartState.insulin.title).tag(LineChartState.insulin)
 		}
 		.pickerStyle(.segmented)
 		.onChange(of: pickerState) { newValue in

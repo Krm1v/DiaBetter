@@ -16,9 +16,9 @@ struct AreaChart: View {
     
     var body: some View {
         if glucoseData.isEmpty {
-            EmptyWidgetStateView(textMessage: "No data available")
+            EmptyWidgetStateView(textMessage: Localization.noDataAvailable)
         } else if glucoseData.count == 1 {
-            EmptyWidgetStateView(textMessage: "No enought data. Add some more results to see your report.")
+            EmptyWidgetStateView(textMessage: Localization.notEnoughData)
         } else {
             Chart(glucoseData) { element in
                 AreaMark(

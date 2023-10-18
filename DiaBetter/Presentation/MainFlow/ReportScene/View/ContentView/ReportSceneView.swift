@@ -19,14 +19,16 @@ struct ReportSceneView: View {
             
             ScrollView {
                 VStack {
-                    createHeader(with: "Today's glucose")
+                    createHeader(with: Localization.todayGlucose)
+                        .padding(.bottom, 8)
                     AreaChart(
                         glucoseData: reportScenePropsModel.areaChartModel,
                         treshold: treshold)
                     .padding(.bottom)
                     
-                    createHeader(with: "Glucose trends")
-            
+                    createHeader(with: Localization.glucoseTrends)
+                        .padding(.bottom, 8)
+                    
                     HStack {
                         if reportScenePropsModel.averageGlucoseChartModel.glucoseValue.isEmpty {
                             smallEmptyStateView
@@ -46,20 +48,22 @@ struct ReportSceneView: View {
                     }
                     .padding(.bottom)
                     
-                    createHeader(with: "Insulin")
+                    createHeader(with: Localization.insulinUsage)
+                        .padding(.bottom, 8)
+                    
                     InsulinBarChart(
                         insulinData: reportScenePropsModel.insulinBarChartModel)
                 }
             }
             .scrollIndicators(.hidden)
             .navigationBarTitleDisplayMode(.large)
-            .navigationTitle(Localization.report)
+            .navigationTitle(Localization.today)
             .padding([.leading, .trailing])
         }
     }
     
     private var smallEmptyStateView: EmptyWidgetStateView? {
-        return EmptyWidgetStateView(textMessage: "No data available")
+        return EmptyWidgetStateView(textMessage: Localization.noDataAvailable)
             .frame(height: UIScreen.main.bounds.width / 5) as? EmptyWidgetStateView
     }
     

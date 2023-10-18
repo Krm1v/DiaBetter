@@ -14,8 +14,7 @@ struct AverageGlucoseWidget: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12)
-                .foregroundStyle(Color(uiColor: model.dotColor))
-                .shadow(color: Color(uiColor: model.dotColor), radius: 5, x: 0, y: 0)
+                .foregroundStyle(Color.white)
                 .overlay {
                     
                     RoundedRectangle.init(cornerRadius: 12)
@@ -28,7 +27,7 @@ struct AverageGlucoseWidget: View {
                                         
                                         Spacer()
                                         
-                                        Text("Average glucose")
+                                        Text(Localization.averageGlucose)
                                             .font(.custom(FontFamily.Montserrat.regular.name, size: 17))
                                         
                                         Circle()

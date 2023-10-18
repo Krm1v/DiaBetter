@@ -8,6 +8,7 @@
 
 // Screen titles
 "home" = "Home";
+"today" = "Today";
 "settings" = "Settings";
 
 // General
@@ -144,3 +145,23 @@
 "yes" = "Yes";
 "average-glucose" = "Average glucose";
 "glucose-timeline" = "Glucose timeline";
+
+// Today report
+"today-glucose" = "Today's glucose";
+"glucose-trends" = "Glucose trends";
+"no-data-available" = "No data available";
+"not-enough-data" = "Not enough data. Add some more results to see your report.";
+"lowest-today" = "Lowest today";
+"highest-today" = "Highest today";
+
+// Home scene
+"overall" = "Overall";
+"week" = "Week";
+"3m" = "3 m.";
+
+// Units scene
+"grams" = "Grams";
+"bread-units" = "Bread units(12g)";
+"grams-shortened" = "g.";
+"bread-units-shortened" = "BU";
+"loading" = "Loading...";

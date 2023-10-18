@@ -434,5 +434,5 @@ private extension UserSceneViewModel {
 // MARK: - Constants
 private enum Constants {
 	static let basicUserProfileImageName = "userProfileImage"
-	static let loadingTitle = "Loading..."
+    static let loadingTitle = Localization.loading
 }

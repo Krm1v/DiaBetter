@@ -178,7 +178,7 @@ private extension BackupSceneView {
 	func makeSectionFooter() -> NSCollectionLayoutBoundarySupplementaryItem {
 		let footerSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .fractionalWidth(0.05))
+			heightDimension: .fractionalWidth(0.1))
 
 		let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
 			layoutSize: footerSize,

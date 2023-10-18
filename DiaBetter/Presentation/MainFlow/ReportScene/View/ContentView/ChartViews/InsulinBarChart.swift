@@ -14,7 +14,7 @@ struct InsulinBarChart: View {
     
     var body: some View {
         if insulinData.isEmpty {
-            EmptyWidgetStateView(textMessage: "No data available")
+            EmptyWidgetStateView(textMessage: Localization.noDataAvailable)
         } else {
             Chart(insulinData) { insulinItems in
                 ForEach(insulinItems.data) {

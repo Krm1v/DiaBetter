@@ -24,7 +24,7 @@ struct MinMaxGlucoseValuesWidget: View {
                                 
                                 HStack {
                                     Spacer()
-                                    Text("Lowest today: \(model.minValue)")
+                                    Text("\(Localization.lowestToday): \(model.minValue)")
                                     Spacer()
                                 }
                                 
@@ -35,7 +35,7 @@ struct MinMaxGlucoseValuesWidget: View {
                                 
                                 HStack {
                                     Spacer()
-                                    Text("Highest today: \(model.maxValue)")
+                                    Text("\(Localization.highestToday): \(model.maxValue)")
                                     Spacer()
                                 }
                             }

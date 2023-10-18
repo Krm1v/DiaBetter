@@ -31,15 +31,15 @@ enum SettingsUnits {
 
 		var description: String {
 			switch self {
-			case .grams: 	  return "Grams"
-			case .breadUnits: return "Bread units(12g)"
+            case .grams: 	  return Localization.grams
+            case .breadUnits: return Localization.breadUnits
 			}
 		}
 
 		var title: String {
 			switch self {
-			case .grams: 	  return "g."
-			case .breadUnits: return "BU"
+            case .grams: 	  return Localization.gramsShortened
+            case .breadUnits: return Localization.breadUnitsShortened
 			}
 		}
 	}

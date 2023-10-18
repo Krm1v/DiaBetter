@@ -112,9 +112,9 @@ enum AverageGlucosePeriods: Hashable {
 
 	var title: String {
 		switch self {
-		case .overall: return "Overall"
-		case .week: return "Week"
-		case .threeMonth: return "3 m."
+        case .overall: return Localization.overall
+        case .week: return Localization.week
+        case .threeMonth: return Localization._3m
 		}
 	}
 }

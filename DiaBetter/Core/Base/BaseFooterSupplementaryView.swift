@@ -35,7 +35,7 @@ private extension BaseFooterSupplementaryView {
 		addSubs()
 		titleLabel.text = titleText
 		titleLabel.textColor = .systemGray
-		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
+		titleLabel.font = FontFamily.Montserrat.regular.font(size: 13)
 		titleLabel.numberOfLines = .zero
 	}
 

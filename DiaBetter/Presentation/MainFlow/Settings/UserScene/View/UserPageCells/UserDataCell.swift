@@ -48,6 +48,7 @@ private extension UserDataCell {
 		addSubs()
 		titleLabel.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelDefaultFontSize)
 		userTextField.font = FontFamily.Montserrat.regular.font(size: Constants.userTextFieldDefaultFontSize)
+        userTextField.textAlignment = .right
 	}
 
 	func addSubs() {

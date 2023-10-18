@@ -8,6 +8,7 @@
 
 // Screen titles
 "home" = "Дім";
+"today" = "Сьогодні";
 "settings" = "Налаштування";
 
 // General
@@ -89,7 +90,7 @@
 "enable-or-disable-notifications" = "Увімкнути чи вимкнути нагадування";
 "choose-reminders" = "Оберіть потрібні Вам нагадування";
 "target-glucose" = "Цільовий рівень глюкози";
-"glucose-units" = "Одиниці вимірювання глюкози";
+"glucose-units" = "Формат глюкози";
 "carbohydrates" = "Вуглеводи";
 "min" = "Мін";
 "max" = "Макс";
@@ -121,7 +122,6 @@
 "erase-data-footer-text" = "Ви можете стерти всі свої дані. Ця операція не може бути скасована.";
 "apple-health-connect" = "Зʼєднатись з Apple Health";
 "apple-health-footer-description" = "Увімкніть, щоб дозволити DiaBetter зʼєднатись з програмою Здоровʼя для обміну даними.";
-
 "import" = "Імпорт";
 "wrong-backup-error-description" = "Невірні дані. Ця резервна копія не належить цьому обліковому запису.";
 "backup-data-in-range" = "Зробити резервну копію даних у вибраному часовому діапазоні";
@@ -143,3 +143,23 @@
 "yes" = "Так";
 "average-glucose" = "Середній рівень глюкози";
 "glucose-timeline" = "Динаміка змін рівня глюкози";
+
+// Today report
+"today-glucose" = "Рівень глюкози за сьогодні";
+"glucose-trends" = "Тренди рівня глюкози";
+"no-data-available" = "Немає даних";
+"not-enough-data" = "Не достатньо даних. Додайте більше результатів щоб побачити Ваш звіт.";
+"lowest-today" = "Найнищій сьогодні";
+"highest-today" = "Найвищій сьогодні";
+
+// Home scene
+"overall" = "Всього";
+"week" = "Тиждень";
+"3m" = "3 м.";
+
+// Units scene
+"grams" = "Грами";
+"bread-units" = "Хлібні одиниці(12г)";
+"grams-shortened" = "г.";
+"bread-units-shortened" = "ХО";
+"loading" = "Завантаження...";

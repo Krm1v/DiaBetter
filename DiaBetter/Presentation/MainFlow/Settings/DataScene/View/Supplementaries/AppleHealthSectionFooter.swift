@@ -28,16 +28,17 @@ private extension AppleHealthSectionFooter {
 	func setupUI() {
 		addSubs()
 		titleLabel.textColor = .systemGray
-		titleLabel.font = FontFamily.Montserrat.regular.font(size: 15)
-		titleLabel.numberOfLines = .zero
+		titleLabel.font = FontFamily.Montserrat.regular.font(size: 13)
+		titleLabel.numberOfLines = 0
 	}
 
 	func addSubs() {
-		addSubview(titleLabel, withEdgeInsets: .init(
-			top: .zero,
-			left: 16,
-			bottom: .zero,
-			right: 16))
+        addSubview(titleLabel, constraints: [
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+                                                constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor,
+                                                 constant: -16)
+        ])
 	}
 }
 

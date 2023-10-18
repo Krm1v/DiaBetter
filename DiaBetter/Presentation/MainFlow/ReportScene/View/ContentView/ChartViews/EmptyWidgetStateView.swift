@@ -32,6 +32,6 @@ struct EmptyWidgetStateView: View {
 
 struct EmptyWidgetStateView_Preview: PreviewProvider {
     static var previews: some View {
-        EmptyWidgetStateView(textMessage: "No data available")
+        EmptyWidgetStateView(textMessage: Localization.noDataAvailable)
     }
 }
