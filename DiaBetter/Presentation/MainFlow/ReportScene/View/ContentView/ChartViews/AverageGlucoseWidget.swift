@@ -25,21 +25,20 @@ struct AverageGlucoseWidget: View {
                                 VStack {
                                     HStack {
                                         
-                                        Spacer()
-                                        
                                         Text(Localization.averageGlucose)
                                             .font(.custom(FontFamily.Montserrat.regular.name, size: 17))
+                                            .minimumScaleFactor(0.5)
+                                            .padding(.leading, 8)
                                         
                                         Circle()
                                             .fill(Color(uiColor: model.dotColor))
                                             .frame(width: 15, height: 15)
-                                        
-                                        Spacer()
+                                            .padding(.trailing, 8)
                                     }
                                     .padding(.bottom, 8)
                                     
                                     Text("\(model.glucoseValue)  \(model.glucoseUnit)")
-                                        .font(.custom(FontFamily.Montserrat.regular.name, size: 20))
+                                        .font(.custom(FontFamily.Montserrat.regular.name, size: 17))
                                 }
                             }
                         }

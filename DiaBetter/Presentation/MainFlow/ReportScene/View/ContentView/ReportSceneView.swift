@@ -20,36 +20,28 @@ struct ReportSceneView: View {
             ScrollView {
                 VStack {
                     createHeader(with: Localization.todayGlucose)
-                        .padding(.bottom, 8)
+                        .padding(.bottom)
                     AreaChart(
                         glucoseData: reportScenePropsModel.areaChartModel,
                         treshold: treshold)
                     .padding(.bottom)
                     
                     createHeader(with: Localization.glucoseTrends)
-                        .padding(.bottom, 8)
+                        .padding(.bottom)
                     
                     HStack {
-                        if reportScenePropsModel.averageGlucoseChartModel.glucoseValue.isEmpty {
-                            smallEmptyStateView
-                        } else {
-                            AverageGlucoseWidget(
-                                model: reportScenePropsModel.averageGlucoseChartModel)
-                            .frame(height: UIScreen.main.bounds.width / 5)
-                        }
+                        AverageGlucoseWidget(
+                            model: reportScenePropsModel.averageGlucoseChartModel)
+                        .frame(height: UIScreen.main.bounds.width / 5)
                         
-                        if reportScenePropsModel.minMaxGlucoseValueChartModel.minValue.isEmpty, reportScenePropsModel.minMaxGlucoseValueChartModel.maxValue.isEmpty {
-                            smallEmptyStateView
-                        } else {
-                            MinMaxGlucoseValuesWidget(
-                                model: reportScenePropsModel.minMaxGlucoseValueChartModel)
-                            .frame(height: UIScreen.main.bounds.width / 5)
-                        }
+                        MinMaxGlucoseValuesWidget(
+                            model: reportScenePropsModel.minMaxGlucoseValueChartModel)
+                        .frame(height: UIScreen.main.bounds.width / 5)
                     }
                     .padding(.bottom)
                     
                     createHeader(with: Localization.insulinUsage)
-                        .padding(.bottom, 8)
+                        .padding(.bottom)
                     
                     InsulinBarChart(
                         insulinData: reportScenePropsModel.insulinBarChartModel)
@@ -62,12 +54,7 @@ struct ReportSceneView: View {
         }
     }
     
-    private var smallEmptyStateView: EmptyWidgetStateView? {
-        return EmptyWidgetStateView(textMessage: Localization.noDataAvailable)
-            .frame(height: UIScreen.main.bounds.width / 5) as? EmptyWidgetStateView
-    }
-    
-    func createHeader(with title: String) -> some View {
+    private func createHeader(with title: String) -> some View {
         HStack {
             Text(title)
                 .font(.custom(FontFamily.Montserrat.semiBold, size: 20))
