@@ -127,7 +127,7 @@ private extension ReportViewModel {
             return
         }
         
-        var minMaxGlucoseValueChartModel = TodayMinMaxGlucoseValuesChartModel(
+        let minMaxGlucoseValueChartModel = TodayMinMaxGlucoseValuesChartModel(
             minValue: minValue,
             maxValue: maxValue)
         

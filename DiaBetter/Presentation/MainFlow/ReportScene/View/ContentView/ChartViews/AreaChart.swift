@@ -49,7 +49,7 @@ struct AreaChart: View {
                                     .padding(.horizontal, -8)
                                     .padding(.vertical, -4)
                                 }
-                                .padding(.bottom, 4)
+                                .padding(.leading)
                         }
                 }
             }

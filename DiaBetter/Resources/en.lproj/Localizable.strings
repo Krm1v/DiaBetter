@@ -157,7 +157,10 @@
 // Home scene
 "overall" = "Overall";
 "week" = "Week";
-"3m" = "3 m.";
+"3m" = "Last 3 month";
+"last-seven-days-glucose" = "Last 7 days glucose";
+"not-in-range" = "Not in range";
+"in-range" = "In range";
 
 // Units scene
 "grams" = "Grams";

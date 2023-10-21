@@ -10,8 +10,8 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum Localization {
-  /// 3 m.
-  internal static let _3m = Localization.tr("Localizable", "3m", fallback: "3 m.")
+  /// Last 3 month
+  internal static let _3m = Localization.tr("Localizable", "3m", fallback: "Last 3 month")
   /// About
   internal static let about = Localization.tr("Localizable", "about", fallback: "About")
   /// Access denied
@@ -177,6 +177,8 @@ internal enum Localization {
   internal static let howDoYouFeel = Localization.tr("Localizable", "how-do-you-feel", fallback: "How do you feel?")
   /// Import
   internal static let `import` = Localization.tr("Localizable", "import", fallback: "Import")
+  /// In range
+  internal static let inRange = Localization.tr("Localizable", "in-range", fallback: "In range")
   /// Insulin
   internal static let insulin = Localization.tr("Localizable", "insulin", fallback: "Insulin")
   /// Insulin injection
@@ -187,6 +189,8 @@ internal enum Localization {
   internal static let insulinReminderName = Localization.tr("Localizable", "insulin-reminder-name", fallback: "Don't forget to make an insulin injection")
   /// Insulin usage
   internal static let insulinUsage = Localization.tr("Localizable", "insulin-usage", fallback: "Insulin usage")
+  /// Last 7 days glucose
+  internal static let lastSevenDaysGlucose = Localization.tr("Localizable", "last-seven-days-glucose", fallback: "Last 7 days glucose")
   /// Loading...
   internal static let loading = Localization.tr("Localizable", "loading", fallback: "Loading...")
   /// Login
@@ -215,6 +219,8 @@ internal enum Localization {
   internal static let noDataAvailable = Localization.tr("Localizable", "no-data-available", fallback: "No data available")
   /// Not enough data. Add some more results to see your report.
   internal static let notEnoughData = Localization.tr("Localizable", "not-enough-data", fallback: "Not enough data. Add some more results to see your report.")
+  /// Not in range
+  internal static let notInRange = Localization.tr("Localizable", "not-in-range", fallback: "Not in range")
   /// Notes
   internal static let notes = Localization.tr("Localizable", "notes", fallback: "Notes")
   /// DiaBetter needs an access to push notifications. Please, turn on push notifications in system settings.

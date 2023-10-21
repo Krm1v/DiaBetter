@@ -53,15 +53,6 @@ struct ReportSceneView: View {
             .padding([.leading, .trailing])
         }
     }
-    
-    private func createHeader(with title: String) -> some View {
-        HStack {
-            Text(title)
-                .font(.custom(FontFamily.Montserrat.semiBold, size: 20))
-            
-            Spacer()
-        }
-    }
 }
 
 struct ReportScenePreview: PreviewProvider {

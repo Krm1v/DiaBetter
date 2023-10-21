@@ -31,7 +31,7 @@
 "enter-your-password" = "Введіть пароль";
 "login" = "Вхід";
 "restore-password" = "Скинути пароль";
-"create-account" = "Створити обліковий запис";
+"create-account" = "Створити акаунт";
 "country" = "Країна";
 "diabets-type" = "Тип діабету";
 "fast-acting-insulin" = "Болюсний інсулін";
@@ -155,7 +155,10 @@
 // Home scene
 "overall" = "Всього";
 "week" = "Тиждень";
-"3m" = "3 м.";
+"3m" = "Останні 3 місяці";
+"last-seven-days-glucose" = "Останні 7 днів";
+"not-in-range" = "Не в цільовому діапазоні";
+"in-range" = "В цільовому діапазоні";
 
 // Units scene
 "grams" = "Грами";
