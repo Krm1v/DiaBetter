@@ -7,13 +7,27 @@
 
 import Foundation
 
+struct ReportSceneProps: Identifiable {
+    let id = UUID()
+    var treshold: Double?
+    var areaChartModel: [TodayAreaChartModel]
+    var insulinBarChartModel: TodayInsulinChartModel
+    var averageGlucoseChartModel: TodayAverageGlucoseChartModel
+    var minMaxGlucoseValueChartModel: TodayMinMaxGlucoseValuesChartModel
+}
+
 struct TodayAreaChartModel: Identifiable {
     let id = UUID()
-    let glucoseValue: Double
-    let recordTime: Date
+    let chartItem: ChartItem
 }
 
 struct TodayInsulinChartModel: Identifiable {
+    let id = UUID()
+    var isDataExist: Bool
+    var chartData: [TodayInsulinModel]
+}
+
+struct TodayInsulinModel: Identifiable {
     enum InsulinType {
         case fast(String)
         case basal(String)
@@ -37,15 +51,6 @@ struct InsulinChartModel: Identifiable {
     let id = UUID()
     let recordTime: Date
     let insulinValue: Double
-}
-
-struct ReportSceneProps: Identifiable {
-    let id = UUID()
-    var treshold: Double?
-    var areaChartModel: [TodayAreaChartModel]
-    var insulinBarChartModel: [TodayInsulinChartModel]
-    var averageGlucoseChartModel: TodayAverageGlucoseChartModel
-    var minMaxGlucoseValueChartModel: TodayMinMaxGlucoseValuesChartModel
 }
 
 struct TodayAverageGlucoseChartModel: Identifiable {

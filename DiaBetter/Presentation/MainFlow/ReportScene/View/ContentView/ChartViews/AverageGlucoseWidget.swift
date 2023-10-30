@@ -23,23 +23,20 @@ struct AverageGlucoseWidget: View {
                         .overlay {
                             ZStack {
                                 VStack {
+                                    Text(Localization.averageGlucose)
+                                        .font(.custom(FontFamily.Montserrat.regular.name, size: 17))
+                                        .minimumScaleFactor(0.5)
+                                    
                                     HStack {
-                                        
-                                        Text(Localization.averageGlucose)
+                                        Text("\(model.glucoseValue)  \(model.glucoseUnit)")
                                             .font(.custom(FontFamily.Montserrat.regular.name, size: 17))
-                                            .minimumScaleFactor(0.5)
-                                            .padding(.leading, 8)
                                         
                                         Circle()
                                             .fill(Color(uiColor: model.dotColor))
                                             .frame(width: 15, height: 15)
-                                            .padding(.trailing, 8)
                                     }
-                                    .padding(.bottom, 8)
-                                    
-                                    Text("\(model.glucoseValue)  \(model.glucoseUnit)")
-                                        .font(.custom(FontFamily.Montserrat.regular.name, size: 17))
                                 }
+                                .padding()
                             }
                         }
                 }

@@ -26,7 +26,7 @@ struct LineChartHomeWidget: View {
         Chart {
             ForEach(model.data, id: \.xValue) { item in
                 LineMark(
-                    x: .value("Date", item.xValue.stringRepresentation(format: .dayTime)),
+                    x: .value("Date", item.xValue),
                     y: .value("Value", item.yValue)
                 )
                 .interpolationMethod(.cardinal)
@@ -35,9 +35,20 @@ struct LineChartHomeWidget: View {
         }
         .foregroundColor(Color(uiColor: Colors.customPink.color))
         .chartYAxis {
-            AxisMarks(preset: .automatic)
+            AxisMarks(
+                preset: .automatic,
+                position: .leading)
         }
-        .chartYAxis(.visible)
+        .chartXAxis {
+            AxisMarks(
+                preset: .automatic,
+                position: .bottom,
+                values: .stride(by: .day)) {
+                    AxisTick()
+                    AxisGridLine()
+                    AxisValueLabel(format: .dateTime.day(.twoDigits))
+                }
+        }
     }
 }
 

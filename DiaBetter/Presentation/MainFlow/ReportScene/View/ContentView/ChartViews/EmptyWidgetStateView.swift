@@ -15,7 +15,6 @@ struct EmptyWidgetStateView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 12)
                 .foregroundStyle(Color.white)
-                .frame(height: UIScreen.main.bounds.width / 2)
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
                         .foregroundStyle(Color.black)

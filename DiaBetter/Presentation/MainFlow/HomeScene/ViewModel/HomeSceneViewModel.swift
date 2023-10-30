@@ -122,9 +122,9 @@ private extension HomeSceneViewModel {
         let range = target.min...target.max
         
         if range ~= averageValue {
-            model.dotColor = Colors.customMint.color
+            model.dotColor = Colors.customGreen.color
         } else if averageValue < target.min {
-            model.dotColor = Colors.customLightBlue.color
+            model.dotColor = Colors.customPurple.color
         } else {
             model.dotColor = Colors.customPink.color
         }

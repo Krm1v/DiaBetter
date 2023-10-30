@@ -12,10 +12,9 @@ struct BarChart: View {
     // MARK: - @State properties
     @State private(set) var model: GlucoseBarChartModel
     @State private(set) var treshold: Double?
-    @State private var belowColor: Color = Color(uiColor: Colors.customMint.color)
+    @State private var belowColor: Color = Color(uiColor: Colors.customGreen.color)
     @State private var aboveColor: Color = .init(uiColor: Colors.customPink.color)
     @State private var scrollWidth: CGFloat = UIScreen.main.bounds.width * 2
-    @State private var barWidth: CGFloat = 15.0
     
     // MARK: - Views
     var body: some View {
@@ -30,13 +29,13 @@ struct BarChart: View {
                 y: .value("Value", item.yValue), width: 3)
             .foregroundStyle(
                 item.isAbove(threshold: $treshold.wrappedValue ?? .zero) ? aboveColor.gradient : belowColor.gradient)
-            .position(by: .value("Value", item.yValue), span: .automatic)
+            .position(by: .value("Value", item.yValue))
             .cornerRadius(7)
             
             if let treshold {
                 RuleMark(y: .value("Theshold", treshold))
                     .lineStyle(StrokeStyle(lineWidth: 2))
-                    .foregroundStyle(Color(uiColor: Colors.customDarkenPink.color))
+                    .foregroundStyle(Color(uiColor: Colors.customYellow.color))
                     .annotation(
                         position: .top,
                         alignment: .topLeading,
@@ -65,12 +64,12 @@ struct BarChart: View {
             AxisMarks(values: .stride(by: .day)) { _ in
                 AxisTick()
                 AxisGridLine()
-                AxisValueLabel(format: .dateTime.day(.defaultDigits), centered: false)
+                AxisValueLabel(format: .dateTime.day(.twoDigits))
             }
         }
         .chartForegroundStyleScale([
             Localization.notInRange: Color(uiColor: Colors.customPink.color),
-            Localization.inRange: Color(uiColor: Colors.customMint.color)
+            Localization.inRange: Color(uiColor: Colors.customGreen.color)
         ])
     }
 }

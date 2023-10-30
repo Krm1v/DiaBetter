@@ -18,13 +18,9 @@ final class UnitsSceneViewController: BaseViewController<UnitsSceneViewModel> {
 	}
 
 	override func viewDidLoad() {
+        setupBindings()
+        updateDiffableDatasourceSnapshot()
 		super.viewDidLoad()
-		setupBindings()
-	}
-
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		updateDiffableDatasourceSnapshot()
 	}
 
 	// MARK: - Overriden methods
@@ -51,8 +47,8 @@ private extension UnitsSceneViewController {
 		contentView.actionPublisher
 			.sink { [unowned self] actions in
 				switch actions {
-				case .glucoseUnitsDidChanged(let state):
-					viewModel.glucoseUnit = state
+				case .glucoseUnitsDidChanged(let unit):
+                    viewModel.glucoseUnitDidChange(unit)
 
 				case .saveButtonDidTapped:
 					viewModel.saveSettings()
@@ -61,7 +57,8 @@ private extension UnitsSceneViewController {
 					viewModel.carbohydrates = carbs
 					
 				case .targetGlucoseValueDidChaged(let glucoseTargetValue, let object):
-					viewModel.glucoseTargetDidChanged(object, glucoseTargetValue)
+                    debugPrint("Target value: \(glucoseTargetValue)")
+					viewModel.glucoseTargetDidChange(object, glucoseTargetValue)
 				}
 			}
 			.store(in: &cancellables)

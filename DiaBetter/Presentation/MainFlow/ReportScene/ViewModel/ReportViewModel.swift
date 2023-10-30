@@ -16,7 +16,8 @@ final class ReportViewModel: ChartsViewModel {
     // MARK: - Published properties
     @Published var reportScenePropsModel: ReportSceneProps = .init(
         areaChartModel: .init(),
-        insulinBarChartModel: .init(),
+        insulinBarChartModel: .init(isDataExist: false,
+                                    chartData: .init()),
         averageGlucoseChartModel: .init(glucoseValue: "", glucoseUnit: ""),
         minMaxGlucoseValueChartModel: .init(minValue: "", maxValue: ""))
     
@@ -54,8 +55,9 @@ private extension ReportViewModel {
         let data: [TodayAreaChartModel] = records.compactMap { record in
             if let glucoseValue = record.glucoseLevel?.toDouble() {
                 return TodayAreaChartModel(
-                    glucoseValue: glucoseValue,
-                    recordTime: record.recordDate)
+                    chartItem: .init(
+                        xValue: record.recordDate,
+                        yValue: glucoseValue))
             } else {
                 return nil
             }
@@ -66,39 +68,56 @@ private extension ReportViewModel {
     
     func setupInsulinBarChartModel(with records: [Record]) {
         let fastInsulinItems: [InsulinChartModel] = records.compactMap { record in
+            guard let insulinValue = record.fastInsulin?.toDouble() else {
+                return nil
+            }
             return InsulinChartModel(
                 recordTime: record.recordDate,
-                insulinValue: record.fastInsulin?.toDouble() ?? .zero)
+                insulinValue: insulinValue)
         }
         
         let basalInsulinItems: [InsulinChartModel] = records.compactMap { record in
+            guard let insulinValue = record.longInsulin?.toDouble() else {
+                return nil
+            }
             return InsulinChartModel(
                 recordTime: record.recordDate,
-                insulinValue: record.longInsulin?.toDouble() ?? .zero)
+                insulinValue: insulinValue)
         }
         
         let fastInsulinTitle = userService.user?.fastActingInsulin ?? Localization.fastActingInsulin
         let basalInsulinTitle = userService.user?.basalInsulin ?? Localization.basalInsulin
         
-        reportScenePropsModel.insulinBarChartModel = [
-            TodayInsulinChartModel(insulinType: .fast(fastInsulinTitle), data: fastInsulinItems),
-            TodayInsulinChartModel(insulinType: .basal(basalInsulinTitle), data: basalInsulinItems)
-        ]
+        let isDataExist = !fastInsulinItems.isEmpty || !basalInsulinItems.isEmpty
+        
+        reportScenePropsModel.insulinBarChartModel.isDataExist = isDataExist
+        
+        if isDataExist {
+            reportScenePropsModel.insulinBarChartModel.chartData = [
+                TodayInsulinModel(insulinType: .fast(fastInsulinTitle), data: fastInsulinItems),
+                TodayInsulinModel(insulinType: .basal(basalInsulinTitle), data: basalInsulinItems)
+            ]
+        } else {
+            reportScenePropsModel.insulinBarChartModel.chartData = []
+        }
     }
     
     func setupAverageGlucoseChartModel(with records: [Record]) {
-        let summaryValue = records.reduce(Decimal.zero) { partialResult, record in
+        let recordsWithGlucose = records.filter { $0.glucoseLevel != nil }
+        
+        let summaryValue = recordsWithGlucose.reduce(Decimal.zero) { partialResult, record in
             guard let glucoseValue = record.glucoseLevel else {
                 return partialResult
             }
             return partialResult + glucoseValue
         }
         
-        let averageValue = summaryValue / Decimal(records.count)
-        
+        let averageValue = summaryValue / Decimal(recordsWithGlucose.count)
+        let averageStringValue = !averageValue.isNaN ? averageValue.convertToString() : ""
+
         var averageGlucoseChartModel = TodayAverageGlucoseChartModel(
-            glucoseValue: averageValue.convertToString(),
-            dotColor: Colors.customMint.color,
+            glucoseValue: averageStringValue,
+            dotColor: Colors.customGreen.color,
             glucoseUnit: currentSettings?.glucoseUnits.title ?? "")
         
         guard let target = currentSettings?.glucoseTarget else {
@@ -108,13 +127,13 @@ private extension ReportViewModel {
         let range = target.min...target.max
         
         if range ~= averageValue {
-            averageGlucoseChartModel.dotColor = Colors.customMint.color
+            averageGlucoseChartModel.dotColor = Colors.customGreen.color
         } else if averageValue < target.min {
-            averageGlucoseChartModel.dotColor = Colors.customLightBlue.color
+            averageGlucoseChartModel.dotColor = Colors.customPurple.color
         } else {
             averageGlucoseChartModel.dotColor = Colors.customPink.color
         }
-        
+                
         reportScenePropsModel.averageGlucoseChartModel = averageGlucoseChartModel
     }
     
@@ -124,6 +143,7 @@ private extension ReportViewModel {
             let minValue = glucoseValues.min()?.convertToString(),
             let maxValue = glucoseValues.max()?.convertToString()
         else {
+            reportScenePropsModel.minMaxGlucoseValueChartModel = .init(minValue: "", maxValue: "")
             return
         }
         

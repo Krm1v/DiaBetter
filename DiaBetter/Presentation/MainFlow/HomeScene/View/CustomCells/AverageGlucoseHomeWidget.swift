@@ -12,41 +12,41 @@ struct AverageGlucoseHomeWidget: View {
     @State var model: AverageGlucoseChartModel
     
     var body: some View {
-        borderedMainContent
-            .padding()
+        GeometryReader { geo in
+                    borderedMainContent
+                        .frame(maxWidth: geo.size.width, maxHeight: geo.size.width)
+                        .aspectRatio(contentMode: .fit)
+                }
     }
     
     private var mainContent: some View {
-        VStack {
             VStack {
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(uiColor: model.dotColor))
-                    .padding(25)
+                VStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color(uiColor: model.dotColor))
+                        .padding()
+                    Text(model.period.title)
+                        .font(
+                            .custom(
+                                FontFamily.Montserrat.regular,
+                                size: 17))
+                    
+                    Divider()
+                        .overlay(Color.white)
+                        .frame(height: 1)
+                        .padding([.leading, .trailing])
+                }
                 
-                Text(model.period.title)
-                    .font(
-                        .custom(
-                            FontFamily.Montserrat.regular,
-                            size: 17))
-                
-                Divider()
-                    .overlay(Color.white)
-                    .frame(height: 1)
-                    .padding([.leading, .trailing])
-            }
-            
-            VStack {
-                Text(model.averageValue)
-                
-                Text(model.glucoseUnit.title)
-            }
-            .font(
-                .custom(
-                    FontFamily.Montserrat.semiBold,
-                    size: 15))
-            .padding(.bottom)
-            
-            Spacer()
+                VStack {
+                    Text(model.averageValue)
+                    
+                    Text(model.glucoseUnit.title)
+                }
+                .font(
+                    .custom(
+                        FontFamily.Montserrat.semiBold,
+                        size: 15))
+                .padding(.bottom)
         }
     }
     

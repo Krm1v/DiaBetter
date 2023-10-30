@@ -9,15 +9,17 @@ import SwiftUI
 import Charts
 
 struct InsulinBarChart: View {
-   
-    @State var insulinData: [TodayInsulinChartModel]
+    
+    @State var insulinData: [TodayInsulinModel]
+    @State var isDataExist: Bool
     
     var body: some View {
-        if insulinData.isEmpty {
+        if !isDataExist {
             EmptyWidgetStateView(textMessage: Localization.noDataAvailable)
+                .frame(height: UIScreen.main.bounds.width / 2)
         } else {
             Chart(insulinData) { insulinItems in
-                ForEach(insulinItems.data) {
+                ForEach(insulinItems.data, id: \.id) {
                     BarMark(
                         x: .value("Time", $0.recordTime, unit: .hour),
                         y: .value("InsulinValue", $0.insulinValue))
@@ -37,7 +39,7 @@ struct InsulinBarChart: View {
             }
             .chartForegroundStyleScale([
                 insulinData.first?.insulinType.title ?? "": Color.blue,
-                insulinData.last?.insulinType.title ?? "": Color(uiColor: Colors.customMint.color)
+                insulinData.last?.insulinType.title ?? "": Color(uiColor: Colors.customGreen.color)
             ])
             .frame(height: UIScreen.main.bounds.width / 2)
         }
@@ -46,6 +48,6 @@ struct InsulinBarChart: View {
 
 struct InsulinBarChart_Preview: PreviewProvider {
     static var previews: some View {
-        InsulinBarChart(insulinData: .init())
+        InsulinBarChart(insulinData: .init(), isDataExist: true)
     }
 }

@@ -34,7 +34,7 @@ struct HomeSceneView: View {
                                 AverageGlucoseHomeWidget(model: element)
                                     .frame(
                                         width: UIScreen.main.bounds.width / 2,
-                                        height: UIScreen.main.bounds.width / 2)
+                                        height: UIScreen.main.bounds.width / 2.6)
                             }
                         }
                     }

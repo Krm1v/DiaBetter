@@ -12,6 +12,7 @@ struct MinMaxGlucoseValuesWidget: View {
     @State var model: TodayMinMaxGlucoseValuesChartModel
     
     var body: some View {
+        
         ZStack {
             RoundedRectangle(cornerRadius: 12)
                 .fill(.white)

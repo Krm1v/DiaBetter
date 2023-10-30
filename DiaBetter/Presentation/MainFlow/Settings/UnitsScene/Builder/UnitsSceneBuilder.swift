@@ -11,7 +11,9 @@ enum UnitsSceneTransitions: Transition {}
 
 final class UnitsSceneBuilder {
 	static func build(container: AppContainer) -> Module<UnitsSceneTransitions, UIViewController> {
-		let viewModel = UnitsSceneViewModel(settingsService: container.settingsService)
+        let viewModel = UnitsSceneViewModel(
+            settingsService: container.settingsService,
+            unitsConvertManager: container.unitsConvertManager)
 		let viewController = UnitsSceneViewController(viewModel: viewModel)
 		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
 	}

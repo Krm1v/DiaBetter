@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import CombineCocoa
 
 enum UnitsSceneActions {
 	case glucoseUnitsDidChanged(SettingsUnits.GlucoseUnitsState)
@@ -113,7 +114,7 @@ private extension UnitsSceneView {
 							self.actionSubject.send(.glucoseUnitsDidChanged(state))
 						}
 					}
-					.store(in: &cancellables)
+                    .store(in: &cell.cancellables)
 				return cell
 
 			case .plainWithUIMenu(let model):
@@ -136,19 +137,20 @@ private extension UnitsSceneView {
 				let cell = collectionView.configureCell(
 					cellType: TargetGlucoseCell.self,
 					indexPath: indexPath)
-
+                
 				cell.configure(model)
 				cell.actionPublisher
 					.sink { [unowned self] action in
 						switch action {
 						case .stepperDidTapped(let value):
-							guard let object = self.getObject(with: indexPath) else {
-								return
-							}
+                            guard let object = self.getObject(with: indexPath) else {
+                                return
+                            }
 							self.actionSubject.send(.targetGlucoseValueDidChaged(value, object))
+                            debugPrint("Value: \(value), Object: \(object)")
 						}
 					}
-					.store(in: &cell.cancellables)
+                    .store(in: &cell.cancellables)
 				return cell
 			}
 		})
@@ -258,7 +260,7 @@ private extension UnitsSceneView {
 		switch object {
 		case .plainWithStepper(let model):
 			switch model.type {
-			case .min: return .min
+            case .min: return .min
 			case .max: return .max
 			}
 		default: break

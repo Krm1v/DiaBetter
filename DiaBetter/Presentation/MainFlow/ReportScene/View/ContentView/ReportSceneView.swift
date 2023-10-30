@@ -30,13 +30,23 @@ struct ReportSceneView: View {
                         .padding(.bottom)
                     
                     HStack {
-                        AverageGlucoseWidget(
-                            model: reportScenePropsModel.averageGlucoseChartModel)
-                        .frame(height: UIScreen.main.bounds.width / 5)
+                        if reportScenePropsModel.averageGlucoseChartModel.glucoseValue.isEmpty {
+                            EmptyWidgetStateView(textMessage: Localization.noDataAvailable)
+                                .frame(height: UIScreen.main.bounds.width / 5)
+                        } else {
+                            AverageGlucoseWidget(
+                                model: reportScenePropsModel.averageGlucoseChartModel)
+                            .frame(height: UIScreen.main.bounds.width / 5)
+                        }
                         
-                        MinMaxGlucoseValuesWidget(
-                            model: reportScenePropsModel.minMaxGlucoseValueChartModel)
-                        .frame(height: UIScreen.main.bounds.width / 5)
+                        if reportScenePropsModel.minMaxGlucoseValueChartModel.minValue.isEmpty {
+                            EmptyWidgetStateView(textMessage: Localization.noDataAvailable)
+                                .frame(height: UIScreen.main.bounds.width / 5)
+                        } else {
+                            MinMaxGlucoseValuesWidget(
+                                model: reportScenePropsModel.minMaxGlucoseValueChartModel)
+                            .frame(height: UIScreen.main.bounds.width / 5)
+                        }
                     }
                     .padding(.bottom)
                     
@@ -44,7 +54,7 @@ struct ReportSceneView: View {
                         .padding(.bottom)
                     
                     InsulinBarChart(
-                        insulinData: reportScenePropsModel.insulinBarChartModel)
+                        insulinData: reportScenePropsModel.insulinBarChartModel.chartData, isDataExist: reportScenePropsModel.insulinBarChartModel.isDataExist)
                 }
             }
             .scrollIndicators(.hidden)
@@ -59,7 +69,7 @@ struct ReportScenePreview: PreviewProvider {
     static var previews: some View {
         ReportSceneView(
             reportScenePropsModel: .init(areaChartModel: .init(),
-                                         insulinBarChartModel: .init(),
+                                         insulinBarChartModel: .init(isDataExist: true, chartData: .init()),
                                          averageGlucoseChartModel: .init(glucoseValue: "", glucoseUnit: ""), minMaxGlucoseValueChartModel: .init(minValue: "", maxValue: "")))
     }
 }
