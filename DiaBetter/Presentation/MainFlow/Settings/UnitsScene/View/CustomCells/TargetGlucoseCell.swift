@@ -55,6 +55,9 @@ private extension TargetGlucoseCell {
         self.backgroundColor = .black
         rounded(12)
         stepper.backgroundColor = Colors.darkNavyBlue.color
+        stepper.maximumValue = 500
+        stepper.minimumValue = 2
+//        stepper.stepValue = 0.1
         setupLayout()
     }
     

@@ -147,7 +147,6 @@ private extension UnitsSceneView {
                                 return
                             }
 							self.actionSubject.send(.targetGlucoseValueDidChaged(value, object))
-                            debugPrint("Value: \(value), Object: \(object)")
 						}
 					}
                     .store(in: &cell.cancellables)

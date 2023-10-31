@@ -49,7 +49,7 @@ private extension UnitsSceneViewController {
 				switch actions {
 				case .glucoseUnitsDidChanged(let unit):
                     viewModel.glucoseUnitDidChange(unit)
-
+                    
 				case .saveButtonDidTapped:
 					viewModel.saveSettings()
 
@@ -57,7 +57,6 @@ private extension UnitsSceneViewController {
 					viewModel.carbohydrates = carbs
 					
 				case .targetGlucoseValueDidChaged(let glucoseTargetValue, let object):
-                    debugPrint("Target value: \(glucoseTargetValue)")
 					viewModel.glucoseTargetDidChange(object, glucoseTargetValue)
 				}
 			}

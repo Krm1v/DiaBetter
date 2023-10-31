@@ -256,6 +256,7 @@
 		86E6BBCA2A9E01DE0010FC4E /* UserNameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E6BBC92A9E01DD0010FC4E /* UserNameTextField.swift */; };
 		86E73DC12A13A54500D34B96 /* ChartsDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E73DC02A13A54500D34B96 /* ChartsDateFormatter.swift */; };
 		86E73DC72A1D4EA800D34B96 /* ChartsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E73DC62A1D4EA700D34B96 /* ChartsItem.swift */; };
+		86F1FA5A2AF10A0B00ABF4F9 /* Double+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F1FA592AF10A0B00ABF4F9 /* Double+String.swift */; };
 		86F471A52AB097E9005A9A0E /* Date+isLastWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F471A42AB097E9005A9A0E /* Date+isLastWeek.swift */; };
 		876F342B3AB00CAA5E18648F /* Montserrat-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 662CE38ED099755397999A31 /* Montserrat-ThinItalic.ttf */; };
 		8B485601070C3D54BBE0F133 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EDF8591E122FE2ABF36F2E6C /* Localizable.strings */; };
@@ -536,6 +537,7 @@
 		86E6BBC92A9E01DD0010FC4E /* UserNameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameTextField.swift; sourceTree = "<group>"; };
 		86E73DC02A13A54500D34B96 /* ChartsDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsDateFormatter.swift; sourceTree = "<group>"; };
 		86E73DC62A1D4EA700D34B96 /* ChartsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsItem.swift; sourceTree = "<group>"; };
+		86F1FA592AF10A0B00ABF4F9 /* Double+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+String.swift"; sourceTree = "<group>"; };
 		86F471A42AB097E9005A9A0E /* Date+isLastWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+isLastWeek.swift"; sourceTree = "<group>"; };
 		8C25FA3E12FDAB7557BCBA1C /* ViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRepresentable.swift; sourceTree = "<group>"; };
 		8EBA49D36093D9210C72E8D7 /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
@@ -1158,6 +1160,7 @@
 				86415D8C29FFD04700219ACC /* Date+isSameDay.swift */,
 				869C9FC02A39FCC1005C2361 /* Date+CreateDate.swift */,
 				86F471A42AB097E9005A9A0E /* Date+isLastWeek.swift */,
+				86F1FA592AF10A0B00ABF4F9 /* Double+String.swift */,
 			);
 			path = Date;
 			sourceTree = "<group>";
@@ -2810,6 +2813,7 @@
 				868FD8BC2A570AAB00EAF87D /* DataSceneViewModel.swift in Sources */,
 				866E21C32A38AB4300468486 /* ReminderCell.swift in Sources */,
 				86A5D1F62A435D4A006E9424 /* UnitsSceneBuilder.swift in Sources */,
+				86F1FA5A2AF10A0B00ABF4F9 /* Double+String.swift in Sources */,
 				8696B7422A2FCEBB0094162D /* RecordPresentationView.swift in Sources */,
 				8637ADD129B7983E00F14489 /* RecordsEndpoint.swift in Sources */,
 				86A5D1FA2A435D60006E9424 /* UnitsSceneView.swift in Sources */,
