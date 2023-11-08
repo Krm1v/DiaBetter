@@ -9,14 +9,14 @@ import UIKit
 import Combine
 
 internal class BaseTableViewCell: UITableViewCell {
-	// MARK: - Properties
-	var cancellables = Set<AnyCancellable>()
-
-	// MARK: - Overriden methods
-	override func prepareForReuse() {
-		super.prepareForReuse()
-		cancellables.removeAll()
-	}
+    // MARK: - Properties
+    var cancellables = Set<AnyCancellable>()
+    
+    // MARK: - Overriden methods
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cancellables.removeAll()
+    }
 }
 
 // MARK: - Extension UIElementsBuilder

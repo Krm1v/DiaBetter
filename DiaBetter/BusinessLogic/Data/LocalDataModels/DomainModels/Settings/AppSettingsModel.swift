@@ -8,11 +8,13 @@
 import Foundation
 
 struct AppSettingsModel: Codable {
+    // MARK: - Properties
 	var notifications: NotificationsModel
 	var glucoseUnits: SettingsUnits.GlucoseUnitsState
 	var carbohydrates: SettingsUnits.CarbsUnits
 	var glucoseTarget: GlucoseTarget
-
+    
+    // MARK: - Init
 	init(
 		notifications: NotificationsModel = NotificationsModel(),
 		glucoseUnits: SettingsUnits.GlucoseUnitsState = .mmolL,

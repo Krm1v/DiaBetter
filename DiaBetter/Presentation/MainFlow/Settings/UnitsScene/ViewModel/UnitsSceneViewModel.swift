@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 final class UnitsSceneViewModel: BaseViewModel {
+    // MARK: - Typealiases
     typealias UnitsSection = SectionModel<UnitsSceneSections, UnitsSceneItems>
     
     // MARK: - Properties
@@ -41,10 +42,6 @@ final class UnitsSceneViewModel: BaseViewModel {
         convertCurrentUnits()
     }
     
-    override func onViewWillAppear() {
-        updateDatasource(minValue: minGlucoseTarget, maxValue: maxGlucoseTarget)
-    }
-    
     // MARK: - Public methods
     func saveSettings() {
         isCompletedSubject.send(true)
@@ -57,7 +54,9 @@ final class UnitsSceneViewModel: BaseViewModel {
                 notifications: settingsService.settings.notifications,
                 glucoseUnits: glucoseUnit,
                 carbohydrates: carbohydrates,
-                glucoseTarget: .init(min: minGlucoseTarget, max: maxGlucoseTarget))
+                glucoseTarget: .init(
+                    min: minGlucoseTarget,
+                    max: maxGlucoseTarget))
             
             settingsService.save(settings: settingsService.settings)
             isCompletedSubject.send(false)
@@ -75,7 +74,9 @@ final class UnitsSceneViewModel: BaseViewModel {
         case .max:
             maxGlucoseTarget = Decimal(value)
         }
-        updateDatasource(minValue: minGlucoseTarget, maxValue: maxGlucoseTarget)
+        updateDatasource(
+            minValue: minGlucoseTarget,
+            maxValue: maxGlucoseTarget)
     }
     
     func glucoseUnitDidChange(
@@ -87,6 +88,7 @@ final class UnitsSceneViewModel: BaseViewModel {
 
 // MARK: - Private extension
 private extension UnitsSceneViewModel {
+    // MARK: - Datasource methods
     func updateDatasource(minValue: Decimal, maxValue: Decimal) {
         let mainSectionModel = UnitsSectionModel(title: "")
         let glucoseTargetSectionModel = UnitsSectionModel(
@@ -107,7 +109,9 @@ private extension UnitsSceneViewModel {
                 .plainWithUIMenu(carbsUnitsModel)
             ])
         
-        let minMaxGlucoseModels = buildMinMaxGlucoseModel(min: minValue, max: maxValue)
+        let minMaxGlucoseModels = buildMinMaxGlucoseModel(
+            min: minValue,
+            max: maxValue)
         
         let glucoseTargetSection = UnitsSection(
             section: .glucoseTarget(glucoseTargetSectionModel),
@@ -141,6 +145,7 @@ private extension UnitsSceneViewModel {
         return (min: minGlucoseTargetModel, max: maxGlucoseTargetModel)
     }
     
+    // MARK: - Initial settings setup method
     func updateCurrentSettings() {
         carbohydrates = settingsService.settings.carbohydrates
         glucoseUnit = settingsService.settings.glucoseUnits
@@ -148,11 +153,12 @@ private extension UnitsSceneViewModel {
             minGlucoseTarget = settingsService.settings.glucoseTarget.min
             maxGlucoseTarget = settingsService.settings.glucoseTarget.max
         } else {
-            minGlucoseTarget = settingsService.settings.glucoseTarget.min / 18
-            maxGlucoseTarget = settingsService.settings.glucoseTarget.max / 18
+            minGlucoseTarget = settingsService.settings.glucoseTarget.min / Constants.mgDlConversionFactor
+            maxGlucoseTarget = settingsService.settings.glucoseTarget.max / Constants.mgDlConversionFactor
         }
     }
     
+    // MARK: - Units convert methods
     func convertCurrentUnits() {
         $glucoseUnit
             .receive(on: DispatchQueue.main)
@@ -163,29 +169,9 @@ private extension UnitsSceneViewModel {
                 
                 if !isFirstLoad {
                     if state == .mmolL && isConverted {
-                        unitsConvertManager.convertValueIfNeeded(
-                            &minGlucoseTarget,
-                            from: .mgDl,
-                            to: .mmolL)
-                        
-                        unitsConvertManager.convertValueIfNeeded(
-                            &maxGlucoseTarget,
-                            from: .mgDl,
-                            to: .mmolL)
-                        
-                        isConverted = false
+                        convertGlucoseTarget(to: .mmolL)
                     } else if state == .mgDl && !isConverted {
-                        unitsConvertManager.convertValueIfNeeded(
-                            &minGlucoseTarget,
-                            from: .mmolL,
-                            to: .mgDl)
-                        
-                        unitsConvertManager.convertValueIfNeeded(
-                            &maxGlucoseTarget,
-                            from: .mmolL,
-                            to: .mgDl)
-                        
-                        isConverted = true
+                        convertGlucoseTarget(to: .mgDl)
                     }
                 } else {
                     isFirstLoad = false
@@ -197,4 +183,37 @@ private extension UnitsSceneViewModel {
             }
             .store(in: &cancellables)
     }
+    
+    func convertGlucoseTarget(to units: SettingsUnits.GlucoseUnitsState) {
+        switch units {
+        case .mmolL:
+            unitsConvertManager.convertValueIfNeeded(
+                &minGlucoseTarget,
+                from: .mgDl,
+                to: .mmolL)
+            
+            unitsConvertManager.convertValueIfNeeded(
+                &maxGlucoseTarget,
+                from: .mgDl,
+                to: .mmolL)
+            isConverted = false
+            
+        case .mgDl:
+            unitsConvertManager.convertValueIfNeeded(
+                &minGlucoseTarget,
+                from: .mmolL,
+                to: .mgDl)
+            
+            unitsConvertManager.convertValueIfNeeded(
+                &maxGlucoseTarget,
+                from: .mmolL,
+                to: .mgDl)
+            isConverted = true
+        }
+    }
+}
+
+// MARK: - Constants
+fileprivate enum Constants {
+    static let mgDlConversionFactor: Decimal = 18
 }

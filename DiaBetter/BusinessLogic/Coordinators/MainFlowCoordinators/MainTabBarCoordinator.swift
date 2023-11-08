@@ -42,9 +42,10 @@ private enum TabBarItems {
     }
     
     var tabBarItem: UITabBarItem {
-        return UITabBarItem(title: title,
-                            image: image,
-                            selectedImage: selectedImage)
+        return UITabBarItem(
+            title: title,
+            image: image,
+            selectedImage: selectedImage)
     }
 }
 
@@ -147,13 +148,5 @@ private extension MainTabBarCoordinator {
             }
             .store(in: &cancellables)
         coordinator.start()
-    }
-}
-
-extension UIImage {
-    func resize(targetSize: CGSize) -> UIImage {
-        return UIGraphicsImageRenderer(size:targetSize).image { _ in
-            self.draw(in: CGRect(origin: .zero, size: targetSize))
-        }
     }
 }

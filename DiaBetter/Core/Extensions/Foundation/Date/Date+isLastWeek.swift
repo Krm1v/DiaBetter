@@ -8,17 +8,21 @@
 import Foundation
 
 extension Date {
-	func isDateInRange(
-		_ date: Date,
-		_ component: Calendar.Component,
-		_ value: Int
-	) -> Bool {
-		let calendar = Calendar.current
-		let currentDate = Date()
-		guard let startDate = calendar.date(byAdding: component, value: -value, to: currentDate) else {
-			return false
-		}
-		let lastDate = currentDate
-		return startDate <= date && date <= lastDate
-	}
+    func isDateInRange(
+        _ date: Date,
+        _ component: Calendar.Component,
+        _ value: Int
+    ) -> Bool {
+        let calendar = Calendar.current
+        let currentDate = Date()
+        guard let startDate = calendar.date(
+            byAdding: component,
+            value: -value,
+            to: currentDate)
+        else {
+            return false
+        }
+        let lastDate = currentDate
+        return startDate <= date && date <= lastDate
+    }
 }

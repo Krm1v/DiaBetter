@@ -11,9 +11,19 @@ extension View {
     func createHeader(with title: String) -> some View {
         HStack {
             Text(title)
-                .font(.custom(FontFamily.Montserrat.semiBold, size: 20))
+                .font(
+                    .custom(
+                        FontFamily.Montserrat.semiBold,
+                        size: Constants.defaultFontSize)
+                )
             
             Spacer()
         }
+        .padding(.bottom)
     }
+}
+
+// MARK: - Constants
+fileprivate enum Constants {
+    static let defaultFontSize: CGFloat = 20
 }

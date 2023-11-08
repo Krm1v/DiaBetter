@@ -8,13 +8,13 @@
 import Foundation
 
 enum DateFormats: String {
-	case monthDayYearTime = "MM/dd/yyyy HH:mm:ss"
-	case hourMinute = 		"HH:mm"
-	case dayMonthYear = 	"d MMM yyyy"
-	case dayTime = 			"MMM d HH:mm"
-	case day = 				"MMM d"
-	case month = 			"MMM"
-	case dayMonthYearTime = "d MMM YYYY HH:MM"
-	case monthDayYear =     "MM/dd/YYYY"
+    case monthDayYearTime = "MM/dd/yyyy HH:mm:ss"
+    case hourMinute = 		"HH:mm"
+    case dayMonthYear = 	"d MMM yyyy"
+    case dayTime = 			"MMM d HH:mm"
+    case day = 				"MMM d"
+    case month = 			"MMM"
+    case dayMonthYearTime = "d MMM YYYY HH:MM"
+    case monthDayYear =     "MM/dd/YYYY"
     case weekDay =          "E, dd"
 }

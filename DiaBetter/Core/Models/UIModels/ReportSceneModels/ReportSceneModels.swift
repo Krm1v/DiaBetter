@@ -1,8 +1,8 @@
 //
-//  ReportChartsDatasource.swift
+//  ReportSceneModels.swift
 //  DiaBetter
 //
-//  Created by Владислав Баранкевич on 06.10.2023.
+//  Created by Владислав Баранкевич on 07.11.2023.
 //
 
 import Foundation
@@ -34,14 +34,13 @@ struct TodayInsulinModel: Identifiable {
         
         var title: String {
             switch self {
-            case .fast(let title):
-                return title
-            case .basal(let title):
-                return title
+            case .fast(let title):  return title
+            case .basal(let title): return title
             }
         }
     }
     
+    // MARK: - Properties
     let id = UUID()
     let insulinType: InsulinType
     let data: [InsulinChartModel]

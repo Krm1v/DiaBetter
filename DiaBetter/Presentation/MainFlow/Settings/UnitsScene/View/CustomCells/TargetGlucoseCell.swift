@@ -15,10 +15,12 @@ enum TargetGlucoseCellActions {
 
 final class TargetGlucoseCell: BaseCollectionViewCell {
     // MARK: - UI Elements
-    private lazy var vStack = buildStackView(axis: .vertical,
-                                             alignment: .fill,
-                                             distribution: .fillEqually,
-                                             spacing: .zero)
+    private lazy var vStack = buildStackView(
+        axis: .vertical,
+        alignment: .fill,
+        distribution: .fillEqually,
+        spacing: .zero)
+    
     private lazy var titleLabel = buildFieldTitleLabel()
     private lazy var glucoseValueLabel = buildFieldTitleLabel()
     private lazy var stepper = UIStepper()
@@ -51,13 +53,14 @@ final class TargetGlucoseCell: BaseCollectionViewCell {
 private extension TargetGlucoseCell {
     func setupUI() {
         [titleLabel, glucoseValueLabel]
-            .forEach { $0.font = FontFamily.Montserrat.regular.font(size: 15) }
+            .forEach { $0.font = FontFamily.Montserrat.regular.font(
+                size: Constants.defaultFontSize) }
         self.backgroundColor = .black
-        rounded(12)
+        rounded(Constants.defaultCornerRadius)
         stepper.backgroundColor = Colors.darkNavyBlue.color
-        stepper.maximumValue = 500
-        stepper.minimumValue = 2
-//        stepper.stepValue = 0.1
+        stepper.maximumValue = Constants.stepperMaxValue
+        stepper.minimumValue = Constants.stepperMinValue
+        stepper.stepValue = Constants.stepValue
         setupLayout()
     }
     
@@ -67,25 +70,29 @@ private extension TargetGlucoseCell {
             constraints: [
                 vStack.leadingAnchor.constraint(
                     equalTo: self.leadingAnchor,
-                    constant: 16),
+                    constant: Constants.defaultEdgeInset),
                 
                 vStack.topAnchor.constraint(
                     equalTo: self.topAnchor,
-                    constant: 8),
+                    constant: Constants.smallEdgeInset),
                 
                 vStack.bottomAnchor.constraint(
                     equalTo: self.bottomAnchor,
-                    constant: -8),
+                    constant: -Constants.smallEdgeInset),
                 
                 vStack.centerYAnchor.constraint(
                     equalTo: self.centerYAnchor)])
         
         [titleLabel, glucoseValueLabel].forEach { vStack.addArrangedSubview($0) }
         
-        addSubview(stepper, constraints: [
-            stepper.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            stepper.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16)
-        ])
+        addSubview(
+            stepper,
+            constraints: [
+                stepper.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+                stepper.trailingAnchor.constraint(
+                    equalTo: self.trailingAnchor,
+                    constant: -Constants.defaultEdgeInset)
+            ])
     }
     
     func bindActions() {
@@ -95,4 +102,15 @@ private extension TargetGlucoseCell {
             }
             .store(in: &cancellables)
     }
+}
+
+// MARK: - Constants
+fileprivate enum Constants {
+    static let defaultCornerRadius: CGFloat = 12
+    static let stepperMinValue: Double = 2
+    static let stepperMaxValue: Double = 500
+    static let stepValue: Double = 0.1
+    static let defaultEdgeInset: CGFloat = 16
+    static let smallEdgeInset: CGFloat = 8
+    static let defaultFontSize: CGFloat = 15
 }

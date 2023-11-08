@@ -8,8 +8,8 @@
 import UIKit
 
 final class SettingsTableViewDiffableDataSource: UITableViewDiffableDataSource<SettingsGroup, Settings> {
-	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		let sections = SettingsGroup.allCases
-		return sections[section].title
-	}
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let sections = SettingsGroup.allCases
+        return sections[section].title
+    }
 }

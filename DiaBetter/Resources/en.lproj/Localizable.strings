@@ -59,7 +59,7 @@
 "send-feedback" = "Send feedback";
 "show-onboarding" = "Show onboarding";
 "diary" = "Diary";
-"add-new-record" = "Add new record";
+"add-new-record" = "New record";
 "close" = "Close";
 "save" = "Save";
 "glucose" = "Glucose";
@@ -135,6 +135,8 @@
 "data-deleted-message" = "All data successfully deleted";
 "shared-file-name" = "Records";
 "sharing-title-text" = "Here is my diabetes diary data.";
+"success" = "Success!";
+"success-import-message" = "Your data has been imported successfully";
 
 // EditRecord Scene
 "delete-record-title" = "Are you sure you want to delete this record?";
@@ -157,7 +159,7 @@
 // Home scene
 "overall" = "Overall";
 "week" = "Week";
-"3m" = "Last 3 month";
+"3m" = "3 month";
 "last-seven-days-glucose" = "Last 7 days glucose";
 "not-in-range" = "Not in range";
 "in-range" = "In range";
@@ -168,3 +170,19 @@
 "grams-shortened" = "g.";
 "bread-units-shortened" = "BU";
 "loading" = "Loading...";
+
+// Network errors
+"encoding-error-message" = "Error occured during data encoding.";
+"bad-url-error" = "Bad URL error occured.";
+"url-components-error-message" = "Bad URL components error occured.";
+"default-error-message" = "An error occured on the client side. Please, try again later";
+"server-error-message" = "An error occured on the server side. Please, try again later";
+"data-decoding-error-message" = "An error occured during data decoding. Please, try again later.";
+"unexpected-error-message" = "Oops! Something went wrong. Unexpected error occured. Please, try again later.";
+"bad-url-message" = "Bad URL error occured. Please, try again later.";
+"timeout-error-message" = "Timeout error occured. Check your Internet connection or try again later.";
+"host-error-message" = "Host error occured. Please, try again later.";
+"redirect-error-message" = "Redirect error occured. Please, try again later.";
+"resource-unavailable-error" = "The resource is currently unavailable. Please, try again later.";
+"token-error-message" = "Token error occured. Please, try again later.";
+"no-response-error-message" = "There is no response from the server. Please, try again later.";

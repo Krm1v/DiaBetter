@@ -9,16 +9,12 @@ import Foundation
 import Combine
 
 final class HomeSceneViewModel: ChartsViewModel {
-    
     // MARK: - Properties
     private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
     private let transitionSubject = PassthroughSubject<HomeSceneTransition, Never>()
     private var currentRecords: [Record] = []
     
-    @Published var homeSceneProps = HomeSceneWidgetPropsModel(
-        glucoseChartModel: .init(data: [], treshold: 0),
-        averageGlucoseChartModel: [],
-        lineChartHomeWidgetModel: .init(data: []))
+    @Published var homeSceneProps: HomeSceneWidgetPropsModel?
     
     // MARK: - Init
     init(
@@ -46,24 +42,50 @@ final class HomeSceneViewModel: ChartsViewModel {
     }
     
     func setupChartsDatasource(with records: [Record]) {
-        buildGlucoseBarChartModel(from: records)
-        guard
-            let overallAverage = buildAverageGlucoseWidgetData(
-                from: records,
-                for: .overall),
-            let threeMonthAverage = buildAverageGlucoseWidgetData(
-                from: records,
-                for: .threeMonth),
-            let weekAverage = buildAverageGlucoseWidgetData(
-                from: records,
-                for: .week)
-        else {
-            return
+        var glucoseModel: GlucoseBarChartModel?
+        var lineChartData: LineChartHomeWidgetModel?
+        var averageGlucoseData = [AverageGlucoseChartModel]()
+        
+        if let model = buildGlucoseBarChartModel(from: records) {
+            glucoseModel = model
         }
         
-        homeSceneProps.averageGlucoseChartModel = [overallAverage, threeMonthAverage, weekAverage]
+        if let data = buildLineChartWidgetData(from: records) {
+            lineChartData = data
+        }
         
-        buildLineChartWidgetData(from: records)
+        if let overallAverage = buildAverageGlucoseWidgetData(
+            from: records,
+            for: .overall
+        ) {
+            averageGlucoseData.append(overallAverage)
+        }
+        
+        if let threeMonthAverage = buildAverageGlucoseWidgetData(
+            from: records,
+            for: .threeMonth
+        ) {
+            averageGlucoseData.append(threeMonthAverage)
+        }
+        
+        if let weekAverage = buildAverageGlucoseWidgetData(
+            from: records,
+            for: .week
+        ) {
+            averageGlucoseData.append(weekAverage)
+        }
+        
+        let isAverageDataAvailable = !averageGlucoseData.isEmpty
+        
+        let newProps = HomeSceneWidgetPropsModel(
+            glucoseChartModel: glucoseModel ?? .init(data: [],
+                                                     treshold: 0),
+            averageGlucoseChartModel: .init(data: averageGlucoseData,
+                                            isData: isAverageDataAvailable),
+            lineChartHomeWidgetModel: lineChartData ?? .init(data: [])
+        )
+        
+        homeSceneProps = newProps
     }
 }
 
@@ -71,21 +93,22 @@ final class HomeSceneViewModel: ChartsViewModel {
 private extension HomeSceneViewModel {
     // MARK: - Datasource
     // MARK: - Setup charts model
-    func buildGlucoseBarChartModel(from records: [Record]) {
+    func buildGlucoseBarChartModel(from records: [Record]) -> GlucoseBarChartModel? {
         let lastWeekRecords = getLastWeekRecords(with: records)
         guard let treshold = currentSettings?.glucoseTarget.max.toDouble() else {
-            return
+            return nil
         }
         let items = lastWeekRecords.compactMap { record in
             if let glucose = record.glucoseLevel?.toDouble() {
-                return ChartItem(xValue: record.recordDate, yValue: glucose)
+                return ChartItem(
+                    xValue: record.recordDate,
+                    yValue: glucose)
             } else {
                 return nil
             }
         }
         
-        let model = GlucoseBarChartModel(data: items, treshold: treshold)
-        homeSceneProps.glucoseChartModel = model
+        return GlucoseBarChartModel(data: items, treshold: treshold)
     }
     
     // MARK: - Average glucose data
@@ -109,12 +132,14 @@ private extension HomeSceneViewModel {
             from: recordsSource,
             count: recordsSource.count)
         
+        let averageStringValue = !averageValue.isNaN ? averageValue.convertToString() : ""
+        
         guard let currentSettings = currentSettings else {
             return nil
         }
         
         var model = AverageGlucoseChartModel(
-            averageValue: averageValue.convertToString(),
+            averageValue: averageStringValue,
             glucoseUnit: currentSettings.glucoseUnits,
             period: period)
         
@@ -132,7 +157,9 @@ private extension HomeSceneViewModel {
         return model
     }
     
-    func buildLineChartWidgetData(from records: [Record]) {
+    func buildLineChartWidgetData(
+        from records: [Record]
+    ) -> LineChartHomeWidgetModel? {
         let sortedRecords = records.sorted { $0.recordDate < $1.recordDate }
         let recordsSource = getLastWeekRecords(with: sortedRecords)
         
@@ -144,13 +171,14 @@ private extension HomeSceneViewModel {
             }
         }
         
-        let model = LineChartHomeWidgetModel(data: items)
-        homeSceneProps.lineChartHomeWidgetModel = model
+        return LineChartHomeWidgetModel(data: items)
     }
     
     // MARK: - Helpers
     func findAverageValue(from records: [Record], count: Int) -> Decimal {
-        let summaryValue = records.reduce(Decimal.zero) { partialResult, record in
+        let recordsWithGlucose = records.filter { $0.glucoseLevel != nil }
+        
+        let summaryValue = recordsWithGlucose.reduce(Decimal.zero) { partialResult, record in
             guard let glucose = record.glucoseLevel else {
                 return partialResult
             }
@@ -158,6 +186,7 @@ private extension HomeSceneViewModel {
         }
         
         let averageValue = summaryValue / Decimal(count)
+        
         return averageValue
     }
     
@@ -169,13 +198,14 @@ private extension HomeSceneViewModel {
             let lastWeekRecords = records.filter { record in
                 return oneWeekAgo...currentDate ~= record.recordDate
             }
-            return lastWeekRecords
+            return lastWeekRecords.sorted { $0.recordDate < $1.recordDate }
         }
         return []
     }
     
     func getCurrentRecords() {
         $modifiedRecords
+            .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] modifiedRecords in
                 guard let self = self else {

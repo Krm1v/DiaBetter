@@ -16,7 +16,10 @@ final class ReportSceneBuilder {
             userService: container.userService,
             settingsService: container.settingsService,
             unitsConvertManager: container.unitsConvertManager)
+        
         let viewController = ReportViewController(viewModel: viewModel)
-		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
+		return Module(
+            viewController: viewController,
+            transitionPublisher: viewModel.transitionPublisher)
 	}
 }

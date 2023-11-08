@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class ChartsViewModel: BaseViewModel {
+internal class ChartsViewModel: BaseViewModel {
     // MARK: - Properties
     let recordsService: RecordsService
     let userService: UserService
@@ -43,6 +43,7 @@ private extension ChartsViewModel {
     func getCurrentSettings() {
         let combinedData = Publishers.CombineLatest(settingsService.settingsPublisher, $records)
         combinedData
+            .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] settings, records in
                 guard let self = self else {
@@ -51,17 +52,17 @@ private extension ChartsViewModel {
                 self.currentSettings = settings
                 self.modifiedRecords = records.compactMap({ record in
                     var modifiedRecord = record
-
+                    
                     if let glucose = record.glucoseLevel {
                         modifiedRecord.glucoseLevel = self.unitsConvertManager.convertRecordUnits(
                             glucoseValue: glucose)
                     }
-
+                    
                     if let carbs = record.meal {
                         modifiedRecord.meal = self.unitsConvertManager.convertRecordUnits(
                             carbs: carbs)
                     }
-                
+                    
                     return modifiedRecord
                 })
             }
@@ -73,7 +74,7 @@ private extension ChartsViewModel {
             return
         }
         recordsService.fetchRecords(userId: userId)
-            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+            .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else {
@@ -93,6 +94,7 @@ private extension ChartsViewModel {
     
     func fetchRecords() {
         recordsService.recordsPublisher
+            .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] records in
                 guard let self = self else {

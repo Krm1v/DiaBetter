@@ -8,8 +8,8 @@
 import Foundation
 
 struct ChartItem {
-	let xValue: Date
-	let yValue: Double
+    let xValue: Date
+    let yValue: Double
 }
 
 extension ChartItem {
@@ -21,7 +21,7 @@ extension ChartItem {
 struct HomeSceneWidgetPropsModel: Identifiable {
     let id = UUID()
     var glucoseChartModel: GlucoseBarChartModel
-    var averageGlucoseChartModel: [AverageGlucoseChartModel]
+    var averageGlucoseChartModel: AverageGlucoseHomeModel
     var lineChartHomeWidgetModel: LineChartHomeWidgetModel
 }
 
@@ -29,6 +29,12 @@ struct GlucoseBarChartModel: Identifiable {
     let id = UUID()
     let data: [ChartItem]
     let treshold: Double
+}
+
+struct AverageGlucoseHomeModel: Identifiable {
+    let id = UUID()
+    var data: [AverageGlucoseChartModel]
+    var isData: Bool
 }
 
 struct AverageGlucoseChartModel: Identifiable {

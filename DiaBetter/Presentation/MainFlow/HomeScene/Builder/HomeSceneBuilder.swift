@@ -18,7 +18,10 @@ final class HomeSceneModuleBuilder {
             recordsService: container.recordsService,
 			settingsService: container.settingsService,
 			unitsConvertManager: container.unitsConvertManager)
+        
 		let viewController = HomeSceneViewController(viewModel: viewModel)
-		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
+		return Module(
+            viewController: viewController,
+            transitionPublisher: viewModel.transitionPublisher)
 	}
 }

@@ -107,7 +107,10 @@ final class UserServiceImpl {
 			.eraseToAnyPublisher()
 	}
 
-    func uploadUserProfilePhoto(data: MultipartDataItem, userId: String) -> AnyPublisher<UserProfilePictureDomainModel, Error> {
+    func uploadUserProfilePhoto(
+        data: MultipartDataItem,
+        userId: String
+    ) -> AnyPublisher<UserProfilePictureDomainModel, Error> {
 		return userNetworkService.uploadUserProfilePhoto(data: data, userId: userId)
 			.mapError { $0 as Error }
 			.map { response in

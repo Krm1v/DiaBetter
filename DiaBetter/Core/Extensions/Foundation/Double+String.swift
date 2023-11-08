@@ -13,7 +13,7 @@ extension Double {
         numberFormatter.minimumFractionDigits = 1
         numberFormatter.maximumFractionDigits = 1
         numberFormatter.decimalSeparator = "."
-
+        
         return numberFormatter.string(from: self as NSNumber) ?? ""
     }
 }

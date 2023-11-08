@@ -16,6 +16,8 @@ final class ResetPasswordSceneBuilder {
 	static func build(container: AppContainer) -> Module<ResetPasswordTransition, UIViewController> {
 		let viewModel = ResetPasswordSceneViewModel(userService: container.userService)
 		let viewController = ResetPasswordSceneViewController(viewModel: viewModel)
-		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
+		return Module(
+            viewController: viewController,
+            transitionPublisher: viewModel.transitionPublisher)
 	}
 }

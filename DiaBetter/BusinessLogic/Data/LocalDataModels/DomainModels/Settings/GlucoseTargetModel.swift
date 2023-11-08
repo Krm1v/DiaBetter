@@ -9,5 +9,5 @@ import Foundation
 
 struct GlucoseTarget: Codable, Equatable {
     var min: Decimal
-	var max: Decimal
+    var max: Decimal
 }

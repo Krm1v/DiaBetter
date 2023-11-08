@@ -8,5 +8,5 @@
 import Foundation
 
 struct UserProfilePictureResponse: Decodable {
-	let fileURL: String
+    let fileURL: String
 }

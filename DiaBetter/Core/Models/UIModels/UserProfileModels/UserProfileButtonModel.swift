@@ -13,6 +13,6 @@ enum UserProfileButtonType {
 }
 
 struct UserProfileButtonModel: Hashable, UserSceneDataModelProtocol {
-	let buttonTitle: String
+    let buttonTitle: String
     let buttonType: UserProfileButtonType
 }

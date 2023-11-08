@@ -8,13 +8,18 @@
 import UIKit
 
 enum DataSceneTransitions: Transition {
-	case moveToBackupScene
+    case moveToBackupScene
 }
 
 final class DataSceneBuilder {
-	static func build(container: AppContainer) -> Module<DataSceneTransitions, UIViewController> {
-		let viewModel = DataSceneViewModel(recordService: container.recordsService, userService: container.userService)
-		let viewController = DataSceneViewConroller(viewModel: viewModel)
-		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
-	}
+    static func build(container: AppContainer) -> Module<DataSceneTransitions, UIViewController> {
+        let viewModel = DataSceneViewModel(
+            recordService: container.recordsService,
+            userService: container.userService)
+        
+        let viewController = DataSceneViewConroller(viewModel: viewModel)
+        return Module(
+            viewController: viewController,
+            transitionPublisher: viewModel.transitionPublisher)
+    }
 }

@@ -33,7 +33,10 @@ final class RecordsServiceImpl {
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
-    init(recordsNetworkService: RecordsNetworkService, tokenStorage: TokenStorage) {
+    init(
+        recordsNetworkService: RecordsNetworkService,
+        tokenStorage: TokenStorage
+    ) {
         self.recordsNetworkService = recordsNetworkService
         self.tokenStorage = tokenStorage
     }

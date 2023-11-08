@@ -16,8 +16,9 @@ final class ReportViewModel: ChartsViewModel {
     // MARK: - Published properties
     @Published var reportScenePropsModel: ReportSceneProps = .init(
         areaChartModel: .init(),
-        insulinBarChartModel: .init(isDataExist: false,
-                                    chartData: .init()),
+        insulinBarChartModel: .init(
+            isDataExist: false,
+            chartData: .init()),
         averageGlucoseChartModel: .init(glucoseValue: "", glucoseUnit: ""),
         minMaxGlucoseValueChartModel: .init(minValue: "", maxValue: ""))
     
@@ -114,7 +115,7 @@ private extension ReportViewModel {
         
         let averageValue = summaryValue / Decimal(recordsWithGlucose.count)
         let averageStringValue = !averageValue.isNaN ? averageValue.convertToString() : ""
-
+        
         var averageGlucoseChartModel = TodayAverageGlucoseChartModel(
             glucoseValue: averageStringValue,
             dotColor: Colors.customGreen.color,
@@ -133,7 +134,7 @@ private extension ReportViewModel {
         } else {
             averageGlucoseChartModel.dotColor = Colors.customPink.color
         }
-                
+        
         reportScenePropsModel.averageGlucoseChartModel = averageGlucoseChartModel
     }
     

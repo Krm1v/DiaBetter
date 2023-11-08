@@ -9,10 +9,11 @@ import SwiftUI
 import Charts
 
 struct InsulinBarChart: View {
-    
+    // MARK: - Properties
     @State var insulinData: [TodayInsulinModel]
     @State var isDataExist: Bool
     
+    // MARK: - Body
     var body: some View {
         if !isDataExist {
             EmptyWidgetStateView(textMessage: Localization.noDataAvailable)
@@ -21,20 +22,38 @@ struct InsulinBarChart: View {
             Chart(insulinData) { insulinItems in
                 ForEach(insulinItems.data, id: \.id) {
                     BarMark(
-                        x: .value("Time", $0.recordTime, unit: .hour),
-                        y: .value("InsulinValue", $0.insulinValue))
-                    .foregroundStyle(by: .value("Insulin type", insulinItems.insulinType.title))
-                    .position(by: .value("insulin", insulinItems.insulinType.title))
+                        x: .value(
+                            "Time",
+                            $0.recordTime, unit: .hour),
+                        y: .value(
+                            "InsulinValue",
+                            $0.insulinValue)
+                    )
+                    .foregroundStyle(
+                        by: .value(
+                            "Insulin type",
+                            insulinItems.insulinType.title)
+                    )
+                    .position(
+                        by: .value(
+                            "insulin",
+                            insulinItems.insulinType.title)
+                    )
                 }
             }
             .chartYAxis {
                 AxisMarks(position: .trailing)
             }
             .chartXAxis {
-                AxisMarks(values: .stride(by: .hour)) { _ in
+                AxisMarks(
+                    values: .stride(by: .hour)
+                ) { _ in
                     AxisTick()
                     AxisGridLine()
-                    AxisValueLabel(format: .dateTime.hour(), centered: true)
+                    AxisValueLabel(
+                        format: .dateTime.hour(),
+                        centered: true
+                    )
                 }
             }
             .chartForegroundStyleScale([
@@ -46,6 +65,7 @@ struct InsulinBarChart: View {
     }
 }
 
+// MARK: - Preview
 struct InsulinBarChart_Preview: PreviewProvider {
     static var previews: some View {
         InsulinBarChart(insulinData: .init(), isDataExist: true)
