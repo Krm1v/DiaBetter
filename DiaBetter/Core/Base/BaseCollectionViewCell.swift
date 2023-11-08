@@ -8,13 +8,16 @@
 import UIKit
 import Combine
 
-class BaseCollectionViewCell: UICollectionViewCell {
-	//MARK: - Properties
-	var cancellables = Set<AnyCancellable>()
-	
-	//MARK: - Overriden methods
-	override func prepareForReuse() {
-		super.prepareForReuse()
-		cancellables.removeAll()
-	}
+internal class BaseCollectionViewCell: UICollectionViewCell {
+    // MARK: - Properties
+    var cancellables = Set<AnyCancellable>()
+    
+    // MARK: - Overriden methods
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cancellables.removeAll()
+    }
 }
+
+// MARK: - Extension UIElementsBuilder
+extension BaseCollectionViewCell: UIElementsBuilder { }

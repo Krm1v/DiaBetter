@@ -8,6 +8,6 @@
 import Foundation
 
 struct SectionModel<Section: Hashable, Item: Hashable> {
-	let section: Section
-	var items: [Item]
+    let section: Section
+    var items: [Item]
 }

@@ -9,57 +9,117 @@ import Foundation
 import Combine
 
 enum RecordsEndpoint: Endpoint {
-	case addRecord(RecordRequestModel)
-	case updateRecord(RecordRequestModel, String)
-	case fetchRecords
-	case deleteRecord(String)
-	
-	//MARK: - Properties
-	var path: String? {
-		switch self {
-		case .addRecord:
-			return "/data/Records"
-		case .updateRecord(_, let id):
-			return "/data/Records/\(id)"
-		case .fetchRecords:
-			return "/data/Records"
-		case .deleteRecord(let id):
-			return "data/Records/\(id)"
-		}
-	}
-	var httpMethod: HTTPMethods {
-		switch self {
-		case .addRecord:
-			return .post
-		case .updateRecord:
-			return .put
-		case .fetchRecords:
-			return .get
-		case .deleteRecord:
-			return .delete
-		}
-	}
-	
-	var queries: HTTPQueries {
-		switch self {
-		default: return [:]
-		}
-	}
-	
-	var headers: HTTPHeaders {
-		switch self {
-		case .addRecord, .updateRecord, .fetchRecords, .deleteRecord:
-			return ["": ""]
-		}
-	}
-	
-	var body: RequestBody? {
-		switch self {
-		case .addRecord(let recordModel), .updateRecord(let recordModel, _):
-			return .encodable(recordModel)
-		case .deleteRecord, .fetchRecords:
-			return nil
-		}
-	}
+    case addRecord(model: RecordRequestModel)
+    case updateRecord(model: RecordRequestModel, id: String)
+    case fetchRecords(userId: String)
+    case deleteRecord(id: String)
+    case bulkDetele(id: String)
+    case bulkAddRecords(model: [RecordRequestModel])
+    case filterRecords(userId: String, startDate: Double, endDate: Double)
+    case fetchPaginatedRecords(userId: String, pageSize: String, offset: String)
+    
+    // MARK: - Properties
+    var path: String? {
+        switch self {
+        case .addRecord: 			   return "/data/Records"
+        case .updateRecord(_, let id): return "/data/Records/\(id)"
+        case .fetchRecords: 		   return "/data/Records"
+        case .fetchPaginatedRecords:   return "/data/Records"
+        case .deleteRecord(let id):    return "/data/Records/\(id)"
+        case .bulkDetele:			   return "/data/bulk/Records"
+        case .bulkAddRecords:		   return "/data/bulk/Records"
+        case .filterRecords:		   return "/data/Records"
+        }
+    }
+    
+    var httpMethod: HTTPMethods {
+        switch self {
+        case .addRecord: 	  		 return .post
+        case .bulkAddRecords: 		 return .post
+        case .updateRecord:   		 return .put
+        case .fetchRecords:   		 return .get
+        case .fetchPaginatedRecords: return .get
+        case .deleteRecord:   		 return .delete
+        case .bulkDetele:     		 return .delete
+        case .filterRecords:  		 return .get
+        }
+    }
+    
+    var queries: HTTPQueries {
+        switch self {
+        case .fetchRecords(let id):
+            let ownerId = QueryParameters(
+                key: .ownerId,
+                value: .equalToString(stringValue: id)).queryString
+            
+            let recordDate = QueryParameters(
+                key: .recordDate,
+                value: .equalToString(stringValue: "")).queryString
+            
+            return [
+                .filter: ownerId,
+                .sort: recordDate
+            ]
+            
+        case .fetchPaginatedRecords(let id, let pagesCount, let offset):
+            let ownerId = QueryParameters(
+                key: .ownerId,
+                value: .equalToString(stringValue: "\(id)")).queryString
+            
+            let recordDate = QueryParameters(
+                key: .recordDate,
+                value: .equalToTildaString(stringValue: "")).queryString
+            
+            return [
+                .pageSize: pagesCount,
+                .offset: offset,
+                .filter: ownerId,
+                .sort: "`\(recordDate)`desc"
+            ]
+            
+        case .bulkDetele(let id):
+            let ownerId = QueryParameters(
+                key: .ownerId,
+                value: .equalToString(stringValue: id)
+            ).queryString
+            
+            return [.filter: ownerId]
+            
+        case .filterRecords(let id, let startDate, let endDate):
+            let idFilter = QueryParameters(
+                key: .ownerId,
+                value: .equalToString(stringValue: id)
+            ).queryString
+            
+            let dateFilter = QueryParameters(
+                key: .recordDate,
+                value: .dateRange(startDate: startDate, endDate: endDate)
+            ).queryString
+            
+            return [
+                .filter: "\(idFilter) and \(dateFilter)"
+            ]
+            
+        default: return [:]
+        }
+    }
+    
+    var headers: HTTPHeaders {
+        switch self {
+        default: return [:]
+        }
+    }
+    
+    var body: RequestBody? {
+        switch self {
+        case .addRecord(model: let recordModel), .updateRecord(model: let recordModel, _):
+            return .encodable(recordModel)
+            
+        case .bulkAddRecords(model: let records):
+            return .encodable(records)
+            
+        case .deleteRecord, .fetchRecords, .bulkDetele, .filterRecords, .fetchPaginatedRecords:
+            return nil
+        }
+    }
 }
-

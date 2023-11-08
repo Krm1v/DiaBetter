@@ -1,0 +1,186 @@
+disabled_rules: # Rule identifiers to exclude from running
+    - colon
+    - comma
+    - empty_string
+    - identifier_name # Rule for checking variable conditions (Upper case , lower case , underscore)
+    - shorthand_operator
+    - nesting
+    - foundation_using
+    - function_parameter_count
+    - trailing_whitespace
+    - void_function_in_ternary
+    - print_using
+    - private_over_fileprivate
+    # - type_contents_order
+
+cyclomatic_complexity:
+    warning: 25 # Two nested ifs are acceptable
+    error: 50   # six nested ifs shows warning, 6 causes compile error
+
+opt_in_rules: # Some rules are only opt-in
+    - force_unwrapping
+    - implicit_getter
+    - empty_count
+    - trailing_newline
+    - colon
+    - comma
+    - file_header
+    - type_contents_order
+    - conditional_returns_on_newline
+    - control_statement
+    - discarded_notification_center_observer
+    - closing_brace
+    - closure_parameter_position
+    - discouraged_direct_init
+    - discouraged_optional_boolean
+    - duplicate_imports
+    - empty_parameters
+    - fallthrough
+    - fatal_error_message
+    - first_where
+    - flatmap_over_map_reduce
+    - for_where
+    - implicitly_unwrapped_optional
+    - last_where
+    - leading_whitespace
+    - mark
+    - multiline_parameters
+    - overridden_super_call
+    - private_action
+    - private_outlet
+    - redundant_discardable_let
+    - redundant_nil_coalescing
+    - redundant_objc_attribute
+    - redundant_void_return
+    - weak_delegate
+    # - unused_import
+    # - unused_declaration
+    - unused_capture_list
+    - custom_todo
+
+included: # Paths to include during linting. `--path` is ignored if present.
+    - DiaBetter
+    #  - SwiftLintExampleests
+
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+    - Carthage
+    - Pods
+    - AppFolder\ App/Class/*
+    - DiaBetter/Resources/Generated
+    - SwiftLintExample/R.generated.swift
+    # - AppFolder\ App/ViewController/* //Enabled for this
+
+analyzer_rules: # Rules run by `swiftlint analyze` (experimental)
+    - explicit_self
+    - unused_import
+    - unused_declaration
+
+# Configurable rules can be customised from this configuration file
+# binary rules can set their severity level
+force_cast: warning # implicitly. Give warning only for force casting
+
+force_try:
+    severity: warning # explicitly
+
+# Rules that have both warning and error levels, can set just the warning level
+# implicitly
+
+line_length:
+    - 200 # warning
+    - 300 # error
+
+type_body_length:
+    - 300 # warning
+    - 400 # error
+# or they can set both explicitly
+
+file_length:
+    warning: 500
+    error: 800
+
+function_body_length:
+    - 100 #warning
+    - 150 #error
+
+large_tuple: # Warn user when using 3 values in tuple, give error if there are 4
+    - 3
+    - 4
+
+file_header:
+    required_pattern: |
+                    \/\/
+                    \/\/  .*?
+                    \/\/  .*?
+                    \/\/
+                    \/\/  Created by .*?
+                    \/\/
+
+type_contents_order:
+    order:
+    - case
+    - associated_type
+    - type_alias
+    - subtype
+    - [type_property, instance_property, ib_outlet, ib_inspectable]
+    - [initializer, deinitializer, type_method, view_life_cycle_method, subscript, other_method, ib_action]
+
+# Naming rules can set warnings/errors for min_length and max_length
+# additionally they can set excluded names
+
+type_name:
+    min_length: 4 # only warning
+    max_length: # warning and error
+     warning: 40
+     error: 50
+    excluded: iPhone # excluded via string
+    allowed_symbols: ["_"] # these are allowed in type names
+identifier_name:
+    min_length: # only min_length
+     error: 4 # only error
+    allowed_symbols: "_"
+    max_length:
+     warning: 15
+     error: 20
+    excluded: # excluded via string array
+    - id
+    - URL
+    - GlobalAPIKey
+
+reporter: "xcode" # Reporter type (xcode, json, csv, checkstyle, junit, html, emoji, sonarqube, markdown)
+
+# Custom rules
+custom_rules:
+  custom_todo:
+    name: "TODO Violation"
+    regex: "(TODO).(?!.*(https&)).(?!.*issue)"
+    match_kinds: comment
+    message: "TODOs must include a link to the issue."
+    severity: warning
+  final_class:
+    included: ".*.swift"
+    name: "Final class requrement"
+    regex: '^class'
+    message: "All classes must be final or nonfinal"
+    saverity: error
+  foundation_using:
+    included: ".*.swift"
+    regex: 'import Foundation'
+    message: "Do you really need for Foundation ???"
+  print_using:
+    regex: 'print'
+    message: "Print decrease performance of the app"
+    severity: error
+  already_true:
+    regex: "== true"
+    message: "Don't compare to true, just use the bool value."
+  already_bool:
+    regex: "== false"
+    message: "Don't compare to false, just use !value."
+  multiple_empty_lines:
+    included: ".*.swift"
+    name: "Multiple Empty Lines"
+    regex: '((?:\s*\n){3,})'
+    message: "There are too many line breaks"
+    severity: error
+control_statement:
+    severity: warning # explicitly

@@ -6,6 +6,11 @@
   
 */
 
+// Screen titles
+"home" = "Home";
+"today" = "Today";
+"settings" = "Settings";
+
 // General
 "error" = "Error";
 "ok" = "OK";
@@ -19,9 +24,7 @@
 "email" = "Email";
 "password" = "Password";
 "confirm-password" = "Confirm password";
-
-"home" = "Home";
-"settings" = "Settings";
+"detail" = "Detail";
 "logout" = "Logout";
 "search" = "Search";
 "enter-your-email" = "Enter your email";
@@ -40,6 +43,7 @@
 "user-profile" = "User profile";
 "change-photo" = "Change photo";
 "delete-photo" = "Delete photo";
+"delete" = "Delete";
 "cancel" = "Cancel";
 "report" = "Report";
 "general" = "General";
@@ -55,7 +59,7 @@
 "send-feedback" = "Send feedback";
 "show-onboarding" = "Show onboarding";
 "diary" = "Diary";
-"add-new-record" = "Add new record";
+"add-new-record" = "New record";
 "close" = "Close";
 "save" = "Save";
 "glucose" = "Glucose";
@@ -67,6 +71,118 @@
 "go-to-settings" = "Go to settings";
 "how-do-you-feel" = "How do you feel?";
 "date" = "Date";
+"password-description" = "Password must contains at least 8 characters, one capitalized letter, one number and one special symbol";
+"insulin-usage" = "Insulin usage";
+"glucose-level" = "Glucose level";
+"app-title" = "DiaBetter";
+"reset-password-title" = "Password has been successfully reset";
+"reset-password-message" = "Your new password was sent to your email address.";
+"reset-password-description" = "Enter your email address which was used for registration and the new password will be send immediately.";
+"login-validation-error-description" = "Wrong email or password. Check your login data and try again, please.";
+"create-account-validation-error-description" = "Enter email or password in correct format";
+"add-new-record-error-description" = "Your data is empty. Fill at least one of the fields except note field.";
+"notification-access-denied-message" = "DiaBetter needs an access to push notifications. Please, turn on push notifications in system settings.";
+"check-glucose-level" = "Check glucose level";
+"insulin-injection" = "Insulin injection";
+"have meal" = "Have meal";
+"morning" = "Morning";
+"day" = "Day";
+"evening" = "Evening";
+"enable-or-disable-notifications" = "Enable or disable notifications";
+"choose-reminders" = "Choose reminders you need";
+"target-glucose" = "Target glucose";
+"glucose-units" = "Glucose units";
+"carbohydrates" = "Carbohydrates";
+"min" = "Min";
+"max" = "Max";
+"glucose-reminder-name" = "Don't forget to check your glucose level";
+"glucose-reminder-body" = "It's time to make a measurement of glucose level";
+"insulin-reminder-name" = "Don't forget to make an insulin injection";
+"insulin-reminder-body" = "Control your diabetes. It's really important to make injections in time";
+"meal-reminder-name" = "It's time to have some meal";
+"meal-reminder-body" = "Eat some snacks to keep your glucose level in balance";
 
+"visit-website" = "Visit website";
+"follow-instagram" = "Follow us on Instagram";
+"follow-twitter" = "Follow us on Twitter";
+"follow-fb" = "Follow us on Facebook";
+"follow-linkedIn" = "Follow us on LinkedIn";
+"terms-and-conditions" = "Terms and conditions";
+"privacy-policy" = "Privacy policy";
 
+//Backup scene
+"backup" = "Backup";
+"start-date" = "Start date";
+"end-date" = "End date";
+"backup-all-data" = "Backup all data";
+"pick-date-range-footer-text" = "Pick a date range you want to save or save all of your data.";
+"create-backup" = "Create backup";
+"share-data" = "Share data";
+"backup-or-share-footer-text" = "Backup your data on device or share it with your doctor.";
+"erase-all-data" = "Erase all data";
+"erase-data-footer-text" = "You can erase all of your data. This action can't be undo.";
+"apple-health-connect" = "Apple Health connect";
+"apple-health-footer-description" = "Turn on to let DiaBetter connect with Apple Health to write and read data";
+"import" = "Import";
+"wrong-backup-error-description" = "Wrong data. This backup file doesn't belong to this account";
+"backup-data-in-range" = "Backup data in date range";
+"backup-all-data" = "Backup all data";
+"share-data-in-range" = "Share data in date range";
+"share-all-data" = "Share all data";
+"deletion-all-data-warning" = "Are you sure you want to delete all your data?";
+"deletion-all-data-description" = "This action can't be undo.";
+"records-email-subject" = "Records data";
+"data-deleted-message" = "All data successfully deleted";
+"shared-file-name" = "Records";
+"sharing-title-text" = "Here is my diabetes diary data.";
+"success" = "Success!";
+"success-import-message" = "Your data has been imported successfully";
 
+// EditRecord Scene
+"delete-record-title" = "Are you sure you want to delete this record?";
+"delete-record-message" = "This operation can't be aborted.";
+"delete-account" = "Delete account";
+"delete-account-alert" = "Are you sure you want to delete your account?";
+"delete-account-alert-message" = "This action can't be undo. This also will erase all your data";
+"yes" = "Yes";
+"average-glucose" = "Average glucose";
+"glucose-timeline" = "Glucose timeline";
+
+// Today report
+"today-glucose" = "Today's glucose";
+"glucose-trends" = "Glucose trends";
+"no-data-available" = "No data available";
+"not-enough-data" = "Not enough data. Add some more results to see your report.";
+"lowest-today" = "Lowest today";
+"highest-today" = "Highest today";
+
+// Home scene
+"overall" = "Overall";
+"week" = "Week";
+"3m" = "3 month";
+"last-seven-days-glucose" = "Last 7 days glucose";
+"not-in-range" = "Not in range";
+"in-range" = "In range";
+
+// Units scene
+"grams" = "Grams";
+"bread-units" = "Bread units(12g)";
+"grams-shortened" = "g.";
+"bread-units-shortened" = "BU";
+"loading" = "Loading...";
+
+// Network errors
+"encoding-error-message" = "Error occured during data encoding.";
+"bad-url-error" = "Bad URL error occured.";
+"url-components-error-message" = "Bad URL components error occured.";
+"default-error-message" = "An error occured on the client side. Please, try again later";
+"server-error-message" = "An error occured on the server side. Please, try again later";
+"data-decoding-error-message" = "An error occured during data decoding. Please, try again later.";
+"unexpected-error-message" = "Oops! Something went wrong. Unexpected error occured. Please, try again later.";
+"bad-url-message" = "Bad URL error occured. Please, try again later.";
+"timeout-error-message" = "Timeout error occured. Check your Internet connection or try again later.";
+"host-error-message" = "Host error occured. Please, try again later.";
+"redirect-error-message" = "Redirect error occured. Please, try again later.";
+"resource-unavailable-error" = "The resource is currently unavailable. Please, try again later.";
+"token-error-message" = "Token error occured. Please, try again later.";
+"no-response-error-message" = "There is no response from the server. Please, try again later.";
