@@ -9,42 +9,42 @@ import UIKit
 import Combine
 
 final class AuthCoordinator: Coordinator {
-	//MARK: - Properties
+	// MARK: - Properties
 	var childCoordinators: [Coordinator] = []
 	var navigationController: UINavigationController
 	let container: AppContainer
 	private(set) lazy var didFinishPublisher = didFinishSubject.eraseToAnyPublisher()
 	private let didFinishSubject = PassthroughSubject<Void, Never>()
 	private var cancellables = Set<AnyCancellable>()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init(navigationController: UINavigationController, container: AppContainer) {
 		self.navigationController = navigationController
 		self.container = container
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func start() {
 		startLoginScene()
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension AuthCoordinator {
 	func startLoginScene() {
 		let module = LoginModuleBuilder.build(container: container)
 		module.transitionPublisher
 			.sink { [unowned self] transition in
 				switch transition {
-				case .loggedIn: didFinishSubject.send()
-				case .signUp: signUp()
+				case .loggedIn: 	   didFinishSubject.send()
+				case .signUp: 		   signUp()
 				case .restorePassword: restorePassword()
 				}
 			}
 			.store(in: &cancellables)
 		setRoot([module.viewController])
 	}
-	
+
 	func signUp() {
 		let module = CreateUserProfileBuilder.build(container: container)
 		module.transitionPublisher
@@ -57,7 +57,7 @@ private extension AuthCoordinator {
 			.store(in: &cancellables)
 		push(module.viewController)
 	}
-	
+
 	func restorePassword() {
 		let module = ResetPasswordSceneBuilder.build(container: container)
 		module.transitionPublisher

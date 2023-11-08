@@ -11,7 +11,7 @@ extension ImageAsset: Hashable {
 	func hash(into hasher: inout Hasher) {
 		hasher.combine(image)
 	}
-	
+
 	static func == (lhs: ImageAsset, rhs: ImageAsset) -> Bool {
 		return lhs.image == rhs.image
 	}

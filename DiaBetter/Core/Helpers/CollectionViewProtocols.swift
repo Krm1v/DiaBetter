@@ -11,3 +11,6 @@ protocol SelfConfiguringCell: AnyObject {
 	static var reuseID: String { get }
 }
 
+protocol SupplementariesConfigurationProtocol: AnyObject {
+	static var reuseId: String { get }
+}

@@ -8,23 +8,23 @@
 import UIKit
 
 final class AxisScrollView: UIScrollView {
-	//MARK: - Propertirs
+	// MARK: - Propertirs
 	let axis: NSLayoutConstraint.Axis
 	let contentView = UIView()
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init(axis: NSLayoutConstraint.Axis = .vertical) {
 		self.axis = axis
 		super.init(frame: .zero)
 		initialSetup()
 	}
-	
-	required init?(coder: NSCoder) {
+
+	@available(*, unavailable) required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension AxisScrollView {
 	func initialSetup() {
 		if axis == .vertical {

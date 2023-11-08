@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 final class NoteTextView: UIView {
-	//MARK: - UIElements
+	// MARK: - UIElements
 	private(set) lazy var textView: UITextView = {
 		let textView = UITextView()
 		textView.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +20,7 @@ final class NoteTextView: UIView {
 		textView.backgroundColor = Colors.darkNavyBlue.color
 		return textView
 	}()
-	
+
 	private(set) lazy var charactersCountLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
@@ -29,7 +29,7 @@ final class NoteTextView: UIView {
 		label.text = Constants.maxCharacters.description
 		return label
 	}()
-	
+
 	private(set) var fakePlaceholder: UILabel = {
 		let label = UILabel()
 		label.text = Localization.howDoYouFeel
@@ -38,35 +38,35 @@ final class NoteTextView: UIView {
 		label.sizeToFit()
 		return label
 	}()
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	var text: String? {
 		get { textView.text }
 		set { textView.text = newValue }
 	}
-	
+
 	var isActive = false
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension NoteTextView {
 	func setupUI() {
 		addSubs()
 		setupLayout()
 		textView.delegate = self
 	}
-	
+
 	func addSubs() {
 		addSubview(textView, constraints: [
 			textView.topAnchor.constraint(equalTo: topAnchor),
@@ -76,35 +76,39 @@ private extension NoteTextView {
 		])
 		[fakePlaceholder, charactersCountLabel].forEach { textView.addSubview($0) }
 	}
-	
+
 	func setupLayout() {
 		guard let pointSize = textView.font?.pointSize else {
 			return
 		}
 		fakePlaceholder.frame.origin = CGPoint(x: 15, y: (pointSize) / 1.4)
-		charactersCountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.basicEdgeInset)
+		charactersCountLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
+													   constant: -Constants.basicEdgeInset)
 			.isActive = true
-		charactersCountLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.basicEdgeInset)
+		charactersCountLabel.bottomAnchor.constraint(equalTo: bottomAnchor,
+													 constant: -Constants.basicEdgeInset)
 			.isActive = true
 		textView.textContainerInset = Constants.textContainerInsets
 	}
 }
 
-//MARK: - Extension UITextViewDelegate
+// MARK: - Extension UITextViewDelegate
 extension NoteTextView: UITextViewDelegate {
 	func textViewDidChange(_ textView: UITextView) {
 		fakePlaceholder.isHidden = !textView.text.isEmpty
 		charactersCountLabel.text = "\(Constants.maxCharacters - textView.text.count)"
 	}
-	
+
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-		guard let charCount = textView.text?.count else { return false }
+		guard let charCount = textView.text?.count else {
+			return false
+		}
 		return charCount < Constants.maxCharacters || text == ""
 	}
 }
 
-//MARK: - Constants
-fileprivate enum Constants {
+// MARK: - Constants
+private enum Constants {
 	static let basicFontSize: CGFloat = 13
 	static let maxCharacters = 120
 	static let textContainerInsets = UIEdgeInsets(top: 9, left: 9, bottom: 0, right: 0)

@@ -9,27 +9,26 @@ import UIKit
 import Combine
 
 final class SettingsTableView: UITableView {
-	//MARK: - Properties
+	// MARK: - Properties
 	private var diffableDataSource: SettingsTableViewDiffableDataSource?
 	private var cancellables = Set<AnyCancellable>()
 	private let sections = SettingsGroup.allCases
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	override init(frame: CGRect, style: UITableView.Style) {
 		super.init(frame: frame, style: style)
 		setupTable()
-		
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupTable()
 	}
-	
+
 	func getObject(with indexPath: IndexPath) -> Settings? {
 		diffableDataSource?.itemIdentifier(for: indexPath)
 	}
-	
+
 	func reloadDiffableDatasourceData() {
 		var snapshot = NSDiffableDataSourceSnapshot<SettingsGroup, Settings>()
 		sections.forEach { section in
@@ -40,63 +39,59 @@ final class SettingsTableView: UITableView {
 	}
 }
 
-
-//MARK: - Private extension
+// MARK: - Private extension
 private extension SettingsTableView {
-	//MARK: - DiffableDatasource
+	// MARK: - DiffableDatasource
 	func setupDiffableDatasource() {
 		diffableDataSource = SettingsTableViewDiffableDataSource(tableView: self,
-																 cellProvider: { (tableView, indexPath, identifier) -> TableViewCustomCell? in
-			guard let section = SettingsGroup(rawValue: indexPath.section) else { return nil }
+																 cellProvider: { (_, indexPath, _) -> TableViewCustomCell? in
+			guard let section = SettingsGroup(rawValue: indexPath.section) else {
+				return nil
+			}
+
 			switch section {
 			case .general:
-				let cell = self.configureCell(cellType: TableViewCustomCell.self,
-											  with: identifier.title,
-											  indexPath: indexPath)
+				let cell = self.configureCell(
+					cellType: TableViewCustomCell.self,
+					indexPath: indexPath)
+
 				cell.configure(with: section.group, indexPath: indexPath.row)
 				return cell
+
 			case .customization:
-				let cell = self.configureCell(cellType: TableViewCustomCell.self,
-											  with: identifier.title,
-											  indexPath: indexPath)
+				let cell = self.configureCell(
+					cellType: TableViewCustomCell.self,
+					indexPath: indexPath)
+
 				cell.configure(with: section.group, indexPath: indexPath.row)
 				return cell
+
 			case .about:
-				let cell = self.configureCell(cellType: TableViewCustomCell.self,
-											  with: identifier.title,
-											  indexPath: indexPath)
+				let cell = self.configureCell(
+					cellType: TableViewCustomCell.self,
+					indexPath: indexPath)
+
 				cell.configure(with: section.group, indexPath: indexPath.row)
 				return cell
+
 			case .empty:
-				let cell = self.configureCell(cellType: TableViewCustomCell.self,
-											  with: identifier.title,
-											  indexPath: indexPath)
+				let cell = self.configureCell(
+					cellType: TableViewCustomCell.self,
+					indexPath: indexPath)
+
 				cell.configure(with: section.group, indexPath: indexPath.row)
 				return cell
 			}
 		})
 	}
-	
-	//MARK: - SetupUI
+
+	// MARK: - SetupUI
 	func setupTable() {
-		register(TableViewCustomCell.self, forCellReuseIdentifier: Constants.reuseId)
+		register(
+			TableViewCustomCell.self,
+			forCellReuseIdentifier: TableViewCustomCell.reuseID)
 		backgroundColor = .black
 		setupDiffableDatasource()
 		reloadDiffableDatasourceData()
 	}
-	
-	func configureCell<T: SelfConfiguringCell>(cellType: T.Type,
-											   with: String,
-											   indexPath: IndexPath) -> T {
-		guard let cell = dequeueReusableCell(withIdentifier: cellType.reuseID,
-											 for: indexPath) as? T else {
-			fatalError("Error \(cellType)")
-		}
-		return cell
-	}
-}
-
-//MARK: - Constants
-fileprivate enum Constants {
-	static let reuseId = "settingsTableViewCell"
 }

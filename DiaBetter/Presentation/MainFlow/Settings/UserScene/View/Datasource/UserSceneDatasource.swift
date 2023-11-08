@@ -5,51 +5,34 @@
 //  Created by Владислав Баранкевич on 10.03.2023.
 //
 
-import UIKit
-import Combine
+import Foundation
 
-protocol UserDataModel {}
-
-struct UserHeaderModel: Hashable {
-	let email: String
-	let image: ImageResource?
-}
-
-struct UserDataSettingsModel: Hashable, UserDataModel {
-	let title: String
-	let textFieldValue: String
-}
-
-struct UserDataMenuSettingsModel: Hashable, UserDataModel {
-	let title: String
-	var labelValue: String
-	let source: SettingsMenuDatasource
-}
-
-enum SettingsMenuDatasource: Hashable {
-	case diabetesType
-	case fastInsulines
-	case longInsulines
-	
-	var type: [SettingsMenuDatasourceProtocol] {
-		switch self {
-		case .diabetesType:
-			return DiabetesType.allCases
-		case .fastInsulines:
-			return FastInsulines.allCases
-		case .longInsulines:
-			return LongInsulines.allCases
-		}
-	}
-}
-
+// MARK: - Sections
 enum UserProfileSections: Int, Hashable {
 	case header
 	case list
 }
 
-enum UserSettings: Hashable, UserDataModel {
+// MARK: - Items
+enum UserSettings: Hashable {
 	case header(UserHeaderModel)
 	case plainWithTextfield(UserDataSettingsModel)
 	case plainWithLabel(UserDataMenuSettingsModel)
+}
+
+enum UserParameters: Hashable {
+	case diabetesType
+	case fastInsulin
+	case longInsulin
+
+	var items: [UserParametersProtocol] {
+		switch self {
+		case .diabetesType:
+			return UserTreatmentSettings.DiabetesType.allCases
+		case .fastInsulin:
+			return UserTreatmentSettings.FastInsulines.allCases
+		case .longInsulin:
+			return UserTreatmentSettings.LongInsulines.allCases
+		}
+	}
 }

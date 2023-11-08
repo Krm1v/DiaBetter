@@ -16,8 +16,8 @@ enum UserEndpoint: Endpoint {
 	case logout
 	case uploadPhoto(data: MultipartDataItem)
 	case deletePhoto(filename: String)
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	var path: String? {
 		switch self {
 		case .delete(let id):
@@ -48,22 +48,21 @@ enum UserEndpoint: Endpoint {
 			return .delete
 		}
 	}
-	
+
 	var queries: HTTPQueries {
 		switch self {
 		case .uploadPhoto:
-			return ["overwrite": "true"]
+			return [.overwrite: "true"]
 		default: return [:]
 		}
 	}
-	
+
 	var headers: HTTPHeaders {
 		switch self {
-		case .delete, .update, .fetchUser, .restorePassword, .logout, .uploadPhoto, .deletePhoto:
-			return ["": ""]
+		default: return [:]
 		}
 	}
-	
+
 	var body: RequestBody? {
 		switch self {
 		case .update(let user, _):
@@ -75,4 +74,3 @@ enum UserEndpoint: Endpoint {
 		}
 	}
 }
-

@@ -12,15 +12,15 @@ protocol NetworkPlugin: AnyObject {
 }
 
 final class TokenPlugin: NetworkPlugin {
-	//MARK: - Propertirs
+	// MARK: - Propertirs
 	let tokenStorage: TokenStorage
-	
-	//MARK: - Init
+
+	// MARK: - Init
 	init(tokenStorage: TokenStorage) {
 		self.tokenStorage = tokenStorage
 	}
-	
-	//MARK: - Public methods
+
+	// MARK: - Public methods
 	func modify(_ request: inout URLRequest) {
 		if let token = tokenStorage.token?.value {
 			request.addValue(token, forHTTPHeaderField: "user-token")

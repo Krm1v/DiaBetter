@@ -14,25 +14,26 @@ enum ButtonsCellActions {
 }
 
 final class ButtonsCell: BaseCollectionViewCell {
-	//MARK: - Properties
+	// MARK: - Properties
 	private(set) lazy var actionPublisher = actionSubject.eraseToAnyPublisher()
 	private let actionSubject = PassthroughSubject<ButtonsCellActions, Never>()
-	
-	//MARK: - UI Elements
-	private lazy var saveButton = buildGradientButton(with: Localization.save, fontSize: 13)
+
+	// MARK: - UI Elements
+	private lazy var saveButton = buildGradientButton(with: Localization.save,
+													  fontSize: Constants.defaultButtonFontSize)
 	private lazy var closeButton = buildBackButton(with: Localization.close)
 	private lazy var vStackForButtons = buildStackView(axis: .vertical,
 													   alignment: .fill,
 													   distribution: .fillEqually,
-													   spacing: 16)
-	
-	//MARK: - Init
+													   spacing: Constants.defaultStackViewSpacing)
+
+	// MARK: - Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
 		setupBindings()
 	}
-	
+
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupUI()
@@ -40,13 +41,13 @@ final class ButtonsCell: BaseCollectionViewCell {
 	}
 }
 
-//MARK: - Private extension
+// MARK: - Private extension
 private extension ButtonsCell {
 	func setupUI() {
-		backgroundColor = .black
+		backgroundColor = .clear
 		setupLayout()
 	}
-	
+
 	func setupLayout() {
 		addSubview(vStackForButtons, constraints: [
 			vStackForButtons.topAnchor.constraint(equalTo: topAnchor),
@@ -58,28 +59,22 @@ private extension ButtonsCell {
 			vStackForButtons.addArrangedSubview($0)
 		}
 	}
-	
+
 	func setupBindings() {
 		saveButton.tapPublisher
-			.sink { [unowned self] in
-				actionSubject.send(.saveButtonDidTapped)
-			}
+			.map { ButtonsCellActions.saveButtonDidTapped }
+			.subscribe(actionSubject)
 			.store(in: &cancellables)
+
 		closeButton.tapPublisher
-			.sink { [unowned self] in
-				actionSubject.send(.closeButtonDidTapped)
-			}
+			.map { ButtonsCellActions.closeButtonDidTapped }
+			.subscribe(actionSubject)
 			.store(in: &cancellables)
 	}
 }
 
-//MARK: - Extension SelfConfiguringCell
-extension ButtonsCell: SelfConfiguringCell {
-	static var reuseID: String {
-		"buttonCell"
-	}
+// MARK: - Constants
+private enum Constants {
+	static let defaultButtonFontSize: 	CGFloat = 13
+	static let defaultStackViewSpacing: CGFloat = 16
 }
-
-//MARK: - Extension UIElementsBuilder
-extension ButtonsCell: UIElementsBuilder {}
-

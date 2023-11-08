@@ -11,8 +11,8 @@ import Combine
 enum UserAuthorizationEndpoint: Endpoint {
 	case register(user: UserRequestModel)
 	case login(credentials: Login)
-	
-	//MARK: - Properties
+
+	// MARK: - Properties
 	var path: String? {
 		switch self {
 		case .register:
@@ -21,27 +21,26 @@ enum UserAuthorizationEndpoint: Endpoint {
 			return "/users/login"
 		}
 	}
-	
+
 	var httpMethod: HTTPMethods {
 		switch self {
 		case .register, .login:
 			return .post
 		}
 	}
-	
+
 	var queries: HTTPQueries {
 		switch self {
 		default: return [:]
 		}
 	}
-	
+
 	var headers: HTTPHeaders {
 		switch self {
-		case .register, .login:
-			return ["Content-Type": "application/json"]
+		default: return ["Content-Type": "application/json"]
 		}
 	}
-	
+
 	var body: RequestBody? {
 		switch self {
 		case .register(let user):
@@ -51,4 +50,3 @@ enum UserAuthorizationEndpoint: Endpoint {
 		}
 	}
 }
-

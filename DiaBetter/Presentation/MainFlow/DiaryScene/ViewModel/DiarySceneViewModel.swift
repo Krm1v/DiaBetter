@@ -1,0 +1,114 @@
+//
+//  DiarySceneViewModel.swift
+//  DiaBetter
+//
+//  Created by Владислав Баранкевич on 20.02.2023.
+//
+
+import Combine
+import Foundation
+
+final class DiarySceneViewModel: BaseViewModel {
+	typealias DiarySection = SectionModel<DiarySceneSection, DiarySceneItem>
+
+	// MARK: - Properties
+	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
+	private let transitionSubject = PassthroughSubject<DiarySceneTransition, Never>()
+	private let recordService: RecordsService
+	private let userService: UserService
+
+	// MARK: - @Published properties
+	@Published var sections: [DiarySection] = []
+	@Published var records: [Record] = []
+
+	// MARK: - Init
+	init(recordService: RecordsService, userService: UserService) {
+		self.recordService = recordService
+		self.userService = userService
+	}
+
+	// MARK: - Overriden methods
+	override func onViewWillAppear() {
+		fetchRecords()
+	}
+
+	override func onViewDidDisappear() {
+		sections.removeAll()
+	}
+
+	// MARK: - Public methods
+	func updateDatasource() {
+		guard let user = userService.user else {
+			return
+		}
+		var orderedRecords: [DateRecord] = []
+
+		for record in records {
+			if let index = orderedRecords
+				.firstIndex(where: { $0.date.isSameDay(as: record.recordDate) }) {
+				orderedRecords[index].records.append(DiaryRecordCellModel(record, user: user))
+			} else {
+				orderedRecords.append(
+					.init(date: record.recordDate,
+						  records: [DiaryRecordCellModel(record, user: user)]))
+			}
+		}
+
+		let sortedRecords = orderedRecords.sorted(by: { $0.date > $1.date })
+
+		for item in sortedRecords {
+			let headerModel = RecordSectionModel(title: item.date.stringRepresentation(format: .dayMonthYear))
+			var section = DiarySection(
+				section: .main(headerModel),
+				items: [])
+
+			let sortedItems = item.records.sorted(by: { $0.time > $1.time })
+			section.items = sortedItems.map { .record($0) }
+			self.sections.append(section)
+		}
+	}
+
+	func didSelectItem(_ item: DiarySceneItem) {
+		switch item {
+		case .record(let cellModel):
+			guard let model = records.first(where: { $0.objectId == cellModel.id }) else {
+				return
+			}
+			transitionSubject.send(.edit(model))
+		}
+	}
+}
+
+// MARK: - Private extension
+private extension DiarySceneViewModel {
+	func fetchRecords() {
+		guard let userId = userService.user?.remoteId else {
+			return
+		}
+		isLoadingSubject.send(true)
+		recordService.fetchRecords(userId: userId)
+			.subscribe(on: DispatchQueue.global())
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] completion in
+				guard let self = self else {
+					return
+				}
+				switch completion {
+				case .finished:
+					isLoadingSubject.send(false)
+					Logger.info("Finished")
+					self.updateDatasource()
+				case .failure(let error):
+					isLoadingSubject.send(false)
+					Logger.error(error.localizedDescription)
+					self.errorSubject.send(error)
+				}
+			} receiveValue: { [weak self] records in
+				guard let self = self else {
+					return
+				}
+				self.records = records
+			}
+			.store(in: &self.cancellables)
+	}
+}
