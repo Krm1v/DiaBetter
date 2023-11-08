@@ -12,10 +12,11 @@ final class BoxElementView: UIView {
 	private lazy var valueLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
-		label.font = FontFamily.Montserrat.semiBold.font(size: 17)
+        label.font = FontFamily.Montserrat.semiBold.font(
+            size: Constants.largeFontSize)
 		label.textAlignment = .natural
 		label.textColor = .white
-		label.minimumScaleFactor = 0.5
+        label.minimumScaleFactor = Constants.minScaleFactor
 		return label
 	}()
 
@@ -24,15 +25,17 @@ final class BoxElementView: UIView {
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textAlignment = .natural
 		label.textColor = .systemGray
-		label.font = FontFamily.Montserrat.regular.font(size: 13)
-		label.minimumScaleFactor = 0.5
+        label.font = FontFamily.Montserrat.regular.font(
+            size: Constants.regularFontSize)
+        label.minimumScaleFactor = Constants.minScaleFactor
 		return label
 	}()
 
-	private lazy var vStack = buildStackView(axis: .vertical,
-											 alignment: .center,
-											 distribution: .fillProportionally,
-											 spacing: .zero)
+	private lazy var vStack = buildStackView(
+        axis: .vertical,
+        alignment: .center,
+        distribution: .fillProportionally,
+        spacing: .zero)
 
 	// MARK: - Init
 	override init(frame: CGRect) {
@@ -64,7 +67,7 @@ final class BoxElementView: UIView {
 private extension BoxElementView {
 	func setupUI() {
 		self.backgroundColor = Colors.darkNavyBlue.color
-		self.rounded(12)
+        self.rounded(Constants.defaultCornerRadius)
 		addSubs()
 	}
 
@@ -81,4 +84,6 @@ extension BoxElementView: UIElementsBuilder { }
 private enum Constants {
 	static let largeFontSize: CGFloat = 17
 	static let regularFontSize: CGFloat = 13
+    static let minScaleFactor: CGFloat = 0.5
+    static let defaultCornerRadius: CGFloat = 12
 }

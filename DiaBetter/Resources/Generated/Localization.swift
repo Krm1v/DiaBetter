@@ -10,12 +10,14 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum Localization {
+  /// 3 month
+  internal static let _3m = Localization.tr("Localizable", "3m", fallback: "3 month")
   /// About
   internal static let about = Localization.tr("Localizable", "about", fallback: "About")
   /// Access denied
   internal static let accessDenied = Localization.tr("Localizable", "access-denied", fallback: "Access denied")
-  /// Add new record
-  internal static let addNewRecord = Localization.tr("Localizable", "add-new-record", fallback: "Add new record")
+  /// New record
+  internal static let addNewRecord = Localization.tr("Localizable", "add-new-record", fallback: "New record")
   /// Your data is empty. Fill at least one of the fields except note field.
   internal static let addNewRecordErrorDescription = Localization.tr("Localizable", "add-new-record-error-description", fallback: "Your data is empty. Fill at least one of the fields except note field.")
   /// App Icon
@@ -26,6 +28,8 @@ internal enum Localization {
   internal static let appleHealthConnect = Localization.tr("Localizable", "apple-health-connect", fallback: "Apple Health connect")
   /// Turn on to let DiaBetter connect with Apple Health to write and read data
   internal static let appleHealthFooterDescription = Localization.tr("Localizable", "apple-health-footer-description", fallback: "Turn on to let DiaBetter connect with Apple Health to write and read data")
+  /// Average glucose
+  internal static let averageGlucose = Localization.tr("Localizable", "average-glucose", fallback: "Average glucose")
   /// Back to login
   internal static let backToLogin = Localization.tr("Localizable", "back-to-login", fallback: "Back to login")
   /// Backup
@@ -36,8 +40,16 @@ internal enum Localization {
   internal static let backupDataInRange = Localization.tr("Localizable", "backup-data-in-range", fallback: "Backup data in date range")
   /// Backup your data on device or share it with your doctor.
   internal static let backupOrShareFooterText = Localization.tr("Localizable", "backup-or-share-footer-text", fallback: "Backup your data on device or share it with your doctor.")
+  /// Bad URL error occured.
+  internal static let badUrlError = Localization.tr("Localizable", "bad-url-error", fallback: "Bad URL error occured.")
+  /// Bad URL error occured. Please, try again later.
+  internal static let badUrlMessage = Localization.tr("Localizable", "bad-url-message", fallback: "Bad URL error occured. Please, try again later.")
   /// Basal insulin
   internal static let basalInsulin = Localization.tr("Localizable", "basal-insulin", fallback: "Basal insulin")
+  /// Bread units(12g)
+  internal static let breadUnits = Localization.tr("Localizable", "bread-units", fallback: "Bread units(12g)")
+  /// BU
+  internal static let breadUnitsShortened = Localization.tr("Localizable", "bread-units-shortened", fallback: "BU")
   /// Cancel
   internal static let cancel = Localization.tr("Localizable", "cancel", fallback: "Cancel")
   /// Carbohydrates
@@ -68,14 +80,24 @@ internal enum Localization {
   internal static let customization = Localization.tr("Localizable", "customization", fallback: "Customization")
   /// Data
   internal static let data = Localization.tr("Localizable", "data", fallback: "Data")
+  /// An error occured during data decoding. Please, try again later.
+  internal static let dataDecodingErrorMessage = Localization.tr("Localizable", "data-decoding-error-message", fallback: "An error occured during data decoding. Please, try again later.")
   /// All data successfully deleted
   internal static let dataDeletedMessage = Localization.tr("Localizable", "data-deleted-message", fallback: "All data successfully deleted")
   /// Date
   internal static let date = Localization.tr("Localizable", "date", fallback: "Date")
   /// Day
   internal static let day = Localization.tr("Localizable", "day", fallback: "Day")
+  /// An error occured on the client side. Please, try again later
+  internal static let defaultErrorMessage = Localization.tr("Localizable", "default-error-message", fallback: "An error occured on the client side. Please, try again later")
   /// Delete
   internal static let delete = Localization.tr("Localizable", "delete", fallback: "Delete")
+  /// Delete account
+  internal static let deleteAccount = Localization.tr("Localizable", "delete-account", fallback: "Delete account")
+  /// Are you sure you want to delete your account?
+  internal static let deleteAccountAlert = Localization.tr("Localizable", "delete-account-alert", fallback: "Are you sure you want to delete your account?")
+  /// This action can't be undo. This also will erase all your data
+  internal static let deleteAccountAlertMessage = Localization.tr("Localizable", "delete-account-alert-message", fallback: "This action can't be undo. This also will erase all your data")
   /// Delete photo
   internal static let deletePhoto = Localization.tr("Localizable", "delete-photo", fallback: "Delete photo")
   /// This operation can't be aborted.
@@ -100,6 +122,8 @@ internal enum Localization {
   internal static let email = Localization.tr("Localizable", "email", fallback: "Email")
   /// Enable or disable notifications
   internal static let enableOrDisableNotifications = Localization.tr("Localizable", "enable-or-disable-notifications", fallback: "Enable or disable notifications")
+  /// Error occured during data encoding.
+  internal static let encodingErrorMessage = Localization.tr("Localizable", "encoding-error-message", fallback: "Error occured during data encoding.")
   /// End date
   internal static let endDate = Localization.tr("Localizable", "end-date", fallback: "End date")
   /// Enter your country
@@ -138,21 +162,35 @@ internal enum Localization {
   internal static let glucoseReminderBody = Localization.tr("Localizable", "glucose-reminder-body", fallback: "It's time to make a measurement of glucose level")
   /// Don't forget to check your glucose level
   internal static let glucoseReminderName = Localization.tr("Localizable", "glucose-reminder-name", fallback: "Don't forget to check your glucose level")
+  /// Glucose timeline
+  internal static let glucoseTimeline = Localization.tr("Localizable", "glucose-timeline", fallback: "Glucose timeline")
+  /// Glucose trends
+  internal static let glucoseTrends = Localization.tr("Localizable", "glucose-trends", fallback: "Glucose trends")
   /// Glucose units
   internal static let glucoseUnits = Localization.tr("Localizable", "glucose-units", fallback: "Glucose units")
   /// Go to settings
   internal static let goToSettings = Localization.tr("Localizable", "go-to-settings", fallback: "Go to settings")
+  /// Grams
+  internal static let grams = Localization.tr("Localizable", "grams", fallback: "Grams")
+  /// g.
+  internal static let gramsShortened = Localization.tr("Localizable", "grams-shortened", fallback: "g.")
   /// Have meal
   internal static let haveMeal = Localization.tr("Localizable", "have meal", fallback: "Have meal")
+  /// Highest today
+  internal static let highestToday = Localization.tr("Localizable", "highest-today", fallback: "Highest today")
   /// Localizable.strings
   ///   MVVMSkeleton
   /// 
   ///   Created by Roman Savchenko on 12.12.2021.
   internal static let home = Localization.tr("Localizable", "home", fallback: "Home")
+  /// Host error occured. Please, try again later.
+  internal static let hostErrorMessage = Localization.tr("Localizable", "host-error-message", fallback: "Host error occured. Please, try again later.")
   /// How do you feel?
   internal static let howDoYouFeel = Localization.tr("Localizable", "how-do-you-feel", fallback: "How do you feel?")
   /// Import
   internal static let `import` = Localization.tr("Localizable", "import", fallback: "Import")
+  /// In range
+  internal static let inRange = Localization.tr("Localizable", "in-range", fallback: "In range")
   /// Insulin
   internal static let insulin = Localization.tr("Localizable", "insulin", fallback: "Insulin")
   /// Insulin injection
@@ -163,12 +201,18 @@ internal enum Localization {
   internal static let insulinReminderName = Localization.tr("Localizable", "insulin-reminder-name", fallback: "Don't forget to make an insulin injection")
   /// Insulin usage
   internal static let insulinUsage = Localization.tr("Localizable", "insulin-usage", fallback: "Insulin usage")
+  /// Last 7 days glucose
+  internal static let lastSevenDaysGlucose = Localization.tr("Localizable", "last-seven-days-glucose", fallback: "Last 7 days glucose")
+  /// Loading...
+  internal static let loading = Localization.tr("Localizable", "loading", fallback: "Loading...")
   /// Login
   internal static let login = Localization.tr("Localizable", "login", fallback: "Login")
   /// Wrong email or password. Check your login data and try again, please.
   internal static let loginValidationErrorDescription = Localization.tr("Localizable", "login-validation-error-description", fallback: "Wrong email or password. Check your login data and try again, please.")
   /// Logout
   internal static let logout = Localization.tr("Localizable", "logout", fallback: "Logout")
+  /// Lowest today
+  internal static let lowestToday = Localization.tr("Localizable", "lowest-today", fallback: "Lowest today")
   /// Max
   internal static let max = Localization.tr("Localizable", "max", fallback: "Max")
   /// Meal
@@ -183,6 +227,14 @@ internal enum Localization {
   internal static let morning = Localization.tr("Localizable", "morning", fallback: "Morning")
   /// Name
   internal static let name = Localization.tr("Localizable", "name", fallback: "Name")
+  /// No data available
+  internal static let noDataAvailable = Localization.tr("Localizable", "no-data-available", fallback: "No data available")
+  /// There is no response from the server. Please, try again later.
+  internal static let noResponseErrorMessage = Localization.tr("Localizable", "no-response-error-message", fallback: "There is no response from the server. Please, try again later.")
+  /// Not enough data. Add some more results to see your report.
+  internal static let notEnoughData = Localization.tr("Localizable", "not-enough-data", fallback: "Not enough data. Add some more results to see your report.")
+  /// Not in range
+  internal static let notInRange = Localization.tr("Localizable", "not-in-range", fallback: "Not in range")
   /// Notes
   internal static let notes = Localization.tr("Localizable", "notes", fallback: "Notes")
   /// DiaBetter needs an access to push notifications. Please, turn on push notifications in system settings.
@@ -191,6 +243,8 @@ internal enum Localization {
   internal static let notifications = Localization.tr("Localizable", "notifications", fallback: "Notifications")
   /// OK
   internal static let ok = Localization.tr("Localizable", "ok", fallback: "OK")
+  /// Overall
+  internal static let overall = Localization.tr("Localizable", "overall", fallback: "Overall")
   /// Password
   internal static let password = Localization.tr("Localizable", "password", fallback: "Password")
   /// Password must contains at least 8 characters, one capitalized letter, one number and one special symbol
@@ -205,6 +259,8 @@ internal enum Localization {
   internal static let rateTheApp = Localization.tr("Localizable", "rate-the-app", fallback: "Rate the app")
   /// Records data
   internal static let recordsEmailSubject = Localization.tr("Localizable", "records-email-subject", fallback: "Records data")
+  /// Redirect error occured. Please, try again later.
+  internal static let redirectErrorMessage = Localization.tr("Localizable", "redirect-error-message", fallback: "Redirect error occured. Please, try again later.")
   /// Report
   internal static let report = Localization.tr("Localizable", "report", fallback: "Report")
   /// Enter your email address which was used for registration and the new password will be send immediately.
@@ -213,6 +269,8 @@ internal enum Localization {
   internal static let resetPasswordMessage = Localization.tr("Localizable", "reset-password-message", fallback: "Your new password was sent to your email address.")
   /// Password has been successfully reset
   internal static let resetPasswordTitle = Localization.tr("Localizable", "reset-password-title", fallback: "Password has been successfully reset")
+  /// The resource is currently unavailable. Please, try again later.
+  internal static let resourceUnavailableError = Localization.tr("Localizable", "resource-unavailable-error", fallback: "The resource is currently unavailable. Please, try again later.")
   /// Restore password
   internal static let restorePassword = Localization.tr("Localizable", "restore-password", fallback: "Restore password")
   /// Save
@@ -221,6 +279,8 @@ internal enum Localization {
   internal static let search = Localization.tr("Localizable", "search", fallback: "Search")
   /// Send feedback
   internal static let sendFeedback = Localization.tr("Localizable", "send-feedback", fallback: "Send feedback")
+  /// An error occured on the server side. Please, try again later
+  internal static let serverErrorMessage = Localization.tr("Localizable", "server-error-message", fallback: "An error occured on the server side. Please, try again later")
   /// Settings
   internal static let settings = Localization.tr("Localizable", "settings", fallback: "Settings")
   /// Share all data
@@ -243,20 +303,40 @@ internal enum Localization {
   internal static let skip = Localization.tr("Localizable", "skip", fallback: "Skip")
   /// Start date
   internal static let startDate = Localization.tr("Localizable", "start-date", fallback: "Start date")
+  /// Success!
+  internal static let success = Localization.tr("Localizable", "success", fallback: "Success!")
+  /// Your data has been imported successfully
+  internal static let successImportMessage = Localization.tr("Localizable", "success-import-message", fallback: "Your data has been imported successfully")
   /// Target glucose
   internal static let targetGlucose = Localization.tr("Localizable", "target-glucose", fallback: "Target glucose")
   /// Terms and conditions
   internal static let termsAndConditions = Localization.tr("Localizable", "terms-and-conditions", fallback: "Terms and conditions")
+  /// Timeout error occured. Check your Internet connection or try again later.
+  internal static let timeoutErrorMessage = Localization.tr("Localizable", "timeout-error-message", fallback: "Timeout error occured. Check your Internet connection or try again later.")
+  /// Today
+  internal static let today = Localization.tr("Localizable", "today", fallback: "Today")
+  /// Today's glucose
+  internal static let todayGlucose = Localization.tr("Localizable", "today-glucose", fallback: "Today's glucose")
+  /// Token error occured. Please, try again later.
+  internal static let tokenErrorMessage = Localization.tr("Localizable", "token-error-message", fallback: "Token error occured. Please, try again later.")
+  /// Oops! Something went wrong. Unexpected error occured. Please, try again later.
+  internal static let unexpectedErrorMessage = Localization.tr("Localizable", "unexpected-error-message", fallback: "Oops! Something went wrong. Unexpected error occured. Please, try again later.")
   /// Units
   internal static let units = Localization.tr("Localizable", "units", fallback: "Units")
+  /// Bad URL components error occured.
+  internal static let urlComponentsErrorMessage = Localization.tr("Localizable", "url-components-error-message", fallback: "Bad URL components error occured.")
   /// User
   internal static let user = Localization.tr("Localizable", "user", fallback: "User")
   /// User profile
   internal static let userProfile = Localization.tr("Localizable", "user-profile", fallback: "User profile")
   /// Visit website
   internal static let visitWebsite = Localization.tr("Localizable", "visit-website", fallback: "Visit website")
+  /// Week
+  internal static let week = Localization.tr("Localizable", "week", fallback: "Week")
   /// Wrong data. This backup file doesn't belong to this account
   internal static let wrongBackupErrorDescription = Localization.tr("Localizable", "wrong-backup-error-description", fallback: "Wrong data. This backup file doesn't belong to this account")
+  /// Yes
+  internal static let yes = Localization.tr("Localizable", "yes", fallback: "Yes")
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

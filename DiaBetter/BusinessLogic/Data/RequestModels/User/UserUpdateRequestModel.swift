@@ -8,9 +8,9 @@
 import Foundation
 
 struct UserUpdateRequestModel: Encodable {
-	let basalInsulin: 	   String?
-	let diabetesType: 	   String?
-	let fastActingInsulin: String?
-	let name: 			   String?
-	let userProfileImage:  String?
+    let basalInsulin: 	   String?
+    let diabetesType: 	   String?
+    let fastActingInsulin: String?
+    let name: 			   String?
+    let userProfileImage:  String?
 }
