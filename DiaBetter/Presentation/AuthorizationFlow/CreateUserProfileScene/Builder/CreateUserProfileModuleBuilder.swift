@@ -17,6 +17,8 @@ final class CreateUserProfileBuilder {
 	static func build(container: AppContainer) -> Module<CreateUserProfileTransition, UIViewController> {
 		let viewModel = CreateUserProfileViewModel(userService: container.userService)
 		let viewController = CreateUserProfileViewController(viewModel: viewModel)
-		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
+		return Module(
+            viewController: viewController,
+            transitionPublisher: viewModel.transitionPublisher)
 	}
 }

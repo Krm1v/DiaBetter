@@ -18,7 +18,10 @@ final class AuthCoordinator: Coordinator {
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
-    init(navigationController: UINavigationController, container: AppContainer) {
+    init(
+        navigationController: UINavigationController,
+        container: AppContainer
+    ) {
         self.navigationController = navigationController
         self.container = container
     }

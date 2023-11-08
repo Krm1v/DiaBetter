@@ -9,18 +9,14 @@ import Foundation
 import Combine
 
 final class HomeSceneViewModel: ChartsViewModel {
-	typealias HomeSceneSection = SectionModel<ChartSection, ChartsItems>
-
-	// MARK: - Properties
-	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
-	private let transitionSubject = PassthroughSubject<HomeSceneTransition, Never>()
-	private var lineChartState: LineChartState = .glucose
-	private var dateFilterState: WidgetFilterState = .day
+    // MARK: - Properties
+    private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
+    private let transitionSubject = PassthroughSubject<HomeSceneTransition, Never>()
     private var currentRecords: [Record] = []
-
-	@Published var sections: [HomeSceneSection] = []
-
-	// MARK: - Init
+    
+    @Published var homeSceneProps: HomeSceneWidgetPropsModel?
+    
+    // MARK: - Init
     init(
         userService: UserService,
         recordsService: RecordsService,
@@ -32,210 +28,190 @@ final class HomeSceneViewModel: ChartsViewModel {
             userService: userService,
             settingsService: settingsService,
             unitsConvertManager: unitsConvertManager)
-	}
-
-	// MARK: - Overriden methods
-	override func onViewDidLoad() {
+    }
+    
+    // MARK: - Overriden methods
+    override func onViewDidLoad() {
         super.onViewDidLoad()
         getCurrentRecords()
-	}
-
-	// MARK: - Public methods
-	func openAddNewRecordScene() {
-		transitionSubject.send(.toAddRecordScene)
-	}
-
-	func didSelectLineChartState(_ state: LineChartState) {
-		self.lineChartState = state
-        updateDatasource(with: currentRecords)
-	}
-
-	func didSelectChartFilterState(_ filterState: WidgetFilterState) {
-		self.dateFilterState = filterState
-		updateDatasource(with: currentRecords)
-	}
+    }
+    
+    // MARK: - Public methods
+    func openAddNewRecordScene() {
+        transitionSubject.send(.toAddRecordScene)
+    }
+    
+    func setupChartsDatasource(with records: [Record]) {
+        var glucoseModel: GlucoseBarChartModel?
+        var lineChartData: LineChartHomeWidgetModel?
+        var averageGlucoseData = [AverageGlucoseChartModel]()
+        
+        if let model = buildGlucoseBarChartModel(from: records) {
+            glucoseModel = model
+        }
+        
+        if let data = buildLineChartWidgetData(from: records) {
+            lineChartData = data
+        }
+        
+        if let overallAverage = buildAverageGlucoseWidgetData(
+            from: records,
+            for: .overall
+        ) {
+            averageGlucoseData.append(overallAverage)
+        }
+        
+        if let threeMonthAverage = buildAverageGlucoseWidgetData(
+            from: records,
+            for: .threeMonth
+        ) {
+            averageGlucoseData.append(threeMonthAverage)
+        }
+        
+        if let weekAverage = buildAverageGlucoseWidgetData(
+            from: records,
+            for: .week
+        ) {
+            averageGlucoseData.append(weekAverage)
+        }
+        
+        let isAverageDataAvailable = !averageGlucoseData.isEmpty
+        
+        let newProps = HomeSceneWidgetPropsModel(
+            glucoseChartModel: glucoseModel ?? .init(data: [],
+                                                     treshold: 0),
+            averageGlucoseChartModel: .init(data: averageGlucoseData,
+                                            isData: isAverageDataAvailable),
+            lineChartHomeWidgetModel: lineChartData ?? .init(data: [])
+        )
+        
+        homeSceneProps = newProps
+    }
 }
 
 // MARK: - Private extension
 private extension HomeSceneViewModel {
-	// MARK: - Datasource
-    func updateDatasource(with records: [Record]) {
-        let modifiedRecords = modifiedRecords.sorted { $0.recordDate < $1.recordDate }
-		let barChartModel = buildBarChartCellModel(modifiedRecords)
-		let barChartSection = HomeSceneSection(
-			section: .barChart(nil),
-			items: [
-				.barChart(barChartModel)
-			])
-
-		guard
-			let overallGlucose = buidAverageGlucoseWidgetData(for: .overall),
-			let weekGlucose = buidAverageGlucoseWidgetData(for: .week),
-			let threeMonthGlucose = buidAverageGlucoseWidgetData(for: .threeMonth)
-		else {
-			return
-		}
-
-        let averageGlucoseSectionModel = HomeSectionModel(title: Localization.averageGlucose)
-		let averageGlucoseSection = HomeSceneSection(
-			section: .averageGlucose(averageGlucoseSectionModel),
-			items: [
-				.averageGlucose(overallGlucose),
-				.averageGlucose(weekGlucose),
-				.averageGlucose(threeMonthGlucose)
-			])
-
-        let lineChartSectionModel = HomeSectionModel(title: Localization.glucoseTimeline)
-
-		sections = [
-			barChartSection,
-			averageGlucoseSection
-		]
-
-		guard let lineChartModel = buildLineChartWidgetData() else {
-			return
-		}
-		let lineChartSection = HomeSceneSection(
-			section: .lineChart(lineChartSectionModel),
-			items: [
-				.lineChart(lineChartModel)
-			])
-
-		sections = [
-			barChartSection,
-			averageGlucoseSection,
-			lineChartSection
-		]
-	}
-
-	// MARK: - Setup charts model
-	func buildBarChartCellModel(_ sortedRecords: [Record]) -> BarChartCellModel {
-		let recordsSource = sortedRecords.filter { Date().isDateInRange($0.recordDate, .month, 1) }
-
-		switch lineChartState {
-		case .glucose:
-			let items: [BarChartItem] = recordsSource.compactMap { record in
-				if let glucoseValue = record.glucoseLevel?.toDouble() {
-					return BarChartItem(
-						date: record.recordDate,
-						yValue: glucoseValue)
-				} else {
-					return nil
-				}
-			}
-
-			return BarChartCellModel(
-				state: .glucose,
-				items: items,
-				treshold: currentSettings?.glucoseTarget.max.toDouble())
-
-		case .insulin:
-			let items: [BarChartItem] = recordsSource.compactMap { record in
-				if let insulinValue = record.fastInsulin?.toDouble() {
-					return BarChartItem(
-						date: record.recordDate,
-						yValue: insulinValue)
-				} else {
-					return nil
-				}
-			}
-			return BarChartCellModel(state: .insulin, items: items, treshold: nil)
-
-		case .meal:
-			let items: [BarChartItem] = recordsSource.compactMap { record in
-				if let carbs = record.meal?.toDouble() {
-					return BarChartItem(
-						date: record.recordDate,
-						yValue: carbs)
-				} else {
-					return nil
-				}
-			}
-			return BarChartCellModel(
-				state: .meal,
-				items: items,
-				treshold: nil)
-		}
-	}
-
-	// MARK: - Average glucose data
-	func buidAverageGlucoseWidgetData(for period: AverageGlucosePeriods) -> AverageGlucoseCellModel? {
-		var recordsSource: [Record] = []
-		switch period {
-		case .overall:
-			recordsSource = modifiedRecords
-		case .week:
-			let filteredRecords = modifiedRecords.filter { Date().isDateInRange($0.recordDate, .day, 7) }
-			recordsSource = filteredRecords.sorted { $0.recordDate < $1.recordDate }
-		case .threeMonth:
-			let filteredRecords = modifiedRecords.filter { Date().isDateInRange($0.recordDate, .month, 3) }
-			recordsSource = filteredRecords.sorted { $0.recordDate < $1.recordDate }
-		}
-
-		let averageValue = findAverageValue(
-			from: recordsSource,
-			count: recordsSource.count)
-
-		guard let currentSettings = currentSettings else {
-			return nil
-		}
-
-		var model = AverageGlucoseCellModel(
-			period: period,
-			glucoseValue: averageValue.convertToString(),
-			glucoseUnit: currentSettings.glucoseUnits.title,
-			dotColor: Colors.customMint.color)
-
-		let target = currentSettings.glucoseTarget
-		let range = target.min...target.max
-
-		if range ~= averageValue {
-			model.dotColor = Colors.customMint.color
-		} else if averageValue < target.min {
-			model.dotColor = Colors.customLightBlue.color
-		} else {
-			model.dotColor = Colors.customPink.color
-		}
-		return model
-	}
-
-	func buildLineChartWidgetData() -> LineChartCellModel? {
-		let sortedRecords = records.sorted { $0.recordDate < $1.recordDate }
-		let recordsSource = sortedRecords.filter { Date().isDateInRange($0.recordDate, .month, 1) }
-
-        let items: [LineChartItem] = recordsSource.compactMap { record in
-			if let glucose = record.glucoseLevel?.toDouble() {
-				return LineChartItem(date: record.recordDate, yValue: glucose)
-			} else {
-				return nil
-			}
-		}
-
-		return LineChartCellModel(items: items)
-	}
-
-	// MARK: - Helpers
-	func findAverageValue(from records: [Record], count: Int) -> Decimal {
-		let summaryValue = records.reduce(Decimal.zero) { partialResult, record in
-			guard let glucose = record.glucoseLevel else {
-				return partialResult
-			}
-			return partialResult + glucose
-		}
-
-		let averageValue = summaryValue / Decimal(count)
-		return averageValue
-	}
+    // MARK: - Datasource
+    // MARK: - Setup charts model
+    func buildGlucoseBarChartModel(from records: [Record]) -> GlucoseBarChartModel? {
+        let lastWeekRecords = getLastWeekRecords(with: records)
+        guard let treshold = currentSettings?.glucoseTarget.max.toDouble() else {
+            return nil
+        }
+        let items = lastWeekRecords.compactMap { record in
+            if let glucose = record.glucoseLevel?.toDouble() {
+                return ChartItem(
+                    xValue: record.recordDate,
+                    yValue: glucose)
+            } else {
+                return nil
+            }
+        }
+        
+        return GlucoseBarChartModel(data: items, treshold: treshold)
+    }
+    
+    // MARK: - Average glucose data
+    func buildAverageGlucoseWidgetData(
+        from records: [Record],
+        for period: AverageGlucoseChartModel.RecordsPeriod
+    ) -> AverageGlucoseChartModel? {
+        var recordsSource: [Record] = []
+        switch period {
+        case .overall:
+            recordsSource = records
+        case .week:
+            let filteredRecords = records.filter { Date().isDateInRange($0.recordDate, .day, 7) }
+            recordsSource = filteredRecords.sorted { $0.recordDate < $1.recordDate }
+        case .threeMonth:
+            let filteredRecords = records.filter { Date().isDateInRange($0.recordDate, .month, 3) }
+            recordsSource = filteredRecords.sorted { $0.recordDate < $1.recordDate }
+        }
+        
+        let averageValue = findAverageValue(
+            from: recordsSource,
+            count: recordsSource.count)
+        
+        let averageStringValue = !averageValue.isNaN ? averageValue.convertToString() : ""
+        
+        guard let currentSettings = currentSettings else {
+            return nil
+        }
+        
+        var model = AverageGlucoseChartModel(
+            averageValue: averageStringValue,
+            glucoseUnit: currentSettings.glucoseUnits,
+            period: period)
+        
+        let target = currentSettings.glucoseTarget
+        let range = target.min...target.max
+        
+        if range ~= averageValue {
+            model.dotColor = Colors.customGreen.color
+        } else if averageValue < target.min {
+            model.dotColor = Colors.customPurple.color
+        } else {
+            model.dotColor = Colors.customPink.color
+        }
+        
+        return model
+    }
+    
+    func buildLineChartWidgetData(
+        from records: [Record]
+    ) -> LineChartHomeWidgetModel? {
+        let sortedRecords = records.sorted { $0.recordDate < $1.recordDate }
+        let recordsSource = getLastWeekRecords(with: sortedRecords)
+        
+        let items = recordsSource.compactMap { record in
+            if let glucose = record.glucoseLevel?.toDouble() {
+                return ChartItem(xValue: record.recordDate, yValue: glucose)
+            } else {
+                return nil
+            }
+        }
+        
+        return LineChartHomeWidgetModel(data: items)
+    }
+    
+    // MARK: - Helpers
+    func findAverageValue(from records: [Record], count: Int) -> Decimal {
+        let recordsWithGlucose = records.filter { $0.glucoseLevel != nil }
+        
+        let summaryValue = recordsWithGlucose.reduce(Decimal.zero) { partialResult, record in
+            guard let glucose = record.glucoseLevel else {
+                return partialResult
+            }
+            return partialResult + glucose
+        }
+        
+        let averageValue = summaryValue / Decimal(count)
+        
+        return averageValue
+    }
+    
+    func getLastWeekRecords(with records: [Record]) -> [Record] {
+        let currentDate = Date()
+        let calendar = Calendar.current
+        
+        if let oneWeekAgo = calendar.date(byAdding: .day, value: -7, to: currentDate) {
+            let lastWeekRecords = records.filter { record in
+                return oneWeekAgo...currentDate ~= record.recordDate
+            }
+            return lastWeekRecords.sorted { $0.recordDate < $1.recordDate }
+        }
+        return []
+    }
     
     func getCurrentRecords() {
         $modifiedRecords
+            .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] modifiedRecords in
                 guard let self = self else {
                     return
                 }
-                self.updateDatasource(with: modifiedRecords)
-                self.currentRecords = modifiedRecords
+                setupChartsDatasource(with: modifiedRecords)
             }
             .store(in: &cancellables)
     }

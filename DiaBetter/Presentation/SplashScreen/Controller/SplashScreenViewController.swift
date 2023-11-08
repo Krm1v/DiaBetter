@@ -8,11 +8,11 @@
 import UIKit
 
 final class SplashScreenViewController: BaseViewController<SplashScreenViewModel> {
-	// MARK: - Properties
-	private let contentView = SplashScreenView()
-
-	// MARK: - UIView lifecycle methods
-	override func loadView() {
-		self.view = contentView
-	}
+    // MARK: - Properties
+    private let contentView = SplashScreenView()
+    
+    // MARK: - UIView lifecycle methods
+    override func loadView() {
+        self.view = contentView
+    }
 }

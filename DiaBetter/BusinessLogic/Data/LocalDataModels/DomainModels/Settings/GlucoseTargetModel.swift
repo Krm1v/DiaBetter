@@ -8,6 +8,6 @@
 import Foundation
 
 struct GlucoseTarget: Codable, Equatable {
-	var min: Decimal
-	var max: Decimal
+    var min: Decimal
+    var max: Decimal
 }

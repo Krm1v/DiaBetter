@@ -33,7 +33,10 @@ final class RecordsServiceImpl {
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
-    init(recordsNetworkService: RecordsNetworkService, tokenStorage: TokenStorage) {
+    init(
+        recordsNetworkService: RecordsNetworkService,
+        tokenStorage: TokenStorage
+    ) {
         self.recordsNetworkService = recordsNetworkService
         self.tokenStorage = tokenStorage
     }
@@ -92,6 +95,14 @@ final class RecordsServiceImpl {
         return recordsNetworkService.updateRecord(record: createRequestModel(record), id: id)
             .mapError { $0 as Error }
             .map(Record.init)
+            .handleEvents(receiveOutput: { [weak self] record in
+                guard let self = self else {
+                    return
+                }
+                if let index = records.firstIndex(where: { $0.objectId == record.objectId }) {
+                    records[index] = record
+                }
+            })
             .eraseToAnyPublisher()
     }
     
@@ -111,6 +122,14 @@ final class RecordsServiceImpl {
     func deleteRecord(id: String) -> AnyPublisher<Void, Error> {
         return recordsNetworkService.deleteRecord(id: id)
             .mapError { $0 as Error }
+            .handleEvents(receiveOutput: { [weak self] _ in
+                guard let self = self else {
+                    return
+                }
+                if let index = records.firstIndex(where: { $0.objectId == id }) {
+                    records.remove(at: index)
+                }
+            })
             .eraseToAnyPublisher()
     }
     

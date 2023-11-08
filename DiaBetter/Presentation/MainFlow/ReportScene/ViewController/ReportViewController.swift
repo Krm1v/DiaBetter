@@ -10,29 +10,36 @@ import UIKit
 import Combine
 
 final class ReportViewController: BaseViewController<ReportViewModel> {
-	// MARK: - UIView lifecycle methods
+    // MARK: - Properties
+    private var hostingController: UIHostingController<ReportSceneView>?
+    
+    // MARK: - UIView lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         updateDatasource()
     }
-
-	// MARK: - Overriden methods
-	override func setupNavBar() {
-		super.setupNavBar()
+    
+    // MARK: - Overriden methods
+    override func setupNavBar() {
+        super.setupNavBar()
         navigationController?.navigationBar.isHidden = true
-	}
+    }
 }
 
 // MARK: - Private extension
 private extension ReportViewController {
-    func addHostingController(controller: UIHostingController<ReportSceneView>) {
+    func addHostingController(
+        _ controller: UIHostingController<ReportSceneView>
+    ) {
         addChild(controller)
-        view.addSubview(controller.view, constraints: [
-            controller.view.topAnchor.constraint(equalTo: view.topAnchor),
-            controller.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            controller.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        view.addSubview(
+            controller.view,
+            constraints: [
+                controller.view.topAnchor.constraint(equalTo: view.topAnchor),
+                controller.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                controller.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
     }
     
     func updateDatasource() {
@@ -42,9 +49,14 @@ private extension ReportViewController {
                 guard let self = self else {
                     return
                 }
-                let controller = UIHostingController(
-                    rootView: ReportSceneView(reportScenePropsModel: model, treshold: model.treshold))
-                addHostingController(controller: controller)
+                hostingController = UIHostingController(
+                    rootView: ReportSceneView(
+                        reportScenePropsModel: model,
+                        treshold: model.treshold))
+                guard let hostingController = hostingController else {
+                    return
+                }
+                addHostingController(hostingController)
             }
             .store(in: &cancellables)
     }

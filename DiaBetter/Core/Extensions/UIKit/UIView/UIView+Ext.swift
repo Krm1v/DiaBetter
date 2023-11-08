@@ -12,11 +12,11 @@ extension UIView {
         layer.borderWidth = width
         layer.borderColor = color.cgColor
     }
-
+    
     func rounded() {
         rounded(min(bounds.width, bounds.height) / 2)
     }
-
+    
     func rounded(_ radius: CGFloat) {
         layer.cornerRadius = radius
         layer.masksToBounds = true

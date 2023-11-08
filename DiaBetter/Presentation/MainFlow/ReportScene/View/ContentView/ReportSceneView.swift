@@ -10,74 +10,78 @@ import Combine
 import Charts
 
 struct ReportSceneView: View {
-    
+    // MARK: - Properties
     @State var reportScenePropsModel: ReportSceneProps
     @State var treshold: Double?
     
+    // MARK: - Body
     var body: some View {
         NavigationView {
-            
             ScrollView {
                 VStack {
-                    createHeader(with: "Today's glucose")
+                    
+                    createHeader(with: Localization.todayGlucose)
+                    
                     AreaChart(
                         glucoseData: reportScenePropsModel.areaChartModel,
-                        treshold: treshold)
+                        treshold: treshold
+                    )
                     .padding(.bottom)
                     
-                    createHeader(with: "Glucose trends")
-            
+                    createHeader(with: Localization.glucoseTrends)
+                    
                     HStack {
                         if reportScenePropsModel.averageGlucoseChartModel.glucoseValue.isEmpty {
-                            smallEmptyStateView
+                            EmptyWidgetStateView(textMessage: Localization.noDataAvailable)
+                                .frame(height: Constants.emptyStateViewHeight)
                         } else {
                             AverageGlucoseWidget(
                                 model: reportScenePropsModel.averageGlucoseChartModel)
-                            .frame(height: UIScreen.main.bounds.width / 5)
+                            .frame(height: Constants.emptyStateViewHeight)
                         }
                         
-                        if reportScenePropsModel.minMaxGlucoseValueChartModel.minValue.isEmpty, reportScenePropsModel.minMaxGlucoseValueChartModel.maxValue.isEmpty {
-                            smallEmptyStateView
+                        if reportScenePropsModel.minMaxGlucoseValueChartModel.minValue.isEmpty {
+                            EmptyWidgetStateView(textMessage: Localization.noDataAvailable)
+                                .frame(height: Constants.emptyStateViewHeight)
                         } else {
                             MinMaxGlucoseValuesWidget(
                                 model: reportScenePropsModel.minMaxGlucoseValueChartModel)
-                            .frame(height: UIScreen.main.bounds.width / 5)
+                            .frame(height: Constants.emptyStateViewHeight)
                         }
                     }
                     .padding(.bottom)
                     
-                    createHeader(with: "Insulin")
+                    createHeader(with: Localization.insulinUsage)
+                    
                     InsulinBarChart(
-                        insulinData: reportScenePropsModel.insulinBarChartModel)
+                        insulinData: reportScenePropsModel.insulinBarChartModel.chartData,
+                        isDataExist: reportScenePropsModel.insulinBarChartModel.isDataExist
+                    )
                 }
             }
             .scrollIndicators(.hidden)
             .navigationBarTitleDisplayMode(.large)
-            .navigationTitle(Localization.report)
-            .padding()
-        }
-    }
-    
-    private var smallEmptyStateView: EmptyWidgetStateView? {
-        return EmptyWidgetStateView(textMessage: "No data available")
-            .frame(height: UIScreen.main.bounds.width / 5) as? EmptyWidgetStateView
-    }
-    
-    func createHeader(with title: String) -> some View {
-        HStack {
-            Text(title)
-                .font(.custom(FontFamily.Montserrat.semiBold, size: 20))
-            
-            Spacer()
+            .navigationTitle(Localization.today)
+            .padding([.leading, .trailing])
         }
     }
 }
 
+// MARK: - Preview
 struct ReportScenePreview: PreviewProvider {
     static var previews: some View {
         ReportSceneView(
-            reportScenePropsModel: .init(areaChartModel: .init(),
-                                         insulinBarChartModel: .init(),
-                                         averageGlucoseChartModel: .init(glucoseValue: "", glucoseUnit: ""), minMaxGlucoseValueChartModel: .init(minValue: "", maxValue: "")))
+            reportScenePropsModel:
+                    .init(areaChartModel: .init(),
+                          insulinBarChartModel:
+                            .init(isDataExist: true, chartData: .init()),
+                          averageGlucoseChartModel:
+                            .init(glucoseValue: "", glucoseUnit: ""),
+                          minMaxGlucoseValueChartModel: .init(minValue: "", maxValue: "")))
     }
+}
+
+// MARK: - Constants
+fileprivate enum Constants {
+    static let emptyStateViewHeight: CGFloat = UIScreen.main.bounds.width / 5
 }

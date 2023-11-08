@@ -8,6 +8,6 @@
 import Foundation
 
 struct RecordSectionModel: Hashable {
-	var id = UUID()
-	var title: String
+    var id = UUID()
+    var title: String
 }

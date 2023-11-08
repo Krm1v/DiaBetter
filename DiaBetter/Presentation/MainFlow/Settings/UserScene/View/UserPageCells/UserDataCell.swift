@@ -9,77 +9,85 @@ import UIKit
 import Combine
 
 enum UserDataCellActions {
-	case textFieldDidChanged(String)
+    case textFieldDidChanged(String)
 }
 
 final class UserDataCell: BaseCollectionViewCell {
-	// MARK: - Properties
-	private(set) lazy var userDataCellEventsPublisher = userDataCellEventsSubject.eraseToAnyPublisher()
-	private let userDataCellEventsSubject = PassthroughSubject<UserDataCellActions, Never>()
-
-	// MARK: - UI Elements
-	private lazy var titleLabel = buildFieldTitleLabel()
-	private lazy var userTextField = UserNameTextField()
-
-	// MARK: - Init
-	override init(frame: CGRect) {
-		super.init(frame: frame)
-		setupUI()
-	}
-
-	required init?(coder: NSCoder) {
-		super.init(coder: coder)
-		setupUI()
-	}
-
-	// MARK: - Public methods
-	func configure(with model: UserDataSettingsModel) {
-		titleLabel.text = model.title
-		userTextField.text = model.textFieldValue
-		setupEvents()
-	}
+    // MARK: - Properties
+    private(set) lazy var userDataCellEventsPublisher = userDataCellEventsSubject.eraseToAnyPublisher()
+    private let userDataCellEventsSubject = PassthroughSubject<UserDataCellActions, Never>()
+    
+    // MARK: - UI Elements
+    private lazy var titleLabel = buildFieldTitleLabel()
+    private lazy var userTextField = UserNameTextField()
+    
+    // MARK: - Init
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupUI()
+    }
+    
+    // MARK: - Public methods
+    func configure(with model: UserDataSettingsModel) {
+        titleLabel.text = model.title
+        userTextField.text = model.textFieldValue
+        setupEvents()
+    }
 }
 
 // MARK: - Private extension
 private extension UserDataCell {
-	func setupUI() {
-		titleLabel.textColor = .white
-		self.backgroundColor = .black
-		addSubs()
-		titleLabel.font = FontFamily.Montserrat.regular.font(size: Constants.titleLabelDefaultFontSize)
-		userTextField.font = FontFamily.Montserrat.regular.font(size: Constants.userTextFieldDefaultFontSize)
-	}
-
-	func addSubs() {
-		addSubview(titleLabel, constraints: [
-			titleLabel.centerYAnchor.constraint(
-				equalTo: centerYAnchor),
-
-			titleLabel.leadingAnchor.constraint(
-				equalTo: leadingAnchor,
-				constant: Constants.basicLargeEdgeInset)])
-
-		addSubview(userTextField, constraints: [
-			userTextField.trailingAnchor.constraint(
-				equalTo: trailingAnchor,
-				constant: -Constants.basicLargeEdgeInset),
-
-			userTextField.centerYAnchor.constraint(equalTo: centerYAnchor)])
-	}
-
-	func setupEvents() {
-		userTextField.textPublisher
-			.replaceNil(with: "")
-			.map { UserDataCellActions.textFieldDidChanged($0) }
-			.subscribe(userDataCellEventsSubject)
-			.store(in: &cancellables)
-	}
+    func setupUI() {
+        titleLabel.textColor = .white
+        self.backgroundColor = .black
+        addSubs()
+        titleLabel.font = FontFamily.Montserrat.regular.font(
+            size: Constants.titleLabelDefaultFontSize)
+        
+        userTextField.font = FontFamily.Montserrat.regular.font(
+            size: Constants.userTextFieldDefaultFontSize)
+        userTextField.textAlignment = .right
+    }
+    
+    func addSubs() {
+        addSubview(
+            titleLabel,
+            constraints: [
+                titleLabel.centerYAnchor.constraint(
+                    equalTo: centerYAnchor),
+                
+                titleLabel.leadingAnchor.constraint(
+                    equalTo: leadingAnchor,
+                    constant: Constants.basicLargeEdgeInset)])
+        
+        addSubview(
+            userTextField,
+            constraints: [
+                userTextField.trailingAnchor.constraint(
+                    equalTo: trailingAnchor,
+                    constant: -Constants.basicLargeEdgeInset),
+                
+                userTextField.centerYAnchor.constraint(equalTo: centerYAnchor)])
+    }
+    
+    func setupEvents() {
+        userTextField.textPublisher
+            .replaceNil(with: "")
+            .map { UserDataCellActions.textFieldDidChanged($0) }
+            .subscribe(userDataCellEventsSubject)
+            .store(in: &cancellables)
+    }
 }
 
 // MARK: - Constants
 private enum Constants {
-	static let basicLargeEdgeInset: 		 CGFloat = 16
-	static let basicCornerRadius: 			 CGFloat = 20
-	static let userTextFieldDefaultFontSize: CGFloat = 15
-	static let titleLabelDefaultFontSize: 	 CGFloat = 15
+    static let basicLargeEdgeInset: 		 CGFloat = 16
+    static let basicCornerRadius: 			 CGFloat = 20
+    static let userTextFieldDefaultFontSize: CGFloat = 15
+    static let titleLabelDefaultFontSize: 	 CGFloat = 15
 }

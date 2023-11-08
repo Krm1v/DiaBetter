@@ -11,14 +11,14 @@ import Combine
 private enum TabBarItems {
     case home
     case diary
-    case report
+    case today
     case settings
     
     var title: String? {
         switch self {
         case .home: 	return Localization.home
         case .diary: 	return Localization.diary
-        case .report: 	return Localization.report
+        case .today: 	return Localization.today
         case .settings: return Localization.settings
         }
     }
@@ -27,7 +27,7 @@ private enum TabBarItems {
         switch self {
         case .home:		return Assets.home.image.resize(targetSize: CGSize(width: 24, height: 24))
         case .diary: 	return Assets.diary.image.resize(targetSize: CGSize(width: 24, height: 24))
-        case .report: 	return Assets.drop.image.resize(targetSize: CGSize(width: 24, height: 24))
+        case .today: 	return Assets.drop.image.resize(targetSize: CGSize(width: 24, height: 24))
         case .settings: return Assets.settings.image.resize(targetSize: CGSize(width: 24, height: 24))
         }
     }
@@ -36,15 +36,16 @@ private enum TabBarItems {
         switch self {
         case .home: 	return Assets.homeFilled.image.resize(targetSize: CGSize(width: 24, height: 24))
         case .diary: 	return Assets.diarySelected.image.resize(targetSize: CGSize(width: 24, height: 24))
-        case .report: 	return Assets.dropFilled.image.resize(targetSize: CGSize(width: 24, height: 24))
+        case .today: 	return Assets.dropFilled.image.resize(targetSize: CGSize(width: 24, height: 24))
         case .settings: return Assets.settingsFilled.image.resize(targetSize: CGSize(width: 24, height: 24))
         }
     }
     
     var tabBarItem: UITabBarItem {
-        return UITabBarItem(title: title,
-                            image: image,
-                            selectedImage: selectedImage)
+        return UITabBarItem(
+            title: title,
+            image: image,
+            selectedImage: selectedImage)
     }
 }
 
@@ -117,7 +118,7 @@ private extension MainTabBarCoordinator {
     
     func setupReportCoordinator() {
         let navigationController = UINavigationController()
-        navigationController.tabBarItem = TabBarItems.report.tabBarItem
+        navigationController.tabBarItem = TabBarItems.today.tabBarItem
         let coordinator = ReportCoordinator(
             navigationController: navigationController,
             container: container)
@@ -147,13 +148,5 @@ private extension MainTabBarCoordinator {
             }
             .store(in: &cancellables)
         coordinator.start()
-    }
-}
-
-extension UIImage {
-    func resize(targetSize: CGSize) -> UIImage {
-        return UIGraphicsImageRenderer(size:targetSize).image { _ in
-            self.draw(in: CGRect(origin: .zero, size: targetSize))
-        }
     }
 }

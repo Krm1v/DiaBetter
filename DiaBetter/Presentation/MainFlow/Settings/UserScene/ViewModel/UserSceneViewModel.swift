@@ -10,44 +10,44 @@ import Foundation
 import Kingfisher
 
 final class UserSceneViewModel: BaseViewModel {
-	typealias UserSection = SectionModel<UserProfileSections, UserSettings>
-
-	// MARK: - Properties
-	private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
-	private(set) var permissionService: PermissionService
-	private let transitionSubject = PassthroughSubject<UserSceneTransition, Never>()
-	private let userService: UserService
+    typealias UserSection = SectionModel<UserProfileSections, UserSettings>
+    
+    // MARK: - Properties
+    private(set) lazy var transitionPublisher = transitionSubject.eraseToAnyPublisher()
+    private(set) var permissionService: PermissionService
+    private let transitionSubject = PassthroughSubject<UserSceneTransition, Never>()
+    private let userService: UserService
     private let recordsService: RecordsService
-
-	// MARK: - Published properties
-	@Published private var userImageResource: ImageResourceType?
-	@Published var sections: [UserSection] = []
-	@Published private(set) var userImage: Data?
-	@Published var userName = "" {
-		didSet { userDidUpdated = true }
-	}
-	@Published var userDiabetesType = ""
-	@Published var userFastInsulin = ""
-	@Published var userBasalInsulin = ""
-	@Published var userDidUpdated = false
-
-	// MARK: - Init
+    
+    // MARK: - Published properties
+    @Published private var userImageResource: ImageResourceType?
+    @Published var sections: [UserSection] = []
+    @Published private(set) var userImage: Data?
+    @Published var userDiabetesType = ""
+    @Published var userFastInsulin = ""
+    @Published var userBasalInsulin = ""
+    @Published var userDidUpdated = false
+    @Published var userName = "" {
+        didSet { userDidUpdated = true }
+    }
+    
+    // MARK: - Init
     init(
         userService: UserService,
         permissionService: PermissionService,
         recordsService: RecordsService
     ) {
-		self.permissionService = permissionService
-		self.userService = userService
+        self.permissionService = permissionService
+        self.userService = userService
         self.recordsService = recordsService
-	}
-
-	override func onViewDidLoad() {
-		fetchUser()
-		showPlaceholderDatasource()
-	}
-
-	// MARK: - Public methods
+    }
+    
+    override func onViewDidLoad() {
+        fetchUser()
+        showPlaceholderDatasource()
+    }
+    
+    // MARK: - Public methods
     func deleteAccount() {
         eraseAllDataRequest()
     }
@@ -64,42 +64,42 @@ final class UserSceneViewModel: BaseViewModel {
         deleteUserProfilePhoto()
     }
     
-	// MARK: - User's profile picture helpers
-	func fetchImageData(from data: Data) {
-		userImage = data
-	}
-
-	func getImageResource() {
-		guard let user = userService.user else {
-			return
-		}
-
-		guard let stringUrl = user.userProfileImage else {
-			return
-		}
-
-		if let url = URL(string: stringUrl) {
-			userImageResource = .url(url)
-		} else {
-			userImageResource = .asset(Assets.userImagePlaceholder)
-		}
-	}
-
-	// MARK: - Photo library permissions
-	func askForPhotoPermissions() {
-		permissionService.askForPhotoPermissions()
-	}
-
-	func saveUserProfileData() {
-		guard let user = updatedUser() else {
-			return
-		}
-		updateUser(user)
-	}
-
-	func clearImageCache() {
-		KingfisherManager.shared.cache.clearCache()
-	}
+    // MARK: - User's profile picture helpers
+    func fetchImageData(from data: Data) {
+        userImage = data
+    }
+    
+    func getImageResource() {
+        guard let user = userService.user else {
+            return
+        }
+        
+        guard let stringUrl = user.userProfileImage else {
+            return
+        }
+        
+        if let url = URL(string: stringUrl) {
+            userImageResource = .url(url)
+        } else {
+            userImageResource = .asset(Assets.userImagePlaceholder)
+        }
+    }
+    
+    // MARK: - Photo library permissions
+    func askForPhotoPermissions() {
+        permissionService.askForPhotoPermissions()
+    }
+    
+    func saveUserProfileData() {
+        guard let user = updatedUser() else {
+            return
+        }
+        updateUser(user)
+    }
+    
+    func clearImageCache() {
+        KingfisherManager.shared.cache.clearCache()
+    }
 }
 
 // MARK: - Private extension
@@ -110,6 +110,7 @@ private extension UserSceneViewModel {
             return
         }
         isLoadingSubject.send(true)
+        
         userService.fetchUser(id: id)
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
@@ -139,9 +140,10 @@ private extension UserSceneViewModel {
             }
             .store(in: &cancellables)
     }
-
+    
     func logoutUserRequest() {
         isLoadingSubject.send(true)
+        
         userService.logoutUser()
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
@@ -163,7 +165,7 @@ private extension UserSceneViewModel {
             } receiveValue: { _ in }
             .store(in: &cancellables)
     }
-
+    
     func uploadUserProfileImage() {
         guard
             let userImage = userImage,
@@ -176,7 +178,7 @@ private extension UserSceneViewModel {
             data: userImage,
             attachmentKey: "",
             fileName: Constants.basicUserProfileImageName + MimeTypes.jpeg)
-
+        
         userService.uploadUserProfilePhoto(data: uploadData, userId: userId)
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
@@ -199,14 +201,15 @@ private extension UserSceneViewModel {
             }
             .store(in: &cancellables)
     }
-
+    
     func deleteUserProfilePhoto() {
-        guard 
+        guard
             var user = userService.user,
             let userId = user.remoteId
         else {
             return
         }
+        
         userService.deletePhoto(filename: Constants.basicUserProfileImageName, userId: userId)
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
@@ -231,6 +234,7 @@ private extension UserSceneViewModel {
     
     func updateUser(_ user: User) {
         isLoadingSubject.send(true)
+        
         userService.updateUser(user: user)
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
@@ -260,123 +264,136 @@ private extension UserSceneViewModel {
             .store(in: &cancellables)
     }
     
-	func updateDatasource() {
-		getImageResource()
-		guard let user = userService.user else {
-			return
-		}
-		let userHeaderModel = UserHeaderModel(
-			email: user.email ?? "",
-			image: userImageResource)
-
-		let userHeaderSection = UserSection(
-			section: .header,
-			items: [
-				.header(userHeaderModel)])
-
-		let userName = UserDataSettingsModel(
-			title: Localization.name,
-			textFieldValue: user.name ?? "")
-
-		let userSettings = [
-			UserDataMenuSettingsModel(
-				rowTitle: Localization.diabetsType,
-				labelValue: user.diabetesType ?? "",
-				source: .diabetesType),
-
-			UserDataMenuSettingsModel(
-				rowTitle: Localization.fastActingInsulin,
-				labelValue: user.fastActingInsulin ?? "",
-				source: .fastInsulin),
-
-			UserDataMenuSettingsModel(
-				rowTitle: Localization.basalInsulin,
-				labelValue: user.basalInsulin ?? "",
-				source: .longInsulin)
-		]
-
-		var userDataSection = UserSection(
-			section: .list,
-			items: [])
-
-        let logoutButtonModel = UserProfileButtonModel(buttonTitle: Localization.logout, buttonType: .logout)
-        let deleteAccountButtonModel = UserProfileButtonModel(buttonTitle: Localization.deleteAccount, buttonType: .deleteAccount)
-		let logoutSection = UserSection(
-			section: .logout,
+    func updateDatasource() {
+        getImageResource()
+        guard let user = userService.user else {
+            return
+        }
+        let userHeaderModel = UserHeaderModel(
+            email: user.email ?? "",
+            image: userImageResource)
+        
+        let userHeaderSection = UserSection(
+            section: .header,
+            items: [
+                .header(userHeaderModel)])
+        
+        let userName = UserDataSettingsModel(
+            title: Localization.name,
+            textFieldValue: user.name ?? "")
+        
+        let userSettings = [
+            UserDataMenuSettingsModel(
+                rowTitle: Localization.diabetsType,
+                labelValue: user.diabetesType ?? "",
+                source: .diabetesType),
+            
+            UserDataMenuSettingsModel(
+                rowTitle: Localization.fastActingInsulin,
+                labelValue: user.fastActingInsulin ?? "",
+                source: .fastInsulin),
+            
+            UserDataMenuSettingsModel(
+                rowTitle: Localization.basalInsulin,
+                labelValue: user.basalInsulin ?? "",
+                source: .longInsulin)
+        ]
+        
+        var userDataSection = UserSection(
+            section: .list,
+            items: [])
+        
+        let logoutButtonModel = UserProfileButtonModel(
+            buttonTitle: Localization.logout,
+            buttonType: .logout)
+        
+        let deleteAccountButtonModel = UserProfileButtonModel(
+            buttonTitle: Localization.deleteAccount,
+            buttonType: .deleteAccount)
+        
+        let logoutSection = UserSection(
+            section: .logout,
             items: [
                 .plainWithButton(logoutButtonModel),
                 .plainWithButton(deleteAccountButtonModel)
             ])
-
-		userDataSection.items.append(.plainWithTextfield(userName))
-		_ = userSettings.map { item in
-			userDataSection.items.append(.plainWithLabel(item))
-		}
-		sections = [userHeaderSection, userDataSection, logoutSection]
-	}
-
-	// MARK: - Fake datasource
-	func showPlaceholderDatasource() {
-		let userHeaderModel = UserHeaderModel(
-			email: Constants.loadingTitle,
-			image: .asset(Assets.userImagePlaceholder))
-
-		let userHeaderSection = UserSection(
-			section: .header,
-			items: [
-				.header(userHeaderModel)])
-
-		let userSettings = [
-			UserDataSettingsModel(
-				title: Localization.name,
-				textFieldValue: Constants.loadingTitle),
-
-			UserDataSettingsModel(
-				title: Localization.diabetsType,
-				textFieldValue: Constants.loadingTitle),
-
-			UserDataSettingsModel(
-				title: Localization.fastActingInsulin,
-				textFieldValue: Constants.loadingTitle),
-
-			UserDataSettingsModel(
-				title: Localization.basalInsulin,
-				textFieldValue: Constants.loadingTitle)]
-
-		var userDataSection = UserSection(
-			section: .list,
-			items: [])
-
-		userDataSection.items = userSettings.map { .plainWithTextfield($0) }
-
-        let logoutButtonModel = UserProfileButtonModel(buttonTitle: Localization.logout, buttonType: .logout)
-        let deleteAccountButtonModel = UserProfileButtonModel(buttonTitle: Localization.deleteAccount, buttonType: .deleteAccount)
-		let logoutSection = UserSection(
-			section: .logout,
-			items: [
+        
+        userDataSection.items.append(.plainWithTextfield(userName))
+        _ = userSettings.map { item in
+            userDataSection.items.append(.plainWithLabel(item))
+        }
+        sections = [userHeaderSection, userDataSection, logoutSection]
+    }
+    
+    // MARK: - Fake datasource
+    func showPlaceholderDatasource() {
+        let userHeaderModel = UserHeaderModel(
+            email: Constants.loadingTitle,
+            image: .asset(Assets.userImagePlaceholder))
+        
+        let userHeaderSection = UserSection(
+            section: .header,
+            items: [
+                .header(userHeaderModel)])
+        
+        let userSettings = [
+            UserDataSettingsModel(
+                title: Localization.name,
+                textFieldValue: Constants.loadingTitle),
+            
+            UserDataSettingsModel(
+                title: Localization.diabetsType,
+                textFieldValue: Constants.loadingTitle),
+            
+            UserDataSettingsModel(
+                title: Localization.fastActingInsulin,
+                textFieldValue: Constants.loadingTitle),
+            
+            UserDataSettingsModel(
+                title: Localization.basalInsulin,
+                textFieldValue: Constants.loadingTitle)]
+        
+        var userDataSection = UserSection(
+            section: .list,
+            items: [])
+        
+        userDataSection.items = userSettings.map { .plainWithTextfield($0) }
+        
+        let logoutButtonModel = UserProfileButtonModel(
+            buttonTitle: Localization.logout,
+            buttonType: .logout)
+        
+        let deleteAccountButtonModel = UserProfileButtonModel(
+            buttonTitle: Localization.deleteAccount,
+            buttonType: .deleteAccount)
+        
+        let logoutSection = UserSection(
+            section: .logout,
+            items: [
                 .plainWithButton(logoutButtonModel),
                 .plainWithButton(deleteAccountButtonModel)
             ])
-
-		sections = [userHeaderSection, userDataSection, logoutSection]
-	}
-
-	func updatedUser() -> User? {
-		guard var user = userService.user else {
-			return nil
-		}
-		user.basalInsulin = userBasalInsulin
-		user.name = userName
-		user.diabetesType = userDiabetesType
-		user.fastActingInsulin = userFastInsulin
-		return user
-	}
+        
+        sections = [userHeaderSection, userDataSection, logoutSection]
+    }
+    
+    func updatedUser() -> User? {
+        guard var user = userService.user else {
+            return nil
+        }
+        user.basalInsulin = userBasalInsulin
+        user.name = userName
+        user.diabetesType = userDiabetesType
+        user.fastActingInsulin = userFastInsulin
+        return user
+    }
     
     func deleteAccountRequest() {
         guard let userId = userService.user?.remoteId else {
             return
         }
         isLoadingSubject.send(true)
+        
         userService.deleteUser(id: userId)
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
@@ -407,6 +424,7 @@ private extension UserSceneViewModel {
             return
         }
         isLoadingSubject.send(true)
+        
         recordsService.deleteAllRecords(id: userId)
             .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
@@ -433,6 +451,6 @@ private extension UserSceneViewModel {
 
 // MARK: - Constants
 private enum Constants {
-	static let basicUserProfileImageName = "userProfileImage"
-	static let loadingTitle = "Loading..."
+    static let basicUserProfileImageName = "userProfileImage"
+    static let loadingTitle = Localization.loading
 }
