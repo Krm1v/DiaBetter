@@ -9,17 +9,19 @@ import UIKit
 import Combine
 
 enum SettingsTransition: Transition {
-	case userScene
-	case notificationsScene
-	case unitsScene
-	case dataScene
-	case creditsScene
+    case userScene
+    case notificationsScene
+    case unitsScene
+    case dataScene
+    case creditsScene
 }
 
 final class SettingsSceneBuilder {
-	static func build(container: AppContainer) -> Module<SettingsTransition, UIViewController> {
-		let viewModel = SettingsSceneViewModel()
-		let viewController = SettingsSceneViewController(viewModel: viewModel)
-		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
-	}
+    static func build(container: AppContainer) -> Module<SettingsTransition, UIViewController> {
+        let viewModel = SettingsSceneViewModel()
+        let viewController = SettingsSceneViewController(viewModel: viewModel)
+        return Module(
+            viewController: viewController,
+            transitionPublisher: viewModel.transitionPublisher)
+    }
 }

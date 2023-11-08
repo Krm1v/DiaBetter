@@ -16,13 +16,14 @@ protocol UserService {
 	func clear()
 	func save(user: User)
 	func loginUser(with credentials: Login) -> AnyPublisher<User, Error>
-	func uploadUserProfilePhoto(data: MultipartDataItem) -> AnyPublisher<UserProfilePictureDomainModel, Error>
+    func uploadUserProfilePhoto(data: MultipartDataItem, userId: String) -> AnyPublisher<UserProfilePictureDomainModel, Error>
 	func logoutUser() -> AnyPublisher<Void, Error>
-	func deletePhoto(filename: String) -> AnyPublisher<Void, Error>
+    func deletePhoto(filename: String, userId: String) -> AnyPublisher<Void, Error>
 	func updateUser(user: User) -> AnyPublisher<User, Error>
 	func fetchUser(id: String) -> AnyPublisher<User, Error>
 	func createUser(_ user: User) -> AnyPublisher<Void, Error>
 	func restorePassword(_ email: String) -> AnyPublisher<Void, Error>
+    func deleteUser(id: String) -> AnyPublisher<Void, Error>
 }
 
 final class UserServiceImpl {
@@ -64,6 +65,7 @@ final class UserServiceImpl {
 	func clear() {
 		tokenStorage.clear()
 		deleteFromDefaults(for: .dataUser)
+		deleteFromDefaults(for: .appSettings)
 		userSubject.send(user)
 	}
 
@@ -105,8 +107,11 @@ final class UserServiceImpl {
 			.eraseToAnyPublisher()
 	}
 
-	func uploadUserProfilePhoto(data: MultipartDataItem) -> AnyPublisher<UserProfilePictureDomainModel, Error> {
-		return userNetworkService.uploadUserProfilePhoto(data: data)
+    func uploadUserProfilePhoto(
+        data: MultipartDataItem,
+        userId: String
+    ) -> AnyPublisher<UserProfilePictureDomainModel, Error> {
+		return userNetworkService.uploadUserProfilePhoto(data: data, userId: userId)
 			.mapError { $0 as Error }
 			.map { response in
 				return UserProfilePictureDomainModel(response)
@@ -127,8 +132,8 @@ final class UserServiceImpl {
 			.eraseToAnyPublisher()
 	}
 
-	func deletePhoto(filename: String) -> AnyPublisher<Void, Error> {
-		return userNetworkService.deletePhoto(filename: filename)
+    func deletePhoto(filename: String, userId: String) -> AnyPublisher<Void, Error> {
+		return userNetworkService.deletePhoto(filename: filename, userId: userId)
 			.mapError { $0 as Error }
 			.eraseToAnyPublisher()
 	}
@@ -190,6 +195,32 @@ final class UserServiceImpl {
 			.mapError { $0 as Error }
 			.eraseToAnyPublisher()
 	}
+    
+    func deleteUser(id: String) -> AnyPublisher<Void, Error> {
+        return userNetworkService.deleteUser(with: id)
+            .mapError { $0 as Error }
+            .map({ [weak self] _ in
+                guard let self = self else {
+                    return
+                }
+                self.logoutUser()
+                    .subscribe(on: DispatchQueue.global())
+                    .receive(on: DispatchQueue.main)
+                    .sink(receiveCompletion: { [weak self] completion in
+                        guard let self = self else {
+                            return
+                        }
+                        switch completion {
+                        case .finished:
+                            Logger.info("Logged out")
+                        case .failure(let error):
+                            Logger.error(error.localizedDescription)
+                        }
+                    }, receiveValue: { _ in })
+                    .store(in: &cancellables)
+            })
+            .eraseToAnyPublisher()
+    }
 }
 
 // MARK: - Extension UserService

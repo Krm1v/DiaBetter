@@ -13,6 +13,8 @@ final class CreditsSceneBuilder {
 	static func build(container: AppContainer) -> Module<CreditsSceneTransitions, UIViewController> {
 		let viewModel = CreditsSceneViewModel()
 		let viewController = CreditsSceneViewController(viewModel: viewModel)
-		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
+		return Module(
+            viewController: viewController,
+            transitionPublisher: viewModel.transitionPublisher)
 	}
 }

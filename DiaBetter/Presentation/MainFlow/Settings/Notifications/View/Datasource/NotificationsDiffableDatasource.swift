@@ -8,11 +8,11 @@
 import UIKit
 
 final class NotificationsTableViewDiffableDataSource: UITableViewDiffableDataSource<NotificationsSections, NotificationItems> {
-	override func tableView(
-		_ tableView: UITableView,
-		titleForHeaderInSection section: Int
-	) -> String? {
-		let sections = NotificationsSections.allCases
-		return sections[section].title
-	}
+    override func tableView(
+        _ tableView: UITableView,
+        titleForHeaderInSection section: Int
+    ) -> String? {
+        let sections = NotificationsSections.allCases
+        return sections[section].title
+    }
 }

@@ -9,15 +9,17 @@ import UIKit
 import Combine
 
 enum LoginTransition: Transition {
-	case loggedIn
-	case signUp
-	case restorePassword
+    case loggedIn
+    case signUp
+    case restorePassword
 }
 
 final class LoginModuleBuilder {
-	static func build(container: AppContainer) -> Module<LoginTransition, UIViewController> {
-		let viewModel = LoginSceneViewModel(userService: container.userService)
-		let viewController = LoginSceneViewController(viewModel: viewModel)
-		return Module(viewController: viewController, transitionPublisher: viewModel.transitionPublisher)
-	}
+    static func build(container: AppContainer) -> Module<LoginTransition, UIViewController> {
+        let viewModel = LoginSceneViewModel(userService: container.userService)
+        let viewController = LoginSceneViewController(viewModel: viewModel)
+        return Module(
+            viewController: viewController,
+            transitionPublisher: viewModel.transitionPublisher)
+    }
 }
