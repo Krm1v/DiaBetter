@@ -8,12 +8,12 @@
 import Foundation
 
 struct RecordRequestModel: Encodable {
-	let recordId: 	  String
-	let fastInsulin:  Decimal?
-	let longInsulin:  Decimal?
-	let recordNote:   String?
-	let glucoseLevel: Decimal?
-	let recordDate:   Double
-	let meal: 		  Decimal?
-	let ownerId: 	  String
+    let recordId: 	  String
+    let fastInsulin:  Decimal?
+    let longInsulin:  Decimal?
+    let recordNote:   String?
+    let glucoseLevel: Decimal?
+    let recordDate:   Double
+    let meal: 		  Decimal?
+    let ownerId: 	  String
 }

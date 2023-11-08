@@ -299,7 +299,9 @@ struct FlowProvider: PreviewProvider {
 			let container = AppContainerImpl()
 			let vm = AddRecordSceneViewModel(
 				recordsService: container.recordsService,
-				userService: container.userService)
+				userService: container.userService,
+				settingsService: container.settingsService,
+				unitsConvertManager: container.unitsConvertManager)
 			let viewController = AddRecordSceneViewController(viewModel: vm)
 			return viewController
 		}
