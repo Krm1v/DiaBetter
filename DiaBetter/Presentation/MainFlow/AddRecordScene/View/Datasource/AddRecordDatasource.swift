@@ -8,17 +8,17 @@
 import Foundation
 
 enum RecordParameterSections: Int, Hashable {
-	case date
-	case main
-	case insulin
-	case note
-	case buttons
+    case date
+    case main
+    case insulin
+    case note
+    case buttons
 }
 
 enum RecordParameterItems: Hashable {
-	case date(DatePickerCellModel)
-	case glucoseLevelOrMeal(GlucoseLevelOrMealCellModel)
-	case insulin(InsulinCellModel)
-	case note(NoteCellModel)
-	case buttons
+    case date(DatePickerCellModel)
+    case glucoseLevelOrMeal(GlucoseLevelOrMealCellModel)
+    case insulin(InsulinCellModel)
+    case note(NoteCellModel)
+    case buttons
 }

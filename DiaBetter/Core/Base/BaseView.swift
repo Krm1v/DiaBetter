@@ -7,10 +7,9 @@
 
 import UIKit
 import Combine
-import CombineCocoa
 
 internal class BaseView: UIView {
-	// MARK: - Properties
+    // MARK: - Properties
     var cancellables = Set<AnyCancellable>()
 }
 

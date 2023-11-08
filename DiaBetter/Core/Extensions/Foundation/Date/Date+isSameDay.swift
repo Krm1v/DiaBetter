@@ -8,9 +8,12 @@
 import Foundation
 
 extension Date {
-	func isSameDay(as date: Date, timeZone: TimeZone = .current) -> Bool {
-		var calendar = Calendar(identifier: .iso8601)
-		calendar.timeZone = timeZone
-		return calendar.isDate(self, inSameDayAs: date)
-	}
+    func isSameDay(
+        as date: Date,
+        timeZone: TimeZone = .current
+    ) -> Bool {
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = timeZone
+        return calendar.isDate(self, inSameDayAs: date)
+    }
 }

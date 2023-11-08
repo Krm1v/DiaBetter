@@ -1,15 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "charts",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/danielgindi/Charts.git",
-      "state" : {
-        "revision" : "07b23476ad52b926be772f317d8f1d4511ee8d02",
-        "version" : "4.1.0"
-      }
-    },
-    {
       "identity" : "combinecocoa",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CombineCommunity/CombineCocoa.git",
@@ -48,7 +39,7 @@
     {
       "identity" : "lottie-spm",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/airbnb/lottie-spm.git",
+      "location" : "https://github.com/apple/swift-numerics.git",
       "state" : {
         "revision" : "60ea4f82fba8b4cb21a75665a889e86ed4d81c6e",
         "version" : "4.2.0"

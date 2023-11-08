@@ -7,18 +7,20 @@
 
 import Foundation
 
+protocol UserSceneDataModelProtocol { }
+
 struct UserHeaderModel: Hashable {
-	let email: String
-	let image: ImageResource?
+    let email: String
+    let image: ImageResourceType?
 }
 
 struct UserDataSettingsModel: Hashable {
-	let title: String
-	let textFieldValue: String
+    let title: String
+    let textFieldValue: String
 }
 
-struct UserDataMenuSettingsModel: Hashable {
-	let rowTitle: String
-	var labelValue: String
-	let source: UserParameters
+struct UserDataMenuSettingsModel: Hashable, UserSceneDataModelProtocol {
+    let rowTitle: String
+    var labelValue: String
+    let source: UserParameters
 }
